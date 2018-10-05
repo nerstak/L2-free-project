@@ -1,8 +1,10 @@
 #include <stdio.h>
 
+#include "src/launch.h"
+
 int main()
 {
-    printf("Hello, World!\n");
+    launch();
 
     return 0;
 }

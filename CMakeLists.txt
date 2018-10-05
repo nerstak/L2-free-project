@@ -10,5 +10,5 @@ find_package(SDL_mixer REQUIRED)
 
 include_directories(${SDL_INCLUDE_DIR} ${SDL_IMAGE_INCLUDE_DIR} ${SDL_TTF_INCLUDE_DIR} ${SDL_MIXER_INCLUDE_DIR})
 
-add_executable(free_project main.c)
+add_executable(free_project main.c src/window.c src/window.h src/launch.c src/launch.h)
 target_link_libraries(free_project ${SDL_LIBRARY} ${SDL_IMAGE_LIBRAIRIES} ${SDL_TTF_LIBRAIRIES} ${SDL_MIXER_LIBRAIRIES})
