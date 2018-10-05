@@ -8,7 +8,7 @@ find_package(SDL_image REQUIRED)
 find_package(SDL_ttf REQUIRED)
 find_package(SDL_mixer REQUIRED)
 
-include_directories(${SDL_INCLUDE_DIR} ${SDL_IMAGE_INCLUDE_DIR} ${SDL_TTF_INCLUDE_DIR} ${SDL_MIXER_INCLUDE_DIR})
+include_directories(${SDL_INCLUDE_DIRS} ${SDL_IMAGE_INCLUDE_DIRS} ${SDLTTF_INCLUDE_DIRS} ${SDL_MIXER_INCLUDE_DIRS})
 
-add_executable(free_project main.c src/window.c src/window.h src/launch.c src/launch.h)
-target_link_libraries(free_project ${SDL_LIBRARY} ${SDL_IMAGE_LIBRAIRIES} ${SDL_TTF_LIBRAIRIES} ${SDL_MIXER_LIBRAIRIES})
+add_executable(free_project main.c src/window.c src/window.h src/launch.c src/launch.h src/menu.c src/menu.h)
+target_link_libraries(free_project ${SDL_LIBRARY} ${SDL_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${SDL_MIXER_LIBRAIRY})
