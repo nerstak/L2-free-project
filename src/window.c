@@ -2,8 +2,8 @@
 
 #include <SDL/SDL.h>
 
-void initWindow() {
-    SDL_Init(SDL_INIT_VIDEO);
+extern void initWindow() {
+    SDL_Init(SDL_INIT_VIDEO); // We only init VIDEO_mod for now
 
     SDL_Surface* window = NULL;
     window = SDL_SetVideoMode(1280, 720, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
@@ -15,28 +15,47 @@ void initWindow() {
 
     SDL_WM_SetCaption("free_project v0.0.1 Alpha", NULL);
 
-    handleWindowExit();
+    SDL_Surface* scene = NULL;
 
+    handleWindow();
     SDL_Quit();
 }
 
-void handleWindowExit() {
+static void handleWindow() {
     int stop = 1;
     SDL_Event event;
 
+    Uint32 startTime = 0;
+    Uint32 endTime = 0;
+    Uint32 delta = 0;
+    short timePerFrame = 16; // 1/60 approx
+
     while (stop) {
-        SDL_WaitEvent(&event);
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT: {
+                    stop = 0;
 
-        switch (event.type) {
-            case SDL_QUIT: {
-                stop = 0;
+                    break;
+                }
 
-                break;
-            }
-
-            default: {
-                break;
+                default: {
+                    break;
+                }
             }
         }
+
+        if (!startTime) {
+            startTime = SDL_GetTicks();
+        } else {
+            delta = endTime - startTime;
+        }
+
+        if (delta < timePerFrame) {
+            SDL_Delay(timePerFrame - delta); // We delay if we're a little bit too fast
+        }
+
+        startTime = endTime;
+        endTime = SDL_GetTicks();
     }
 }
