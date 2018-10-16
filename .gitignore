@@ -56,3 +56,9 @@ cmake-build-debug
 
 # IDE
 .idea/
+
+# Ignore bin folder from CodeBlocks
+bin/
+
+# Ignore built version of the project
+free_project

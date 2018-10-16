@@ -1,1 +1,0 @@
-Unable to load bitmap: Couldn't open cb.bmp
