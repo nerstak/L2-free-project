@@ -1,11 +1,15 @@
 #include "window.h"
 
+#include "menu.h"
+#include "game.h"
+
 #include <SDL/SDL.h>
+
+SDL_Surface* window = NULL;
 
 extern void initWindow() {
     SDL_Init(SDL_INIT_VIDEO); // We only init VIDEO_mod for now
 
-    SDL_Surface* window = NULL;
     window = SDL_SetVideoMode(1280, 720, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
     if (window == NULL) {
@@ -15,47 +19,22 @@ extern void initWindow() {
 
     SDL_WM_SetCaption("free_project v0.0.1 Alpha", NULL);
 
-    SDL_Surface* scene = NULL;
+    gameLoop(window);
 
-    handleWindow();
+    cleanWindow();
+
     SDL_Quit();
 }
 
-static void handleWindow() {
-    int stop = 1;
-    SDL_Event event;
+static void cleanWindow() {
+    SDL_FreeSurface(window);
+}
 
-    Uint32 startTime = 0;
-    Uint32 endTime = 0;
-    Uint32 delta = 0;
-    short timePerFrame = 16; // 1/60 approx
+extern void renderScreen() {
+    SDL_Flip(window);
+    SDL_FillRect(window, &window->clip_rect, SDL_MapRGB(window->format, 0, 0, 0)); // Erase the screen please
+}
 
-    while (stop) {
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT: {
-                    stop = 0;
-
-                    break;
-                }
-
-                default: {
-                    break;
-                }
-            }
-        }
-
-        if (!startTime) {
-            startTime = SDL_GetTicks();
-        } else {
-            delta = endTime - startTime;
-        }
-
-        if (delta < timePerFrame) {
-            SDL_Delay(timePerFrame - delta); // We delay if we're a little bit too fast
-        }
-
-        startTime = endTime;
-        endTime = SDL_GetTicks();
-    }
+extern void loadSurface(SDL_Surface* src, SDL_Surface* dest, SDL_Rect offset) {
+    SDL_BlitSurface(src, NULL, dest, &offset);
 }
