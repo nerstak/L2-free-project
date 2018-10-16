@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.7)
 project(free_project C)
 
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../)
 
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
