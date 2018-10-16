@@ -11,17 +11,22 @@ extern void gameLoop(SDL_Surface* window) {
     SDL_Event event;
 
     int frame = 0;
-    Timer* fps = init_Timer();
+    Timer* fpsLimiter = init_Timer();
+    Timer* fpsCounter = init_Timer();
     Timer* update = init_Timer();
 
     int currentView = 1; // 1: mainMenu
 
-    // Start the FPS Timer
-    start_Timer(fps);
-    // Start the update timer
+    // Start the update Timer
     start_Timer(update);
 
+    // Start the fps counter Timer
+    start_Timer(fpsCounter);
+
     while (stop) {
+        // Start the FPS limiter Timer
+        start_Timer(fpsLimiter);
+
         // Event loop
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
@@ -77,16 +82,17 @@ extern void gameLoop(SDL_Surface* window) {
 
         // FPS counter
         if (getTicks_Timer(update) > 1000) {
-            printf("FPS %d\n", frame / ((getTicks_Timer(fps) / 1000)));
+            printf("FPS %d\n", frame / ((getTicks_Timer(fpsCounter) / 1000)));
             start_Timer(update);
         }
 
         // FPS Limiter
-        if (getTicks_Timer(fps) < 1000 / 60) {
-            SDL_Delay((1000 / 60) - getTicks_Timer(fps));
+        if (getTicks_Timer(fpsLimiter) < (1000 / 60)) {
+            SDL_Delay((1000 / 60) - getTicks_Timer(fpsLimiter));
         }
     }
 
-    clean_Timer(&fps);
+    clean_Timer(&fpsLimiter);
+    clean_Timer(&fpsCounter);
     clean_Timer(&update);
 }
