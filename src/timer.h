@@ -12,6 +12,7 @@ typedef struct Timer {
 } Timer;
 
 Timer* init_Timer();
+void clean_Timer(Timer** myTimer);
 
 void start_Timer(Timer* myTimer);
 void stop_Timer(Timer* myTimer);

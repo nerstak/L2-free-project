@@ -86,4 +86,7 @@ extern void gameLoop(SDL_Surface* window) {
             SDL_Delay((1000 / 60) - getTicks_Timer(fps));
         }
     }
+
+    clean_Timer(&fps);
+    clean_Timer(&update);
 }

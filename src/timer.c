@@ -22,6 +22,11 @@ Timer* init_Timer() {
     return myTimer;
 }
 
+void clean_Timer(Timer** myTimer) {
+    free(*(myTimer));
+    *(myTimer) = NULL;
+}
+
 void start_Timer(Timer* myTimer) {
     myTimer->started = true;
     myTimer->paused = false;
