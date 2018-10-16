@@ -1,18 +1,21 @@
 # depslib dependency file v1.0
-1539707956 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\main.c
+1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\main.c
 	<stdio.h>
 	"src/launch.h"
 
-1539707956 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\launch.h
+1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\launch.h
 
-1539707956 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\launch.c
+1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\launch.c
 	"launch.h"
 	"window.h"
 
-1539707956 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\window.h
+1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\window.h
+	<SDL/SDL_video.h>
 
-1539707956 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\window.c
+1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\window.c
 	"window.h"
+	"menu.h"
+	"game.h"
 	<SDL/SDL.h>
 
 1325742239 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl.h
@@ -204,4 +207,39 @@
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
+
+1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\game.c
+	"game.h"
+	"window.h"
+	"menu.h"
+	"timer.h"
+	<SDL/SDL.h>
+
+1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\game.h
+	<SDL/SDL_video.h>
+
+1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\menu.h
+	<SDL/SDL_video.h>
+
+1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\timer.h
+	<stdbool.h>
+
+1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\menu.c
+	<stdio.h>
+	<SDL/SDL_video.h>
+	<SDL/SDL_image.h>
+	"window.h"
+	"menu.h"
+
+1325814033 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\timer.c
+	<stdlib.h>
+	<stdio.h>
+	"SDL/SDL.h"
+	"timer.h"
 

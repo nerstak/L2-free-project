@@ -30,6 +30,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c99" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/include" />
 		</Compiler>
 		<Linker>
@@ -40,14 +41,37 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 			<Add library="dxguid" />
+			<Add library="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/lib/SDL_image.lib" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/lib" />
 		</Linker>
-		<Unit filename="cb.bmp" />
-		<Unit filename="main.cpp" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/game.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/game.h" />
+		<Unit filename="src/launch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/launch.h" />
+		<Unit filename="src/menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/menu.h" />
+		<Unit filename="src/timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/timer.h" />
+		<Unit filename="src/window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/window.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
 			<debugger />
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

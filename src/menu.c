@@ -58,13 +58,13 @@ static SDL_Surface* getMainMenu() {
 
     SDL_Rect selectorPos;
 
-    logo = IMG_Load("../src/gfx/menu/main_logo.jpg");
+    logo = IMG_Load("src/gfx/menu/main_logo.jpg");
 
-    newGameBtn = IMG_Load("../src/gfx/menu/main_button.jpg");
-    loadGameBtn = IMG_Load("../src/gfx/menu/main_button.jpg");
-    exitBtn = IMG_Load("../src/gfx/menu/main_button.jpg");
+    newGameBtn = IMG_Load("src/gfx/menu/main_button.jpg");
+    loadGameBtn = IMG_Load("src/gfx/menu/main_button.jpg");
+    exitBtn = IMG_Load("src/gfx/menu/main_button.jpg");
 
-    selector = IMG_Load("../src/gfx/menu/select.png");
+    selector = IMG_Load("src/gfx/menu/select.png");
 
     logoPos.x = (mainMenu->w / 2) - (logo->w / 2);
     logoPos.y = 10;
