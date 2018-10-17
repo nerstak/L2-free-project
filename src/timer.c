@@ -7,7 +7,7 @@
 
 Timer* init_Timer() {
     Timer* myTimer = NULL;
-    myTimer = malloc(1 * sizeof(myTimer));
+    myTimer = malloc(1 * sizeof(Timer));
 
     if (myTimer == NULL) {
         printf("An error occured while initializing a Timer object");
