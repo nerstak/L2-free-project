@@ -3,6 +3,7 @@
 #include "menu.h"
 
 #include "timer.h"
+#include "image.h"
 
 #include <SDL/SDL.h>
 
@@ -22,6 +23,12 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Start the fps counter Timer
     start_Timer(fpsCounter);
+
+    // Initializing ImageCollector
+    ImageCollector* myImageCollector = init_ImageCollector();
+    load_ImageCollector(myImageCollector, "src/gfx/menu/main_logo.jpg", "menu/main_logo");
+    load_ImageCollector(myImageCollector, "src/gfx/menu/main_button.jpg", "menu/main_button");
+    load_ImageCollector(myImageCollector, "src/gfx/menu/select.png", "menu/select");
 
     while (stop) {
         // Start the FPS limiter Timer
@@ -76,7 +83,7 @@ extern void gameLoop(SDL_Surface* window) {
         // Logic
 
         // Rendering
-        displayMainMenu(window);
+        displayMainMenu(window, myImageCollector);
         renderScreen();
         frame++;
 
@@ -95,4 +102,6 @@ extern void gameLoop(SDL_Surface* window) {
     clean_Timer(&fpsLimiter);
     clean_Timer(&fpsCounter);
     clean_Timer(&update);
+
+    clean_ImageCollector(&myImageCollector);
 }

@@ -4,12 +4,13 @@
 
 #include "window.h"
 #include "menu.h"
+#include "image.h"
 
 int position = 0;
 
-extern void displayMainMenu(SDL_Surface* window) {
+extern void displayMainMenu(SDL_Surface* window, ImageCollector* myImageCollector) {
     SDL_Surface* mainMenuSurface = NULL;
-    mainMenuSurface = getMainMenu();
+    mainMenuSurface = getMainMenu(myImageCollector);
 
     SDL_Rect mainMenuSurfacePos;
     mainMenuSurfacePos.x = (window->w / 2) - (mainMenuSurface->w / 2);
@@ -38,7 +39,7 @@ extern int getCurrentMainMenuSelector() {
     return position;
 }
 
-static SDL_Surface* getMainMenu() {
+static SDL_Surface* getMainMenu(ImageCollector* myImageCollector) {
     SDL_Surface* mainMenu = NULL;
     mainMenu = SDL_CreateRGBSurface(SDL_HWSURFACE, 500, 600, 32, 0, 0, 0, 0);
 
@@ -58,13 +59,13 @@ static SDL_Surface* getMainMenu() {
 
     SDL_Rect selectorPos;
 
-    logo = IMG_Load("src/gfx/menu/main_logo.jpg");
+    logo = get_ImageCollector(myImageCollector, "menu/main_logo")->surface;
 
-    newGameBtn = IMG_Load("src/gfx/menu/main_button.jpg");
-    loadGameBtn = IMG_Load("src/gfx/menu/main_button.jpg");
-    exitBtn = IMG_Load("src/gfx/menu/main_button.jpg");
+    newGameBtn = get_ImageCollector(myImageCollector, "menu/main_button")->surface;
+    loadGameBtn = get_ImageCollector(myImageCollector, "menu/main_button")->surface;
+    exitBtn = get_ImageCollector(myImageCollector, "menu/main_button")->surface;
 
-    selector = IMG_Load("src/gfx/menu/select.png");
+    selector = get_ImageCollector(myImageCollector, "menu/select")->surface;
 
     logoPos.x = (mainMenu->w / 2) - (logo->w / 2);
     logoPos.y = 10;
@@ -86,12 +87,6 @@ static SDL_Surface* getMainMenu() {
     SDL_BlitSurface(exitBtn, NULL, mainMenu, &exitGameBtnPos);
     SDL_BlitSurface(logo, NULL, mainMenu, &logoPos);
     SDL_BlitSurface(selector, NULL, mainMenu, &selectorPos);
-
-    SDL_FreeSurface(newGameBtn);
-    SDL_FreeSurface(loadGameBtn);
-    SDL_FreeSurface(exitBtn);
-    SDL_FreeSurface(logo);
-    SDL_FreeSurface(selector);
 
     return mainMenu;
 }
