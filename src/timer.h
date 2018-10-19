@@ -11,17 +11,17 @@ typedef struct Timer {
     bool started;
 } Timer;
 
-Timer* init_Timer();
-void clean_Timer(Timer** myTimer);
+extern Timer* init_Timer();
+extern void clean_Timer(Timer** myTimer);
 
-void start_Timer(Timer* myTimer);
-void stop_Timer(Timer* myTimer);
-void pause_Timer(Timer* myTimer);
-void unpause_Timer(Timer* myTimer);
+extern void start_Timer(Timer* myTimer);
+extern void stop_Timer(Timer* myTimer);
+extern void pause_Timer(Timer* myTimer);
+extern void unpause_Timer(Timer* myTimer);
 
-int getTicks_Timer(Timer* myTimer);
+extern int getTicks_Timer(Timer* myTimer);
 
-bool isStarted_Timer(Timer* myTimer);
-bool isPaused_Timer(Timer* myTimer);
+extern bool isStarted_Timer(Timer* myTimer);
+extern bool isPaused_Timer(Timer* myTimer);
 
 #endif //FREE_PROJECT_TIMER_H

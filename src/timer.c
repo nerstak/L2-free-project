@@ -5,15 +5,18 @@
 
 #include "timer.h"
 
-Timer* init_Timer() {
+extern Timer* init_Timer() {
+    // Initialization of a Timer pointer
     Timer* myTimer = NULL;
     myTimer = malloc(1 * sizeof(Timer));
 
+    // If we failed to allocate, exit the program
     if (myTimer == NULL) {
         printf("An error occured while initializing a Timer object");
         exit(EXIT_FAILURE);
     }
 
+    // Default value of our instance
     myTimer->startTicks = 0;
     myTimer->pausedTicks = 0;
     myTimer->started = false;
@@ -22,42 +25,57 @@ Timer* init_Timer() {
     return myTimer;
 }
 
-void clean_Timer(Timer** myTimer) {
+extern void clean_Timer(Timer** myTimer) {
+    // First we free the memory
     free(*(myTimer));
+    // We set the pointer to NULL by security
     *(myTimer) = NULL;
 }
 
-void start_Timer(Timer* myTimer) {
+extern void start_Timer(Timer* myTimer) {
+    // We start our Timer by updating his instance
     myTimer->started = true;
     myTimer->paused = false;
     myTimer->startTicks = SDL_GetTicks();
 }
 
-void stop_Timer(Timer* myTimer) {
+extern void stop_Timer(Timer* myTimer) {
+    // We stop our Timer by updating his instance
     myTimer->started = false;
     myTimer->paused = false;
 }
 
-void pause_Timer(Timer* myTimer) {
+extern void pause_Timer(Timer* myTimer) {
+    // Is our Timer running ?
     if (myTimer->started == true && myTimer->paused == false) {
+        // We pause our Timer
         myTimer->paused = true;
+        // We get the ticks between the beginning and this moment
         myTimer->pausedTicks = SDL_GetTicks() - myTimer->startTicks;
     }
 }
 
-void unpause_Timer(Timer* myTimer) {
+extern void unpause_Timer(Timer* myTimer) {
+    // Is our Timer paused ?
     if (myTimer->paused == true) {
+        // We pause our Timer
         myTimer->paused = false;
+        // We update the startTicks
         myTimer->startTicks = SDL_GetTicks() - myTimer->pausedTicks;
+        // We reset the pausedTicks
         myTimer->pausedTicks = 0;
     }
 }
 
-int getTicks_Timer(Timer* myTimer) {
+extern int getTicks_Timer(Timer* myTimer) {
+    // Is our Timer running ?
     if (myTimer->started == true) {
+        // Is our Timer paused ?
         if (myTimer->paused == true) {
+            // We return the pausedTicks
             return myTimer->pausedTicks;
         } else {
+            // We return the ticks since the start
             return SDL_GetTicks() - myTimer->startTicks;
         }
     }
@@ -65,10 +83,12 @@ int getTicks_Timer(Timer* myTimer) {
     return 0;
 }
 
-bool isStarted_Timer(Timer* myTimer) {
+extern bool isStarted_Timer(Timer* myTimer) {
+    // Return the status of our Timer
     return myTimer->started;
 }
 
-bool isPaused_Timer(Timer* myTimer) {
+extern bool isPaused_Timer(Timer* myTimer) {
+    // Return the status of our Timer
     return myTimer->paused;
 }
