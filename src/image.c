@@ -5,7 +5,7 @@
 
 #include "image.h"
 
-void add_Image(ImageCollector* myImageCollector, Image* myImage) {
+static void add_Image(ImageCollector* myImageCollector, Image* myImage) {
     if (myImageCollector->images == NULL) {
         myImageCollector->images = myImage;
         myImageCollector->size += 1;
@@ -22,7 +22,7 @@ void add_Image(ImageCollector* myImageCollector, Image* myImage) {
     }
 }
 
-void remove_Image(ImageCollector* myImageCollector, Image* myImage) {
+static void remove_Image(ImageCollector* myImageCollector, Image* myImage) {
     Image* temp = myImageCollector->images;
     Image* previous = myImageCollector->images;
 
@@ -51,7 +51,7 @@ void remove_Image(ImageCollector* myImageCollector, Image* myImage) {
     }
 }
 
-ImageCollector* init_ImageCollector() {
+extern ImageCollector* init_ImageCollector() {
     ImageCollector* myImageCollector = NULL;
     myImageCollector = malloc(1 * sizeof(ImageCollector));
 
@@ -66,7 +66,7 @@ ImageCollector* init_ImageCollector() {
     return myImageCollector;
 }
 
-void clean_ImageCollector(ImageCollector** myImageCollector) {
+extern void clean_ImageCollector(ImageCollector** myImageCollector) {
     // First we clean the images SLL
     Image* temp = (*myImageCollector)->images;
     Image* next = NULL;
@@ -85,7 +85,7 @@ void clean_ImageCollector(ImageCollector** myImageCollector) {
     (*myImageCollector) = NULL;
 }
 
-void load_ImageCollector(ImageCollector* myImageCollector, const char path[], const char name[]) {
+extern void load_ImageCollector(ImageCollector* myImageCollector, const char path[], const char name[]) {
     if (isLoaded_ImageCollector(myImageCollector, name) != NULL) {
         printf("An attempt to load a cached texture was blocked (%s)\n", name);
 
@@ -127,14 +127,14 @@ void load_ImageCollector(ImageCollector* myImageCollector, const char path[], co
     add_Image(myImageCollector, myImage);
 }
 
-void unload_ImageCollector(ImageCollector* myImageCollector, const char name[]) {
+extern void unload_ImageCollector(ImageCollector* myImageCollector, const char name[]) {
     Image myImage;
     strcpy(myImage.name, name);
 
     remove_Image(myImageCollector, &myImage);
 }
 
-Image* get_ImageCollector(ImageCollector *myImageCollector, const char name[]) {
+extern Image* get_ImageCollector(ImageCollector* myImageCollector, const char name[]) {
     Image* temp = myImageCollector->images;
 
     while (temp != NULL) {
@@ -151,7 +151,7 @@ Image* get_ImageCollector(ImageCollector *myImageCollector, const char name[]) {
     return NULL;
 }
 
-Image* isLoaded_ImageCollector(ImageCollector *myImageCollector, const char name[]) {
+extern Image* isLoaded_ImageCollector(ImageCollector* myImageCollector, const char name[]) {
     Image* temp = myImageCollector->images;
 
     while (temp != NULL) {

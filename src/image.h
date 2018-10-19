@@ -16,16 +16,16 @@ typedef struct ImageCollector {
     Image* images;
 } ImageCollector;
 
-void add_Image(ImageCollector* myImageCollector, Image* myImage);
-void remove_Image(ImageCollector* myImageCollector, Image* myImage);
+static void add_Image(ImageCollector* myImageCollector, Image* myImage);
+static void remove_Image(ImageCollector* myImageCollector, Image* myImage);
 
-ImageCollector* init_ImageCollector();
-void clean_ImageCollector(ImageCollector** myImageCollector);
+extern ImageCollector* init_ImageCollector();
+extern void clean_ImageCollector(ImageCollector** myImageCollector);
 
-void load_ImageCollector(ImageCollector* myImageCollector, const char path[], const char name[]);
-void unload_ImageCollector(ImageCollector* myImageCollector, const char name[]);
+extern void load_ImageCollector(ImageCollector* myImageCollector, const char path[], const char name[]);
+extern void unload_ImageCollector(ImageCollector* myImageCollector, const char name[]);
 
-Image* get_ImageCollector(ImageCollector *myImageCollector, const char name[]);
-Image* isLoaded_ImageCollector(ImageCollector *myImageCollector, const char name[]);
+extern Image* get_ImageCollector(ImageCollector *myImageCollector, const char name[]);
+extern Image* isLoaded_ImageCollector(ImageCollector *myImageCollector, const char name[]);
 
 #endif //FREE_PROJECT_IMAGE_H
