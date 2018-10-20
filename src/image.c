@@ -4,6 +4,7 @@
 #include "SDL/SDL_image.h"
 
 #include "image.h"
+#include "asset.h"
 
 static void add_Image(ImageCollector* myImageCollector, Image* myImage) {
     if (myImageCollector->images == NULL) {
@@ -127,11 +128,33 @@ extern void load_ImageCollector(ImageCollector* myImageCollector, const char pat
     add_Image(myImageCollector, myImage);
 }
 
+extern void loadList_ImageCollector(ImageCollector* myImageCollector, Asset* assetsList) {
+    Asset* temp = NULL;
+
+    temp = assetsList;
+
+    while (temp != NULL) {
+        load_ImageCollector(myImageCollector, temp->path, temp->name);
+        temp = temp->next;
+    }
+}
+
 extern void unload_ImageCollector(ImageCollector* myImageCollector, const char name[]) {
     Image myImage;
     strcpy(myImage.name, name);
 
     remove_Image(myImageCollector, &myImage);
+}
+
+extern void unloadList_ImageCollector(ImageCollector* myImageCollector, Asset* assetsList) {
+    Asset* temp = NULL;
+
+    temp = assetsList;
+
+    while (temp != NULL) {
+        unload_ImageCollector(myImageCollector, temp->name);
+        temp = temp->next;
+    }
 }
 
 extern Image* get_ImageCollector(ImageCollector* myImageCollector, const char name[]) {

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <SDL/SDL_video.h>
+#include "asset.h"
 
 #ifndef FREE_PROJECT_IMAGE_H
 #define FREE_PROJECT_IMAGE_H
@@ -23,7 +24,9 @@ extern ImageCollector* init_ImageCollector();
 extern void clean_ImageCollector(ImageCollector** myImageCollector);
 
 extern void load_ImageCollector(ImageCollector* myImageCollector, const char path[], const char name[]);
+extern void loadList_ImageCollector(ImageCollector* myImageCollector, Asset* assetsList);
 extern void unload_ImageCollector(ImageCollector* myImageCollector, const char name[]);
+extern void unloadList_ImageCollector(ImageCollector* myImageCollector, Asset* assetsList);
 
 extern Image* get_ImageCollector(ImageCollector *myImageCollector, const char name[]);
 extern Image* isLoaded_ImageCollector(ImageCollector *myImageCollector, const char name[]);
