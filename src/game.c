@@ -1,14 +1,21 @@
 #include "game.h"
 #include "window.h"
-#include "menu.h"
 
 #include "timer.h"
 #include "image.h"
+#include "scene.h"
+
+#include "scenes/mainMenu.h"
+#include "scenes/loadingScreen.h"
 
 #include <SDL/SDL.h>
 
+/**
+ * Global variables (use with caution please)
+ */
+int Game_stop = 1; // External
+
 extern void gameLoop(SDL_Surface* window) {
-    int stop = 1;
     SDL_Event event;
 
     int frame = 0;
@@ -26,16 +33,22 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Initializing ImageCollector
     ImageCollector* myImageCollector = init_ImageCollector();
-    load_ImageCollector(myImageCollector, "src/gfx/menu/main_logo.jpg", "menu/main_logo");
-    load_ImageCollector(myImageCollector, "src/gfx/menu/main_button.jpg", "menu/main_button");
-    load_ImageCollector(myImageCollector, "src/gfx/menu/select.png", "menu/select");
 
-    while (stop) {
+    // Initializing SceneCollector
+    SceneCollector* mySceneCollector = init_SceneCollector();
+    load_SceneCollector(mySceneCollector, myImageCollector, "loadingScreen", &assets_Scene_loadingScreen, &renderScene_Scene_loadingScreen, &logicProcess_Scene_loadingScreen, &eventProcess_Scene_loadingScreen);
+    load_SceneCollector(mySceneCollector, myImageCollector, "mainMenu", &assets_Scene_mainMenu, &renderScene_Scene_mainMenu, &logicProcess_Scene_mainMenu, &eventProcess_Scene_mainMenu);
+
+    display_SceneCollector(mySceneCollector, myImageCollector, "mainMenu");
+
+    while (Game_stop) {
         // Start the FPS limiter Timer
         start_Timer(fpsLimiter);
 
         // Event loop
         while (SDL_PollEvent(&event)) {
+            mySceneCollector->currentScene->eventProcess(event);
+
             switch (event.type) {
                 case SDL_KEYDOWN: {
                     // Key pressed
@@ -43,24 +56,7 @@ extern void gameLoop(SDL_Surface* window) {
                         case SDLK_ESCAPE:
                             // We should only leave if we're on the main menu
                             // Either way we bring the pause menu
-                            stop = 0;
-
-                            break;
-                        case SDLK_UP:
-                            // Move menu selector
-                            // Should be through a call to a function only ! (setter)
-                            moveMainMenuSelector(0);
-                            break;
-                        case SDLK_DOWN:
-                            // Move menu selector
-                            // Should be through a call to a function only ! (setter)
-                            moveMainMenuSelector(1);
-                            break;
-                        case SDLK_RETURN:
-                            // Select our menu ? For now only
-                            enterMainMenu();
-
-                            if (getCurrentMainMenuSelector() == 2) stop = 0;
+                            Game_stop = 0;
 
                             break;
                     }
@@ -69,7 +65,7 @@ extern void gameLoop(SDL_Surface* window) {
                 }
 
                 case SDL_QUIT: {
-                    stop = 0;
+                    Game_stop = 0;
 
                     break;
                 }
@@ -81,9 +77,10 @@ extern void gameLoop(SDL_Surface* window) {
         }
 
         // Logic
+        mySceneCollector->currentScene->logicProcess();
 
         // Rendering
-        displayMainMenu(window, myImageCollector);
+        mySceneCollector->currentScene->renderScene(window, myImageCollector);
         renderScreen();
         frame++;
 
@@ -104,4 +101,5 @@ extern void gameLoop(SDL_Surface* window) {
     clean_Timer(&update);
 
     clean_ImageCollector(&myImageCollector);
+    clean_SceneCollector(&mySceneCollector);
 }

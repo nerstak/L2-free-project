@@ -1,6 +1,5 @@
 #include "window.h"
 
-#include "menu.h"
 #include "game.h"
 
 #include <SDL/SDL.h>
