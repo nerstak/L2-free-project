@@ -8,6 +8,7 @@
 
 #include "../window.h"
 #include "../asset.h"
+#include "../data.h"
 
 /**
  * Global variables (use with caution please)
@@ -25,9 +26,9 @@ extern void assets_Scene_loadingScreen(ImageCollector* myImageCollector, bool lo
     clean_Asset(&assetsList);
 }
 
-extern void eventProcess_Scene_loadingScreen(SDL_Event event) {}
+extern void eventProcess_Scene_loadingScreen(SDL_Event event, Data* data) {}
 
-extern void renderScene_Scene_loadingScreen(SDL_Surface* window, ImageCollector* myImageCollector) {
+extern void renderScene_Scene_loadingScreen(SDL_Surface* window, ImageCollector* myImageCollector, Data* data) {
     SDL_Surface* loadingScreenSurface = NULL;
     loadingScreenSurface = getLoadingScreen(myImageCollector);
 
@@ -40,7 +41,7 @@ extern void renderScene_Scene_loadingScreen(SDL_Surface* window, ImageCollector*
     SDL_FreeSurface(loadingScreenSurface);
 }
 
-extern void logicProcess_Scene_loadingScreen() {}
+extern void logicProcess_Scene_loadingScreen(Data* data) {}
 
 static SDL_Surface* getLoadingScreen(ImageCollector* myImageCollector) {
     SDL_Surface* loadingScreen = NULL;

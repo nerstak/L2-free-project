@@ -5,6 +5,7 @@
 #include "../game.h"
 #include "../image.h"
 #include "../window.h"
+#include "../data.h"
 
 /**
  * Global variables (use with caution please)
@@ -23,7 +24,7 @@ extern void assets_Scene_mainMenu(ImageCollector* myImageCollector, bool loadOrU
     clean_Asset(&assetsList);
 }
 
-extern void eventProcess_Scene_mainMenu(SDL_Event event) {
+extern void eventProcess_Scene_mainMenu(SDL_Event event, Data* data) {
     switch (event.type) {
         case SDL_KEYDOWN: {
             // Key pressed
@@ -59,7 +60,7 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event) {
     }
 }
 
-extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myImageCollector) {
+extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myImageCollector, Data* data) {
     SDL_Surface* mainMenuSurface = NULL;
     mainMenuSurface = getMainMenu(myImageCollector);
 
@@ -72,7 +73,7 @@ extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myIm
     SDL_FreeSurface(mainMenuSurface);
 }
 
-extern void logicProcess_Scene_mainMenu() {}
+extern void logicProcess_Scene_mainMenu(Data* data) {}
 
 static SDL_Surface* getMainMenu(ImageCollector* myImageCollector) {
     SDL_Surface* mainMenu = NULL;

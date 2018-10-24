@@ -38,6 +38,7 @@ static void remove_Scene(SceneCollector* mySceneCollector, Scene* myScene) {
 
         // Don't forget to free the surface and the memory :D
         SDL_FreeSurface(temp->surface);
+        clean_Data(&(temp->data));
         free(temp);
     } else {
         // We find the position of the element we want to remove
@@ -55,6 +56,7 @@ static void remove_Scene(SceneCollector* mySceneCollector, Scene* myScene) {
 
         // Clean all the properties of our scene
         SDL_FreeSurface(temp->surface);
+        clean_Data(&(temp->data));
         free(temp);
 
         mySceneCollector->size -= 1;
@@ -101,7 +103,7 @@ extern void clean_SceneCollector(SceneCollector** mySceneCollector) {
     (*mySceneCollector) = NULL;
 }
 
-extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector* myImageCollector, const char name[], void (*assets)(ImageCollector* myImageCollector, bool loadOrUnload), void (*renderScene)(SDL_Surface* window, ImageCollector* myImageCollector), void (*logicProcess)(), void (*eventProcess)(SDL_Event event)) {
+extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector* myImageCollector, const char name[], void (*assets)(ImageCollector* myImageCollector, bool loadOrUnload), void (*renderScene)(SDL_Surface* window, ImageCollector* myImageCollector, Data* data), void (*logicProcess)(Data* data), void (*eventProcess)(SDL_Event event, Data* data)) {
     // Is it already loaded ?
     if (isLoaded_SceneCollector(mySceneCollector, name) != NULL) {
         printf("An attempt to load a scene was blocked (%s)\n", name);
@@ -132,6 +134,8 @@ extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector
     myScene->logicProcess = logicProcess;
     myScene->eventProcess = eventProcess;
     myScene->assets = assets;
+
+    myScene->data = init_Data();
 
     myScene->next = NULL;
 

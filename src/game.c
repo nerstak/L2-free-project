@@ -47,7 +47,7 @@ extern void gameLoop(SDL_Surface* window) {
 
         // Event loop
         while (SDL_PollEvent(&event)) {
-            mySceneCollector->currentScene->eventProcess(event);
+            mySceneCollector->currentScene->eventProcess(event, mySceneCollector->currentScene->data);
 
             switch (event.type) {
                 case SDL_KEYDOWN: {
@@ -77,10 +77,10 @@ extern void gameLoop(SDL_Surface* window) {
         }
 
         // Logic
-        mySceneCollector->currentScene->logicProcess();
+        mySceneCollector->currentScene->logicProcess(mySceneCollector->currentScene->data);
 
         // Rendering
-        mySceneCollector->currentScene->renderScene(window, myImageCollector);
+        mySceneCollector->currentScene->renderScene(window, myImageCollector, mySceneCollector->currentScene->data);
         renderScreen();
         frame++;
 
