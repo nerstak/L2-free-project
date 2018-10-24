@@ -14,7 +14,7 @@
  */
 
 extern void assets_Scene_loadingScreen(ImageCollector* myImageCollector, bool loadOrUnload) {
-    Asset* assetsList = getList_Asset("src/scenes/loadingScreen.kuro");
+    Asset* assetsList = getList_Asset("src/scenes/loadingScreen.asset");
 
     if (loadOrUnload == true) {
         loadList_ImageCollector(myImageCollector, assetsList);

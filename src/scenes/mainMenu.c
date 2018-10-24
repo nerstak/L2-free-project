@@ -12,7 +12,7 @@
 int Scene_mainMenu_position = 0;
 
 extern void assets_Scene_mainMenu(ImageCollector* myImageCollector, bool loadOrUnload) {
-    Asset* assetsList = getList_Asset("src/scenes/mainMenu.kuro");
+    Asset* assetsList = getList_Asset("src/scenes/mainMenu.asset");
 
     if (loadOrUnload == true) {
         loadList_ImageCollector(myImageCollector, assetsList);
