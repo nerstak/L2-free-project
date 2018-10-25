@@ -1,0 +1,5 @@
+rooms_out/*
+!rooms_out/.gitkeep
+
+rooms_png/*
+!rooms_png/.gitkeep
