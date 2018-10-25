@@ -119,7 +119,7 @@ extern void load_ImageCollector(ImageCollector* myImageCollector, const char pat
         exit(EXIT_FAILURE);
     }
 
-    optimizedImage = SDL_DisplayFormat(loadedImage);
+    optimizedImage = SDL_DisplayFormatAlpha(loadedImage);
 
     if (optimizedImage == NULL) {
         printf("An error occured while optimizing a Image object\n");
