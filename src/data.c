@@ -17,6 +17,7 @@ extern Data* init_Data() {
     }
 
     // Default value of our instance
+    myData->mainMenu = NULL;
 
     return myData;
 }
