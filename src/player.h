@@ -33,4 +33,6 @@ typedef struct Player {
 int alter_money(Player *Isaac, int money_change);
 void alter_health(Player *Isaac, int alter_health);
 
+void player_logic_lobby(Data* data);
+
 #endif // PLAYER_H_INCLUDED

@@ -279,7 +279,7 @@
 	"../image.h"
 	"../data.h"
 
-1540481690 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scenes\loadingscreen.h
+1540483539 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scenes\loadingscreen.h
 	"../image.h"
 	"../asset.h"
 	"../data.h"
@@ -291,10 +291,10 @@
 	"image.h"
 	"asset.h"
 
-1540481685 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\player.c
+1540484448 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\player.c
 	"player.h"
 
-1540481685 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\player.h
+1540484447 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\player.h
 	"data.h"
 
 1540481690 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scene.c
@@ -323,4 +323,20 @@
 	"SDL.h"
 	"begin_code.h"
 	"close_code.h"
+
+1540484907 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scenes\lobby.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<SDL/SDL.h>
+	"lobby.h"
+	"../window.h"
+	"../asset.h"
+	"../data.h"
+	"../player.h"
+
+1540483544 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scenes\lobby.h
+	"../image.h"
+	"../asset.h"
+	"../data.h"
 

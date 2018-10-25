@@ -22,19 +22,9 @@ void alter_health(Player *Isaac, int alter_health) {
 
 
 
-//Put the function relative to the player
+//Puts functions relative to the player
 
-
-
-
-
-
-
-
-
-
-
-void player_logic(Data data)
+void player_logic_lobby(Data* data)
 {
-    //Put your logic shit here
+
 }
