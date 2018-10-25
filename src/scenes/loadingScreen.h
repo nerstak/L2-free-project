@@ -11,6 +11,4 @@ extern void eventProcess_Scene_loadingScreen(SDL_Event event, Data* data);
 extern void renderScene_Scene_loadingScreen(SDL_Surface* window, ImageCollector* myImageCollector, Data* data);
 extern void logicProcess_Scene_loadingScreen(Data* data);
 
-static SDL_Surface* getLoadingScreen(ImageCollector* myImageCollector);
-
 #endif //FREE_PROJECT_LOADINGSCREEN_H

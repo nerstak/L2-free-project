@@ -4,7 +4,6 @@
 #define FREE_PROJECT_WINDOW_H
 
 extern void initWindow();
-static void cleanWindow();
 
 extern void renderScreen();
 

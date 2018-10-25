@@ -1,5 +1,10 @@
 #include "scene.h"
 
+static void add_Scene(SceneCollector* mySceneCollector, Scene* myScene);
+static void remove_Scene(SceneCollector* mySceneCollector, Scene* myScene);
+
+static Scene* isLoaded_SceneCollector(SceneCollector* mySceneCollector, const char name[]);
+
 static void add_Scene(SceneCollector* mySceneCollector, Scene* myScene) {
     // Is our list of images empty ?
     if (mySceneCollector->scenes == NULL) {

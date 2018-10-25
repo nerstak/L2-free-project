@@ -17,9 +17,6 @@ typedef struct ImageCollector {
     Image* images;
 } ImageCollector;
 
-static void add_Image(ImageCollector* myImageCollector, Image* myImage);
-static void remove_Image(ImageCollector* myImageCollector, Image* myImage);
-
 extern ImageCollector* init_ImageCollector();
 extern void clean_ImageCollector(ImageCollector** myImageCollector);
 

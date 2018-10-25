@@ -10,9 +10,7 @@
 #include "../asset.h"
 #include "../data.h"
 
-/**
- * Global variables (use with caution please)
- */
+static SDL_Surface* getLoadingScreen(ImageCollector* myImageCollector);
 
 extern void assets_Scene_loadingScreen(ImageCollector* myImageCollector, bool loadOrUnload) {
     Asset* assetsList = getList_Asset("src/scenes/loadingScreen.asset");

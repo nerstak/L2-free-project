@@ -23,8 +23,6 @@ extern void gameLoop(SDL_Surface* window) {
     Timer* fpsCounter = init_Timer();
     Timer* update = init_Timer();
 
-    int currentView = 1; // 1: mainMenu
-
     // Start the update Timer
     start_Timer(update);
 
@@ -57,6 +55,10 @@ extern void gameLoop(SDL_Surface* window) {
                             // We should only leave if we're on the main menu
                             // Either way we bring the pause menu
                             Game_stop = 0;
+
+                            break;
+
+                        default:
 
                             break;
                     }

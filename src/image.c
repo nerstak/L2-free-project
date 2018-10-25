@@ -6,6 +6,9 @@
 #include "image.h"
 #include "asset.h"
 
+static void add_Image(ImageCollector* myImageCollector, Image* myImage);
+static void remove_Image(ImageCollector* myImageCollector, Image* myImage);
+
 static void add_Image(ImageCollector* myImageCollector, Image* myImage) {
     // Is our list of images empty ?
     if (myImageCollector->images == NULL) {

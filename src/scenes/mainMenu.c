@@ -8,6 +8,12 @@
 #include "../window.h"
 #include "../data.h"
 
+static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, Data* data);
+
+static void moveMainMenuSelector(Data* data, int direction);
+static void enterMainMenu(Data* data);
+static int getCurrentMainMenuSelector(Data* data);
+
 extern void assets_Scene_mainMenu(ImageCollector* myImageCollector, bool loadOrUnload) {
     Asset* assetsList = getList_Asset("src/scenes/mainMenu.asset");
 
@@ -106,7 +112,7 @@ static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, Data* data) {
 
     font1 = TTF_OpenFont("src/fonts/menu.ttf", 65);
     font2 = TTF_OpenFont("src/fonts/menu.ttf", 40);
-    SDL_Color black = {0, 0, 0};
+    SDL_Color black = {0, 0, 0, 0};
 
     SDL_Rect bgPos;
 

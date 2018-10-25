@@ -5,6 +5,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
+static void cleanWindow();
+
 SDL_Surface* window = NULL;
 
 extern void initWindow() {

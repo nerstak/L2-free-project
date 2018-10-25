@@ -4,4 +4,6 @@
 
 int launch() {
     initWindow();
+
+    return 0;
 }

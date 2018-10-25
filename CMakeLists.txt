@@ -3,6 +3,7 @@ project(free_project C)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wno-unused-parameter")
 
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
