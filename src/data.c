@@ -3,6 +3,8 @@
 
 #include "data.h"
 
+static void clean_mainMenu_Data(mainMenu_t** mainMenu);
+
 extern Data* init_Data() {
     // Initialization of a SceneCollector pointer
     Data* myData = NULL;
@@ -21,9 +23,17 @@ extern Data* init_Data() {
 
 extern void clean_Data(Data** myData) {
     // First we clean the properties of our instance
+    if ((*myData)->mainMenu != NULL) {
+        clean_mainMenu_Data(&((*myData)->mainMenu));
+    }
 
     // We free this SceneCollector
     free(*myData);
     (*myData) = NULL;
+}
+
+static void clean_mainMenu_Data(mainMenu_t** mainMenu) {
+    free(*mainMenu);
+    (*mainMenu) = NULL;
 }
 

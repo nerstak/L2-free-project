@@ -1,3 +1,3 @@
-src/gfx/menu/main_logo.jpg menu/main_logo
-src/gfx/menu/main_button.jpg menu/main_button
-src/gfx/menu/select.png menu/select
+src/gfx/menu/main_bg.png menu/main_bg
+src/gfx/menu/main_cursorSingle.png menu/main_cursorSingle
+src/gfx/menu/main_cursorDouble.png menu/main_cursorDouble

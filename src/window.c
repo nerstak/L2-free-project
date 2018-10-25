@@ -3,11 +3,13 @@
 #include "game.h"
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 SDL_Surface* window = NULL;
 
 extern void initWindow() {
     SDL_Init(SDL_INIT_VIDEO); // We only init VIDEO_mod for now
+    TTF_Init();
 
     window = SDL_SetVideoMode(1280, 720, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
@@ -23,6 +25,7 @@ extern void initWindow() {
     cleanWindow();
 
     SDL_Quit();
+    TTF_Quit();
 }
 
 static void cleanWindow() {

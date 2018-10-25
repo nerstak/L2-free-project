@@ -1,4 +1,5 @@
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 #include "mainMenu.h"
 
@@ -6,11 +7,6 @@
 #include "../image.h"
 #include "../window.h"
 #include "../data.h"
-
-/**
- * Global variables (use with caution please)
- */
-int Scene_mainMenu_position = 0;
 
 extern void assets_Scene_mainMenu(ImageCollector* myImageCollector, bool loadOrUnload) {
     Asset* assetsList = getList_Asset("src/scenes/mainMenu.asset");
@@ -24,6 +20,23 @@ extern void assets_Scene_mainMenu(ImageCollector* myImageCollector, bool loadOrU
     clean_Asset(&assetsList);
 }
 
+extern void init_Scene_mainMenu(Data* data, bool loadOrUnload) {
+    if (loadOrUnload == true) {
+        data->mainMenu = NULL;
+        data->mainMenu = malloc(1 * sizeof(mainMenu_t));
+
+        if (data->mainMenu == NULL) {
+            printf("An error occured while initializing a mainMenu_t object\n");
+            exit(EXIT_FAILURE);
+        }
+
+        data->mainMenu->position = 0;
+    } else {
+        free(data->mainMenu);
+        data->mainMenu = NULL;
+    }
+}
+
 extern void eventProcess_Scene_mainMenu(SDL_Event event, Data* data) {
     switch (event.type) {
         case SDL_KEYDOWN: {
@@ -32,18 +45,18 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event, Data* data) {
                 case SDLK_UP:
                     // Move menu selector
                     // Should be through a call to a function only ! (setter)
-                    moveMainMenuSelector(0);
+                    moveMainMenuSelector(data, 0);
                     break;
                 case SDLK_DOWN:
                     // Move menu selector
                     // Should be through a call to a function only ! (setter)
-                    moveMainMenuSelector(1);
+                    moveMainMenuSelector(data, 1);
                     break;
                 case SDLK_RETURN:
                     // Select our menu ? For now only
-                    enterMainMenu();
+                    enterMainMenu(data);
 
-                    if (getCurrentMainMenuSelector() == 2) Game_stop = 0;
+                    if (getCurrentMainMenuSelector(data) == 3) Game_stop = 0;
 
                     break;
                 default: {
@@ -62,11 +75,11 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event, Data* data) {
 
 extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myImageCollector, Data* data) {
     SDL_Surface* mainMenuSurface = NULL;
-    mainMenuSurface = getMainMenu(myImageCollector);
+    mainMenuSurface = getMainMenu(myImageCollector, data);
 
     SDL_Rect mainMenuSurfacePos;
-    mainMenuSurfacePos.x = (window->w / 2) - (mainMenuSurface->w / 2);
-    mainMenuSurfacePos.y = (window->h / 2) - (mainMenuSurface->h / 2);
+    mainMenuSurfacePos.x = 0;
+    mainMenuSurfacePos.y = 0;
 
     loadSurface(mainMenuSurface, window, mainMenuSurfacePos);
 
@@ -75,70 +88,98 @@ extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myIm
 
 extern void logicProcess_Scene_mainMenu(Data* data) {}
 
-static SDL_Surface* getMainMenu(ImageCollector* myImageCollector) {
+static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, Data* data) {
     SDL_Surface* mainMenu = NULL;
-    mainMenu = SDL_CreateRGBSurface(SDL_HWSURFACE, 500, 600, 32, 0, 0, 0, 0);
+    mainMenu = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
-    SDL_Surface* logo = NULL;
+    SDL_Surface* bg = NULL;
 
     SDL_Surface* newGameBtn = NULL;
     SDL_Surface* loadGameBtn = NULL;
+    SDL_Surface* settingsBtn = NULL;
     SDL_Surface* exitBtn = NULL;
 
     SDL_Surface* selector = NULL;
 
-    SDL_Rect logoPos;
+    TTF_Font* font1 = NULL;
+    TTF_Font* font2 = NULL;
+
+    font1 = TTF_OpenFont("src/fonts/menu.ttf", 65);
+    font2 = TTF_OpenFont("src/fonts/menu.ttf", 40);
+    SDL_Color black = {0, 0, 0};
+
+    SDL_Rect bgPos;
 
     SDL_Rect newGameBtnPos;
     SDL_Rect loadGameBtnPos;
+    SDL_Rect settingsPos;
     SDL_Rect exitGameBtnPos;
 
     SDL_Rect selectorPos;
 
-    logo = get_ImageCollector(myImageCollector, "menu/main_logo")->surface;
+    bg = get_ImageCollector(myImageCollector, "menu/main_bg")->surface;
 
-    newGameBtn = get_ImageCollector(myImageCollector, "menu/main_button")->surface;
-    loadGameBtn = get_ImageCollector(myImageCollector, "menu/main_button")->surface;
-    exitBtn = get_ImageCollector(myImageCollector, "menu/main_button")->surface;
+    newGameBtn = TTF_RenderText_Solid(font1, "New Game", black);
+    loadGameBtn = TTF_RenderText_Solid(font1, "Resume Game", black);
+    settingsBtn = TTF_RenderText_Solid(font1, "Settings", black);
+    exitBtn = TTF_RenderText_Solid(font2, "Exit", black);
 
-    selector = get_ImageCollector(myImageCollector, "menu/select")->surface;
+    bgPos.x = 0;
+    bgPos.y = 0;
 
-    logoPos.x = (mainMenu->w / 2) - (logo->w / 2);
-    logoPos.y = 10;
+    newGameBtnPos.x = 500;
+    newGameBtnPos.y = 345;
 
-    newGameBtnPos.x = (mainMenu->w / 2) - (newGameBtn->w / 2);
-    newGameBtnPos.y = 300;
+    loadGameBtnPos.x = 460;
+    loadGameBtnPos.y = 450;
 
-    loadGameBtnPos.x = (mainMenu->w / 2) - (loadGameBtn->w / 2);
-    loadGameBtnPos.y = 400;
+    settingsPos.x = 530;
+    settingsPos.y = 540;
 
-    exitGameBtnPos.x = (mainMenu->w / 2) - (exitBtn->w / 2);
-    exitGameBtnPos.y = 500;
+    exitGameBtnPos.x = 600;
+    exitGameBtnPos.y= 650;
 
-    selectorPos.x = (mainMenu->w / 2) - (newGameBtn->w / 2);
-    selectorPos.y = 330 + (Scene_mainMenu_position) * 100;
+    if (data->mainMenu->position == 3) {
+        selectorPos.x = 544;
+        selectorPos.y = 645;
+        selector = get_ImageCollector(myImageCollector, "menu/main_cursorSingle")->surface;
+    } else {
+        selectorPos.x = 380;
+        selectorPos.y = 350 + (data->mainMenu->position) * 100;
+        selector = get_ImageCollector(myImageCollector, "menu/main_cursorDouble")->surface;
+    }
+
+    SDL_BlitSurface(bg, NULL, mainMenu, &bgPos);
 
     SDL_BlitSurface(newGameBtn, NULL, mainMenu, &newGameBtnPos);
     SDL_BlitSurface(loadGameBtn, NULL, mainMenu, &loadGameBtnPos);
+    SDL_BlitSurface(settingsBtn, NULL, mainMenu, &settingsPos);
     SDL_BlitSurface(exitBtn, NULL, mainMenu, &exitGameBtnPos);
-    SDL_BlitSurface(logo, NULL, mainMenu, &logoPos);
     SDL_BlitSurface(selector, NULL, mainMenu, &selectorPos);
+
+    SDL_FreeSurface(newGameBtn);
+    SDL_FreeSurface(loadGameBtn);
+    SDL_FreeSurface(settingsBtn);
+    SDL_FreeSurface(exitBtn);
+
+    TTF_CloseFont(font1);
+    TTF_CloseFont(font2);
 
     return mainMenu;
 }
 
-static void moveMainMenuSelector(int direction) {
-    if (direction == 0 && Scene_mainMenu_position > 0) {
-        Scene_mainMenu_position -= 1;
-    } else if (direction == 1 && Scene_mainMenu_position < 2) {
-        Scene_mainMenu_position += 1;
+static void moveMainMenuSelector(Data* data, int direction) {
+    if (direction == 0 && data->mainMenu->position > 0) {
+        data->mainMenu->position -= 1;
+    } else if (direction == 1 && data->mainMenu->position < 3) {
+        data->mainMenu->position += 1;
     }
 }
 
-static void enterMainMenu() {
-    printf("Selected: %d\n", Scene_mainMenu_position);
+static void enterMainMenu(Data* data) {
+    printf("Selected: %d\n", data->mainMenu->position);
 }
 
-static int getCurrentMainMenuSelector() {
-    return Scene_mainMenu_position;
+static int getCurrentMainMenuSelector(Data* data) {
+    return data->mainMenu->position;
 }
