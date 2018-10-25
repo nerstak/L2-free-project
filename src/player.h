@@ -3,37 +3,34 @@
 #include "data.h"
 
 
-typedef struct coordinates_entity
-{
+typedef struct coordinates_entity {
     int x;
     int y;
-}coordinates_entity;
+} coordinates_entity;
 
-typedef struct slot_inventory
-{
+typedef struct slot_inventory {
     char * name_item;
     int quantity;
     struct slot_inventory * next;
-}slot_inventory;
+} slot_inventory;
 
-typedef struct stats_entity
-{
+typedef struct stats_entity {
     int health;
     int damage;
     int speed;
     int ability;
-}stats_entity;
+} stats_entity;
 
-typedef struct player{
+typedef struct Player {
     coordinates_entity * pos;
     int money;
     slot_inventory * inventory;
     slot_inventory * equipment;
     stats_entity * current_stats;
     stats_entity * basic_stats;
-}player;
+} Player;
 
-int alter_money(player *Isaac, int money_change);
-void alter_health(player *Isaac, int alter_health);
+int alter_money(Player *Isaac, int money_change);
+void alter_health(Player *Isaac, int alter_health);
 
 #endif // PLAYER_H_INCLUDED

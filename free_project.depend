@@ -5,18 +5,18 @@
 
 1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\launch.h
 
-1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\launch.c
+1540481690 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\launch.c
 	"launch.h"
 	"window.h"
 
-1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\window.h
+1540481690 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\window.h
 	<SDL/SDL_video.h>
 
-1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\window.c
+1540481690 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\window.c
 	"window.h"
-	"menu.h"
 	"game.h"
 	<SDL/SDL.h>
+	<SDL/SDL_ttf.h>
 
 1325742239 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl.h
 	"SDL_main.h"
@@ -208,20 +208,23 @@
 	"begin_code.h"
 	"close_code.h"
 
-1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\game.c
+1540481690 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\game.c
 	"game.h"
 	"window.h"
-	"menu.h"
 	"timer.h"
+	"image.h"
+	"scene.h"
+	"scenes/mainMenu.h"
+	"scenes/loadingScreen.h"
 	<SDL/SDL.h>
 
-1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\game.h
+1540390795 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\game.h
 	<SDL/SDL_video.h>
 
 1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\menu.h
 	<SDL/SDL_video.h>
 
-1539720794 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\timer.h
+1540390795 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\timer.h
 	<stdbool.h>
 
 1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\menu.c
@@ -237,9 +240,87 @@
 	"begin_code.h"
 	"close_code.h"
 
-1539720794 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\timer.c
+1540481685 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\timer.c
 	<stdlib.h>
 	<stdio.h>
 	"SDL/SDL.h"
 	"timer.h"
+
+1540390795 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\asset.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"asset.h"
+
+1540390795 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\asset.h
+
+1540478009 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\data.c
+	<stdlib.h>
+	<stdio.h>
+	"data.h"
+
+1540478009 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\data.h
+
+1540481690 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\image.h
+	<stdlib.h>
+	<SDL/SDL_video.h>
+	"asset.h"
+
+1540481690 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scene.h
+	<stdlib.h>
+	<stdbool.h>
+	<SDL/SDL.h>
+	"image.h"
+	"asset.h"
+	"data.h"
+
+1540481690 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scenes\mainmenu.h
+	<stdbool.h>
+	"../image.h"
+	"../data.h"
+
+1540481690 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scenes\loadingscreen.h
+	"../image.h"
+	"../asset.h"
+	"../data.h"
+
+1540481690 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\image.c
+	<string.h>
+	"SDL/SDL.h"
+	"SDL/SDL_image.h"
+	"image.h"
+	"asset.h"
+
+1540481685 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\player.c
+	"player.h"
+
+1540481685 c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\player.h
+	"data.h"
+
+1540481690 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scene.c
+	"scene.h"
+
+1540481690 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scenes\loadingscreen.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<SDL/SDL.h>
+	"loadingScreen.h"
+	"../window.h"
+	"../asset.h"
+	"../data.h"
+
+1540481690 source:c:\users\karsten\documents\cours\efrei\l2\semestre 3\prog\free_project\src\scenes\mainmenu.c
+	<SDL/SDL.h>
+	<SDL/SDL_ttf.h>
+	"mainMenu.h"
+	"../game.h"
+	"../image.h"
+	"../window.h"
+	"../data.h"
+
+1325818393 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
 
