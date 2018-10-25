@@ -26,6 +26,14 @@ extern void assets_Scene_loadingScreen(ImageCollector* myImageCollector, bool lo
     clean_Asset(&assetsList);
 }
 
+extern void init_Scene_loadingScreen(Data* data, bool loadOrUnload) {
+    if (loadOrUnload == true) {
+        // We init datas
+    } else {
+        // We free it
+    }
+}
+
 extern void eventProcess_Scene_loadingScreen(SDL_Event event, Data* data) {}
 
 extern void renderScene_Scene_loadingScreen(SDL_Surface* window, ImageCollector* myImageCollector, Data* data) {

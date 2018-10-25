@@ -93,6 +93,7 @@ extern void clean_SceneCollector(SceneCollector** mySceneCollector) {
 
         // Clean all the properties of our scene
         SDL_FreeSurface(temp->surface);
+        clean_Data(&(temp->data));
         free(temp);
 
         temp = next;
@@ -103,7 +104,7 @@ extern void clean_SceneCollector(SceneCollector** mySceneCollector) {
     (*mySceneCollector) = NULL;
 }
 
-extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector* myImageCollector, const char name[], void (*assets)(ImageCollector* myImageCollector, bool loadOrUnload), void (*renderScene)(SDL_Surface* window, ImageCollector* myImageCollector, Data* data), void (*logicProcess)(Data* data), void (*eventProcess)(SDL_Event event, Data* data)) {
+extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector* myImageCollector, const char name[], void (*assets)(ImageCollector* myImageCollector, bool loadOrUnload), void (*init)(Data* data, bool loadOrUnload), void (*renderScene)(SDL_Surface* window, ImageCollector* myImageCollector, Data* data), void (*logicProcess)(Data* data), void (*eventProcess)(SDL_Event event, Data* data)) {
     // Is it already loaded ?
     if (isLoaded_SceneCollector(mySceneCollector, name) != NULL) {
         printf("An attempt to load a scene was blocked (%s)\n", name);
@@ -134,6 +135,7 @@ extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector
     myScene->logicProcess = logicProcess;
     myScene->eventProcess = eventProcess;
     myScene->assets = assets;
+    myScene->init = init;
 
     myScene->data = init_Data();
 
@@ -159,6 +161,7 @@ extern void display_SceneCollector(SceneCollector* mySceneCollector, ImageCollec
     // First we clean the previous scene
     if (previousScene != NULL) {
         previousScene->assets(myImageCollector, false);
+        previousScene->init(previousScene->data, false);
     }
 
     // Secondly we display the new one
@@ -167,6 +170,7 @@ extern void display_SceneCollector(SceneCollector* mySceneCollector, ImageCollec
     while (temp != NULL) {
         if (strcmp(temp->name, name) == 0) {
             temp->assets(myImageCollector, true);
+            temp->init(temp->data, true);
             // We hide it
             mySceneCollector->currentScene = temp;
 

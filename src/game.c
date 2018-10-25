@@ -36,8 +36,8 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Initializing SceneCollector
     SceneCollector* mySceneCollector = init_SceneCollector();
-    load_SceneCollector(mySceneCollector, myImageCollector, "loadingScreen", &assets_Scene_loadingScreen, &renderScene_Scene_loadingScreen, &logicProcess_Scene_loadingScreen, &eventProcess_Scene_loadingScreen);
-    load_SceneCollector(mySceneCollector, myImageCollector, "mainMenu", &assets_Scene_mainMenu, &renderScene_Scene_mainMenu, &logicProcess_Scene_mainMenu, &eventProcess_Scene_mainMenu);
+    load_SceneCollector(mySceneCollector, myImageCollector, "loadingScreen", &assets_Scene_loadingScreen, &init_Scene_loadingScreen, &renderScene_Scene_loadingScreen, &logicProcess_Scene_loadingScreen, &eventProcess_Scene_loadingScreen);
+    load_SceneCollector(mySceneCollector, myImageCollector, "mainMenu", &assets_Scene_mainMenu, &init_Scene_mainMenu, &renderScene_Scene_mainMenu, &logicProcess_Scene_mainMenu, &eventProcess_Scene_mainMenu);
 
     display_SceneCollector(mySceneCollector, myImageCollector, "mainMenu");
 
