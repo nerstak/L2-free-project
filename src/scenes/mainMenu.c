@@ -8,7 +8,7 @@
 #include "../window.h"
 #include "../data.h"
 
-static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, Data* data);
+static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
 
 static void moveMainMenuSelector(Data* data, int direction);
 static void enterMainMenu(Data* data);
@@ -79,9 +79,9 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event, Data* data) {
     }
 }
 
-extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myImageCollector, Data* data) {
+extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
     SDL_Surface* mainMenuSurface = NULL;
-    mainMenuSurface = getMainMenu(myImageCollector, data);
+    mainMenuSurface = getMainMenu(myImageCollector, myFontCollector, data);
 
     SDL_Rect mainMenuSurfacePos;
     mainMenuSurfacePos.x = 0;
@@ -94,7 +94,7 @@ extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myIm
 
 extern void logicProcess_Scene_mainMenu(Data* data) {}
 
-static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, Data* data) {
+static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
     SDL_Surface* mainMenu = NULL;
     mainMenu = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
@@ -110,8 +110,8 @@ static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, Data* data) {
     TTF_Font* font1 = NULL;
     TTF_Font* font2 = NULL;
 
-    font1 = TTF_OpenFont("src/fonts/menu.ttf", 65);
-    font2 = TTF_OpenFont("src/fonts/menu.ttf", 40);
+    font1 = get_FontCollector(myFontCollector, "menu/65")->font;
+    font2 = get_FontCollector(myFontCollector, "menu/40")->font;
     SDL_Color black = {0, 0, 0, 0};
 
     SDL_Rect bgPos;
@@ -167,9 +167,6 @@ static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, Data* data) {
     SDL_FreeSurface(loadGameBtn);
     SDL_FreeSurface(settingsBtn);
     SDL_FreeSurface(exitBtn);
-
-    TTF_CloseFont(font1);
-    TTF_CloseFont(font2);
 
     return mainMenu;
 }

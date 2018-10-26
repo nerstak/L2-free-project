@@ -1,9 +1,9 @@
-#include <stdlib.h>
-#include <SDL/SDL_video.h>
-#include "asset.h"
-
 #ifndef FREE_PROJECT_IMAGE_H
 #define FREE_PROJECT_IMAGE_H
+
+#include <SDL/SDL_video.h>
+
+#include "asset.h"
 
 typedef struct Image {
     char name[255];
@@ -25,7 +25,6 @@ extern void loadList_ImageCollector(ImageCollector* myImageCollector, Asset* ass
 extern void unload_ImageCollector(ImageCollector* myImageCollector, const char name[]);
 extern void unloadList_ImageCollector(ImageCollector* myImageCollector, Asset* assetsList);
 
-extern Image* get_ImageCollector(ImageCollector *myImageCollector, const char name[]);
-extern Image* isLoaded_ImageCollector(ImageCollector *myImageCollector, const char name[]);
+extern Image* get_ImageCollector(ImageCollector* myImageCollector, const char name[]);
 
 #endif //FREE_PROJECT_IMAGE_H

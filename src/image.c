@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "SDL/SDL.h"
@@ -8,6 +10,8 @@
 
 static void add_Image(ImageCollector* myImageCollector, Image* myImage);
 static void remove_Image(ImageCollector* myImageCollector, Image* myImage);
+
+static Image* isLoaded_ImageCollector(ImageCollector* myImageCollector, const char name[]);
 
 static void add_Image(ImageCollector* myImageCollector, Image* myImage) {
     // Is our list of images empty ?
@@ -199,7 +203,7 @@ extern Image* get_ImageCollector(ImageCollector* myImageCollector, const char na
     return NULL;
 }
 
-extern Image* isLoaded_ImageCollector(ImageCollector* myImageCollector, const char name[]) {
+static Image* isLoaded_ImageCollector(ImageCollector* myImageCollector, const char name[]) {
     Image* temp = myImageCollector->images;
 
     // We retrieve the existing Image from our ImageCollector

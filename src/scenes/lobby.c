@@ -64,7 +64,7 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Data* data) {
     }
 }
 
-extern void renderScene_Scene_lobby(SDL_Surface* window, ImageCollector* myImageCollector, Data* data) {
+extern void renderScene_Scene_lobby(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
     SDL_Surface* lobbySurface = NULL;
     lobbySurface = getLobby(myImageCollector);
 

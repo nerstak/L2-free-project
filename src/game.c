@@ -7,6 +7,7 @@
 
 #include "scenes/mainMenu.h"
 #include "scenes/loadingScreen.h"
+#include "ttf.h"
 
 #include <SDL/SDL.h>
 
@@ -31,6 +32,11 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Initializing ImageCollector
     ImageCollector* myImageCollector = init_ImageCollector();
+
+    // Initializing FontCollector
+    FontCollector* myFontCollector = init_FontCollector();
+    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 65, "menu/65");
+    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 40, "menu/40");
 
     // Initializing SceneCollector
     SceneCollector* mySceneCollector = init_SceneCollector();
@@ -82,7 +88,7 @@ extern void gameLoop(SDL_Surface* window) {
         mySceneCollector->currentScene->logicProcess(mySceneCollector->currentScene->data);
 
         // Rendering
-        mySceneCollector->currentScene->renderScene(window, myImageCollector, mySceneCollector->currentScene->data);
+        mySceneCollector->currentScene->renderScene(window, myImageCollector, myFontCollector, mySceneCollector->currentScene->data);
         renderScreen();
         frame++;
 

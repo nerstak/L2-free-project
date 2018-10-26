@@ -34,7 +34,7 @@ extern void init_Scene_loadingScreen(Data* data, bool loadOrUnload) {
 
 extern void eventProcess_Scene_loadingScreen(SDL_Event event, Data* data) {}
 
-extern void renderScene_Scene_loadingScreen(SDL_Surface* window, ImageCollector* myImageCollector, Data* data) {
+extern void renderScene_Scene_loadingScreen(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
     SDL_Surface* loadingScreenSurface = NULL;
     loadingScreenSurface = getLoadingScreen(myImageCollector);
 
