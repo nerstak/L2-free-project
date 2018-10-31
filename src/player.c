@@ -22,7 +22,6 @@ void alter_health(Player *Isaac, int alter_health) {
     }
 }
 
-
 //Put functions relative to the player
 
 void player_logic_lobby(Data* data)
