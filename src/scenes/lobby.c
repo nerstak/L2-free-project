@@ -78,7 +78,6 @@ extern void renderScene_Scene_lobby(SDL_Surface* window, ImageCollector* myImage
 }
 
 extern void logicProcess_Scene_lobby(Data* data) {
-    player_logic_lobby(data);
 }
 
 static SDL_Surface* getLobby(ImageCollector* myImageCollector) {

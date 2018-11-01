@@ -20,7 +20,7 @@ extern void initWindow() {
         exit(EXIT_FAILURE);
     }
 
-    SDL_WM_SetCaption("free_project v0.0.1 Alpha", NULL);
+    SDL_WM_SetCaption("free_project v0.0.1 Super Alpha", NULL);
 
     gameLoop(window);
 

@@ -7,6 +7,7 @@
 
 #include "scenes/mainMenu.h"
 #include "scenes/loadingScreen.h"
+#include "scenes/shopScreen.h"
 #include "ttf.h"
 
 #include <SDL/SDL.h>
@@ -42,8 +43,10 @@ extern void gameLoop(SDL_Surface* window) {
     SceneCollector* mySceneCollector = init_SceneCollector();
     load_SceneCollector(mySceneCollector, myImageCollector, "loadingScreen", &assets_Scene_loadingScreen, &init_Scene_loadingScreen, &renderScene_Scene_loadingScreen, &logicProcess_Scene_loadingScreen, &eventProcess_Scene_loadingScreen);
     load_SceneCollector(mySceneCollector, myImageCollector, "mainMenu", &assets_Scene_mainMenu, &init_Scene_mainMenu, &renderScene_Scene_mainMenu, &logicProcess_Scene_mainMenu, &eventProcess_Scene_mainMenu);
+    load_SceneCollector(mySceneCollector, myImageCollector, "shop", &assets_Scene_shop, &init_Scene_shop, &renderScene_Scene_shop, &logicProcess_Scene_shop, &eventProcess_Scene_shop);
 
     display_SceneCollector(mySceneCollector, myImageCollector, "mainMenu");
+    //display_SceneCollector(mySceneCollector, myImageCollector, "shop");
 
     while (Game_stop) {
         // Start the FPS limiter Timer

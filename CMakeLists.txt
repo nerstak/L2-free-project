@@ -21,6 +21,7 @@ set(SRC
         src/scenes/lobby.c
         src/ttf.c
         src/inventory.c
+        src/scenes/shopScreen.c
         )
 
 set(HDR
@@ -38,6 +39,7 @@ set(HDR
         src/scenes/lobby.h
         src/ttf.h
         src/inventory.h
+        src/scenes/shopScreen.h
         )
 
 find_package(SDL REQUIRED)

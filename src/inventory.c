@@ -65,8 +65,7 @@ slot_inventory * init_shop() {
     char name[25], description[100];
     int quantity, price;
     FILE * file;
-    int errnum;
-    file = fopen("../datas/shop/shop.list","r");
+    file = fopen("src/datas/shop/shop.list","r");
     if(file) {
         while(fscanf(file,"%20[^;];%98[^;];%d;%d\n",name,description,&quantity,&price) != EOF) {
             add_item_list(&shop_inv,create_item(name,quantity,price,description));
@@ -74,66 +73,4 @@ slot_inventory * init_shop() {
     }
     fclose(file);
     return shop_inv;
-}
-
-//Cursor displacement (right: 1; left: -1; down: 10; up: 10)
-void moveShopSelector(Data * data,slot_inventory * shop_list, slot_inventory * player_list) {
-    int pos_to_go;
-    switch(data->shop->ask_action) {
-        //Case for right
-        case 1:
-            //First, case when we don't change of inventory, then if we have to (shop to player)s
-            if(data->shop->selected->next != NULL) {
-                data->shop->selected = data->shop->selected->next;
-                data->shop->n_selected++;
-            } else if (data->shop->n_selected < 20) {
-                data->shop->selected = player_list;
-                data->shop->n_selected = 20;
-            }
-        //Case for left
-        case -1:
-            //First, case when we don't change of inventory, then if we have to (player to shop)
-            if(data->shop->selected->prev != NULL) {
-                data->shop->selected = data->shop->selected->prev;
-                data->shop->n_selected--;
-            } else if (data->shop->n_selected > 20) {
-                data->shop->selected = shop_list;
-                data->shop->n_selected = 0;
-                while(data->shop->selected->next != NULL) {
-                    data->shop->selected = data->shop->selected->next;
-                    (data->shop->n_selected)++;
-                }
-            }
-        //Case for down
-        case 10: ;
-            if(data->shop->n_selected % 10 != 3) {
-                pos_to_go = (data->shop->n_selected + 10) % 40;
-                //If we change of inventory
-                if (data->shop->n_selected % 10 == 1) {
-                    data->shop->selected = player_list;
-                }
-                while (data->shop->selected->next != NULL && data->shop->n_selected != pos_to_go) {
-                    data->shop->selected = data->shop->selected->next;
-                    (data->shop->n_selected)++;
-                }
-            }
-        //Case for up
-        case -10: ;
-            if(data->shop->n_selected % 10 != 0) {
-                pos_to_go = (data->shop->n_selected + 10) % 40;
-                //If we change of inventory
-                if (data->shop->n_selected % 10 == 2) {
-                    data->shop->selected = player_list;
-                    while (data->shop->selected->next != NULL && data->shop->n_selected != pos_to_go) {
-                        data->shop->selected = data->shop->selected->next;
-                        (data->shop->n_selected)++;
-                    }
-                } else {
-                    while (data->shop->selected->next != NULL && data->shop->n_selected != pos_to_go) {
-                        data->shop->selected = data->shop->selected->prev;
-                        (data->shop->n_selected)--;
-                    }
-                }
-            }
-    }
 }
