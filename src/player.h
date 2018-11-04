@@ -29,6 +29,7 @@ typedef struct Player {
     coordinates_entity * pos;
     int money;
     slot_inventory * inventory;
+    int size_inventory;
     Weapon * weapons;
     stats_entity * current_stats;
     stats_entity * basic_stats;

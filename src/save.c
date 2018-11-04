@@ -57,7 +57,7 @@ void write_save(Data *data) {
         fprintf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->ability);
         //Writing weapons
         for(int i = 0; i < 4; i++) {
-            fprintf(save_file,"WEAPON %d: '%s' '%s' D=%d S=%d\n",i,Isaac->weapons[i].name,Isaac->weapons[i].description,Isaac->weapons[i].damage,Isaac->weapons[i].swing_speed);
+            fprintf(save_file,"WEAPON: '%s' '%s' D=%d S=%d\n",Isaac->weapons[i].name,Isaac->weapons[i].description,Isaac->weapons[i].damage,Isaac->weapons[i].swing_speed);
         }
         int i = 0;
         while(current != NULL && i < 20) {
@@ -76,8 +76,8 @@ int read_save(Data *data) {
     current = malloc(sizeof(slot_inventory));
 
     if(strcmp(data->Isaac->save_name,"") == 0) {
-        save_file = fopen("saves/basic.txt","r");
-        strcpy(data->Isaac->save_name,"save1.txt");
+        save_file = fopen("src/datas/save/basic.save","r");
+        strcpy(data->Isaac->save_name,"save1.save");
     } else {
         sprintf(temp,"saves/%s",data->Isaac->save_name);
         save_file = fopen(temp, "r");
@@ -91,13 +91,15 @@ int read_save(Data *data) {
         fscanf(save_file,"MONEY=%d\n",&(data->Isaac->money));
         fscanf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->ability));
         for(int i = 0; i < 4; i++) {
-            fscanf(save_file,"WEAPON %c: '%18[^']' '%98[^']' D=%d S=%d\n",temp,data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].swing_speed));
+            fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%d S=%d\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].swing_speed));
         }
         int i = 0;
         while(save_file != NULL && i < 20) {
             fscanf(save_file,"'%23[^']' '%98[^']' QUANT=%d PRICE=%d\n",current->name_item,current->description,&(current->quantity),&(current->price));
-            add_item_list(&(data->Isaac->inventory),current);
+            add_item_list(&(data->Isaac->inventory),current,&i);
+            i++;
         }
+        data->Isaac->size_inventory = i+1;
     }
     fclose(save_file);
     return 1;

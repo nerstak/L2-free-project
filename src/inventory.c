@@ -22,39 +22,63 @@ slot_inventory * create_item(char * name_item, int quantity, int price, char * d
 }
 
 //Add an existing item to the beginning of a list
-void add_item_list(slot_inventory ** items_list, slot_inventory * new_item) {
+void add_item_list(slot_inventory ** items_list, slot_inventory * new_item, int * size) {
     if(*items_list == NULL)
     {
         *items_list = new_item;
-    } else {
+        *size++;
+    } else if (*size < 20) {
         new_item->next = *items_list;
         (*items_list)->prev = new_item;
         *items_list = new_item;
+        *size++;
     }
 }
 
 //Remove an item of a list and return its adress
-slot_inventory * remove_item_list(slot_inventory ** items_list, char * name) {
-    slot_inventory *temp2, * temp = * items_list;
-    if(strcmp(temp->name_item, name) == 0) {
-        *items_list = temp->next;
-        return temp;
-    } else {
-        while(temp->next != NULL) {
-            if(strcmp(temp->next->name_item, name) == 0) {
-                temp2 = temp->next;
-                temp->next = temp->next->next;
-                return temp2;
+slot_inventory * remove_item_list(slot_inventory ** items_list, char * name, int * size) {
+    slot_inventory *temp_return, * temp = * items_list;
+    while(temp!= NULL) {
+        if(strcmp(temp->name_item, name) == 0) {
+            temp_return = temp;
+            if(temp->next != NULL) {
+                temp->next->prev = temp->prev;
             }
-            temp = temp->next;
+            if(temp->prev != NULL) {
+                temp->prev->next = temp->next;
+            }
+            if(temp->prev == NULL && temp->next == NULL) {
+                //Important case: if we empty the list
+                *items_list = NULL;
+            }
+            *size--;
+            return temp_return;
         }
-        return NULL;
+        temp = temp->next;
     }
+    return NULL;
+}
+
+//Search an item in a list and return its adress
+slot_inventory * search_item_list(slot_inventory * items_list, char * name) {
+    slot_inventory * current = items_list;
+    //Even if it is not supposed to have more than 20 elements, we check
+    int i = 0;
+    while(current != NULL && i < 20) {
+        if(strcmp(current->name_item,name) == 0) {
+            return current;
+        } else {
+            i++;
+            current = current->next;
+        }
+    }
+    return NULL;
 }
 
 //Free an item
 void free_item(slot_inventory * item) {
     free(item);
+    item = NULL;
 }
 
 
@@ -63,12 +87,12 @@ void free_item(slot_inventory * item) {
 slot_inventory * init_shop() {
     slot_inventory *shop_inv = NULL;
     char name[25], description[100];
-    int quantity, price;
+    int quantity, price, i=0;
     FILE * file;
     file = fopen("src/datas/shop/shop.list","r");
     if(file) {
-        while(fscanf(file,"%20[^;];%98[^;];%d;%d\n",name,description,&quantity,&price) != EOF) {
-            add_item_list(&shop_inv,create_item(name,quantity,price,description));
+        while(fscanf(file,"%20[^;];%98[^;];%d;%d\n",name,description,&quantity,&price) != EOF && i < 20) {
+            add_item_list(&shop_inv,create_item(name,quantity,price,description),&i);
         }
     }
     fclose(file);

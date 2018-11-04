@@ -12,7 +12,8 @@
 static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
 
 static void moveShopSelector(Data * data,slot_inventory * shop_list, slot_inventory * player_list);
-static void buy_item(Player * Isaac, slot_inventory * item_buying);
+static void buy_item(Data * data, slot_inventory * item_buying);
+static void sell_item(Data * data, slot_inventory * item_selling);
 
 extern void assets_Scene_shop(ImageCollector* myImageCollector, bool loadOrUnload) {
     Asset* assetsList = getList_Asset("src/scenes/shopScreen.asset");
@@ -42,6 +43,18 @@ extern void init_Scene_shop(Data* data, bool loadOrUnload) {
         data->shop->shop_inv = init_shop();
         data->shop->selected = data->shop->shop_inv;
     } else {
+        slot_inventory * current;
+        do{
+            current = data->shop->shop_inv;
+            if(current->next == NULL) {
+                free_item(current);
+                current = NULL;
+            } else {
+                current = current->next;
+                free_item(current->prev);
+            }
+        }while(current != NULL);
+        data->shop->selected = NULL;
         free(data->shop);
         data->shop = NULL;
     }
@@ -99,9 +112,17 @@ extern void renderScene_Scene_shop(SDL_Surface* window, ImageCollector* myImageC
 extern void logicProcess_Scene_shop(Data* data) {
     if(data->shop->ask_action != 0) {
         printf("Choice: %d\n",data->shop->ask_action);
-        moveShopSelector(data,data->shop->shop_inv,NULL);
+        if(data->shop->ask_action != 5) {
+            //Moving
+            moveShopSelector(data,data->shop->shop_inv,data->Isaac->inventory);
+        } else if(data->shop->n_selected < 20) {
+            //Buying
+            buy_item(data,data->shop->selected);
+        } else {
+            //Selling
+            sell_item(data,data->shop->selected);
+        }
     }
-
 }
 
 static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
@@ -141,7 +162,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     dialog1Info = TTF_RenderText_Solid(font1, dialog , white);
     sprintf(&dialog,"%s",data->shop->selected->description);
     dialog2Info = TTF_RenderText_Solid(font1, dialog , white);
-    sprintf(&dialog,"%d",data->shop->n_selected);
+    sprintf(&dialog,"%d",data->Isaac->money);
     moneyInfo = TTF_RenderText_Solid(font1, dialog, white);
     shopInfo = TTF_RenderText_Solid(font1, "Shop", black);
     inventoryInfo = TTF_RenderText_Solid(font1, "Inventory", black);
@@ -235,7 +256,7 @@ static void moveShopSelector(Data * data,slot_inventory * shop_list, slot_invent
                 pos_to_go = (data->shop->n_selected - 10) % 40;
                 //If we change of inventory
                 if (data->shop->n_selected / 10 == 2) {
-                    data->shop->selected = player_list;
+                    data->shop->selected = shop_list;
                     data->shop->n_selected = 0;
                     while (data->shop->selected->next != NULL && data->shop->n_selected != pos_to_go) {
                         data->shop->selected = data->shop->selected->next;
@@ -253,26 +274,43 @@ static void moveShopSelector(Data * data,slot_inventory * shop_list, slot_invent
                 data->shop->n_selected = 0;
             }
             break;
+        default:
+            break;
     }
 }
 
-static void buy_item(Player * Isaac, slot_inventory * item_buying) {
-    slot_inventory * current_item = Isaac->inventory;
-    int n_current = 1, found = 0;
-    if(alter_money(Isaac,- item_buying->price) == 1) {
-        if(strcmp(current_item->name_item,item_buying->name_item) == 0) {
-            Isaac->inventory->quantity ++;
+static void buy_item(Data * data, slot_inventory * item_buying) {
+    slot_inventory * current_item;
+    //If it is possible to buy
+    if(alter_money(data->Isaac,- item_buying->price) == 1) {
+        current_item = search_item_list(data->Isaac->inventory,item_buying->name_item);
+        if(current_item != NULL) {
+            //If the player already has an exemplar of the item in its inventory
+            (current_item->quantity)++;
         } else {
-            while(current_item->next != NULL && n_current < 20 && found == 0) {
-                n_current++;
-                if(strcmp(current_item->next->name_item,item_buying->name_item) == 0) {
-                    found = 1;
-                    current_item->next->quantity ++;
-                }
-            }
-            if(found == 0 && n_current < 20) {
-                add_item_list(&(Isaac->inventory),item_buying);
-            }
+            //If the player is buying a new item, we create it inside its inventory
+            add_item_list(&(data->Isaac->inventory),create_item(item_buying->name_item,1,item_buying->price,item_buying->description),&(data->Isaac->size_inventory));
         }
+    }
+}
+
+static void sell_item(Data * data, slot_inventory * item_selling) {
+    alter_money(data->Isaac,item_selling->price);
+    (item_selling->quantity)--;
+    //Checking if the item has to be removed from the inventory
+    if(item_selling->quantity <= 0) {
+        //Loop to replace the cursor
+        if(item_selling->next != NULL) {
+            data->shop->selected = item_selling->next;
+        } else if (item_selling->prev != NULL) {
+            data->shop->selected = item_selling->prev;
+            data->shop->n_selected--;
+        } else {
+            data->shop->selected = data->shop->shop_inv;
+            data->shop->n_selected = 0;
+        }
+        //Finally removing the item
+        remove_item_list(&(data->Isaac->inventory),item_selling->name_item,&(data->Isaac->size_inventory));
+        free_item(item_selling);
     }
 }
