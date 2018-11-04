@@ -14,7 +14,6 @@ typedef struct shop_t {
     slot_inventory * selected;
     int ask_action;
     slot_inventory * shop_inv;
-    slot_inventory * player_inv;
 } shop_t;
 
 typedef struct Data {

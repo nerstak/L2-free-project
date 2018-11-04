@@ -51,6 +51,7 @@ extern void gameLoop(SDL_Surface* window) {
     while (Game_stop) {
         // Start the FPS limiter Timer
         start_Timer(fpsLimiter);
+        //printf("fps_counter: %d\n",getTicks_Timer(fpsCounter));
 
         // Event loop
         while (SDL_PollEvent(&event)) {

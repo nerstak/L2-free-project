@@ -32,7 +32,7 @@ extern void init_Scene_shop(Data* data, bool loadOrUnload) {
         data->shop = malloc(1 * sizeof(shop_t));
 
         if (data->shop == NULL) {
-            printf("An error occured while initializing a mainMenu_t object\n");
+            printf("An error occured while initializing a shop_t object\n");
             exit(EXIT_FAILURE);
         }
 
@@ -40,7 +40,6 @@ extern void init_Scene_shop(Data* data, bool loadOrUnload) {
         data->shop->ask_action = 0;
 
         data->shop->shop_inv = init_shop();
-        data->shop->player_inv = init_shop();
         data->shop->selected = data->shop->shop_inv;
     } else {
         free(data->shop);
@@ -69,6 +68,7 @@ extern void eventProcess_Scene_shop(SDL_Event event, Data* data) {
                     data->shop->ask_action = 5;
                     break;
                 default: {
+
                     break;
                 }
             }
@@ -77,6 +77,7 @@ extern void eventProcess_Scene_shop(SDL_Event event, Data* data) {
         }
 
         default: {
+            data->shop->ask_action = 0;
             break;
         }
     }
@@ -98,8 +99,7 @@ extern void renderScene_Scene_shop(SDL_Surface* window, ImageCollector* myImageC
 extern void logicProcess_Scene_shop(Data* data) {
     if(data->shop->ask_action != 0) {
         printf("Choice: %d\n",data->shop->ask_action);
-        moveShopSelector(data,data->shop->shop_inv,data->shop->player_inv);
-        data->shop->ask_action = 0;
+        moveShopSelector(data,data->shop->shop_inv,NULL);
     }
 
 }
@@ -119,10 +119,8 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     SDL_Surface* selector = NULL;
 
     TTF_Font* font1 = NULL;
-    TTF_Font* font2 = NULL;
 
-    font1 = get_FontCollector(myFontCollector, "menu/65")->font;
-    font2 = get_FontCollector(myFontCollector, "menu/40")->font;
+    font1 = get_FontCollector(myFontCollector, "menu/40")->font;
     SDL_Color black = {0, 0, 0, 0};
     SDL_Color white = {255, 255, 255, 0};
 
@@ -140,13 +138,13 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
 
     char dialog[200];
     sprintf(&dialog, "%s. That costs %d$. I've %d of them in stock...",data->shop->selected->name_item, data->shop->selected->price, data->shop->selected->quantity);
-    dialog1Info = TTF_RenderText_Solid(font2, dialog , white);
+    dialog1Info = TTF_RenderText_Solid(font1, dialog , white);
     sprintf(&dialog,"%s",data->shop->selected->description);
-    dialog2Info = TTF_RenderText_Solid(font2, dialog , white);
+    dialog2Info = TTF_RenderText_Solid(font1, dialog , white);
     sprintf(&dialog,"%d",data->shop->n_selected);
-    moneyInfo = TTF_RenderText_Solid(font2, dialog, white);
-    shopInfo = TTF_RenderText_Solid(font2, "Shop", black);
-    inventoryInfo = TTF_RenderText_Solid(font2, "Inventory", black);
+    moneyInfo = TTF_RenderText_Solid(font1, dialog, white);
+    shopInfo = TTF_RenderText_Solid(font1, "Shop", black);
+    inventoryInfo = TTF_RenderText_Solid(font1, "Inventory", black);
 
     bgPos.x = 0;
     bgPos.y = 0;

@@ -32,6 +32,7 @@ typedef struct Player {
     Weapon * weapons;
     stats_entity * current_stats;
     stats_entity * basic_stats;
+    char save_name[20];
 } Player;
 
 

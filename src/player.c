@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "player.h"
 
 //Change the balance of the wallet, IFF possible (return 1 if done)

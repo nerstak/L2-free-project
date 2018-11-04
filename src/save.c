@@ -1,0 +1,104 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "save.h"
+
+
+Data * init_save(char * save_name) {
+    Data * data;
+    data = malloc(sizeof(Data));
+    data->Isaac = malloc(sizeof(Player));
+    //First, initialisation of easy variables
+    strcpy(data->Isaac->save_name,save_name);
+    data->Isaac->money = 0;
+    data->Isaac->inventory = NULL;
+
+    //Initialisation of coordinates
+    //Those coordinates will have to correspond to the one of the lobby
+    data->Isaac->pos = malloc(sizeof(coordinates_entity));
+    data->Isaac->pos->x = 0;
+    data->Isaac->pos->y = 0;
+
+
+    //Initialisation of stats
+    data->Isaac->current_stats = malloc(sizeof(stats_entity));
+    data->Isaac->basic_stats = malloc(sizeof(stats_entity));
+
+    data->Isaac->weapons = malloc(sizeof(Weapon )* 4);
+
+    read_save(data);
+
+    //TO ADD
+    //LITTLE GARDEN
+    //
+
+    data->Isaac->current_stats = data->Isaac->basic_stats;
+
+    return data;
+}
+
+
+void write_save(Data *data) {
+    FILE * save_file;
+    Player * Isaac = data->Isaac;
+    slot_inventory * current = Isaac->inventory;
+    char temp[50];
+
+    //We create or reset the save file
+    sprintf(temp,"saves/%s",data->Isaac->save_name);
+    save_file = fopen(temp, "w+");
+    if(save_file == NULL) {
+        printf("Error while creating or opening file during saving.\n");
+    } else {
+        //Writing save_name and money
+        fprintf(save_file,"%s\nMONEY=%d\n",Isaac->save_name,Isaac->money);
+        //Writing stats
+        fprintf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->ability);
+        //Writing weapons
+        for(int i = 0; i < 4; i++) {
+            fprintf(save_file,"WEAPON %d: '%s' '%s' D=%d S=%d\n",i,Isaac->weapons[i].name,Isaac->weapons[i].description,Isaac->weapons[i].damage,Isaac->weapons[i].swing_speed);
+        }
+        int i = 0;
+        while(current != NULL && i < 20) {
+            fprintf(save_file,"'%s' '%s' QUANT=%d PRICE=%d\n",current->name_item,current->description,current->quantity,current->price);
+            current = current->next;
+            i++;
+        }
+        fclose(save_file);
+    }
+}
+
+int read_save(Data *data) {
+    FILE * save_file;
+    char temp[50];
+    slot_inventory * current;
+    current = malloc(sizeof(slot_inventory));
+
+    if(strcmp(data->Isaac->save_name,"") == 0) {
+        save_file = fopen("saves/basic.txt","r");
+        strcpy(data->Isaac->save_name,"save1.txt");
+    } else {
+        sprintf(temp,"saves/%s",data->Isaac->save_name);
+        save_file = fopen(temp, "r");
+    }
+
+    if(save_file == NULL) {
+        printf("Error while reading save");
+        return 0;
+    } else {
+        fscanf(save_file,"%s\n",temp);
+        fscanf(save_file,"MONEY=%d\n",&(data->Isaac->money));
+        fscanf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->ability));
+        for(int i = 0; i < 4; i++) {
+            fscanf(save_file,"WEAPON %c: '%18[^']' '%98[^']' D=%d S=%d\n",temp,data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].swing_speed));
+        }
+        int i = 0;
+        while(save_file != NULL && i < 20) {
+            fscanf(save_file,"'%23[^']' '%98[^']' QUANT=%d PRICE=%d\n",current->name_item,current->description,&(current->quantity),&(current->price));
+            add_item_list(&(data->Isaac->inventory),current);
+        }
+    }
+    fclose(save_file);
+    return 1;
+}
