@@ -45,6 +45,7 @@ set(SRC
         src/dungeon/condition.c
         src/dungeon/edge.c
         src/dungeon/room.c
+        src/dungeon/symbol.c
         )
 
 set(HDR
@@ -91,6 +92,7 @@ set(HDR
         src/dungeon/condition.h
         src/dungeon/edge.h
         src/dungeon/room.h
+        src/dungeon/symbol.h
         )
 
 find_package(SDL REQUIRED)
