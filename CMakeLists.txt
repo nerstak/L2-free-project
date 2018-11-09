@@ -41,6 +41,7 @@ set(SRC
         src/scenes/shopScreen/logic.c
         src/scenes/shopScreen/render.c
         src/scenes/shopScreen/shopScreen.c
+        src/utils/coord.c
         )
 
 set(HDR
@@ -83,6 +84,7 @@ set(HDR
         src/structures/mainMenu.h
         src/structures/scene.h
         src/structures/shopScreen.h
+        src/utils/coord.h
         )
 
 find_package(SDL REQUIRED)
@@ -93,4 +95,4 @@ find_package(SDL_mixer REQUIRED)
 include_directories(${SDL_INCLUDE_DIRS} ${SDL_IMAGE_INCLUDE_DIRS} ${SDLTTF_INCLUDE_DIRS} ${SDL_MIXER_INCLUDE_DIRS})
 
 add_executable(free_project  ${SRC} ${HDR})
-target_link_libraries(free_project ${SDL_LIBRARY} ${SDL_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${SDL_MIXER_LIBRAIRY})
+target_link_libraries(free_project ${SDL_LIBRARY} ${SDL_IMAGE_LIBRARY} ${SDL_TTF_LIBRARY} ${SDL_MIXER_LIBRAIRY} m)
