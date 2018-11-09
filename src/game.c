@@ -5,9 +5,9 @@
 #include "image.h"
 #include "scene.h"
 
-#include "scenes/mainMenu.h"
-#include "scenes/loadingScreen.h"
-#include "scenes/shopScreen.h"
+#include "scenes/mainMenu/mainMenu.h"
+#include "scenes/loadingScreen/loadingScreen.h"
+#include "scenes/shopScreen/shopScreen.h"
 #include "ttf.h"
 
 #include <SDL/SDL.h>

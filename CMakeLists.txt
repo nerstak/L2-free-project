@@ -13,17 +13,28 @@ set(SRC
         src/timer.c
         src/image.c
         src/scene.c
-        src/scenes/mainMenu.c
-        src/scenes/loadingScreen.c
+        src/scenes/mainMenu/mainMenu.c
+        src/scenes/loadingScreen/loadingScreen.c
         src/asset.c
         src/data.c
         src/player.c
-        src/scenes/lobby.c
+        src/scenes/lobby/lobby.c
         src/ttf.c
         src/inventory.c
-        src/scenes/shopScreen.c
+        src/scenes/shopScreen/shopScreen.c
         src/save.c
-        )
+        src/scenes/loadingScreen/event.c
+        src/scenes/loadingScreen/render.c
+        src/scenes/loadingScreen/logic.c
+        src/scenes/mainMenu/event.c
+        src/scenes/mainMenu/render.c
+        src/scenes/mainMenu/logic.c
+        src/scenes/lobby/event.c
+        src/scenes/lobby/logic.c
+        src/scenes/lobby/render.c
+        src/scenes/shopScreen/event.c
+        src/scenes/shopScreen/logic.c
+        src/scenes/shopScreen/render.c)
 
 set(HDR
         src/window.h
@@ -32,17 +43,28 @@ set(HDR
         src/timer.h
         src/image.h
         src/scene.h
-        src/scenes/mainMenu.h
-        src/scenes/loadingScreen.h
+        src/scenes/mainMenu/mainMenu.h
+        src/scenes/loadingScreen/loadingScreen.h
         src/asset.h
         src/data.h
         src/player.h
-        src/scenes/lobby.h
+        src/scenes/lobby/lobby.h
         src/ttf.h
         src/inventory.h
-        src/scenes/shopScreen.h
+        src/scenes/shopScreen/shopScreen.h
         src/save.h
-        )
+        src/scenes/loadingScreen/event.h
+        src/scenes/loadingScreen/render.h
+        src/scenes/loadingScreen/logic.h
+        src/scenes/mainMenu/event.h
+        src/scenes/mainMenu/render.h
+        src/scenes/mainMenu/logic.h
+        src/scenes/lobby/event.h
+        src/scenes/lobby/logic.h
+        src/scenes/lobby/render.h
+        src/scenes/shopScreen/event.h
+        src/scenes/shopScreen/logic.h
+        src/scenes/shopScreen/render.h)
 
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
