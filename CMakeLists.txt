@@ -42,6 +42,7 @@ set(SRC
         src/scenes/shopScreen/render.c
         src/scenes/shopScreen/shopScreen.c
         src/utils/coord.c
+        src/dungeon/condition.c
         )
 
 set(HDR
@@ -85,6 +86,7 @@ set(HDR
         src/structures/scene.h
         src/structures/shopScreen.h
         src/utils/coord.h
+        src/dungeon/condition.h
         )
 
 find_package(SDL REQUIRED)
