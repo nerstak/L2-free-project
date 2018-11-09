@@ -42,6 +42,7 @@ set(SRC
         src/scenes/shopScreen/render.c
         src/scenes/shopScreen/shopScreen.c
         src/utils/coord.c
+        src/utils/direction.c
         src/dungeon/condition.c
         src/dungeon/edge.c
         src/dungeon/room.c
@@ -89,6 +90,7 @@ set(HDR
         src/structures/scene.h
         src/structures/shopScreen.h
         src/utils/coord.h
+        src/utils/direction.h
         src/dungeon/condition.h
         src/dungeon/edge.h
         src/dungeon/room.h
