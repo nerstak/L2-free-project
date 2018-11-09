@@ -64,7 +64,9 @@ set(HDR
         src/scenes/lobby/render.h
         src/scenes/shopScreen/event.h
         src/scenes/shopScreen/logic.h
-        src/scenes/shopScreen/render.h)
+        src/scenes/shopScreen/render.h
+        src/structures/shopScreen.h
+        src/structures/mainMenu.h)
 
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)

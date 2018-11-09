@@ -1,10 +1,7 @@
-
-#include "inventory.h"
-
 #ifndef PLAYER_H_INCLUDED
 #define PLAYER_H_INCLUDED
 
-#include "data.h"
+#include "inventory.h"
 
 typedef struct coordinates_entity {
     int x;
