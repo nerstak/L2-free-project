@@ -11,9 +11,9 @@ static SDL_Surface* getLoadingScreen(ImageCollector* myImageCollector) {
     return loadingScreen;
 }
 
-extern void renderScene_Scene_loadingScreen(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+extern void renderScene_Scene_loadingScreen(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* loadingScreenSurface = NULL;
-    loadingScreenSurface = getLoadingScreen(myImageCollector);
+    loadingScreenSurface = getLoadingScreen(engine->imageCollector);
 
     SDL_Rect loadingScreenSurfacePos;
     loadingScreenSurfacePos.x = 0;

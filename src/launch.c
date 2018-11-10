@@ -2,7 +2,7 @@
 
 #include "window.h"
 
-int launch() {
+extern int launch() {
     initWindow();
 
     return 0;

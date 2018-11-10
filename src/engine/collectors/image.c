@@ -6,7 +6,7 @@
 #include "SDL/SDL_image.h"
 
 #include "image.h"
-#include "asset.h"
+#include "../../asset.h"
 
 static void add_Image(ImageCollector* myImageCollector, Image* myImage);
 static void remove_Image(ImageCollector* myImageCollector, Image* myImage);

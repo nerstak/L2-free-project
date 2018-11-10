@@ -11,15 +11,14 @@ set(SRC
         src/launch.c
         src/game.c
         src/timer.c
-        src/image.c
-        src/scene.c
+        src/engine/collectors/image.c
         src/scenes/mainMenu/mainMenu.c
         src/scenes/loadingScreen/loadingScreen.c
         src/asset.c
         src/data.c
         src/player.c
         src/scenes/lobby/lobby.c
-        src/ttf.c
+        src/engine/collectors/ttf.c
         src/inventory.c
         src/scenes/shopScreen/shopScreen.c
         src/save.c
@@ -35,6 +34,8 @@ set(SRC
         src/scenes/shopScreen/event.c
         src/scenes/shopScreen/logic.c
         src/scenes/shopScreen/render.c
+        src/engine/collectors/scene.c
+        src/engine/main.c
     )
 
 set(HDR
@@ -42,15 +43,14 @@ set(HDR
         src/launch.h
         src/game.h
         src/timer.h
-        src/image.h
-        src/scene.h
+        src/engine/collectors/image.h
         src/scenes/mainMenu/mainMenu.h
         src/scenes/loadingScreen/loadingScreen.h
         src/asset.h
         src/data.h
         src/player.h
         src/scenes/lobby/lobby.h
-        src/ttf.h
+        src/engine/collectors/ttf.h
         src/inventory.h
         src/scenes/shopScreen/shopScreen.h
         src/save.h
@@ -68,6 +68,9 @@ set(HDR
         src/scenes/shopScreen/render.h
         src/structures/shopScreen.h
         src/structures/mainMenu.h
+        src/structures/scene.h
+        src/engine/collectors/scene.h
+        src/engine/main.h
     )
 
 find_package(SDL REQUIRED)

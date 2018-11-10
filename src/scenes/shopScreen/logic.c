@@ -1,7 +1,5 @@
 #include "logic.h"
 
-#include <stdio.h>
-
 static void moveShopSelector(Data * data,slot_inventory * shop_list, slot_inventory * player_list);
 static void buy_item(Data * data, slot_inventory * item_buying);
 static void sell_item(Data * data, slot_inventory * item_selling);
@@ -114,7 +112,7 @@ static void sell_item(Data * data, slot_inventory * item_selling) {
     }
 }
 
-extern void logicProcess_Scene_shop(Data* data) {
+extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
     if(data->shop->ask_action != 0) {
         printf("Choice: %d\n",data->shop->ask_action);
         if(data->shop->ask_action != 5) {

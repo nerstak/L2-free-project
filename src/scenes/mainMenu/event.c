@@ -21,7 +21,7 @@ static int getCurrentMainMenuSelector(Data* data) {
     return data->mainMenu->position;
 }
 
-extern void eventProcess_Scene_mainMenu(SDL_Event event, Data* data) {
+extern void eventProcess_Scene_mainMenu(SDL_Event event, Engine* engine, Data* data) {
     switch (event.type) {
         case SDL_KEYDOWN: {
             // Key pressed

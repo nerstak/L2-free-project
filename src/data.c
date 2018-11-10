@@ -23,6 +23,8 @@ extern Data* init_Data() {
 }
 
 extern void clean_Data(Data** myData) {
+    if ((*myData) == NULL) return;
+
     // First we clean the properties of our instance
     if ((*myData)->mainMenu != NULL) {
         clean_mainMenu_Data(&((*myData)->mainMenu));

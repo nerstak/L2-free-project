@@ -1,7 +1,5 @@
 #include "render.h"
 
-#include "../../window.h"
-
 static SDL_Surface* getLobby(ImageCollector* myImageCollector);
 
 static SDL_Surface* getLobby(ImageCollector* myImageCollector) {
@@ -11,9 +9,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector) {
     return lobbySurface;
 }
 
-extern void renderScene_Scene_lobby(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+extern void renderScene_Scene_lobby(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* lobbySurface = NULL;
-    lobbySurface = getLobby(myImageCollector);
+    lobbySurface = getLobby(engine->imageCollector);
 
     SDL_Rect lobbySurfacePos;
     lobbySurfacePos.x = 0;

@@ -2,13 +2,16 @@
 #include "window.h"
 
 #include "timer.h"
-#include "image.h"
-#include "scene.h"
+#include "engine/collectors/image.h"
+#include "engine/main.h"
 
 #include "scenes/mainMenu/mainMenu.h"
 #include "scenes/loadingScreen/loadingScreen.h"
 #include "scenes/shopScreen/shopScreen.h"
-#include "ttf.h"
+#include "engine/collectors/ttf.h"
+#include "engine/collectors/scene.h"
+
+#include "structures/scene.h"
 
 #include <SDL/SDL.h>
 
@@ -41,12 +44,23 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Initializing SceneCollector
     SceneCollector* mySceneCollector = init_SceneCollector();
-    load_SceneCollector(mySceneCollector, myImageCollector, "loadingScreen", &assets_Scene_loadingScreen, &init_Scene_loadingScreen, &renderScene_Scene_loadingScreen, &logicProcess_Scene_loadingScreen, &eventProcess_Scene_loadingScreen);
-    load_SceneCollector(mySceneCollector, myImageCollector, "mainMenu", &assets_Scene_mainMenu, &init_Scene_mainMenu, &renderScene_Scene_mainMenu, &logicProcess_Scene_mainMenu, &eventProcess_Scene_mainMenu);
-    load_SceneCollector(mySceneCollector, myImageCollector, "shop", &assets_Scene_shop, &init_Scene_shop, &renderScene_Scene_shop, &logicProcess_Scene_shop, &eventProcess_Scene_shop);
 
-    display_SceneCollector(mySceneCollector, myImageCollector, "mainMenu");
-    //display_SceneCollector(mySceneCollector, myImageCollector, "shop");
+    // Initializing Engine
+    Engine* myEngine = init_Engine();
+    myEngine->sceneCollector = mySceneCollector;
+    myEngine->fontCollector = myFontCollector;
+    myEngine->imageCollector = myImageCollector;
+
+    // Initializing Data
+    Data* myData = init_Data();
+
+    // Loading Scenes
+    load_SceneCollector(myEngine, myData, "loadingScreen", &assets_Scene_loadingScreen, &init_Scene_loadingScreen, &renderScene_Scene_loadingScreen, &logicProcess_Scene_loadingScreen, &eventProcess_Scene_loadingScreen);
+    load_SceneCollector(myEngine, myData, "mainMenu", &assets_Scene_mainMenu, &init_Scene_mainMenu, &renderScene_Scene_mainMenu, &logicProcess_Scene_mainMenu, &eventProcess_Scene_mainMenu);
+    load_SceneCollector(myEngine, myData, "shop", &assets_Scene_shop, &init_Scene_shop, &renderScene_Scene_shop, &logicProcess_Scene_shop, &eventProcess_Scene_shop);
+
+    display_SceneCollector(myEngine, myData, "mainMenu");
+    //display_SceneCollector(myEngine, myData, "shop");
 
     while (Game_stop) {
         // Start the FPS limiter Timer
@@ -55,7 +69,7 @@ extern void gameLoop(SDL_Surface* window) {
 
         // Event loop
         while (SDL_PollEvent(&event)) {
-            mySceneCollector->currentScene->eventProcess(event, mySceneCollector->currentScene->data);
+            mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
 
             switch (event.type) {
                 case SDL_KEYDOWN: {
@@ -89,10 +103,10 @@ extern void gameLoop(SDL_Surface* window) {
         }
 
         // Logic
-        mySceneCollector->currentScene->logicProcess(mySceneCollector->currentScene->data);
+        mySceneCollector->currentScene->logicProcess(myEngine, myData);
 
         // Rendering
-        mySceneCollector->currentScene->renderScene(window, myImageCollector, myFontCollector, mySceneCollector->currentScene->data);
+        mySceneCollector->currentScene->renderScene(window, myEngine, myData);
         renderScreen();
         frame++;
 
@@ -114,4 +128,7 @@ extern void gameLoop(SDL_Surface* window) {
 
     clean_ImageCollector(&myImageCollector);
     clean_SceneCollector(&mySceneCollector);
+    clean_FontCollector(&myFontCollector);
+    clean_Data(&myData);
+    clean_Engine(&myEngine);
 }

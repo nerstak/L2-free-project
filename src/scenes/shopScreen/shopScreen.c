@@ -1,18 +1,18 @@
 #include "shopScreen.h"
 
-extern void assets_Scene_shop(ImageCollector* myImageCollector, bool loadOrUnload) {
+extern void assets_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
     Asset* assetsList = getList_Asset("src/scenes/shopScreen/files.asset");
 
     if (loadOrUnload == true) {
-        loadList_ImageCollector(myImageCollector, assetsList);
+        loadList_ImageCollector(engine->imageCollector, assetsList);
     } else {
-        unloadList_ImageCollector(myImageCollector, assetsList);
+        unloadList_ImageCollector(engine->imageCollector, assetsList);
     }
 
     clean_Asset(&assetsList);
 }
 
-extern void init_Scene_shop(Data* data, bool loadOrUnload) {
+extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
     if (loadOrUnload == true) {
         data->shop = NULL;
         data->shop = malloc(1 * sizeof(shop_t));

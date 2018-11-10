@@ -1,7 +1,5 @@
 #include "render.h"
 
-#include "../../window.h"
-
 static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
 
 static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
@@ -81,9 +79,9 @@ static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, FontCollector*
     return mainMenu;
 }
 
-extern void renderScene_Scene_mainMenu(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+extern void renderScene_Scene_mainMenu(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* mainMenuSurface = NULL;
-    mainMenuSurface = getMainMenu(myImageCollector, myFontCollector, data);
+    mainMenuSurface = getMainMenu(engine->imageCollector, engine->fontCollector, data);
 
     SDL_Rect mainMenuSurfacePos;
     mainMenuSurfacePos.x = 0;

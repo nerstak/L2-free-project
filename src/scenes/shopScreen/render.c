@@ -1,7 +1,5 @@
 #include "render.h"
 
-#include "../../window.h"
-
 static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
 
 static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
@@ -86,9 +84,9 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     return shop;
 }
 
-extern void renderScene_Scene_shop(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+extern void renderScene_Scene_shop(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* mainShopSurface = NULL;
-    mainShopSurface = getShop(myImageCollector, myFontCollector, data);
+    mainShopSurface = getShop(engine->imageCollector, engine->fontCollector, data);
 
     SDL_Rect mainShopSurfacePos;
     mainShopSurfacePos.x = 0;

@@ -1,4 +1,5 @@
 #include "scene.h"
+#include "../../structures/scene.h"
 
 static void add_Scene(SceneCollector* mySceneCollector, Scene* myScene);
 static void remove_Scene(SceneCollector* mySceneCollector, Scene* myScene);
@@ -43,7 +44,6 @@ static void remove_Scene(SceneCollector* mySceneCollector, Scene* myScene) {
 
         // Don't forget to free the surface and the memory :D
         SDL_FreeSurface(temp->surface);
-        clean_Data(&(temp->data));
         free(temp);
     } else {
         // We find the position of the element we want to remove
@@ -61,11 +61,26 @@ static void remove_Scene(SceneCollector* mySceneCollector, Scene* myScene) {
 
         // Clean all the properties of our scene
         SDL_FreeSurface(temp->surface);
-        clean_Data(&(temp->data));
         free(temp);
 
         mySceneCollector->size -= 1;
     }
+}
+
+static Scene* isLoaded_SceneCollector(SceneCollector* mySceneCollector, const char name[]) {
+    Scene* temp = mySceneCollector->scenes;
+
+    // We retrieve the existing Scene from our SceneCollector
+    while (temp != NULL) {
+        if (strcmp(temp->name, name) == 0) {
+            return temp;
+        }
+
+        temp = temp->next;
+    }
+
+    // Or we return NULL
+    return NULL;
 }
 
 extern SceneCollector* init_SceneCollector() {
@@ -98,7 +113,6 @@ extern void clean_SceneCollector(SceneCollector** mySceneCollector) {
 
         // Clean all the properties of our scene
         SDL_FreeSurface(temp->surface);
-        clean_Data(&(temp->data));
         free(temp);
 
         temp = next;
@@ -109,9 +123,14 @@ extern void clean_SceneCollector(SceneCollector** mySceneCollector) {
     (*mySceneCollector) = NULL;
 }
 
-extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector* myImageCollector, const char name[], void (*assets)(ImageCollector* myImageCollector, bool loadOrUnload), void (*init)(Data* data, bool loadOrUnload), void (*renderScene)(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data), void (*logicProcess)(Data* data), void (*eventProcess)(SDL_Event event, Data* data)) {
+extern void load_SceneCollector(struct Engine* engine, Data* data, const char name[],
+                                void (*assets)(struct Engine* engine, Data* data, bool loadOrUnload),
+                                void (*init)(struct Engine* engine, Data* data, bool loadOrUnload),
+                                void (*renderScene)(SDL_Surface* window, struct Engine* engine, Data* data),
+                                void (*logicProcess)(struct Engine* engine, Data* data),
+                                void (*eventProcess)(SDL_Event event, struct Engine* engine, Data* data)) {
     // Is it already loaded ?
-    if (isLoaded_SceneCollector(mySceneCollector, name) != NULL) {
+    if (isLoaded_SceneCollector(engine->sceneCollector, name) != NULL) {
         printf("An attempt to load a scene was blocked (%s)\n", name);
 
         return;
@@ -120,7 +139,7 @@ extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector
     // Is it the loading screen ?
     if (strcmp(name, "loadingScreen") == 0) {
         // We load the assets ! (we will need them for the loading screen)
-        assets(myImageCollector, true);
+        assets(engine, data, true);
     }
 
     // We allocate a Scene instance
@@ -142,62 +161,46 @@ extern void load_SceneCollector(SceneCollector* mySceneCollector, ImageCollector
     myScene->assets = assets;
     myScene->init = init;
 
-    myScene->data = init_Data();
-
     myScene->next = NULL;
 
-    add_Scene(mySceneCollector, myScene);
+    add_Scene(engine->sceneCollector, myScene);
 }
 
-extern void unload_SceneCollector(SceneCollector* mySceneCollector, const char name[]) {
+extern void unload_SceneCollector(struct Engine* engine, const char name[]) {
     Scene myScene;
     strcpy(myScene.name, name);
 
     // We remove one Scene from our SceneCollector
-    remove_Scene(mySceneCollector, &myScene);
+    remove_Scene(engine->sceneCollector, &myScene);
 }
 
-extern void display_SceneCollector(SceneCollector* mySceneCollector, ImageCollector* myImageCollector, const char name[]) {
+extern void display_SceneCollector(struct Engine* engine, Data* data, const char name[]) {
     // We may display a waiting screen :) ?
-    Scene* previousScene = mySceneCollector->currentScene;
-    mySceneCollector->currentScene = mySceneCollector->loadingScene;
+    Scene* previousScene = engine->sceneCollector->currentScene;
+    engine->sceneCollector->currentScene = engine->sceneCollector->loadingScene;
 
     // Now we do our shit behind the scene
     // First we clean the previous scene
     if (previousScene != NULL) {
-        previousScene->assets(myImageCollector, false);
-        previousScene->init(previousScene->data, false);
+        previousScene->assets(engine, data, false);
+        previousScene->init(engine, data, false);
     }
 
+    engine->sceneCollector->previousScene = previousScene;
+
     // Secondly we display the new one
-    Scene* temp = mySceneCollector->scenes;
+    Scene* temp = engine->sceneCollector->scenes;
 
     while (temp != NULL) {
         if (strcmp(temp->name, name) == 0) {
-            temp->assets(myImageCollector, true);
-            temp->init(temp->data, true);
+            temp->assets(engine, data, true);
+            temp->init(engine, data, true);
             // We hide it
-            mySceneCollector->currentScene = temp;
+            engine->sceneCollector->currentScene = temp;
 
             return;
         }
 
         temp = temp->next;
     }
-}
-
-static Scene* isLoaded_SceneCollector(SceneCollector* mySceneCollector, const char name[]) {
-    Scene* temp = mySceneCollector->scenes;
-
-    // We retrieve the existing Scene from our SceneCollector
-    while (temp != NULL) {
-        if (strcmp(temp->name, name) == 0) {
-            return temp;
-        }
-
-        temp = temp->next;
-    }
-
-    // Or we return NULL
-    return NULL;
 }

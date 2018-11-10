@@ -1,6 +1,6 @@
 #include "event.h"
 
-extern void eventProcess_Scene_lobby(SDL_Event event, Data* data) {
+extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data) {
     switch (event.type) {
         case SDL_KEYDOWN: {
             // Key pressed

@@ -1,7 +1,7 @@
-#include <SDL/SDL_video.h>
-
 #ifndef FREE_PROJECT_WINDOW_H
 #define FREE_PROJECT_WINDOW_H
+
+#include <SDL/SDL_video.h>
 
 extern void initWindow();
 

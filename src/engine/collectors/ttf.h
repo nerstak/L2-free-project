@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TTF_H
-#define FREE_PROJECT_TTF_H
+#ifndef FREE_PROJECT_ENGINE_COLLECTORS_TTF_H
+#define FREE_PROJECT_ENGINE_COLLECTORS_TTF_H
 
 #include <SDL/SDL_ttf.h>
 
@@ -23,4 +23,4 @@ extern void unload_FontCollector(FontCollector* myFontCollector, const char name
 
 extern Font* get_FontCollector(FontCollector* myFontCollector, const char name[]);
 
-#endif //FREE_PROJECT_TTF_H
+#endif //FREE_PROJECT_ENGINE_COLLECTORS_TTF_H
