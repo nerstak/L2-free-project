@@ -1,4 +1,5 @@
 #include "render.h"
+#include "../../window.h"
 
 static SDL_Surface* getMainMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
 
