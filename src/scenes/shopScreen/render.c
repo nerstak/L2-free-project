@@ -35,11 +35,11 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     bg = get_ImageCollector(myImageCollector, "shop/interface")->surface;
 
     char dialog[200];
-    sprintf(&dialog, "%s. That costs %d$. I've %d of them in stock...",data->shop->selected->name_item, data->shop->selected->price, data->shop->selected->quantity);
+    sprintf(dialog, "%s. That costs %d$. I've %d of them in stock...",data->shop->selected->name_item, data->shop->selected->price, data->shop->selected->quantity);
     dialog1Info = TTF_RenderText_Solid(font1, dialog , white);
-    sprintf(&dialog,"%s",data->shop->selected->description);
+    sprintf(dialog,"%s",data->shop->selected->description);
     dialog2Info = TTF_RenderText_Solid(font1, dialog , white);
-    sprintf(&dialog,"%d",data->Isaac->money);
+    sprintf(dialog,"%d",data->Isaac->money);
     moneyInfo = TTF_RenderText_Solid(font1, dialog, white);
     shopInfo = TTF_RenderText_Solid(font1, "Shop", black);
     inventoryInfo = TTF_RenderText_Solid(font1, "Inventory", black);

@@ -2,7 +2,7 @@
 #define FREE_PROJECT_SAVE_H
 #include "data.h"
 
-Data * init_save(char * save_name);
+void init_save(char* save_name, Data* data);
 void write_save(Data *data);
 int read_save(Data *data);
 

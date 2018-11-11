@@ -22,6 +22,11 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
             exit(EXIT_FAILURE);
         }
 
+        data->Isaac = malloc(sizeof(Player));
+        data->Isaac->size_inventory = 0;
+        data->Isaac->inventory = NULL;
+        data->Isaac->money = 500;
+
         data->shop->n_selected = 0;
         data->shop->ask_action = 0;
 

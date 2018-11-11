@@ -26,12 +26,12 @@ void add_item_list(slot_inventory ** items_list, slot_inventory * new_item, int 
     if(*items_list == NULL)
     {
         *items_list = new_item;
-        *size++;
+        (*size)++;
     } else if (*size < 20) {
         new_item->next = *items_list;
         (*items_list)->prev = new_item;
         *items_list = new_item;
-        *size++;
+        (*size)++;
     }
 }
 
@@ -51,7 +51,7 @@ slot_inventory * remove_item_list(slot_inventory ** items_list, char * name, int
                 //Important case: if we empty the list
                 *items_list = NULL;
             }
-            *size--;
+            (*size)--;
             return temp_return;
         }
         temp = temp->next;
@@ -77,8 +77,8 @@ slot_inventory * search_item_list(slot_inventory * items_list, char * name) {
 
 //Free an item
 void free_item(slot_inventory * item) {
-    free(item);
     item = NULL;
+    free(item);
 }
 
 
@@ -89,7 +89,7 @@ slot_inventory * init_shop() {
     char name[25], description[100];
     int quantity, price, i=0;
     FILE * file;
-    file = fopen("src/datas/shop/shop.list","r");
+    file = fopen("src/datas/shop/shop.data","r");
     if(file) {
         while(fscanf(file,"%20[^;];%98[^;];%d;%d\n",name,description,&quantity,&price) != EOF && i < 20) {
             add_item_list(&shop_inv,create_item(name,quantity,price,description),&i);
