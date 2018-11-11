@@ -87,7 +87,7 @@ static void buy_item(Data * data, SlotInventory * item_buying) {
         } else {
             //If the player is buying a new item, we create it inside its inventory
             add_SlotInventory(&(data->Isaac->inventory),
-                              create_SlotInventory(item_buying->name, 1, item_buying->price, item_buying->description),
+                              create_SlotInventory(item_buying->id,1,data->referenceItems),
                               &(data->Isaac->size_inventory));
         }
     }

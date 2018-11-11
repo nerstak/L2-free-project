@@ -22,6 +22,7 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
             exit(EXIT_FAILURE);
         }
 
+        //TODO: Remove that shit once the player is able to ask for the shop
         data->Isaac = malloc(sizeof(Player));
         data->Isaac->size_inventory = 0;
         data->Isaac->inventory = NULL;
@@ -30,7 +31,7 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
         data->shop->n_selected = 0;
         data->shop->ask_action = 0;
 
-        data->shop->shop_inv = init_SlotInventory();
+        data->shop->shop_inv = init_SlotInventory(data->referenceItems);
         data->shop->selected = data->shop->shop_inv;
     } else {
         freeAll_SlotInventory(&(data->shop->shop_inv));

@@ -5,4 +5,4 @@ WEAPON: 'name_wep' 'desc_wep' D=0 S=0
 WEAPON: 'name_wep' 'desc_wep' D=1 S=10
 WEAPON: 'name_wep' 'desc_wep' D=2 S=20
 WEAPON: 'name_wep' 'desc_wep' D=3 S=30
-'MDR' 'DESC_K' QUANT=2 PRICE=20
+ID=1 QUANT=3

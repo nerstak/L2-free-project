@@ -54,7 +54,7 @@ extern void write_Save(Data* data) {
         }
         int i = 0;
         while(current != NULL && i < 20) {
-            fprintf(save_file,"'%s' '%s' QUANT=%d PRICE=%d\n",current->name,current->description,current->quantity,current->price);
+            fprintf(save_file,"ID=%d QUANT=%d\n",current->id,current->quantity);
             current = current->next;
             i++;
         }
@@ -65,8 +65,7 @@ extern void write_Save(Data* data) {
 int read_Save(Data* data) {
     FILE * save_file;
     char temp[50];
-    SlotInventory * current;
-    current = malloc(sizeof(SlotInventory));
+    int id, quantity;
 
     if(strcmp(data->Isaac->save_name,"") == 0) {
         save_file = fopen("src/datas/save/basic.save","r");
@@ -87,9 +86,8 @@ int read_Save(Data* data) {
             fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%d S=%d\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].swing_speed));
         }
         int i = 0;
-        while(!feof(save_file) && i < 20) {
-            fscanf(save_file,"'%23[^']' '%98[^']' QUANT=%d PRICE=%d\n",current->name,current->description,&(current->quantity),&(current->price));
-            add_SlotInventory(&(data->Isaac->inventory), current, &i);
+        while(fscanf(save_file,"ID=%d QUANT=%d\n",&(id),&(quantity)) != EOF && i < 20) {
+            add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
         }
         data->Isaac->size_inventory = i;
     }

@@ -16,13 +16,13 @@ typedef struct SlotInventory {
 
 extern SlotInventory* loadReferenceItems();
 
-extern SlotInventory* init_SlotInventory();
+extern SlotInventory* init_SlotInventory(SlotInventory* referenceItems);
 extern void freeOne_SlotInventory(SlotInventory** item);
 extern void freeAll_SlotInventory(SlotInventory** item);
-extern SlotInventory* create_SlotInventory(char* name, int quantity, int price, char* description);
+extern SlotInventory* create_SlotInventory(int id, int quantity, SlotInventory* referenceItems);
 
 extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size);
-extern SlotInventory* remove_SlotInventory(SlotInventory** list, char* name, int* size);
-extern SlotInventory* search_SlotInventory(SlotInventory* list, char* name);
+extern SlotInventory* remove_SlotInventory(SlotInventory** list, int id, int* size);
+extern SlotInventory* search_SlotInventory(SlotInventory* list, int id);
 
 #endif //FREE_PROJECT_INVENTORY_H
