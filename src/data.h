@@ -4,8 +4,10 @@
 #include "structures/mainMenu.h"
 #include "structures/shopScreen.h"
 #include "player.h"
+#include "inventory.h"
 
 typedef struct Data {
+    struct SlotInventory* referenceItems;
     struct mainMenu_t* mainMenu;
     struct shop_t* shop;
     struct Player * Isaac;

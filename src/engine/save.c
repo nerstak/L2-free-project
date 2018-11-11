@@ -17,6 +17,7 @@ extern void init_Save(char* saveName, Data* data) {
     data->Isaac->pos->x = 0;
     data->Isaac->pos->y = 0;
 
+    data->referenceItems = loadReferenceItems();
 
     //Initialisation of stats
     data->Isaac->current_stats = malloc(sizeof(stats_entity));
@@ -26,9 +27,7 @@ extern void init_Save(char* saveName, Data* data) {
 
     read_Save(data);
 
-    //TO ADD
-    //LITTLE GARDEN
-    //
+    //TODO: LITTLE GARDEN
 
     data->Isaac->current_stats = data->Isaac->basic_stats;
 }

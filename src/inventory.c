@@ -2,10 +2,40 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "player.h"
+
 #include "inventory.h"
 
-//Functions specific to the shop
+
+extern SlotInventory* loadReferenceItems() {
+    SlotInventory *referenceTable, *temp;
+    referenceTable = calloc(1,sizeof(SlotInventory));
+    SlotInventory tempStock;
+    tempStock.next = NULL;
+    tempStock.prev = NULL;
+    tempStock.quantity = -1;
+
+    int i = 0;
+    FILE* dataFile;
+    dataFile = fopen("src/datas/items/items.data","r");
+    if(dataFile == NULL) {
+        printf("Error while opening items file");
+        return NULL;
+    }
+    while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price)) != EOF) {
+        temp = referenceTable;
+        referenceTable = realloc(referenceTable, sizeof(SlotInventory) * (i+1));
+        if(referenceTable == NULL) {
+            free(temp);
+            return NULL;
+        }
+        referenceTable[i] = tempStock;
+        i++;
+    }
+    fclose(dataFile);
+    return referenceTable;
+
+}
+
 //Init shop inventory
 extern SlotInventory* init_SlotInventory() {
     SlotInventory *shop_inv = NULL;

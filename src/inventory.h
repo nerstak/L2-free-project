@@ -1,9 +1,11 @@
 #ifndef FREE_PROJECT_INVENTORY_H
 #define FREE_PROJECT_INVENTORY_H
 
+
 //Functions relative to the inventory and the shop
 
 typedef struct SlotInventory {
+    int id;
     char name[25];
     char description[100];
     int quantity;
@@ -11,6 +13,8 @@ typedef struct SlotInventory {
     struct SlotInventory* prev;
     struct SlotInventory* next;
 } SlotInventory;
+
+extern SlotInventory* loadReferenceItems();
 
 extern SlotInventory* init_SlotInventory();
 // TODO: Make a true free function of the whole DLL
