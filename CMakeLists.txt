@@ -45,6 +45,7 @@ set(SRC
         src/utils/direction.c
         src/utils/math.c
         src/utils/queue.c
+        src/utils/treemap.c
         src/dungeon/condition.c
         src/dungeon/edge.c
         src/dungeon/room.c
@@ -95,6 +96,7 @@ set(HDR
         src/utils/direction.h
         src/utils/math.h
         src/utils/queue.h
+        src/utils/treemap.h
         src/dungeon/condition.h
         src/dungeon/edge.h
         src/dungeon/room.h
