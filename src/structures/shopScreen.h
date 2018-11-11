@@ -8,6 +8,7 @@ typedef struct shop_t {
     SlotInventory * selected;
     int ask_action;
     SlotInventory * shop_inv;
+    int size_shop;
 } shop_t;
 
 #endif //FREE_PROJECT_STRUCTURES_SHOP_H

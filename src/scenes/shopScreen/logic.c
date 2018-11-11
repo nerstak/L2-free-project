@@ -38,7 +38,7 @@ static void moveShopSelector(Data * data,SlotInventory * shop_list, SlotInventor
         case 10: ;
             pos_to_go = (data->shop->n_selected + 10) % 40;
             //If we change of inventory
-            if (data->shop->n_selected / 10 == 1 && player_list != NULL) {
+            if ((player_list != NULL && (data->shop->n_selected / 10 == 1|| (data->shop->n_selected / 10 == 0 && data->shop->size_shop <= 10)))) {
                 data->shop->selected = player_list;
                 data->shop->n_selected = 20;
             }
@@ -80,7 +80,7 @@ static void buy_item(Data * data, SlotInventory * item_buying) {
     SlotInventory * current_item;
     //If it is possible to buy
     if(alter_money(data->Isaac,- item_buying->price) == 1) {
-        current_item = search_SlotInventory(data->Isaac->inventory, item_buying->name);
+        current_item = search_SlotInventory(data->Isaac->inventory, item_buying->id);
         if(current_item != NULL) {
             //If the player already has an exemplar of the item in its inventory
             (current_item->quantity)++;
@@ -109,7 +109,7 @@ static void sell_item(Data * data, SlotInventory * item_selling) {
             data->shop->n_selected = 0;
         }
         //Finally removing the item
-        remove_SlotInventory(&(data->Isaac->inventory), item_selling->name, &(data->Isaac->size_inventory));
+        remove_SlotInventory(&(data->Isaac->inventory), item_selling->id, &(data->Isaac->size_inventory));
         freeOne_SlotInventory(&item_selling);
     }
 }

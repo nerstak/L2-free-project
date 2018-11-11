@@ -5,7 +5,12 @@
 #include "save.h"
 
 extern void init_Save(char* saveName, Data* data) {
+    data->referenceItems = loadReferenceItems();
+
     data->Isaac = malloc(sizeof(Player));
+    if(!data->Isaac) {
+        return;
+    }
     //First, initialisation of easy variables
     strcpy(data->Isaac->save_name,saveName);
     data->Isaac->money = 0;
@@ -17,7 +22,6 @@ extern void init_Save(char* saveName, Data* data) {
     data->Isaac->pos->x = 0;
     data->Isaac->pos->y = 0;
 
-    data->referenceItems = loadReferenceItems();
 
     //Initialisation of stats
     data->Isaac->current_stats = malloc(sizeof(stats_entity));
@@ -25,7 +29,12 @@ extern void init_Save(char* saveName, Data* data) {
 
     data->Isaac->weapons = malloc(sizeof(Weapon )* 4);
 
-    read_Save(data);
+    if(data->Isaac->weapons && data->Isaac->current_stats && data->Isaac->basic_stats && data->Isaac->pos) {
+        read_Save(data);
+    } else {
+        return;
+    }
+
 
     //TODO: LITTLE GARDEN
 

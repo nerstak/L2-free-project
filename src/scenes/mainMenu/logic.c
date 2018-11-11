@@ -12,10 +12,12 @@ extern void logicProcess_Scene_mainMenu(Engine* engine, Data* data) {
         data->mainMenu->askAction = 0;
     } else {
         data->mainMenu->askAction = 0;
+        enterMainMenu(data,engine);
         switch(getCurrentMainMenuSelector(data)) {
             case 0:
                 //New game
                 init_Save("", data);
+                //display_SceneCollector(engine,data,"shop");
                 break;
             case 1:
                 //Load game

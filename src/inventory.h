@@ -16,7 +16,7 @@ typedef struct SlotInventory {
 
 extern SlotInventory* loadReferenceItems();
 
-extern SlotInventory* init_SlotInventory(SlotInventory* referenceItems);
+extern SlotInventory* init_ShopInventory(SlotInventory *referenceItems, int* size);
 extern void freeOne_SlotInventory(SlotInventory** item);
 extern void freeAll_SlotInventory(SlotInventory** item);
 extern SlotInventory* create_SlotInventory(int id, int quantity, SlotInventory* referenceItems);

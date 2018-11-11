@@ -5,10 +5,11 @@
 
 #include "inventory.h"
 
-
+//Init Reference Array for Items
 extern SlotInventory* loadReferenceItems() {
     SlotInventory *referenceTable, *temp;
     referenceTable = calloc(1,sizeof(SlotInventory));
+
     SlotInventory tempStock;
     tempStock.next = NULL;
     tempStock.prev = NULL;
@@ -22,29 +23,30 @@ extern SlotInventory* loadReferenceItems() {
         return NULL;
     }
     while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price)) != EOF) {
+        //Resizing the array
         temp = referenceTable;
         referenceTable = realloc(referenceTable, sizeof(SlotInventory) * (i+1));
         if(referenceTable == NULL) {
             free(temp);
             return NULL;
         }
+
         referenceTable[i] = tempStock;
         i++;
     }
     fclose(dataFile);
     return referenceTable;
-
 }
 
 //Init shop inventory
-extern SlotInventory* init_SlotInventory(SlotInventory* referenceItems) {
+extern SlotInventory* init_ShopInventory(SlotInventory *referenceItems, int* size) {
     SlotInventory *shop_inv = NULL;
-    int quantity, id, i=0;
+    int quantity, id;
     FILE * file;
     file = fopen("src/datas/shop/shop.data","r");
     if(file) {
-        while(fscanf(file,"%d;%d\n",&id,&quantity) != EOF && i < 20) {
-            add_SlotInventory(&shop_inv, create_SlotInventory(id,quantity,referenceItems), &i);
+        while(fscanf(file,"%d;%d\n",&id,&quantity) != EOF && *size < 20) {
+            add_SlotInventory(&shop_inv, create_SlotInventory(id,quantity,referenceItems), size);
         }
     }
     fclose(file);
@@ -70,6 +72,9 @@ extern void freeAll_SlotInventory(SlotInventory** item) {
 extern SlotInventory* create_SlotInventory(int id, int quantity, SlotInventory* referenceItems) {
     SlotInventory * new_item;
     new_item = malloc(sizeof(SlotInventory));
+    if(new_item == NULL) {
+        return NULL;
+    }
     *new_item = referenceItems[id];
     new_item->quantity = quantity;
     return new_item;
