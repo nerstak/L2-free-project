@@ -33,17 +33,7 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
         data->shop->shop_inv = init_SlotInventory();
         data->shop->selected = data->shop->shop_inv;
     } else {
-        SlotInventory * current;
-        do{
-            current = data->shop->shop_inv;
-            if(current->next == NULL) {
-                freeOne_SlotInventory(current);
-                current = NULL;
-            } else {
-                current = current->next;
-                freeOne_SlotInventory(current->prev);
-            }
-        }while(current != NULL);
+        freeAll_SlotInventory(&(data->shop->shop_inv));
         data->shop->selected = NULL;
         free(data->shop);
         data->shop = NULL;

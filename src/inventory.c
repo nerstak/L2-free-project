@@ -52,10 +52,19 @@ extern SlotInventory* init_SlotInventory() {
     return shop_inv;
 }
 
-//Free an item // TODO: Fix here see comment in header
-extern void freeOne_SlotInventory(SlotInventory* item) {
-    item = NULL;
-    free(item);
+//Free an item
+extern void freeOne_SlotInventory(SlotInventory** item) {
+    free(*item);
+    *item = NULL;
+
+}
+
+//Free a list of items
+extern void freeAll_SlotInventory(SlotInventory** item) {
+    if(*item != NULL) {
+        freeAll_SlotInventory(&((*item)->next));
+        freeOne_SlotInventory(item);
+    }
 }
 
 //Create an item and return its address

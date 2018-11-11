@@ -17,8 +17,8 @@ typedef struct SlotInventory {
 extern SlotInventory* loadReferenceItems();
 
 extern SlotInventory* init_SlotInventory();
-// TODO: Make a true free function of the whole DLL
-extern void freeOne_SlotInventory(SlotInventory* item); // TODO: Fix it
+extern void freeOne_SlotInventory(SlotInventory** item);
+extern void freeAll_SlotInventory(SlotInventory** item);
 extern SlotInventory* create_SlotInventory(char* name, int quantity, int price, char* description);
 
 extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size);

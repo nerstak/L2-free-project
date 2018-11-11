@@ -110,7 +110,7 @@ static void sell_item(Data * data, SlotInventory * item_selling) {
         }
         //Finally removing the item
         remove_SlotInventory(&(data->Isaac->inventory), item_selling->name, &(data->Isaac->size_inventory));
-        freeOne_SlotInventory(item_selling);
+        freeOne_SlotInventory(&item_selling);
     }
 }
 
