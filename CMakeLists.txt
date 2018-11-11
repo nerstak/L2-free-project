@@ -13,13 +13,13 @@ set(SRC
         src/inventory.c
         src/launch.c
         src/player.c
-        src/save.c
         src/timer.c
         src/window.c
         src/engine/collectors/image.c
         src/engine/collectors/scene.c
         src/engine/collectors/ttf.c
         src/engine/main.c
+        src/engine/save.c
         src/scenes/loadingScreen/event.c
         src/scenes/loadingScreen/loadingScreen.c
         src/scenes/loadingScreen/logic.c
@@ -46,12 +46,12 @@ set(HDR
         src/asset.h
         src/data.h
         src/player.h
-        src/save.h
         src/inventory.h
         src/engine/collectors/image.h
         src/engine/collectors/scene.h
         src/engine/collectors/ttf.h
         src/engine/main.h
+        src/engine/save.h
         src/scenes/loadingScreen/event.h
         src/scenes/loadingScreen/loadingScreen.h
         src/scenes/loadingScreen/logic.h

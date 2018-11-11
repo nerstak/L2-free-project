@@ -1,11 +1,10 @@
 #include "logic.h"
 #include "../../game.h"
-#include "../../save.h"
+#include "../../engine/save.h"
 
 static void moveMainMenuSelector(Data* data, int direction);
 static void enterMainMenu(Data* data, Engine* engine);
 static int getCurrentMainMenuSelector(Data* data);
-
 
 extern void logicProcess_Scene_mainMenu(Engine* engine, Data* data) {
     if(data->mainMenu->askAction != 5) {
@@ -16,11 +15,11 @@ extern void logicProcess_Scene_mainMenu(Engine* engine, Data* data) {
         switch(getCurrentMainMenuSelector(data)) {
             case 0:
                 //New game
-                init_save("",data);
+                init_Save("", data);
                 break;
             case 1:
                 //Load game
-                init_save("save1.save",data);
+                init_Save("save1.save", data);
                 break;
             case 2:
                 //Settings, not functional

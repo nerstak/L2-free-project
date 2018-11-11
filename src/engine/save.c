@@ -4,11 +4,10 @@
 
 #include "save.h"
 
-
-void init_save(char* save_name, Data* data) {
+extern void init_Save(char* saveName, Data* data) {
     data->Isaac = malloc(sizeof(Player));
     //First, initialisation of easy variables
-    strcpy(data->Isaac->save_name,save_name);
+    strcpy(data->Isaac->save_name,saveName);
     data->Isaac->money = 0;
     data->Isaac->inventory = NULL;
 
@@ -25,7 +24,7 @@ void init_save(char* save_name, Data* data) {
 
     data->Isaac->weapons = malloc(sizeof(Weapon )* 4);
 
-    read_save(data);
+    read_Save(data);
 
     //TO ADD
     //LITTLE GARDEN
@@ -34,8 +33,7 @@ void init_save(char* save_name, Data* data) {
     data->Isaac->current_stats = data->Isaac->basic_stats;
 }
 
-
-void write_save(Data *data) {
+extern void write_Save(Data* data) {
     FILE * save_file;
     Player * Isaac = data->Isaac;
     slot_inventory * current = Isaac->inventory;
@@ -65,7 +63,7 @@ void write_save(Data *data) {
     }
 }
 
-int read_save(Data *data) {
+int read_Save(Data* data) {
     FILE * save_file;
     char temp[50];
     slot_inventory * current;
