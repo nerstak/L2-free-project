@@ -30,18 +30,18 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
         data->shop->n_selected = 0;
         data->shop->ask_action = 0;
 
-        data->shop->shop_inv = init_shop();
+        data->shop->shop_inv = init_SlotInventory();
         data->shop->selected = data->shop->shop_inv;
     } else {
-        slot_inventory * current;
+        SlotInventory * current;
         do{
             current = data->shop->shop_inv;
             if(current->next == NULL) {
-                free_item(current);
+                freeOne_SlotInventory(current);
                 current = NULL;
             } else {
                 current = current->next;
-                free_item(current->prev);
+                freeOne_SlotInventory(current->prev);
             }
         }while(current != NULL);
         data->shop->selected = NULL;
