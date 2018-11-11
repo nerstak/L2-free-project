@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TEST_CONDITION_H
-#define FREE_PROJECT_TEST_CONDITION_H
+#ifndef FREE_PROJECT_DUNGEONS_CONDITION_H
+#define FREE_PROJECT_DUNGEONS_CONDITION_H
 
 #include "symbol.h"
 
@@ -24,4 +24,4 @@ extern void printf_Condition(Condition* myCondition);
 extern int getKeyLevel_Condition(Condition* myCondition);
 
 
-#endif //FREE_PROJECT_TEST_CONDITION_H
+#endif //FREE_PROJECT_DUNGEONS_CONDITION_H

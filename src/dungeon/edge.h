@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TEST_EDGE_H
-#define FREE_PROJECT_TEST_EDGE_H
+#ifndef FREE_PROJECT_DUNGEONS_EDGE_H
+#define FREE_PROJECT_DUNGEONS_EDGE_H
 
 #include "symbol.h"
 
@@ -16,4 +16,4 @@ extern Symbol* getSymbol_Edge(Edge* myEdge);
 extern void setSymbol_Edge(Edge* myEdge, Symbol* mySymbol);
 extern bool isEqual_Edge(Edge* myEdge, Edge* other);
 
-#endif //FREE_PROJECT_TEST_EDGE_H
+#endif //FREE_PROJECT_DUNGEONS_EDGE_H

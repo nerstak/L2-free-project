@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TEST_COORD_H
-#define FREE_PROJECT_TEST_COORD_H
+#ifndef FREE_PROJECT_UTILS_COORD_H
+#define FREE_PROJECT_UTILS_COORD_H
 
 #include <stdbool.h>
 
@@ -24,4 +24,4 @@ extern Direction* getDirectionTo_Coord(Coord* myCoord, Coord* other);
 extern double distance_Coord(Coord* myCoord, Coord* other);
 extern void printf_Coord(Coord* myCoord);
 
-#endif //FREE_PROJECT_TEST_COORD_H
+#endif //FREE_PROJECT_UTILS_COORD_H

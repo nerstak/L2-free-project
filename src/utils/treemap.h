@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TEST_TREEMAP_H
-#define FREE_PROJECT_TEST_TREEMAP_H
+#ifndef FREE_PROJECT_UTILS_TREEMAP_H
+#define FREE_PROJECT_UTILS_TREEMAP_H
 
 #include "coord.h"
 #include "../dungeon/room.h"
@@ -25,4 +25,4 @@ extern TreeMapNode* get_TreeMap(TreeMap* tree, Coord* myCoord);
 extern void put_TreeMap(TreeMap* tree, Room* myRoom);
 extern void delete_TreeMap(TreeMap* tree, Room* value);
 
-#endif //FREE_PROJECT_TEST_TREEMAP_H
+#endif //FREE_PROJECT_UTILS_TREEMAP_H

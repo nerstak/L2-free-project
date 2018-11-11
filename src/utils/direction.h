@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TEST_DIRECTION_H
-#define FREE_PROJECT_TEST_DIRECTION_H
+#ifndef FREE_PROJECT_UTILS_DIRECTION_H
+#define FREE_PROJECT_UTILS_DIRECTION_H
 
 /**
  * N:0 0 -1
@@ -24,4 +24,4 @@ extern void clean_Direction(Direction** myDirection);
 extern Direction* fromCode_Direction(int code);
 extern Direction* opposite_Direction(Direction* myDirection);
 
-#endif //FREE_PROJECT_TEST_DIRECTION_H
+#endif //FREE_PROJECT_UTILS_DIRECTION_H

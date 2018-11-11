@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TEST_QUEUE_H
-#define FREE_PROJECT_TEST_QUEUE_H
+#ifndef FREE_PROJECT_UTILS_QUEUE_H
+#define FREE_PROJECT_UTILS_QUEUE_H
 
 #include "treemap.h"
 
@@ -21,4 +21,4 @@ extern void enQueue_Queue(Queue* myQueue, TreeMapNode* myNode);
 extern TreeMapNode* deQueue_Queue(Queue* myQueue);
 extern bool isEmpty_Queue(Queue* myQueue);
 
-#endif //FREE_PROJECT_TEST_QUEUE_H
+#endif //FREE_PROJECT_UTILS_QUEUE_H

@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TEST_SYMBOL_H
-#define FREE_PROJECT_TEST_SYMBOL_H
+#ifndef FREE_PROJECT_DUNGEONS_SYMBOL_H
+#define FREE_PROJECT_DUNGEONS_SYMBOL_H
 
 #include <stdbool.h>
 
@@ -22,4 +22,4 @@ extern bool isBoss_Symbol(Symbol* mySymbol);
 extern bool isKey_Symbol(Symbol* mySymbol);
 extern void printf_Symbol(Symbol* mySymbol);
 
-#endif //FREE_PROJECT_TEST_SYMBOL_H
+#endif //FREE_PROJECT_DUNGEONS_SYMBOL_H

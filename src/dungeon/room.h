@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_TEST_ROOM_H
-#define FREE_PROJECT_TEST_ROOM_H
+#ifndef FREE_PROJECT_DUNGEONS_ROOM_H
+#define FREE_PROJECT_DUNGEONS_ROOM_H
 
 #include "condition.h"
 #include "../utils/coord.h"
@@ -38,4 +38,4 @@ extern void addChild_Room(Room* myRoom, Room* child);
 
 extern void printf_Room(Room* myRoom);
 
-#endif //FREE_PROJECT_TEST_ROOM_H
+#endif //FREE_PROJECT_DUNGEONS_ROOM_H
