@@ -32,7 +32,7 @@ extern Condition* getPrecondition_Room(Room* myRoom);
 extern void setPrecondition_Room(Room* myRoom, Condition* preCondition);
 
 extern Room* getParent_Room(Room* myRoom);
-extern Room* setParent_Room(Room* myRoom, Room* parent);
+extern void setParent_Room(Room* myRoom, Room* parent);
 extern Room** getChildren_Room(Room* myRoom);
 extern void addChild_Room(Room* myRoom, Room* child);
 

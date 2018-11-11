@@ -94,7 +94,7 @@ extern Room* getParent_Room(Room* myRoom) {
     return myRoom->parent;
 }
 
-extern Room* setParent_Room(Room* myRoom, Room* parent) {
+extern void setParent_Room(Room* myRoom, Room* parent) {
     myRoom->parent = parent;
 }
 
