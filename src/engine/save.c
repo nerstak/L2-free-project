@@ -4,6 +4,7 @@
 
 #include "save.h"
 
+//Init of the game and the save
 extern void init_Save(char* saveName, Data* data) {
     data->referenceItems = loadReferenceItems();
 
@@ -76,6 +77,7 @@ int read_Save(Data* data) {
     char temp[50];
     int id, quantity;
 
+    //Chose the right file to open
     if(strcmp(data->Isaac->save_name,"") == 0) {
         save_file = fopen("src/datas/save/basic.save","r");
         strcpy(data->Isaac->save_name,"save1.save");

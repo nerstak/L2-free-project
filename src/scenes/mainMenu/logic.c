@@ -13,26 +13,6 @@ extern void logicProcess_Scene_mainMenu(Engine* engine, Data* data) {
     } else {
         data->mainMenu->askAction = 0;
         enterMainMenu(data,engine);
-        switch(getCurrentMainMenuSelector(data)) {
-            case 0:
-                //New game
-                init_Save("", data);
-                //display_SceneCollector(engine,data,"shop");
-                break;
-            case 1:
-                //Load game
-                init_Save("save1.save", data);
-                break;
-            case 2:
-                //Settings, not functional
-                break;
-            case 3:
-                //Leave game
-                Game_stop = 0;
-            default:
-                break;
-
-        }
     }
 }
 
@@ -46,6 +26,28 @@ static void moveMainMenuSelector(Data* data, int direction) {
 
 static void enterMainMenu(Data* data, Engine* engine) {
     printf("Selected: %d\n", data->mainMenu->position);
+    switch(getCurrentMainMenuSelector(data)) {
+        case 0:
+            //New game
+            init_Save("", data);
+            //TODO: Adapt display to the lobby
+            //display_SceneCollector(engine,data,"shop");
+            break;
+        case 1:
+            //Load game
+            init_Save("save1.save", data);
+            //TODO: Adapt display to the lobby
+            //display_SceneCollector(engine,data,"shop");
+            break;
+        case 2:
+            //Settings, not functional
+            break;
+        case 3:
+            //Leave game
+            Game_stop = 0;
+        default:
+            break;
+    }
 }
 
 static int getCurrentMainMenuSelector(Data* data) {
