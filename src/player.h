@@ -25,7 +25,7 @@ typedef struct Weapon {
 typedef struct Player {
     coordinates_entity * pos;
     int money;
-    slot_inventory * inventory;
+    SlotInventory * inventory;
     int size_inventory;
     Weapon * weapons;
     stats_entity * current_stats;

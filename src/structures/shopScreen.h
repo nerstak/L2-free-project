@@ -5,9 +5,10 @@
 
 typedef struct shop_t {
     int n_selected;
-    slot_inventory * selected;
+    SlotInventory * selected;
     int ask_action;
-    slot_inventory * shop_inv;
+    SlotInventory * shop_inv;
+    int size_shop;
 } shop_t;
 
 #endif //FREE_PROJECT_STRUCTURES_SHOP_H

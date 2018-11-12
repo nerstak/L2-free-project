@@ -1,11 +1,11 @@
 #include "logic.h"
 
-static void moveShopSelector(Data * data,slot_inventory * shop_list, slot_inventory * player_list);
-static void buy_item(Data * data, slot_inventory * item_buying);
-static void sell_item(Data * data, slot_inventory * item_selling);
+static void moveShopSelector(Data * data,SlotInventory * shop_list, SlotInventory * player_list);
+static void buy_item(Data * data, SlotInventory * item_buying);
+static void sell_item(Data * data, SlotInventory * item_selling);
 
 //Cursor displacement (right: 1; left: -1; down: 10; up: 10)
-static void moveShopSelector(Data * data,slot_inventory * shop_list, slot_inventory * player_list) {
+static void moveShopSelector(Data * data,SlotInventory * shop_list, SlotInventory * player_list) {
     int pos_to_go;
     switch(data->shop->ask_action) {
         //Case for right
@@ -38,7 +38,7 @@ static void moveShopSelector(Data * data,slot_inventory * shop_list, slot_invent
         case 10: ;
             pos_to_go = (data->shop->n_selected + 10) % 40;
             //If we change of inventory
-            if (data->shop->n_selected / 10 == 1 && player_list != NULL) {
+            if ((player_list != NULL && (data->shop->n_selected / 10 == 1|| (data->shop->n_selected / 10 == 0 && data->shop->size_shop <= 10)))) {
                 data->shop->selected = player_list;
                 data->shop->n_selected = 20;
             }
@@ -76,22 +76,24 @@ static void moveShopSelector(Data * data,slot_inventory * shop_list, slot_invent
     }
 }
 
-static void buy_item(Data * data, slot_inventory * item_buying) {
-    slot_inventory * current_item;
+static void buy_item(Data * data, SlotInventory * item_buying) {
+    SlotInventory * current_item;
     //If it is possible to buy
     if(alter_money(data->Isaac,- item_buying->price) == 1) {
-        current_item = search_item_list(data->Isaac->inventory,item_buying->name_item);
+        current_item = search_SlotInventory(data->Isaac->inventory, item_buying->id);
         if(current_item != NULL) {
             //If the player already has an exemplar of the item in its inventory
             (current_item->quantity)++;
         } else {
             //If the player is buying a new item, we create it inside its inventory
-            add_item_list(&(data->Isaac->inventory),create_item(item_buying->name_item,1,item_buying->price,item_buying->description),&(data->Isaac->size_inventory));
+            add_SlotInventory(&(data->Isaac->inventory),
+                              create_SlotInventory(item_buying->id,1,data->referenceItems),
+                              &(data->Isaac->size_inventory));
         }
     }
 }
 
-static void sell_item(Data * data, slot_inventory * item_selling) {
+static void sell_item(Data * data, SlotInventory * item_selling) {
     alter_money(data->Isaac,item_selling->price);
     (item_selling->quantity)--;
     //Checking if the item has to be removed from the inventory
@@ -107,8 +109,8 @@ static void sell_item(Data * data, slot_inventory * item_selling) {
             data->shop->n_selected = 0;
         }
         //Finally removing the item
-        remove_item_list(&(data->Isaac->inventory),item_selling->name_item,&(data->Isaac->size_inventory));
-        free_item(item_selling);
+        remove_SlotInventory(&(data->Isaac->inventory), item_selling->id, &(data->Isaac->size_inventory));
+        freeOne_SlotInventory(&item_selling);
     }
 }
 

@@ -24,21 +24,12 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->shop->n_selected = 0;
         data->shop->ask_action = 0;
+        data->shop->size_shop = 0;
 
-        data->shop->shop_inv = init_shop();
+        data->shop->shop_inv = init_ShopInventory(data->referenceItems, &(data->shop->size_shop));
         data->shop->selected = data->shop->shop_inv;
     } else {
-        slot_inventory * current;
-        do{
-            current = data->shop->shop_inv;
-            if(current->next == NULL) {
-                free_item(current);
-                current = NULL;
-            } else {
-                current = current->next;
-                free_item(current->prev);
-            }
-        }while(current != NULL);
+        freeAll_SlotInventory(&(data->shop->shop_inv));
         data->shop->selected = NULL;
         free(data->shop);
         data->shop = NULL;

@@ -4,13 +4,16 @@
 
 #include "save.h"
 
+//Init of the game and the save
+extern void init_Save(char* saveName, Data* data) {
+    data->referenceItems = loadReferenceItems();
 
-Data * init_save(char * save_name) {
-    Data * data;
-    data = malloc(sizeof(Data));
     data->Isaac = malloc(sizeof(Player));
+    if(!data->Isaac) {
+        return;
+    }
     //First, initialisation of easy variables
-    strcpy(data->Isaac->save_name,save_name);
+    strcpy(data->Isaac->save_name,saveName);
     data->Isaac->money = 0;
     data->Isaac->inventory = NULL;
 
@@ -27,22 +30,22 @@ Data * init_save(char * save_name) {
 
     data->Isaac->weapons = malloc(sizeof(Weapon )* 4);
 
-    read_save(data);
+    if(data->Isaac->weapons && data->Isaac->current_stats && data->Isaac->basic_stats && data->Isaac->pos) {
+        read_Save(data);
+    } else {
+        return;
+    }
 
-    //TO ADD
-    //LITTLE GARDEN
-    //
+
+    //TODO: LITTLE GARDEN
 
     data->Isaac->current_stats = data->Isaac->basic_stats;
-
-    return data;
 }
 
-
-void write_save(Data *data) {
+extern void write_Save(Data* data) {
     FILE * save_file;
     Player * Isaac = data->Isaac;
-    slot_inventory * current = Isaac->inventory;
+    SlotInventory * current = Isaac->inventory;
     char temp[50];
 
     //We create or reset the save file
@@ -61,7 +64,7 @@ void write_save(Data *data) {
         }
         int i = 0;
         while(current != NULL && i < 20) {
-            fprintf(save_file,"'%s' '%s' QUANT=%d PRICE=%d\n",current->name_item,current->description,current->quantity,current->price);
+            fprintf(save_file,"ID=%d QUANT=%d\n",current->id,current->quantity);
             current = current->next;
             i++;
         }
@@ -69,12 +72,12 @@ void write_save(Data *data) {
     }
 }
 
-int read_save(Data *data) {
+int read_Save(Data* data) {
     FILE * save_file;
     char temp[50];
-    slot_inventory * current;
-    current = malloc(sizeof(slot_inventory));
+    int id, quantity;
 
+    //Chose the right file to open
     if(strcmp(data->Isaac->save_name,"") == 0) {
         save_file = fopen("src/datas/save/basic.save","r");
         strcpy(data->Isaac->save_name,"save1.save");
@@ -94,12 +97,10 @@ int read_save(Data *data) {
             fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%d S=%d\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].swing_speed));
         }
         int i = 0;
-        while(save_file != NULL && i < 20) {
-            fscanf(save_file,"'%23[^']' '%98[^']' QUANT=%d PRICE=%d\n",current->name_item,current->description,&(current->quantity),&(current->price));
-            add_item_list(&(data->Isaac->inventory),current,&i);
-            i++;
+        while(fscanf(save_file,"ID=%d QUANT=%d\n",&(id),&(quantity)) != EOF && i < 20) {
+            add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
         }
-        data->Isaac->size_inventory = i+1;
+        data->Isaac->size_inventory = i;
     }
     fclose(save_file);
     return 1;
