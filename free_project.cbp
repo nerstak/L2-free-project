@@ -31,7 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-std=c99" />
-			<Add directory="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/include" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/include/SDL-1.2.15/include" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
@@ -41,24 +41,126 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 			<Add library="dxguid" />
-			<Add library="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/lib/SDL_image.lib" />
-			<Add directory="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/lib" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/include/SDL-1.2.15/lib" />
 		</Linker>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/asset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/asset.h" />
+		<Unit filename="src/data.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/data.h" />
+		<Unit filename="src/engine/collectors/image.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/engine/collectors/image.h" />
+		<Unit filename="src/engine/collectors/scene.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/engine/collectors/scene.h" />
+		<Unit filename="src/engine/collectors/ttf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/engine/collectors/ttf.h" />
+		<Unit filename="src/engine/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/engine/main.h" />
+		<Unit filename="src/engine/save.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/engine/save.h" />
 		<Unit filename="src/game.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/game.h" />
+		<Unit filename="src/inventory.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/inventory.h" />
 		<Unit filename="src/launch.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/launch.h" />
-		<Unit filename="src/menu.c">
+		<Unit filename="src/movement.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/menu.h" />
+		<Unit filename="src/movement.h" />
+		<Unit filename="src/player.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/player.h" />
+		<Unit filename="src/scenes/loadingScreen/event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/loadingScreen/event.h" />
+		<Unit filename="src/scenes/loadingScreen/loadingScreen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/loadingScreen/loadingScreen.h" />
+		<Unit filename="src/scenes/loadingScreen/logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/loadingScreen/logic.h" />
+		<Unit filename="src/scenes/loadingScreen/render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/loadingScreen/render.h" />
+		<Unit filename="src/scenes/lobby/event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/lobby/event.h" />
+		<Unit filename="src/scenes/lobby/lobby.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/lobby/lobby.h" />
+		<Unit filename="src/scenes/lobby/logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/lobby/logic.h" />
+		<Unit filename="src/scenes/lobby/render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/lobby/render.h" />
+		<Unit filename="src/scenes/mainMenu/event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/mainMenu/event.h" />
+		<Unit filename="src/scenes/mainMenu/logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/mainMenu/logic.h" />
+		<Unit filename="src/scenes/mainMenu/mainMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/mainMenu/mainMenu.h" />
+		<Unit filename="src/scenes/mainMenu/render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/mainMenu/render.h" />
+		<Unit filename="src/scenes/shopScreen/event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/shopScreen/event.h" />
+		<Unit filename="src/scenes/shopScreen/logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/shopScreen/logic.h" />
+		<Unit filename="src/scenes/shopScreen/render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/shopScreen/render.h" />
+		<Unit filename="src/scenes/shopScreen/shopScreen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/shopScreen/shopScreen.h" />
+		<Unit filename="src/structures/mainMenu.h" />
+		<Unit filename="src/structures/scene.h" />
+		<Unit filename="src/structures/shopScreen.h" />
 		<Unit filename="src/timer.c">
 			<Option compilerVar="CC" />
 		</Unit>

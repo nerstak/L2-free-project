@@ -3,10 +3,13 @@
 
 #include "inventory.h"
 
+/*
 typedef struct coordinates_entity {
     int x;
     int y;
 } coordinates_entity;
+*/
+
 
 typedef struct stats_entity {
     int health;
@@ -22,9 +25,16 @@ typedef struct Weapon {
     int swing_speed;
 }Weapon;
 
+typedef struct MovementValues {
+    SDL_Rect * pos;
+    SDL_Rect * velocity;
+    int AnimationStep;
+}MovementValues;
+
+
 typedef struct Player {
-    coordinates_entity * pos;
     int money;
+    MovementValues * movement;
     SlotInventory * inventory;
     int size_inventory;
     Weapon * weapons;
