@@ -17,7 +17,7 @@ extern SlotInventory* loadReferenceItems() {
 
     int i = 0;
     FILE* dataFile;
-    dataFile = fopen("src/datas/items/items.data","r");
+    dataFile = fopen("src/data/items/items.data","r");
     if(dataFile == NULL) {
         printf("Error while opening items file");
         return NULL;
@@ -43,7 +43,7 @@ extern SlotInventory* init_ShopInventory(SlotInventory *referenceItems, int* siz
     SlotInventory *shop_inv = NULL;
     int quantity, id;
     FILE * file;
-    file = fopen("src/datas/shop/shop.data","r");
+    file = fopen("src/data/shop/shop.data","r");
     if(file) {
         while(fscanf(file,"%d;%d\n",&id,&quantity) != EOF && *size < 20) {
             add_SlotInventory(&shop_inv, create_SlotInventory(id,quantity,referenceItems), size);

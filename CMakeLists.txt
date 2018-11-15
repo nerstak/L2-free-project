@@ -12,6 +12,7 @@ set(SRC
         src/game.c
         src/inventory.c
         src/launch.c
+        src/layout.c
         src/player.c
         src/timer.c
         src/window.c
@@ -36,11 +37,12 @@ set(SRC
         src/scenes/shopScreen/logic.c
         src/scenes/shopScreen/render.c
         src/scenes/shopScreen/shopScreen.c
-    )
+        )
 
 set(HDR
         src/window.h
         src/launch.h
+        src/layout.h
         src/game.h
         src/timer.h
         src/asset.h
@@ -68,10 +70,11 @@ set(HDR
         src/scenes/shopScreen/logic.h
         src/scenes/shopScreen/render.h
         src/scenes/shopScreen/shopScreen.h
+        src/structures/lobby.h
         src/structures/mainMenu.h
         src/structures/scene.h
         src/structures/shopScreen.h
-    )
+        )
 
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)

@@ -3,6 +3,7 @@
 
 #include "structures/mainMenu.h"
 #include "structures/shopScreen.h"
+#include "structures/lobby.h"
 #include "player.h"
 #include "inventory.h"
 

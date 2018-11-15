@@ -30,7 +30,7 @@ extern void eventProcess_Scene_shop(SDL_Event event, Engine* engine, Data* data)
         }
 
         default: {
-            data->shop->ask_action = 0;
+            //data->shop->ask_action = 0;
             break;
         }
     }

@@ -1,0 +1,6 @@
+#ifndef FREE_PROJECT_LOBBY_H
+#define FREE_PROJECT_LOBBY_H
+
+
+
+#endif //FREE_PROJECT_LOBBY_H

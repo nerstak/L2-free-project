@@ -79,7 +79,7 @@ int read_Save(Data* data) {
 
     //Chose the right file to open
     if(strcmp(data->Isaac->save_name,"") == 0) {
-        save_file = fopen("src/datas/save/basic.save","r");
+        save_file = fopen("src/data/save/basic.save","r");
         strcpy(data->Isaac->save_name,"save1.save");
     } else {
         sprintf(temp,"saves/%s",data->Isaac->save_name);
