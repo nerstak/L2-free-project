@@ -49,6 +49,7 @@ set(SRC
         src/dungeon/bounds.c
         src/dungeon/condition.c
         src/dungeon/edge.c
+        src/dungeon/dungeon.c
         src/dungeon/room.c
         src/dungeon/symbol.c
         )
@@ -101,6 +102,7 @@ set(HDR
         src/dungeon/bounds.h
         src/dungeon/condition.h
         src/dungeon/edge.h
+        src/dungeon/dungeon.h
         src/dungeon/room.h
         src/dungeon/symbol.h
         )

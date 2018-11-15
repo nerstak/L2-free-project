@@ -16,12 +16,13 @@ typedef struct Room {
 } Room;
 
 extern Room* init_Room(Coord* coord, Room* parent, Symbol* item, Condition* preCondition);
+extern void clean_Room(Room** myRoom);
 extern double getDifficulty_Room(Room* myRoom);
 extern void setDifficulty_Room(Room* myRoom, double difficulty);
 extern Symbol* getItem_Room(Room* myRoom);
 extern void setItem_Room(Room* myRoom, Symbol* item);
 extern Edge** getEdges_Room(Room* myRoom);
-extern Edge* getEdge(Room* myRoom, Direction* direction);
+extern Edge* getEdge_Room(Room* myRoom, Direction* direction);
 extern int linkAmount(Room* myRoom);
 
 extern bool isStart_Room(Room* myRoom);

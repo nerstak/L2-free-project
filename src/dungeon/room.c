@@ -34,6 +34,10 @@ extern Room* init_Room(Coord* coord, Room* parent, Symbol* item, Condition* preC
     return myRoom;
 }
 
+extern void clean_Room(Room** myRoom) {
+    // TODO: clean process
+}
+
 extern double getDifficulty_Room(Room* myRoom) {
     return myRoom->difficulty;
 }
@@ -54,7 +58,7 @@ extern Edge** getEdges_Room(Room* myRoom) {
     return myRoom->edges;
 }
 
-extern Edge* getEdge(Room* myRoom, Direction* direction) {
+extern Edge* getEdge_Room(Room* myRoom, Direction* direction) {
     return myRoom->edges[direction->code];
 }
 
