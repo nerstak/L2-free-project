@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "data.h"
 #include "movement.h"
 
 extern void MovePlayer(Data* data)
@@ -13,10 +14,10 @@ extern void MovePlayer(Data* data)
 
 
 
-    data->Isaac->pos->x+= (data->Isaac->movement->velocity->x)*1;
-    data->Isaac->pos->y+= (data->Isaac->movement->velocity->y)*1;
+    data->Isaac->movement->pos->x+= (data->Isaac->movement->velocity->x)*1;
+    data->Isaac->movement->pos->y+= (data->Isaac->movement->velocity->y)*1;
 
-    extern void ProcessAnimation(data->Isaac->movement)
+    ProcessAnimation(data->Isaac->movement);
 }
 
 extern void ProcessVelocity(int* v)
@@ -55,7 +56,16 @@ extern void CheckObstacle(Data* data)
 extern void ProcessAnimation(MovementValues * move)
 {
     if(move->velocity->x || move->velocity->y )
-        move->AnimationStep=(move->AnimationStep+1)%12;
+        move->step=(move->step+1)%12;
     else
-        move->AnimationStep=1;
+        move->step=1;
+
+    if(move->velocity->y > 0) //DOWN 0
+        move->direction=0;
+    else if(move->velocity->y < 0) // UP 1
+        move->direction=1;
+    else if(move->velocity->x > 0) //RIGHT 2
+        move->direction=2;
+    else if(move->velocity->x < 0) //LEFT 3
+        move->direction=3;
 }

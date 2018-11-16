@@ -17,11 +17,19 @@ extern void init_Save(char* saveName, Data* data) {
     data->Isaac->money = 0;
     data->Isaac->inventory = NULL;
 
-    //Initialisation of coordinates
+    //Initialisation of coordinates and movement
     //Those coordinates will have to correspond to the one of the lobby
-    data->Isaac->pos = malloc(sizeof(coordinates_entity));
-    data->Isaac->pos->x = 0;
-    data->Isaac->pos->y = 0;
+    data->Isaac->movement = malloc(sizeof(MovementValues));
+    data->Isaac->movement->pos = malloc(sizeof(coordinates_entity));
+    data->Isaac->movement->pos->x = 0;
+    data->Isaac->movement->pos->y = 0;
+
+    data->Isaac->movement->velocity = malloc(sizeof(coordinates_entity));
+    data->Isaac->movement->velocity->x = 0;
+    data->Isaac->movement->velocity->y = 0;
+
+    data->Isaac->movement->step = 0;
+    data->Isaac->movement->direction = 0;
 
 
     //Initialisation of stats
@@ -30,7 +38,7 @@ extern void init_Save(char* saveName, Data* data) {
 
     data->Isaac->weapons = malloc(sizeof(Weapon )* 4);
 
-    if(data->Isaac->weapons && data->Isaac->current_stats && data->Isaac->basic_stats && data->Isaac->pos) {
+    if(data->Isaac->weapons && data->Isaac->current_stats && data->Isaac->basic_stats && data->Isaac->movement && data->Isaac->movement->pos && data->Isaac->movement->velocity) {
         read_Save(data);
     } else {
         return;

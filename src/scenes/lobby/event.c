@@ -1,6 +1,7 @@
 #include "event.h"
 
 extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data) {
+    Uint8 *keystate = SDL_GetKeyState(NULL);
     switch (event.type) {
         case SDL_KEYDOWN: {
             // Key pressed
