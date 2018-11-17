@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <SDL/SDL.h>
 
 #include "data.h"
 #include "movement.h"
@@ -58,7 +59,7 @@ extern void ProcessAnimation(MovementValues * move)
     if(move->velocity->x || move->velocity->y )
         move->step=(move->step+1)%12;
     else
-        move->step=1;
+        move->step=0;
 
     if(move->velocity->y > 0) //DOWN 0
         move->direction=0;
@@ -69,3 +70,14 @@ extern void ProcessAnimation(MovementValues * move)
     else if(move->velocity->x < 0) //LEFT 3
         move->direction=3;
 }
+
+SDL_Rect * SpriteSelection(MovementValues * move)
+{
+    SDL_Rect * box=malloc(sizeof(SDL_Rect));
+    box->x=move->step/3;
+    box->y=move->direction*128;
+    box->h=128;
+    box->w=64;
+    return box;
+}
+

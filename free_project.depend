@@ -340,3 +340,502 @@
 	"../asset.h"
 	"../data.h"
 
+1542289773 source:c:\users\theod\documents\github\project\main.c
+	<stdlib.h>
+	<stdio.h>
+	"src/launch.h"
+
+1542289773 c:\users\theod\documents\github\project\src\launch.h
+
+1542289773 source:c:\users\theod\documents\github\project\src\asset.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"asset.h"
+
+1542289773 c:\users\theod\documents\github\project\src\asset.h
+
+1542289773 source:c:\users\theod\documents\github\project\src\data.c
+	<stdlib.h>
+	<stdio.h>
+	"data.h"
+
+1542383211 c:\users\theod\documents\github\project\src\data.h
+	"structures/mainMenu.h"
+	"structures/shopScreen.h"
+	"player.h"
+	"inventory.h"
+
+1542289773 c:\users\theod\documents\github\project\src\structures\mainmenu.h
+
+1542289773 c:\users\theod\documents\github\project\src\structures\shopscreen.h
+	"../inventory.h"
+
+1542289773 c:\users\theod\documents\github\project\src\inventory.h
+
+1542383303 c:\users\theod\documents\github\project\src\player.h
+	"inventory.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\engine\collectors\image.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"SDL/SDL.h"
+	"SDL/SDL_image.h"
+	"image.h"
+	"../../asset.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1326110987 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_config.h
+	"SDL_platform.h"
+	"SDL_config_dreamcast.h"
+	"SDL_config_macos.h"
+	"SDL_config_macosx.h"
+	"SDL_config_symbian.h"
+	"SDL_config_win32.h"
+	"SDL_config_os2.h"
+	"SDL_config_minimal.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_platform.h
+
+1326110994 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_config_win32.h
+	"SDL_platform.h"
+
+1326111000 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\begin_code.h
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\close_code.h
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_keysym.h
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325810433 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1542289773 c:\users\theod\documents\github\project\src\engine\collectors\image.h
+	<SDL/SDL_video.h>
+	"../../asset.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\engine\collectors\scene.c
+	"scene.h"
+	"../../structures/scene.h"
+
+1542289773 c:\users\theod\documents\github\project\src\engine\collectors\scene.h
+	<stdlib.h>
+	<stdbool.h>
+	<SDL/SDL.h>
+	"../../data.h"
+
+1542289773 c:\users\theod\documents\github\project\src\structures\scene.h
+	<stdbool.h>
+	<SDL/SDL.h>
+	"../data.h"
+	"../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\engine\main.h
+	"../engine/collectors/image.h"
+	"../engine/collectors/ttf.h"
+	"../engine/collectors/scene.h"
+
+1542289773 c:\users\theod\documents\github\project\src\engine\collectors\ttf.h
+	<SDL/SDL_ttf.h>
+
+1325814793 c:\program files (x86)\codeblocks\mingw\include\sdl-1.2.15\include\sdl\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\engine\collectors\ttf.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"ttf.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\engine\main.c
+	"main.h"
+
+1542383303 source:c:\users\theod\documents\github\project\src\engine\save.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"save.h"
+
+1542289773 c:\users\theod\documents\github\project\src\engine\save.h
+	"../data.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\game.c
+	"game.h"
+	"window.h"
+	"timer.h"
+	"engine/collectors/image.h"
+	"engine/main.h"
+	"scenes/mainMenu/mainMenu.h"
+	"scenes/loadingScreen/loadingScreen.h"
+	"scenes/shopScreen/shopScreen.h"
+	"engine/collectors/ttf.h"
+	"engine/collectors/scene.h"
+	"structures/scene.h"
+	<SDL/SDL.h>
+
+1542289773 c:\users\theod\documents\github\project\src\game.h
+	<SDL/SDL_video.h>
+
+1542289773 c:\users\theod\documents\github\project\src\window.h
+	<SDL/SDL_video.h>
+
+1542289773 c:\users\theod\documents\github\project\src\timer.h
+	<stdbool.h>
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\mainmenu\mainmenu.h
+	<stdbool.h>
+	"../../engine/collectors/image.h"
+	"../../data.h"
+	"event.h"
+	"logic.h"
+	"render.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\mainmenu\event.h
+	<SDL/SDL.h>
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\mainmenu\logic.h
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\mainmenu\render.h
+	"../../data.h"
+	"../../engine/collectors/ttf.h"
+	"../../engine/collectors/image.h"
+	"../../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\loadingscreen\loadingscreen.h
+	<stdbool.h>
+	"../../engine/collectors/image.h"
+	"../../data.h"
+	"event.h"
+	"logic.h"
+	"render.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\loadingscreen\event.h
+	<SDL/SDL.h>
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\loadingscreen\logic.h
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\loadingscreen\render.h
+	<SDL/SDL.h>
+	"../../engine/collectors/image.h"
+	"../../engine/collectors/ttf.h"
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\shopscreen\shopscreen.h
+	<stdbool.h>
+	"../../engine/collectors/image.h"
+	"../../data.h"
+	"event.h"
+	"logic.h"
+	"render.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\shopscreen\event.h
+	<SDL/SDL.h>
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\shopscreen\logic.h
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\shopscreen\render.h
+	"../../engine/collectors/image.h"
+	"../../engine/collectors/ttf.h"
+	"../../data.h"
+	"../../engine/main.h"
+
+1542383211 source:c:\users\theod\documents\github\project\src\inventory.c
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	"inventory.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\launch.c
+	"launch.h"
+	"window.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\player.c
+	<stdlib.h>
+	<string.h>
+	"player.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\loadingscreen\event.c
+	"event.h"
+
+1542383211 source:c:\users\theod\documents\github\project\src\scenes\loadingscreen\loadingscreen.c
+	"loadingScreen.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\loadingscreen\logic.c
+	"logic.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\loadingscreen\render.c
+	"render.h"
+	"../../window.h"
+
+1542383303 source:c:\users\theod\documents\github\project\src\scenes\lobby\event.c
+	"event.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\lobby\event.h
+	<SDL/SDL.h>
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\lobby\logic.c
+	"logic.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\lobby\logic.h
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\lobby\render.c
+	"render.h"
+	"../../window.h"
+
+1542383303 c:\users\theod\documents\github\project\src\scenes\lobby\render.h
+	<SDL/SDL_video.h>
+	"../../engine/collectors/image.h"
+	"../../engine/collectors/ttf.h"
+	"../../data.h"
+	"../../engine/main.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\mainmenu\event.c
+	"event.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\mainmenu\mainmenu.c
+	"mainMenu.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\mainmenu\render.c
+	"render.h"
+	"../../window.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\shopscreen\render.c
+	"render.h"
+	"../../window.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\scenes\shopscreen\shopscreen.c
+	"shopScreen.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\timer.c
+	<stdlib.h>
+	<stdio.h>
+	"SDL/SDL.h"
+	"timer.h"
+
+1542289773 source:c:\users\theod\documents\github\project\src\window.c
+	"window.h"
+	"game.h"
+	<SDL/SDL.h>
+	<SDL/SDL_ttf.h>
+
+1542383303 source:c:\users\theod\documents\github\project\src\movement.c
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	"data.h"
+	"movement.h"
+
+1542383303 c:\users\theod\documents\github\project\src\movement.h
+
+1542383211 source:c:\users\theod\documents\github\project\src\scenes\lobby\lobby.c
+	"lobby.h"
+
+1542289773 c:\users\theod\documents\github\project\src\scenes\lobby\lobby.h
+	<stdbool.h>
+	"../../engine/collectors/image.h"
+	"../../data.h"
+	"event.h"
+	"logic.h"
+	"render.h"
+
+1542383211 source:c:\users\theod\documents\github\project\src\scenes\mainmenu\logic.c
+	"logic.h"
+	"../../game.h"
+	"../../engine/save.h"
+
+1542383211 source:c:\users\theod\documents\github\project\src\scenes\shopscreen\event.c
+	"event.h"
+
+1542383211 source:c:\users\theod\documents\github\project\src\scenes\shopscreen\logic.c
+	"logic.h"
+
