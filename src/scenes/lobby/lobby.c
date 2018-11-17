@@ -1,5 +1,6 @@
 #include "lobby.h"
 
+
 extern void assets_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
     Asset* assetsList = getList_Asset("src/scenes/lobby/files.asset");
 
@@ -14,8 +15,18 @@ extern void assets_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
 
 extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
     if (loadOrUnload == true) {
-        // We init datas
+        data->lobby = NULL;
+        data->lobby = malloc(1 * sizeof(lobby_t));
+
+        if(data->lobby == NULL) {
+            printf("An error occured while initializing a lobby_t object\n");
+            exit(EXIT_FAILURE);
+        }
+
+        data->lobby->layout = loadSingleLayout("lobby","lobby");
     } else {
-        // We free it
+        freeSingleLayout(&(data->lobby->layout));
+        free(data->lobby);
+        data->lobby = NULL;
     }
 }

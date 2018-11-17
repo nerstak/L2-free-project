@@ -55,7 +55,7 @@ extern void write_Save(Data* data) {
         printf("Error while creating or opening file during saving.\n");
     } else {
         //Writing save_name and money
-        fprintf(save_file,"%s\nMONEY=%d\n",Isaac->save_name,Isaac->money);
+        fprintf(save_file,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++Isaac->day,Isaac->money);
         //Writing stats
         fprintf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->ability);
         //Writing weapons
@@ -79,7 +79,7 @@ int read_Save(Data* data) {
 
     //Chose the right file to open
     if(strcmp(data->Isaac->save_name,"") == 0) {
-        save_file = fopen("src/datas/save/basic.save","r");
+        save_file = fopen("src/data/save/basic.save","r");
         strcpy(data->Isaac->save_name,"save1.save");
     } else {
         sprintf(temp,"saves/%s",data->Isaac->save_name);
@@ -91,6 +91,7 @@ int read_Save(Data* data) {
         return 0;
     } else {
         fscanf(save_file,"%s\n",temp);
+        fscanf(save_file,"DAY=%d\n",&(data->Isaac->day));
         fscanf(save_file,"MONEY=%d\n",&(data->Isaac->money));
         fscanf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->ability));
         for(int i = 0; i < 4; i++) {

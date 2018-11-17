@@ -57,12 +57,12 @@ for filename in enumerate(os.listdir("rooms_png")):
 
     #Position allowed for mobs to spawn
     for coord in spawn_coord:
-        map_file.write("Spawn "+str(coord[0])+": "+str(coord[1])+"-"+str(coord[2])+",\n")
+        map_file.write("SPAWN "+str(coord[0])+": "+str(coord[1])+"-"+str(coord[2])+"\n")
 
     #Tile map
     for i in range(line):
         for j in range(column):
-            map_file.write(correspondance_array[i][j]+",")
+            map_file.write(correspondance_array[i][j])
         map_file.write("\n")
     print(name+": done.\n")
     map_file.close()

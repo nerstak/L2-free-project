@@ -127,5 +127,6 @@ extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
             //Selling
             sell_item(data,data->shop->selected);
         }
+        data->shop->ask_action = 0;
     }
 }

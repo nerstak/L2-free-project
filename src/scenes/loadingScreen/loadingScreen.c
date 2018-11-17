@@ -14,7 +14,7 @@ extern void assets_Scene_loadingScreen(Engine* engine, Data* data, bool loadOrUn
 
 extern void init_Scene_loadingScreen(Engine* engine, Data* data, bool loadOrUnload) {
     if (loadOrUnload == true) {
-        // We init datas
+        // We init data
     } else {
         // We free it
     }
