@@ -62,7 +62,7 @@ for filename in enumerate(os.listdir("rooms_png")):
     #Tile map
     for i in range(line):
         for j in range(column):
-            map_file.write(correspondance_array[i][j]+",")
+            map_file.write(correspondance_array[i][j])
         map_file.write("\n")
     print(name+": done.\n")
     map_file.close()

@@ -5,9 +5,11 @@
 
 extern Layout* loadSingleLayout(char* environment, char* name) {
     FILE* file;
-    char path[50];
+    char path[50], line[60];
     Coords* coords;
     Layout* room;
+
+    //Opening file
     if(strcmp(environment,"lobby") == 0) {
         sprintf(path,"src/data/lobby/%s.loli",name);
     }
@@ -23,8 +25,9 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
 
     room = malloc(sizeof(Layout));
 
-    fscanf(file, "%48s\n", room->name);
-    fscanf(file, "COLUMNS=%d,LINES=%d\n", &(room->columns), &(room->lines));
+    //Reading name and size
+    fscanf(file, "%24[^,],\n", room->name);
+    fscanf(file, "COLUMNS=%d,LINES=%d,\n", &(room->columns), &(room->lines));
     room->map = malloc(sizeof(Tiles*) * room->lines);
     if(room->map == NULL) {
         return NULL;
@@ -36,22 +39,28 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
             return NULL;
         }
     }
-    fscanf(file, "SET_MOB=%48s\n", room->setMobs);
 
-    room->Spawnable = malloc(sizeof(Coords));
-    for(int unsigned i = 0; i < strlen(room->name); i++) {
+    //Reading set of mob
+    fscanf(file, "SET_MOB=%15[^,],\n", room->setMobs);
+
+    room->Spawnable = calloc(sizeof(Coords),1);
+    for(int unsigned i = 0; i < strlen(room->setMobs); i++) {
         coords = realloc(room->Spawnable, i+1);
         if(room->Spawnable == NULL) {
             free(coords);
         }
-        fscanf(file, "SPAWN %29[^:]: %d-%d\n", room->Spawnable[i].type, &(room->Spawnable[i].x), &(room->Spawnable[i].y));
-    }
-    for(int i=0; i < room->lines; i++) {
-        for(int j=0; j < room->columns; j++) {
-            room->map[j]->type = fgetc(file);
-        }
-        fseek(file,1,SEEK_CUR);
+        fscanf(file, "SPAWN %14[^:]: %d-%d,\n", room->Spawnable[i].type, &(room->Spawnable[i].x), &(room->Spawnable[i].y));
     }
 
+    //Reading metadata of the map
+    int i= 0;
+    while(fgets(line,60,file) && i < room->lines)
+    {
+        for(int j = 0; j < room->columns; j++) {
+            room->map[i][j].type = line[j];
+            printf("%c",room->map[i][j].type);
+        }
+        printf("\n");
+    }
     return room;
 }

@@ -2,7 +2,7 @@
 #define FREE_PROJECT_ROOM_H
 
 typedef struct Tiles{
-    char  type;
+    char type;
 }Tiles;
 
 
