@@ -70,10 +70,10 @@ set(HDR
         src/scenes/shopScreen/logic.h
         src/scenes/shopScreen/render.h
         src/scenes/shopScreen/shopScreen.h
-        src/structures/lobby.h
         src/structures/mainMenu.h
         src/structures/scene.h
         src/structures/shopScreen.h
+        src/structures/lobby.h
         )
 
 find_package(SDL REQUIRED)

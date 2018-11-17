@@ -1,4 +1,5 @@
 basic.save
+DAY=1
 MONEY=1500
 STATS: H=2000 D=200 S=20 A=2
 WEAPON: 'name_wep' 'desc_wep' D=0 S=0

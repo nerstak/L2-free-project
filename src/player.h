@@ -31,6 +31,7 @@ typedef struct Player {
     stats_entity * current_stats;
     stats_entity * basic_stats;
     char save_name[20];
+    int day;
 } Player;
 
 
