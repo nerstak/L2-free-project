@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_ROOM_H
-#define FREE_PROJECT_ROOM_H
+#ifndef FREE_PROJECT_LAYOUT_H
+#define FREE_PROJECT_LAYOUT_H
 
 typedef struct Tiles{
     char type;
@@ -23,5 +23,6 @@ typedef struct Layout{
 
 
 extern Layout* loadSingleLayout(char* environment, char* name);
+extern void freeSingleLayout(Layout** room);
 
-#endif //FREE_PROJECT_ROOM_H
+#endif //FREE_PROJECT_LAYOUT_H

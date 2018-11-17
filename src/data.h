@@ -1,5 +1,5 @@
-#ifndef FREE_PROJECT_DATAS_H
-#define FREE_PROJECT_DATAS_H
+#ifndef FREE_PROJECT_DATA_H
+#define FREE_PROJECT_DATA_H
 
 #include "structures/mainMenu.h"
 #include "structures/shopScreen.h"
@@ -9,6 +9,7 @@
 
 typedef struct Data {
     struct SlotInventory* referenceItems;
+    struct lobby_t* lobby;
     struct mainMenu_t* mainMenu;
     struct shop_t* shop;
     struct Player * Isaac;
@@ -17,4 +18,4 @@ typedef struct Data {
 extern Data* init_Data();
 extern void clean_Data(Data** myData);
 
-#endif //FREE_PROJECT_DATAS_H
+#endif //FREE_PROJECT_DATA_H
