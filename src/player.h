@@ -2,6 +2,7 @@
 #define PLAYER_H_INCLUDED
 
 #include "inventory.h"
+#include <SDL/SDL.h>
 
 
 typedef struct coordinates_entity {
@@ -29,6 +30,7 @@ typedef struct MovementValues {
     coordinates_entity * velocity;
     int step; //animation step
     int direction;
+    SDL_Rect * SpriteBox;
 }MovementValues;
 
 
