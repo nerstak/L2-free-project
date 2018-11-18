@@ -4,11 +4,13 @@
 #include "structures/mainMenu.h"
 #include "structures/shopScreen.h"
 #include "structures/lobby.h"
+#include "structures/inventoryScreen.h"
 #include "player.h"
 #include "inventory.h"
 
 typedef struct Data {
     struct SlotInventory* referenceItems;
+    struct inventory_t* inventory;
     struct lobby_t* lobby;
     struct mainMenu_t* mainMenu;
     struct shop_t* shop;

@@ -21,6 +21,10 @@ set(SRC
         src/engine/collectors/ttf.c
         src/engine/main.c
         src/engine/save.c
+        src/scenes/inventoryScreen/event.c
+        src/scenes/inventoryScreen/inventoryScreen.c
+        src/scenes/inventoryScreen/logic.c
+        src/scenes/inventoryScreen/render.c
         src/scenes/loadingScreen/event.c
         src/scenes/loadingScreen/loadingScreen.c
         src/scenes/loadingScreen/logic.c
@@ -40,20 +44,24 @@ set(SRC
         )
 
 set(HDR
-        src/window.h
-        src/launch.h
-        src/layout.h
-        src/game.h
-        src/timer.h
         src/asset.h
         src/data.h
-        src/player.h
+        src/game.h
         src/inventory.h
+        src/launch.h
+        src/layout.h
+        src/player.h
+        src/timer.h
+        src/window.h
         src/engine/collectors/image.h
         src/engine/collectors/scene.h
         src/engine/collectors/ttf.h
         src/engine/main.h
         src/engine/save.h
+        src/scenes/inventoryScreen/event.h
+        src/scenes/inventoryScreen/inventoryScreen.h
+        src/scenes/inventoryScreen/logic.h
+        src/scenes/inventoryScreen/render.h
         src/scenes/loadingScreen/event.h
         src/scenes/loadingScreen/loadingScreen.h
         src/scenes/loadingScreen/logic.h
@@ -70,10 +78,11 @@ set(HDR
         src/scenes/shopScreen/logic.h
         src/scenes/shopScreen/render.h
         src/scenes/shopScreen/shopScreen.h
+        src/structures/inventoryScreen.h
+        src/structures/lobby.h
         src/structures/mainMenu.h
         src/structures/scene.h
         src/structures/shopScreen.h
-        src/structures/lobby.h
         )
 
 find_package(SDL REQUIRED)
