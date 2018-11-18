@@ -2,11 +2,14 @@
 #define PLAYER_H_INCLUDED
 
 #include "inventory.h"
+#include <SDL/SDL.h>
+
 
 typedef struct coordinates_entity {
     int x;
     int y;
 } coordinates_entity;
+
 
 typedef struct stats_entity {
     int health;
@@ -22,9 +25,18 @@ typedef struct Weapon {
     int swing_speed;
 }Weapon;
 
-typedef struct Player {
+typedef struct MovementValues {
     coordinates_entity * pos;
+    coordinates_entity * velocity;
+    int step; //animation step
+    int direction;
+    SDL_Rect * SpriteBox;
+}MovementValues;
+
+
+typedef struct Player {
     int money;
+    MovementValues * movement;
     SlotInventory * inventory;
     int size_inventory;
     Weapon * weapons;
