@@ -69,9 +69,8 @@ extern void gameLoop(SDL_Surface* window) {
         //printf("fps_counter: %d\n",getTicks_Timer(fpsCounter));
 
         // Event loop
-        while (SDL_PollEvent(&event)) {
-            mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
-
+        mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
+        if(SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_KEYDOWN: {
                     // Key pressed

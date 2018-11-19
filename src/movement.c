@@ -10,7 +10,6 @@ extern void MovePlayer(Data* data)
 {
     ProcessVelocity(&(data->Isaac->movement->velocity->x));
     ProcessVelocity(&(data->Isaac->movement->velocity->y));
-
     CheckObstacle(data);
 
     data->Isaac->movement->pos->x+= (data->Isaac->movement->velocity->x)/2;
@@ -19,6 +18,7 @@ extern void MovePlayer(Data* data)
     ProcessAnimation(data->Isaac->movement);
 
     SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox);
+
 }
 
 extern void ProcessVelocity(int* v)
@@ -44,24 +44,19 @@ extern void CheckObstacle(Data* data)
         {
             data->Isaac->movement->velocity->x=0;
         }
-        if((data->Isaac->movement->pos->y + data->Isaac->movement->velocity->y)<-64 || (data->Isaac->movement->pos->x + data->Isaac->movement->velocity->y)>592)
+        if((data->Isaac->movement->pos->y + data->Isaac->movement->velocity->y)<-64 || (data->Isaac->movement->pos->y + data->Isaac->movement->velocity->y)>592)
         {
             data->Isaac->movement->velocity->y=0;
         }
     }
 
 
-    /*
-    if(data->Isaac->movement->velocity->x || data->Isaac->movement->velocity->y)
-    {
-        if( data->TILE_ARRAY[ (data->Isaac->movement->pos->x + data->Isaac->movement->velocity->x)/XTILES , data->Isaac->movement->pos->y/YTILES ]->TYPE==WALL || (data->Isaac->movement->pos->x + data->Isaac->movement->velocity->x)<0 || (data->Isaac->movement->pos->x + data->Isaac->velocity->x)>1216)
-            data->Isaac->velocity->x=0;
-        if( data->TILE_ARRAY[ data->Isaac->movement->pos->x/XTILES , (data->Isaac->movement->pos->y + data->Isaac->movement->velocity->y)/YTILES ]->TYPE==WALL || (data->Isaac->movement->pos->y + data->Isaac->movement->velocity->y)<0 || (data->Isaac->movement->pos->y + data->Isaac->movement->velocity->y)>952)
-            data->Isaac->movement->velocity->y=0;
-    }
-            THIS IS PLACEHOLDER BS
-            SOMETHING KIND OF LIKE THIS WILL BE USED TO DO DETECTION WITH OBJECTS
-    */
+    if(data->lobby->layout->map[(data->Isaac->movement->pos->y+85)/64][(data->Isaac->movement->velocity->x+data->Isaac->movement->pos->x+10)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->pos->y+85)/64][(data->Isaac->movement->velocity->x+data->Isaac->movement->pos->x+54)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->pos->y+120)/64][(data->Isaac->movement->velocity->x+data->Isaac->movement->pos->x+10)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->pos->y+120)/64][(data->Isaac->movement->velocity->x+data->Isaac->movement->pos->x+54)/64].type=='W')
+        data->Isaac->movement->velocity->x=0;
+
+    if(data->lobby->layout->map[(data->Isaac->movement->velocity->y+data->Isaac->movement->pos->y+85)/64][(data->Isaac->movement->pos->x+10)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->velocity->y+data->Isaac->movement->pos->y+120)/64][(data->Isaac->movement->pos->x+10)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->velocity->y+data->Isaac->movement->pos->y+85)/64][(data->Isaac->movement->pos->x+54)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->velocity->y+data->Isaac->movement->pos->y+120)/64][(data->Isaac->movement->pos->x+54)/64].type=='W')
+        data->Isaac->movement->velocity->y=0;
+
 
 
 }
@@ -81,6 +76,7 @@ extern void ProcessAnimation(MovementValues * move)
         move->direction=2;
     else if(move->velocity->x < 0) //LEFT 3
         move->direction=3;
+
 }
 
 extern void SpriteSelection(MovementValues * move, SDL_Rect * box)
