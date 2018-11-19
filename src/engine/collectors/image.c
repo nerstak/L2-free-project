@@ -148,7 +148,7 @@ extern void load_ImageCollector(ImageCollector* myImageCollector, const char pat
     strcpy(myImage->name, name);
     myImage->surface = optimizedImage;
     myImage->next = NULL;
-    //SDL_SetColorKey(myImage->surface,SDL_SRCCOLORKEY,SDL_MapRGB(myImage->surface->format,0,255,0)); WHY THIS DONT WORK :(
+
     add_Image(myImageCollector, myImage);
 }
 
