@@ -37,28 +37,31 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     SDL_BlitSurface(layout, NULL, inventory, &layoutPos);
 
     //DialogBox blit
-    for(int i = 0; i < 3; i++) {
-        switch (i) {
-            case 0: {
-                sprintf(dialog, "%s.",data->inventory->selected->name);
-                break;
+    if(data->inventory->selected != NULL) {
+        for(int i = 0; i < 3; i++) {
+            switch (i) {
+                case 0: {
+                    sprintf(dialog, "%s.",data->inventory->selected->name);
+                    break;
+                }
+                case 1: {
+                    sprintf(dialog, "%s.",data->inventory->selected->description);
+                    break;
+                }
+                case 2: {
+                    sprintf(dialog, "This is worth %d$, and I've %d of those.",data->inventory->selected->price,data->inventory->selected->quantity);
+                    break;
+                }
             }
-            case 1: {
-                sprintf(dialog, "%s.",data->inventory->selected->description);
-                break;
-            }
-            case 2: {
-                sprintf(dialog, "This is worth %d$, and I've %d of those.",data->inventory->selected->price,data->inventory->selected->quantity);
-                break;
-            }
+            dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+
+            dialogInfoPos.x = 152;
+            dialogInfoPos.y = 547 + i * 34;
+
+            SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
         }
-        dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
-
-        dialogInfoPos.x = 152;
-        dialogInfoPos.y = 547 + i * 34;
-
-        SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
     }
+
 
     //Money Blit
     sprintf(dialog,"%d",data->Isaac->money);

@@ -1,74 +1,104 @@
 #include "logic.h"
 
 static void moveInventorySelector(Data* data);
+static void deleteItemInventory(Data* data);
 static void useItem(Data* data);
 
 extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
+    int action = data->inventory->askAction;
+    if(action != 0) {
+        if(action != 5 && action != 8) {
+            moveInventorySelector(data);
+        } else if(action == 5) {
+            useItem(data);
+        } else if(action == 8) {
+            deleteItemInventory(data);
+        }
+        data->inventory->askAction = 0;
+    }
 }
 
 //Cursor displacement (right: 1; left: -1; down: 10; up: 10)
 static void moveInventorySelector(Data* data) {
     int pos_to_go;
-    switch(data->inventory->askAction) {
-        //Case for right
-        case 1:
-            //If we are just moving inside the inventory
-            if(data->inventory->selected->next != NULL) {
-                data->inventory->selected = data->inventory->selected->next;
-                (data->inventory->nSelected)++;
-            }
-            break;
-            //Case for left
-        case -1:
-            //If we are just moving inside the inventory
-            if(data->inventory->selected->prev != NULL) {
-                data->inventory->selected = data->inventory->selected->prev;
-                (data->inventory->nSelected)--;
-            }
-            break;
-            //Case for down
-        case 10: ;
-            pos_to_go = (data->inventory->nSelected + 10) % 40;
-            //If go to the button
-            if ((data->inventory->nSelected / 10 == 1 || (data->inventory->nSelected / 10 == 0 && data->Isaac->size_inventory <= 10))) {
-                data->inventory->selected = NULL;
-                data->inventory->nSelected = 20;
-            } else {
+    if(data->inventory->selected) {
+        switch(data->inventory->askAction) {
+            //Case for right
+            case 1:
+                //If we are just moving inside the inventory
+                if(data->inventory->selected->next != NULL) {
+                    data->inventory->selected = data->inventory->selected->next;
+                    (data->inventory->nSelected)++;
+                }
+                break;
+                //Case for left
+            case -1:
+                //If we are just moving inside the inventory
+                if(data->inventory->selected->prev != NULL) {
+                    data->inventory->selected = data->inventory->selected->prev;
+                    (data->inventory->nSelected)--;
+                }
+                break;
+                //Case for down
+            case 10: ;
+                pos_to_go = (data->inventory->nSelected + 4) % 16;
                 while (data->inventory->selected->next != NULL && data->inventory->nSelected != pos_to_go) {
                     data->inventory->selected = data->inventory->selected->next;
                     (data->inventory->nSelected)++;
                 }
                 break;
-            }
-            //Case for up
-        case -10: ;
-            if(data->inventory->nSelected / 10 != 0) {
-                pos_to_go = (data->inventory->nSelected - 10) % 40;
-                //If we go from the button to the inventory
-                if (data->inventory->nSelected / 10 == 2) {
-                    data->inventory->selected = data->Isaac->inventory;
-                    data->inventory->nSelected = 0;
-                    while (data->inventory->selected->next != NULL && data->inventory->nSelected != pos_to_go) {
-                        data->inventory->selected = data->inventory->selected->next;
-                        (data->inventory->nSelected)++;
-                    }
-                } else {
+                //Case for up
+            case -10: ;
+                if(data->inventory->nSelected / 4 != 0) {
+                    pos_to_go = (data->inventory->nSelected - 4) % 16;
                     while (data->inventory->selected->prev != NULL && data->inventory->nSelected != pos_to_go) {
                         data->inventory->selected = data->inventory->selected->prev;
                         (data->inventory->nSelected)--;
                     }
                 }
-            }
-            else {
-                data->inventory->selected = data->Isaac->inventory;
-                data->inventory->nSelected = 0;
-            }
-            break;
-        default:
-            break;
+                else {
+                    data->inventory->selected = data->Isaac->inventory;
+                    data->inventory->nSelected = 0;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+static void deleteItemInventory(Data* data) {
+    if(data->inventory->selected) {
+        SlotInventory* itemDeleting = data->inventory->selected;
+
+        //Change of position of the cursor
+        if(itemDeleting->next != NULL) {
+            data->inventory->selected = itemDeleting->next;
+        } else if (itemDeleting->prev != NULL) {
+            data->inventory->selected = itemDeleting->prev;
+            (data->inventory->nSelected)--;
+        } else {
+            data->inventory->selected = NULL;
+            data->inventory->nSelected = 0;
+        }
+
+        //Free the item
+        remove_SlotInventory(&(data->Isaac->inventory), itemDeleting->id, &(data->Isaac->size_inventory));
+        freeOne_SlotInventory(&itemDeleting);
     }
 }
 
 static void useItem(Data* data) {
+    //First we should check if the item is usable
+    //But because we don't have a proper list of items, we can't
+
+    if(data->inventory->selected) {
+        (data->inventory->selected->quantity)--;
+        if(data->inventory->selected->quantity <= 0) {
+            deleteItemInventory(data);
+        }
+    }
+
+
     //TODO: Fill that shit
 }

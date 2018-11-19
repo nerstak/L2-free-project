@@ -20,6 +20,9 @@ extern void eventProcess_Scene_inventory(SDL_Event event, Engine* engine, Data* 
                 case SDLK_RETURN:
                     data->inventory->askAction = 5;
                     break;
+                case SDLK_BACKSPACE:
+                    data->inventory->askAction = 8;
+                    break;
                 default: {
 
                     break;
