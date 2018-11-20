@@ -29,10 +29,10 @@ static void moveShopSelector(Data* data) {
         case 1: {
             //Case for right
             if(data->shop->nSelected % 4 == 3) {
-                if(data->shop->nSelected < 20 ) {
+                if(data->shop->nSelected < 16 ) {
                     pos_to_go = data->shop->nSelected + 13;
                     data->shop->selected = data->shop->shop_inv;
-                    data->shop->nSelected = 20;
+                    data->shop->nSelected = 16;
 
                     while(data->shop->selected->next != NULL && data->shop->nSelected != pos_to_go) {
                         data->shop->selected = data->shop->selected->next;
@@ -60,7 +60,7 @@ static void moveShopSelector(Data* data) {
         case -1: {
             //Case for left
             if(data->shop->nSelected % 4 == 0) {
-                if(data->shop->nSelected >= 20 ) {
+                if(data->shop->nSelected >= 16 ) {
                     pos_to_go = data->shop->nSelected - 13;
                     data->shop->selected = data->Isaac->inventory;
                     data->shop->nSelected = 0;
@@ -80,9 +80,9 @@ static void moveShopSelector(Data* data) {
                     }
                 }
             } else {
-                if (data->shop->selected->next != NULL) {
-                    data->shop->selected = data->shop->selected->next;
-                    (data->shop->nSelected)++;
+                if (data->shop->selected->prev != NULL) {
+                    data->shop->selected = data->shop->selected->prev;
+                    (data->shop->nSelected)--;
                 }
             }
             break;
