@@ -6,6 +6,7 @@ typedef struct inventory_t {
     int nSelected;
     SlotInventory * selected;
     int askAction;
+    int askDeletion;
 } inventory_t;
 
 #endif //FREE_PROJECT_STRUCTURES_INVENTORYSCREEN_H

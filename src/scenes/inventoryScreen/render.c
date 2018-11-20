@@ -37,7 +37,8 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     SDL_BlitSurface(layout, NULL, inventory, &layoutPos);
 
     //DialogBox blit
-    if(data->inventory->selected != NULL) {
+    if(data->inventory->selected != NULL && data->inventory->askDeletion == -1) {
+        //Informations of the item
         for(int i = 0; i < 3; i++) {
             switch (i) {
                 case 0: {
@@ -59,6 +60,35 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
             dialogInfoPos.y = 547 + i * 34;
 
             SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
+        }
+    } else if (data->inventory->selected != NULL) {
+        //Confirmation of suppression
+        for(int i =0; i < 3; i++) {
+            switch (i) {
+                case 0: {
+                    sprintf(dialog, "Are you sure you want to delete %s?", data->inventory->selected->name);
+                    break;
+                }
+                case 1: {
+                    strcpy(dialog, "No");
+                    if (data->inventory->askDeletion == 0) {
+                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                    }
+                    break;
+                }
+                case 2: {
+                    strcpy(dialog, "Yes");
+                    if (data->inventory->askDeletion == 1) {
+                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                    }
+                    break;
+                }
+            }
+            dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+            dialogInfoPos.x = 152 + (i==2?30:0);
+            dialogInfoPos.y = 547 + (i>0?34:0);
+            SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
+            TTF_SetFontStyle(font1, TTF_STYLE_NORMAL);
         }
     }
 

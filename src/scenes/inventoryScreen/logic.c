@@ -3,19 +3,22 @@
 static void moveInventorySelector(Data* data);
 static void deleteItemInventory(Data* data);
 static void useItem(Data* data);
+static void moveDeleteCursor(Data* data);
 
 extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
     int action = data->inventory->askAction;
-    if(action != 0) {
+    if(data->inventory->askDeletion != -1) {
+        moveDeleteCursor(data);
+    } else if(action != 0) {
         if(action != 5 && action != 8) {
             moveInventorySelector(data);
         } else if(action == 5) {
             useItem(data);
         } else if(action == 8) {
-            deleteItemInventory(data);
+            moveDeleteCursor(data);
         }
-        data->inventory->askAction = 0;
     }
+    data->inventory->askAction = 0;
 }
 
 //Cursor displacement (right: 1; left: -1; down: 10; up: 10)
@@ -101,4 +104,40 @@ static void useItem(Data* data) {
 
 
     //TODO: Fill that shit
+}
+
+static void moveDeleteCursor(Data* data) {
+    if(data->inventory->selected) {
+        switch(data->inventory->askDeletion) {
+            case -1: {
+                //Entering inside the confirmation loop
+                data->inventory->askDeletion = 0;
+                break;
+            }
+            case 0: {
+                //Button 'NO'
+                if(data->inventory->askAction == 1) {
+                    data->inventory->askDeletion = 1;
+                } else if(data->inventory->askAction == 5) {
+                    data->inventory->askDeletion = -1;
+                }
+                break;
+            }
+            case 1: {
+                //Button 'YES'
+                if(data->inventory->askAction == -1) {
+                    data->inventory->askDeletion = 0;
+                } else if(data->inventory->askAction == 5) {
+                    data->inventory->askDeletion = 2;
+                }
+                break;
+            }
+            case 2: {
+                //Suppression
+                deleteItemInventory(data);
+                data->inventory->askDeletion = -1;
+                break;
+            }
+        }
+    }
 }

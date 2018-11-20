@@ -24,6 +24,7 @@ extern void init_Scene_inventory(Engine* engine, Data* data, bool loadOrUnload) 
 
         data->inventory->nSelected = 0;
         data->inventory->askAction = 0;
+        data->inventory->askDeletion = -1;
 
         data->inventory->selected = data->Isaac->inventory;
     } else {
