@@ -1,2 +1,3 @@
-src/gfx/interface/interface_shop.png shop/interface
-src/gfx/interface/cursor_shop.png shop/cursor
+src/gfx/interface/shop_layout.png shop/interface
+src/gfx/interface/frame.png shop/frame
+src/gfx/interface/frame_selected.png shop/frameSelected

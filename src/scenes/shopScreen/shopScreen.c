@@ -22,12 +22,19 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
             exit(EXIT_FAILURE);
         }
 
-        data->shop->n_selected = 0;
-        data->shop->ask_action = 0;
+        data->shop->askAction = 0;
         data->shop->size_shop = 0;
 
         data->shop->shop_inv = init_ShopInventory(data->referenceItems, &(data->shop->size_shop));
-        data->shop->selected = data->shop->shop_inv;
+
+        if(data->Isaac->inventory) {
+            data->shop->selected = data->Isaac->inventory;
+            data->shop->nSelected = 0;
+        } else {
+            data->shop->selected = data->shop->shop_inv;
+            data->shop->nSelected = 20;
+        }
+
     } else {
         freeAll_SlotInventory(&(data->shop->shop_inv));
         data->shop->selected = NULL;

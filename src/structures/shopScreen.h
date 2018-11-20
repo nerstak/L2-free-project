@@ -4,9 +4,9 @@
 #include "../inventory.h"
 
 typedef struct shop_t {
-    int n_selected;
+    int nSelected;
     SlotInventory * selected;
-    int ask_action;
+    int askAction;
     SlotInventory * shop_inv;
     int size_shop;
 } shop_t;

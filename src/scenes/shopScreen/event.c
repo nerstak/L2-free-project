@@ -6,31 +6,29 @@ extern void eventProcess_Scene_shop(SDL_Event event, Engine* engine, Data* data)
             // Key pressed
             switch (event.key.keysym.sym) {
                 case SDLK_UP:
-                    data->shop->ask_action = -10;
+                    data->shop->askAction = -10;
                     break;
                 case SDLK_DOWN:
-                    data->shop->ask_action = 10;
+                    data->shop->askAction = 10;
                     break;
                 case SDLK_LEFT:
-                    data->shop->ask_action = -1;
+                    data->shop->askAction = -1;
                     break;
                 case SDLK_RIGHT:
-                    data->shop->ask_action = 1;
+                    data->shop->askAction = 1;
                     break;
                 case SDLK_RETURN:
-                    data->shop->ask_action = 5;
+                    data->shop->askAction = 5;
                     break;
                 default: {
 
                     break;
                 }
             }
-
             break;
         }
-
         default: {
-            //data->shop->ask_action = 0;
+            //data->shop->askAction = 0;
             break;
         }
     }
