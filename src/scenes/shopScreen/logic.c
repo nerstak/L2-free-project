@@ -13,7 +13,7 @@ static void moveShopSelector(Data * data,SlotInventory * shop_list, SlotInventor
             //First, case when we don't change of inventory, then if we have to (shop to player)
             if(data->shop->selected->next != NULL) {
                 data->shop->selected = data->shop->selected->next;
-                data->shop->n_selected++;
+                (data->shop->n_selected)++;
             } else if (data->shop->n_selected < 20 && player_list != NULL) {
                 data->shop->selected = player_list;
                 data->shop->n_selected = 20;
@@ -24,7 +24,7 @@ static void moveShopSelector(Data * data,SlotInventory * shop_list, SlotInventor
             //First, case when we don't change of inventory, then if we have to (player to shop)
             if(data->shop->selected->prev != NULL) {
                 data->shop->selected = data->shop->selected->prev;
-                data->shop->n_selected--;
+                (data->shop->n_selected)--;
             } else if (data->shop->n_selected >= 20) {
                 data->shop->selected = shop_list;
                 data->shop->n_selected = 0;

@@ -5,6 +5,7 @@
 #include "engine/collectors/image.h"
 #include "engine/main.h"
 
+#include "scenes/inventoryScreen/inventoryScreen.h"
 #include "scenes/mainMenu/mainMenu.h"
 #include "scenes/loadingScreen/loadingScreen.h"
 #include "scenes/shopScreen/shopScreen.h"
@@ -42,6 +43,7 @@ extern void gameLoop(SDL_Surface* window) {
     FontCollector* myFontCollector = init_FontCollector();
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 65, "menu/65");
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 40, "menu/40");
+    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 20, "menu/20");
 
     // Initializing SceneCollector
     SceneCollector* mySceneCollector = init_SceneCollector();
@@ -60,6 +62,7 @@ extern void gameLoop(SDL_Surface* window) {
     load_SceneCollector(myEngine, myData, "mainMenu", &assets_Scene_mainMenu, &init_Scene_mainMenu, &renderScene_Scene_mainMenu, &logicProcess_Scene_mainMenu, &eventProcess_Scene_mainMenu);
     load_SceneCollector(myEngine, myData, "lobby", &assets_Scene_lobby, &init_Scene_lobby, &renderScene_Scene_lobby, &logicProcess_Scene_lobby, &eventProcess_Scene_lobby);
     load_SceneCollector(myEngine, myData, "shop", &assets_Scene_shop, &init_Scene_shop, &renderScene_Scene_shop, &logicProcess_Scene_shop, &eventProcess_Scene_shop);
+    load_SceneCollector(myEngine, myData, "inventory", &assets_Scene_inventory, &init_Scene_inventory, &renderScene_Scene_inventory, &logicProcess_Scene_inventory, &eventProcess_Scene_inventory);
 
     display_SceneCollector(myEngine, myData, "mainMenu");
 

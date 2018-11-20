@@ -7,3 +7,7 @@ WEAPON: 'name_wep' 'desc_wep' D=1 S=10
 WEAPON: 'name_wep' 'desc_wep' D=2 S=20
 WEAPON: 'name_wep' 'desc_wep' D=3 S=30
 ID=1 QUANT=3
+ID=2 QUANT=5
+ID=3 QUANT=2
+ID=4 QUANT=1
+ID=5 QUANT=3

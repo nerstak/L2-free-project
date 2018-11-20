@@ -96,9 +96,9 @@ extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* si
 
 //Remove an item of a list and return its adress
 extern SlotInventory* remove_SlotInventory(SlotInventory** list, int id, int* size) {
-    SlotInventory *temp_return, * temp = * list;
-    while(temp!= NULL) {
-        if(temp->id ==  id) {
+    SlotInventory *temp_return, *temp = *list;
+    while(temp != NULL) {
+        if(temp->id == id) {
             temp_return = temp;
             if(temp->next != NULL) {
                 temp->next->prev = temp->prev;
@@ -106,9 +106,9 @@ extern SlotInventory* remove_SlotInventory(SlotInventory** list, int id, int* si
             if(temp->prev != NULL) {
                 temp->prev->next = temp->next;
             }
-            if(temp->prev == NULL && temp->next == NULL) {
+            if(temp->prev == NULL) {
                 //Important case: if we empty the list
-                *list = NULL;
+                *list = temp->next;
             }
             (*size)--;
             return temp_return;
