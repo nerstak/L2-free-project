@@ -115,11 +115,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
         }
     }
 
-    /*
     SDL_FreeSurface(dialogInfo);
-    SDL_FreeSurface(frame);
-    SDL_FreeSurface(frameSelected);
-     */
 
     return inventory;
 }

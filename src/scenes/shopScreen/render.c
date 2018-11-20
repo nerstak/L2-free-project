@@ -99,11 +99,8 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     }
 
     //TODO: Fix segfault due to those free
-    /*
+
     SDL_FreeSurface(dialogInfo);
-    SDL_FreeSurface(frame);
-    SDL_FreeSurface(frameSelected);
-     */
 
     return shop;
 }
