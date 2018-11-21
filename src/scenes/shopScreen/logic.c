@@ -228,7 +228,7 @@ static void moveConfirmCursor(Data* data) {
                 } else if (data->shop->askAction == -1 && data->shop->itemsInTransaction > 0) {
                     (data->shop->itemsInTransaction)--;
                 } else if (data->shop->askAction == 10) {
-                    data->shop->askTransaction = 0;
+                    data->shop->askTransaction = 1;
                 }
                 break;
             }
