@@ -74,7 +74,7 @@ extern void write_Save(Data* data) {
         printf("Error while creating or opening file during saving.\n");
     } else {
         //Writing save_name and money
-        fprintf(save_file,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++Isaac->day,Isaac->money);
+        fprintf(save_file,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++(Isaac->day),Isaac->money);
         //Writing stats
         fprintf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->ability);
         //Writing weapons

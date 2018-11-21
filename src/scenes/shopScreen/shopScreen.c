@@ -23,6 +23,8 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
         }
 
         data->shop->askAction = 0;
+        data->shop->askTransaction = -1;
+        data->shop->itemsInTransaction = 0;
         data->shop->size_shop = 0;
 
         data->shop->shop_inv = init_ShopInventory(data->referenceItems, &(data->shop->size_shop));

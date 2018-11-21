@@ -27,9 +27,13 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     SDL_Surface* frameSelected = NULL;
     SDL_Rect framePos;
 
+    SDL_Surface* confirm = NULL;
+    SDL_Rect confirmPos;
+
     layout = get_ImageCollector(myImageCollector, "shop/interface")->surface;
     frame = get_ImageCollector(myImageCollector, "shop/frame")->surface;
     frameSelected = get_ImageCollector(myImageCollector, "shop/frameSelected")->surface;
+    confirm = get_ImageCollector(myImageCollector, "shop/confirm")->surface;
 
     //Layout blit
     layoutPos.x = 0;
@@ -58,7 +62,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
                     if(data->shop->nSelected < 16) {
                         sprintf(dialog, "You have %d of those. I can give you %d$/piece.",data->shop->selected->quantity,data->shop->selected->price);
                     } else {
-                        sprintf(dialog, "This is worth %d$. Deal?",data->shop->selected->quantity,data->shop->selected->price);
+                        sprintf(dialog, "This is worth %d$. Deal?",data->shop->selected->price);
                     }
                     break;
                 }
@@ -107,6 +111,60 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
         }
     }
 
+    //Confirmation box blit
+    if(data->shop->askTransaction != -1) {
+        confirmPos.x = 0;
+        confirmPos.y = 0;
+        SDL_BlitSurface(confirm, NULL, shop, &confirmPos);
+        for(int i = 0; i < 4; i++) {
+            switch (i) {
+                case 0: {
+                    if(data->shop->nSelected < 16) {
+                        sprintf(dialog, "How much do you to sell to me?");
+                    }else {
+                        sprintf(dialog, "How much of them do you want?");
+                    }
+                    dialogInfoPos.x = 515;
+                    dialogInfoPos.y = 280;
+                    break;
+                }
+                case 1: {
+                    sprintf(dialog, "< %d >", data->shop->itemsInTransaction);
+                    dialogInfoPos.x = 624;
+                    dialogInfoPos.y = 350;
+                    if(data->shop->askTransaction == 2) {
+                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                    }
+                    break;
+                }
+                case 2: {
+                    strcpy(dialog, "Confirm");
+                    dialogInfoPos.x = 512;
+                    dialogInfoPos.y = 425;
+                    if(data->shop->askTransaction == 1) {
+                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                    }
+                    break;
+                }
+                case 3: {
+                    strcpy(dialog, "Cancel");
+                    dialogInfoPos.x = 700;
+                    dialogInfoPos.y = 425;
+                    if(data->shop->askTransaction == 0) {
+                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                    }
+                    break;
+                }
+
+            }
+            dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+            SDL_BlitSurface(dialogInfo, NULL, shop, &dialogInfoPos);
+            TTF_SetFontStyle(font1, TTF_STYLE_NORMAL);
+        }
+
+
+
+    }
     SDL_FreeSurface(dialogInfo);
 
     return shop;

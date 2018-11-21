@@ -4,11 +4,13 @@
 #include "../inventory.h"
 
 typedef struct shop_t {
-    int nSelected;
-    SlotInventory * selected;
     int askAction;
-    SlotInventory * shop_inv;
+    int askTransaction;
+    int nSelected;
+    int itemsInTransaction;
     int size_shop;
+    SlotInventory * selected;
+    SlotInventory * shop_inv;
 } shop_t;
 
 #endif //FREE_PROJECT_STRUCTURES_SHOP_H
