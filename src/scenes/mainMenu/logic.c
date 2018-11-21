@@ -30,14 +30,12 @@ static void enterMainMenu(Data* data, Engine* engine) {
         case 0:
             //New game
             init_Save("", data);
-            //TODO: Adapt display to the lobby
-            display_SceneCollector(engine,data,"shop");
+            display_SceneCollector(engine,data,"lobby");
             break;
         case 1:
             //Load game
             init_Save("save1.save", data);
-            //TODO: Adapt display to the lobby
-            //display_SceneCollector(engine,data,"shop");
+            display_SceneCollector(engine,data,"lobby");
             break;
         case 2:
             //Settings, not functional

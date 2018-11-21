@@ -120,7 +120,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
             switch (i) {
                 case 0: {
                     if(data->shop->nSelected < 16) {
-                        sprintf(dialog, "How much do you to sell to me?");
+                        sprintf(dialog, "How much do you sell to me?");
                     }else {
                         sprintf(dialog, "How much of them do you want?");
                     }
@@ -161,9 +161,6 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
             SDL_BlitSurface(dialogInfo, NULL, shop, &dialogInfoPos);
             TTF_SetFontStyle(font1, TTF_STYLE_NORMAL);
         }
-
-
-
     }
     SDL_FreeSurface(dialogInfo);
 
