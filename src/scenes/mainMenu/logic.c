@@ -31,7 +31,7 @@ static void enterMainMenu(Data* data, Engine* engine) {
             //New game
             init_Save("", data);
             //TODO: Adapt display to the lobby
-            display_SceneCollector(engine,data,"lobby");
+            display_SceneCollector(engine,data,"shop");
             break;
         case 1:
             //Load game

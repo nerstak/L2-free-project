@@ -63,7 +63,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
         }
     } else if (data->inventory->selected != NULL) {
         //Confirmation of suppression
-        for(int i =0; i < 3; i++) {
+        for(int i = 0; i < 3; i++) {
             switch (i) {
                 case 0: {
                     sprintf(dialog, "Are you sure you want to delete %s?", data->inventory->selected->name);
@@ -114,6 +114,8 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
             SDL_BlitSurface(frame, NULL, inventory, &framePos);
         }
     }
+
+    SDL_FreeSurface(dialogInfo);
 
     return inventory;
 }
