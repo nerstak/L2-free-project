@@ -42,7 +42,12 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
         for(int i = 0; i < 3; i++) {
             switch (i) {
                 case 0: {
-                    sprintf(dialog, "%s.",data->shop->selected->name);
+                    if(data->shop->nSelected < 16) {
+                        sprintf(dialog, "Oh... %s. Interesting.",data->shop->selected->name);
+                    } else {
+                        sprintf(dialog, "This is a %s.",data->shop->selected->name);
+                    }
+
                     break;
                 }
                 case 1: {
@@ -50,7 +55,11 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
                     break;
                 }
                 case 2: {
-                    sprintf(dialog, "This is worth %d$, and I've %d of those.",data->shop->selected->price,data->shop->selected->quantity);
+                    if(data->shop->nSelected < 16) {
+                        sprintf(dialog, "You have %d of those. I can give you %d$/piece.",data->shop->selected->quantity,data->shop->selected->price);
+                    } else {
+                        sprintf(dialog, "This is worth %d$. Deal?",data->shop->selected->quantity,data->shop->selected->price);
+                    }
                     break;
                 }
                 default: break;
@@ -58,7 +67,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
             dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
 
             dialogInfoPos.x = 80;
-            dialogInfoPos.y = 550 + i * 34;
+            dialogInfoPos.y = 570 + i * 40;
 
             SDL_BlitSurface(dialogInfo, NULL, shop, &dialogInfoPos);
         }
@@ -97,8 +106,6 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
             SDL_BlitSurface(frame, NULL, shop, &framePos);
         }
     }
-
-    //TODO: Fix segfault due to those free
 
     SDL_FreeSurface(dialogInfo);
 

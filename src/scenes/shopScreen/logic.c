@@ -10,7 +10,7 @@ extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
         if(data->shop->askAction != 5) {
             //Moving
             moveShopSelector(data);
-        } else if(data->shop->nSelected < 20) {
+        } else if(data->shop->nSelected >= 16) {
             //Buying
             buy_item(data,data->shop->selected);
         } else {
@@ -28,11 +28,14 @@ static void moveShopSelector(Data* data) {
     switch(data->shop->askAction) {
         case 1: {
             //Case for right
-            if(data->shop->nSelected % 4 == 3) {
+            if(data->shop->nSelected % 4 == 3 || data->shop->selected->next == NULL) {
                 if(data->shop->nSelected < 16 ) {
-                    pos_to_go = data->shop->nSelected + 13;
+                    pos_to_go = data->shop->nSelected + 13 - (data->shop->nSelected % 4 - 3);
                     data->shop->selected = data->shop->shop_inv;
                     data->shop->nSelected = 16;
+
+                    tempSlot = data->shop->selected;
+                    tempPos = data->shop->nSelected;
 
                     while(data->shop->selected->next != NULL && data->shop->nSelected != pos_to_go) {
                         data->shop->selected = data->shop->selected->next;
@@ -74,7 +77,7 @@ static void moveShopSelector(Data* data) {
                             tempPos = data->shop->nSelected;
                         }
                     }
-                    if(data->shop->nSelected % 4 != 3) {
+                    if(data->shop->nSelected % 4 != 3 && data->shop->selected->next != NULL) {
                         data->shop->selected = tempSlot;
                         data->shop->nSelected = tempPos;
                     }
@@ -89,23 +92,41 @@ static void moveShopSelector(Data* data) {
         }
         case -10: {
             //Case for up
-            if(data->shop->nSelected / 4 != 0 && data->shop->nSelected / 4 != 5) {
+            if(data->shop->nSelected / 4 != 0 && data->shop->nSelected / 4 != 4) {
                 pos_to_go = data->shop->nSelected - 4;
                 while (data->shop->selected->prev != NULL && data->shop->nSelected != pos_to_go) {
                     data->shop->selected = data->shop->selected->prev;
                     (data->shop->nSelected)--;
                 }
+            } else {
+                if(data->shop->nSelected < 16) {
+                    data->shop->selected = data->Isaac->inventory;
+                    data->shop->nSelected = 0;
+                } else {
+                    data->shop->selected = data->shop->shop_inv;
+                    data->shop->nSelected = 16;
+                }
+
             }
             break;
         }
         case 10: {
             //Case for down
-            if(data->shop->nSelected / 4 != 3 && data->shop->nSelected / 4 != 8) {
+            if(data->shop->nSelected / 4 != 3 && data->shop->nSelected / 4 != 7) {
                 pos_to_go = data->shop->nSelected + 4;
                 while (data->shop->selected->next != NULL && data->shop->nSelected != pos_to_go) {
                     data->shop->selected = data->shop->selected->next;
                     (data->shop->nSelected)++;
                 }
+            } else {
+                if(data->shop->nSelected < 16) {
+                    data->shop->selected = data->Isaac->inventory;
+                    data->shop->nSelected = 0;
+                } else {
+                    data->shop->selected = data->shop->shop_inv;
+                    data->shop->nSelected = 16;
+                }
+
             }
             break;
         }
