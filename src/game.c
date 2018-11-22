@@ -110,10 +110,6 @@ extern void gameLoop(SDL_Surface* window) {
         mySceneCollector->currentScene->logicProcess(myEngine, myData);
 
         // Rendering
-        if (mySceneCollector->currentScene->type == OVERLAY) {
-            mySceneCollector->previousScene->renderScene(window, myEngine, myData);
-        }
-
         mySceneCollector->currentScene->renderScene(window, myEngine, myData);
         renderScreen();
         frame++;
