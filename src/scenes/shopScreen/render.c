@@ -112,7 +112,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     }
 
     //Confirmation box blit
-    if(data->shop->askTransaction != -1) {
+    if(data->shop->askTransaction != -1 && data->inventory->selected) {
         confirmPos.x = 0;
         confirmPos.y = 0;
         SDL_BlitSurface(confirm, NULL, shop, &confirmPos);

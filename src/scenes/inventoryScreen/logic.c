@@ -111,12 +111,12 @@ static void moveDeleteCursor(Data* data) {
         switch(data->inventory->askDeletion) {
             case -1: {
                 //Entering inside the confirmation loop
-                data->inventory->askDeletion = 0;
+                data->inventory->askDeletion = 1;
                 break;
             }
             case 0: {
-                //Button 'NO'
-                if(data->inventory->askAction == 1) {
+                //Button 'CANCEL'
+                if(data->inventory->askAction == -1) {
                     data->inventory->askDeletion = 1;
                 } else if(data->inventory->askAction == 5) {
                     data->inventory->askDeletion = -1;
@@ -124,8 +124,8 @@ static void moveDeleteCursor(Data* data) {
                 break;
             }
             case 1: {
-                //Button 'YES'
-                if(data->inventory->askAction == -1) {
+                //Button 'CONFIRM'
+                if(data->inventory->askAction == 1) {
                     data->inventory->askDeletion = 0;
                 } else if(data->inventory->askAction == 5) {
                     data->inventory->askDeletion = 2;
