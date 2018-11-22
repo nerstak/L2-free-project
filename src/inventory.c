@@ -14,6 +14,7 @@ extern SlotInventory* loadReferenceItems() {
     tempStock.next = NULL;
     tempStock.prev = NULL;
     tempStock.quantity = -1;
+    tempStock.characteristics = malloc(sizeof(stats_entity));
 
     int i = 0;
     FILE* dataFile;
@@ -22,7 +23,7 @@ extern SlotInventory* loadReferenceItems() {
         printf("Error while opening items file");
         return NULL;
     }
-    while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price)) != EOF) {
+    while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d TYPE=%c H=%d D=%d S=%d A=%d\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price), &(tempStock.type), &(tempStock.characteristics->health), &(tempStock.characteristics->damage),&(tempStock.characteristics->speed),&(tempStock.characteristics->agility)) != EOF) {
         //Resizing the array
         temp = referenceTable;
         referenceTable = realloc(referenceTable, sizeof(SlotInventory) * (i+1));
@@ -32,8 +33,12 @@ extern SlotInventory* loadReferenceItems() {
         }
 
         referenceTable[i] = tempStock;
+        referenceTable[i].characteristics = malloc(sizeof(stats_entity));
+        *(referenceTable[i].characteristics) = *(tempStock.characteristics);
+
         i++;
     }
+
     fclose(dataFile);
     return referenceTable;
 }

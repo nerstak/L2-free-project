@@ -1,15 +1,23 @@
 #ifndef FREE_PROJECT_INVENTORY_H
 #define FREE_PROJECT_INVENTORY_H
 
+//Statistics, also used for the player
+typedef struct stats_entity {
+    int health;
+    int damage;
+    int speed;
+    int agility;
+} stats_entity;
 
 //Functions relative to the inventory and the shop
-
 typedef struct SlotInventory {
-    int id;
-    char name[25];
     char description[100];
-    int quantity;
+    char name[25];
+    char type;
+    int id;
     int price;
+    int quantity;
+    stats_entity* characteristics;
     struct SlotInventory* prev;
     struct SlotInventory* next;
 } SlotInventory;

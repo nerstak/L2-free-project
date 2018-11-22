@@ -11,18 +11,11 @@ typedef struct coordinates_entity {
 } coordinates_entity;
 
 
-typedef struct stats_entity {
-    int health;
-    int damage;
-    int speed;
-    int ability;
-} stats_entity;
-
 typedef struct Weapon {
     char name[20];
     char description[100];
     int damage;
-    int swing_speed;
+    int agility;
 }Weapon;
 
 typedef struct MovementValues {
@@ -40,8 +33,8 @@ typedef struct Player {
     SlotInventory * inventory;
     int size_inventory;
     Weapon * weapons;
-    stats_entity * current_stats;
-    stats_entity * basic_stats;
+    struct stats_entity * current_stats;
+    struct stats_entity * basic_stats;
     char save_name[20];
     int day;
 } Player;
