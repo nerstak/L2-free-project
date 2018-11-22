@@ -25,4 +25,6 @@ extern TreeMapNode* get_TreeMap(TreeMap* tree, Coord* myCoord);
 extern void put_TreeMap(TreeMap* tree, Room* myRoom);
 extern void delete_TreeMap(TreeMap* tree, Room* value);
 
+extern int size_TreeMap(TreeMapNode* tree);
+
 #endif //FREE_PROJECT_UTILS_TREEMAP_H

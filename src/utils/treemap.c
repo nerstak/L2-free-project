@@ -58,8 +58,6 @@ extern void printf_TreeMap(TreeMap* tree) {
     TreeMapNode* temp = tree->root;
 
     while (temp != NULL) {
-        printf_Coord(temp->key);
-
         if (temp->link[0]) {
             enQueue_Queue(queue, temp->link[0]);
         }
@@ -303,4 +301,15 @@ static TreeMapNode* removeBalance(TreeMapNode* root, int dir, int* done) {
     }
 
     return root;
+}
+
+
+extern int size_TreeMap(TreeMapNode* root) {
+    TreeMapNode* temp = root;
+
+    if (temp != NULL) {
+        return 1 + size_TreeMap(temp->link[0]) + size_TreeMap(temp->link[1]);
+    } else {
+        return 0;
+    }
 }
