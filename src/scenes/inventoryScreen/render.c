@@ -27,9 +27,13 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     SDL_Surface* frameSelected = NULL;
     SDL_Rect framePos;
 
+    SDL_Surface* confirm = NULL;
+    SDL_Rect confirmPos;
+
     layout = get_ImageCollector(myImageCollector, "inventory/interface")->surface;
     frame = get_ImageCollector(myImageCollector, "inventory/frame")->surface;
     frameSelected = get_ImageCollector(myImageCollector, "inventory/frameSelected")->surface;
+    confirm = get_ImageCollector(myImageCollector, "inventory/confirm")->surface;
 
     //Layout blit
     layoutPos.x = 0;
@@ -61,37 +65,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
 
             SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
         }
-    } else if (data->inventory->selected != NULL) {
-        //Confirmation of suppression
-        for(int i = 0; i < 3; i++) {
-            switch (i) {
-                case 0: {
-                    sprintf(dialog, "Are you sure you want to delete %s?", data->inventory->selected->name);
-                    break;
-                }
-                case 1: {
-                    strcpy(dialog, "No");
-                    if (data->inventory->askDeletion == 0) {
-                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
-                    }
-                    break;
-                }
-                case 2: {
-                    strcpy(dialog, "Yes");
-                    if (data->inventory->askDeletion == 1) {
-                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
-                    }
-                    break;
-                }
-            }
-            dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
-            dialogInfoPos.x = 152 + (i==2?30:0);
-            dialogInfoPos.y = 547 + (i>0?34:0);
-            SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
-            TTF_SetFontStyle(font1, TTF_STYLE_NORMAL);
-        }
     }
-
 
     //Money Blit
     sprintf(dialog,"%d",data->Isaac->money);
@@ -102,8 +76,6 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
 
     SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
 
-
-
     //Frames blit
     for(int i = 0; i < data->Isaac->size_inventory; i++) {
         framePos.x = 139 + (i % 4) * 123;
@@ -112,6 +84,44 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
             SDL_BlitSurface(frameSelected, NULL, inventory, &framePos);
         } else {
             SDL_BlitSurface(frame, NULL, inventory, &framePos);
+        }
+    }
+
+    //Confirmation box blit
+    if(data->inventory->askDeletion != -1 && data->inventory->selected != NULL) {
+        confirmPos.x = 0;
+        confirmPos.y = 0;
+        SDL_BlitSurface(confirm, NULL, inventory, &confirmPos);
+        for(int i = 0; i < 4; i++) {
+            switch (i) {
+                case 0: {
+                    sprintf(dialog, "Are you sure you want to delete it?", data->inventory->selected->name);
+                    dialogInfoPos.x = 515;
+                    dialogInfoPos.y = 280;
+                    break;
+                }
+                case 1: {
+                    strcpy(dialog, "Confirm");
+                    dialogInfoPos.x = 512;
+                    dialogInfoPos.y = 425;
+                    if (data->inventory->askDeletion == 1) {
+                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                    }
+                    break;
+                }
+                case 2: {
+                    strcpy(dialog, "Cancel");
+                    dialogInfoPos.x = 700;
+                    dialogInfoPos.y = 425;
+                    if (data->inventory->askDeletion == 0) {
+                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                    }
+                    break;
+                }
+            }
+            dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+            SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
+            TTF_SetFontStyle(font1, TTF_STYLE_NORMAL);
         }
     }
 

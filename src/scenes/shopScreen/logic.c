@@ -203,7 +203,6 @@ static void moveConfirmCursor(Data* data) {
             case 1: {
                 //Button 'CONFIRM'
                 if(data->shop->askAction == 1) {
-                    //
                     data->shop->askTransaction = 0;
                 }else if(data->shop->askAction == -10) {
                     data->shop->askTransaction = 2;
