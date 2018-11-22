@@ -8,25 +8,37 @@
 
 extern void MovePlayer(Data* data)
 {
-    ProcessVelocity(&(data->Isaac->movement->velocity->x));
-    ProcessVelocity(&(data->Isaac->movement->velocity->y));
-    CheckObstacle(data);
+    int tick=SDL_GetTicks();
+    int timechange=tick - data->Isaac->movement->timesince;
+    data->Isaac->movement->timesince=tick;
+    if(timechange>300)
+        timechange=0;
 
-    data->Isaac->movement->pos->x+= (data->Isaac->movement->velocity->x)/2;
-    data->Isaac->movement->pos->y+= (data->Isaac->movement->velocity->y)/2;
+    ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange);
+    ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange);
+    //CheckObstacle(data);
+
+    data->Isaac->movement->pos->x+= (data->Isaac->movement->velocity->x)*timechange/17/2;
+    data->Isaac->movement->pos->y+= (data->Isaac->movement->velocity->y)*timechange/17/2;
 
     ProcessAnimation(data->Isaac->movement);
 
     SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox);
-
 }
 
-extern void ProcessVelocity(int* v)
+extern void ProcessVelocity(int* v,int t)
 {
     if((*v)>0)
+    {
         (*v)-=1;
+    }
+
+
     else if((*v)<0)
+    {
         (*v)+=1;
+    }
+
 
     if((*v)>12)
         (*v)=12;
@@ -38,26 +50,52 @@ extern void ProcessVelocity(int* v)
 
 extern void CheckObstacle(Data* data)
 {
-    if(data->Isaac->movement->velocity->x || data->Isaac->movement->velocity->y)
+    int Xpos=data->Isaac->movement->pos->x;
+    int Ypos=data->Isaac->movement->pos->y;
+
+    int  Vx=(data->Isaac->movement->velocity->x);
+    int  Vy=(data->Isaac->movement->velocity->y);
+
+    int top=Ypos+85;
+    int bot=Ypos+120;
+
+    int left=Xpos+10;
+    int right=Xpos+54;
+
+    Tiles ** map=data->lobby->layout->map;
+
+    if(Vx || Vy)
     {
-        if((data->Isaac->movement->pos->x + data->Isaac->movement->velocity->x)<0 || (data->Isaac->movement->pos->x + data->Isaac->movement->velocity->x)>1216)
+        //printf("Xpos:%d Ypos:%d \n",Xpos,Ypos)
+        if(Xpos + Vx<0 || Xpos + Vx>1216)
         {
             data->Isaac->movement->velocity->x=0;
         }
-        if((data->Isaac->movement->pos->y + data->Isaac->movement->velocity->y)<-64 || (data->Isaac->movement->pos->y + data->Isaac->movement->velocity->y)>592)
+        if((Ypos + Vy)<-64 || (Ypos + Vy)>592)
         {
             data->Isaac->movement->velocity->y=0;
         }
+
+
+        if(map[top/64][(Vx+left)/64].type=='W' || map[top/64][(Vx+right)/64].type=='W' || map[bot/64][(Vx+left)/64].type=='W' || map[bot/64][(Vx+right)/64].type=='W')
+            data->Isaac->movement->velocity->x=0;
+        if(map[(Vy+top)/64][left/64].type=='W' || map[(Vy+bot)/64][left/64].type=='W' || map[(Vy+top)/64][right/64].type=='W' || map[(Vy+bot)/64][(right)/64].type=='W')
+            data->Isaac->movement->velocity->y=0;
     }
 
 
-    if(data->lobby->layout->map[(data->Isaac->movement->pos->y+85)/64][(data->Isaac->movement->velocity->x+data->Isaac->movement->pos->x+10)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->pos->y+85)/64][(data->Isaac->movement->velocity->x+data->Isaac->movement->pos->x+54)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->pos->y+120)/64][(data->Isaac->movement->velocity->x+data->Isaac->movement->pos->x+10)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->pos->y+120)/64][(data->Isaac->movement->velocity->x+data->Isaac->movement->pos->x+54)/64].type=='W')
-        data->Isaac->movement->velocity->x=0;
+    Vx=(data->Isaac->movement->velocity->x);
+    Vy=(data->Isaac->movement->velocity->y);
 
-    if(data->lobby->layout->map[(data->Isaac->movement->velocity->y+data->Isaac->movement->pos->y+85)/64][(data->Isaac->movement->pos->x+10)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->velocity->y+data->Isaac->movement->pos->y+120)/64][(data->Isaac->movement->pos->x+10)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->velocity->y+data->Isaac->movement->pos->y+85)/64][(data->Isaac->movement->pos->x+54)/64].type=='W' || data->lobby->layout->map[(data->Isaac->movement->velocity->y+data->Isaac->movement->pos->y+120)/64][(data->Isaac->movement->pos->x+54)/64].type=='W')
-        data->Isaac->movement->velocity->y=0;
-
-
+    if(Vx!=0 && Vy!=0)
+    {
+        if(map[(Vy+top)/64][(Vx+left)/64].type=='W' || map[(Vy+top)/64][(Vx+right)/64].type=='W' || map[(Vy+bot)/64][(Vx+left)/64].type=='W' || map[(Vy+bot)/64][(Vx+right)/64].type=='W')
+        {
+                printf(" YEEEEEEEEEEEEEEEEET");
+                data->Isaac->movement->velocity->x=0;
+                data->Isaac->movement->velocity->y=0;
+        }
+    }
 
 }
 

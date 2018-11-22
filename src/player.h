@@ -30,6 +30,7 @@ typedef struct MovementValues {
     int step; //animation step
     int direction;
     SDL_Rect * SpriteBox;
+    int timesince;
 }MovementValues;
 
 

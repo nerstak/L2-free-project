@@ -4,7 +4,7 @@
 
 extern void MovePlayer(Data* data);
 
-extern void ProcessVelocity(int * v);
+extern void ProcessVelocity(int* v,int t);
 
 extern void CheckObstacle(Data* data);
 
