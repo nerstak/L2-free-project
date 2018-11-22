@@ -153,7 +153,7 @@ static void buy_item(Data * data, SlotInventory * item_buying, int number) {
 
 static void sell_item(Data * data, SlotInventory * item_selling, int number) {
     for(int i = 0; i < number; i++) {
-        alter_money(data->Isaac,item_selling->price);
+        alter_money(data->Isaac,(int)(item_selling->price * .8));
         (item_selling->quantity)--;
         //Checking if the item has to be removed from the inventory
         if(item_selling->quantity <= 0) {

@@ -54,7 +54,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
                     break;
                 }
                 case 2: {
-                    sprintf(dialog, "This is worth %d$, and I've %d of those.",data->inventory->selected->price,data->inventory->selected->quantity);
+                    sprintf(dialog, "This is worth %d$, and I've %d of those.",(int)(data->inventory->selected->price * .8),data->inventory->selected->quantity);
                     break;
                 }
             }
