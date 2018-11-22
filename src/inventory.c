@@ -6,9 +6,11 @@
 #include "inventory.h"
 
 //Init Reference Array for Items
-extern SlotInventory* loadReferenceItems() {
-    SlotInventory *referenceTable, *temp;
-    referenceTable = calloc(1,sizeof(SlotInventory));
+extern referenceTable* loadReferenceItems() {
+    referenceTable* reference= NULL;
+    reference = malloc(sizeof(referenceTable));
+    SlotInventory *temp;
+    reference->table = calloc(1,sizeof(SlotInventory));
 
     SlotInventory tempStock;
     tempStock.next = NULL;
@@ -25,26 +27,30 @@ extern SlotInventory* loadReferenceItems() {
     }
     while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d TYPE=%c H=%d D=%d S=%d A=%d\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price), &(tempStock.type), &(tempStock.characteristics->health), &(tempStock.characteristics->damage),&(tempStock.characteristics->speed),&(tempStock.characteristics->agility)) != EOF) {
         //Resizing the array
-        temp = referenceTable;
-        referenceTable = realloc(referenceTable, sizeof(SlotInventory) * (i+1));
-        if(referenceTable == NULL) {
+        temp = reference->table;
+        reference->table = realloc(reference->table, sizeof(SlotInventory) * (i+1));
+        if(reference->table == NULL) {
             free(temp);
             return NULL;
         }
 
-        referenceTable[i] = tempStock;
-        referenceTable[i].characteristics = malloc(sizeof(stats_entity));
-        *(referenceTable[i].characteristics) = *(tempStock.characteristics);
+        reference->table[i] = tempStock;
+        reference->table[i].characteristics = malloc(sizeof(stats_entity));
+        *(reference->table[i].characteristics) = *(tempStock.characteristics);
 
         i++;
     }
 
+    reference->sizeItems = i;
     fclose(dataFile);
-    return referenceTable;
+    return reference;
+}
+
+extern void freeReference(referenceTable* table) {
 }
 
 //Init shop inventory
-extern SlotInventory* init_ShopInventory(SlotInventory *referenceItems, int* size) {
+extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* size) {
     SlotInventory *shop_inv = NULL;
     int quantity, id;
     FILE * file;
@@ -74,13 +80,20 @@ extern void freeAll_SlotInventory(SlotInventory** item) {
 }
 
 //Create an item and return its address
-extern SlotInventory* create_SlotInventory(int id, int quantity, SlotInventory* referenceItems) {
-    SlotInventory * new_item;
+extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable* referenceItems) {
+    SlotInventory* new_item;
     new_item = malloc(sizeof(SlotInventory));
     if(new_item == NULL) {
         return NULL;
     }
-    *new_item = referenceItems[id];
+    new_item->characteristics = malloc(sizeof(stats_entity));
+
+    if(new_item->characteristics == NULL) {
+        return NULL;
+    }
+
+    copyItems(new_item,referenceItems->table[id]);
+
     new_item->quantity = quantity;
     return new_item;
 }
@@ -137,4 +150,18 @@ extern SlotInventory* search_SlotInventory(SlotInventory* list, int id) {
         }
     }
     return NULL;
+}
+
+extern void copyItems(SlotInventory* receiver, SlotInventory original) {
+    strcpy(receiver->name, original.name);
+    strcpy(receiver->description, original.description);
+    receiver->price = original.price;
+    receiver->type = original.type;
+    receiver->id = original.id;
+    receiver->quantity = original.quantity;
+
+    receiver->characteristics->health = original.characteristics->health;
+    receiver->characteristics->damage = original.characteristics->damage;
+    receiver->characteristics->agility = original.characteristics->agility;
+    receiver->characteristics->speed = original.characteristics->speed;
 }

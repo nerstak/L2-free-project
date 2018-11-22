@@ -95,7 +95,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
         for(int i = 0; i < 4; i++) {
             switch (i) {
                 case 0: {
-                    sprintf(dialog, "Are you sure you want to delete it?", data->inventory->selected->name);
+                    sprintf(dialog, "Are you sure you want to delete it?");
                     dialogInfoPos.x = 515;
                     dialogInfoPos.y = 280;
                     break;

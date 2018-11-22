@@ -9,7 +9,7 @@
 #include "inventory.h"
 
 typedef struct Data {
-    struct SlotInventory* referenceItems;
+    struct referenceTable* referenceItems;
     struct inventory_t* inventory;
     struct lobby_t* lobby;
     struct mainMenu_t* mainMenu;

@@ -22,15 +22,22 @@ typedef struct SlotInventory {
     struct SlotInventory* next;
 } SlotInventory;
 
-extern SlotInventory* loadReferenceItems();
+typedef struct referenceTable {
+    int sizeItems;
+    SlotInventory* table;
+}referenceTable;
 
-extern SlotInventory* init_ShopInventory(SlotInventory *referenceItems, int* size);
+extern referenceTable* loadReferenceItems();
+extern void freeReference(referenceTable* table);
+
+extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* size);
 extern void freeOne_SlotInventory(SlotInventory** item);
 extern void freeAll_SlotInventory(SlotInventory** item);
-extern SlotInventory* create_SlotInventory(int id, int quantity, SlotInventory* referenceItems);
+extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable* referenceItems);
 
 extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size);
 extern SlotInventory* remove_SlotInventory(SlotInventory** list, int id, int* size);
 extern SlotInventory* search_SlotInventory(SlotInventory* list, int id);
+extern void copyItems(SlotInventory* receiver, SlotInventory original);
 
 #endif //FREE_PROJECT_INVENTORY_H
