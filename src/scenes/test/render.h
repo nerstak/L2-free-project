@@ -2,9 +2,8 @@
 #define FREE_PROJECT_TEST_RENDER_H
 
 #include "../../data.h"
-#include "../../ttf.h"
-#include "../../image.h"
+#include "../../engine/main.h"
 
-extern void renderScene_Scene_test(SDL_Surface* window, ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
+extern void renderScene_Scene_test(SDL_Surface* window, Engine* engine, Data* data);
 
 #endif //FREE_PROJECT_TEST_RENDER_H

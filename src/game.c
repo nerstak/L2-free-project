@@ -9,6 +9,7 @@
 #include "scenes/mainMenu/mainMenu.h"
 #include "scenes/loadingScreen/loadingScreen.h"
 #include "scenes/shopScreen/shopScreen.h"
+#include "scenes/test/test.h"
 #include "scenes/lobby/lobby.h"
 #include "engine/collectors/ttf.h"
 #include "engine/collectors/scene.h"
@@ -63,8 +64,10 @@ extern void gameLoop(SDL_Surface* window) {
     load_SceneCollector(myEngine, myData, "lobby", &assets_Scene_lobby, &init_Scene_lobby, &renderScene_Scene_lobby, &logicProcess_Scene_lobby, &eventProcess_Scene_lobby);
     load_SceneCollector(myEngine, myData, "shop", &assets_Scene_shop, &init_Scene_shop, &renderScene_Scene_shop, &logicProcess_Scene_shop, &eventProcess_Scene_shop);
     load_SceneCollector(myEngine, myData, "inventory", &assets_Scene_inventory, &init_Scene_inventory, &renderScene_Scene_inventory, &logicProcess_Scene_inventory, &eventProcess_Scene_inventory);
+    load_SceneCollector(myEngine, myData, "test", &assets_Scene_test, &init_Scene_test, &renderScene_Scene_test, &logicProcess_Scene_test, &eventProcess_Scene_test);
 
     display_SceneCollector(myEngine, myData, "mainMenu");
+    display_SceneCollector(myEngine, myData, "test");
 
     while (Game_stop) {
         // Start the FPS limiter Timer
