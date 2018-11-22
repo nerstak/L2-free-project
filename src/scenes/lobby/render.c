@@ -12,15 +12,19 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector,Data * data) {
     SDL_Surface* PlayerSprite=NULL;
 
     SDL_Rect bgPos;
+    SDL_Rect playerPos;
 
     bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
     PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
 
     bgPos.x = 0;
     bgPos.y = 0;
+    playerPos.x=data->Isaac->movement->pos->x;
+    playerPos.y=data->Isaac->movement->pos->y;
+
 
     SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-    SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, data->Isaac->movement->pos);
+    SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
 
     return lobbySurface;
 }

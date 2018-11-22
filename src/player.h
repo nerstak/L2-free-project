@@ -5,8 +5,8 @@
 #include <SDL/SDL.h>
 
 typedef struct coordinates_entity {
-    int x;
-    int y;
+    float x;
+    float y;
 } coordinates_entity;
 
 
@@ -25,7 +25,7 @@ typedef struct Weapon {
 }Weapon;
 
 typedef struct MovementValues {
-    SDL_Rect * pos;
+    coordinates_entity * pos;
     coordinates_entity * velocity;
     int step; //animation step
     int direction;

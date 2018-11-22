@@ -21,7 +21,7 @@ extern void init_Save(char* saveName, Data* data) {
     //Those coordinates will have to correspond to the one of the lobby
     data->Isaac->movement = malloc(sizeof(MovementValues));
 
-    data->Isaac->movement->pos = malloc(sizeof(SDL_Rect));
+    data->Isaac->movement->pos = malloc(sizeof(coordinates_entity));
     data->Isaac->movement->pos->x = 640;
     data->Isaac->movement->pos->y = 400;
 
