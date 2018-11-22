@@ -52,7 +52,23 @@ set(SRC
         src/dungeon/dungeon.c
         src/dungeon/room.c
         src/dungeon/symbol.c
-        )
+        src/scenes/loadingScreen/event.c
+        src/scenes/loadingScreen/render.c
+        src/scenes/loadingScreen/logic.c
+        src/scenes/mainMenu/event.c
+        src/scenes/mainMenu/render.c
+        src/scenes/mainMenu/logic.c
+        src/scenes/lobby/event.c
+        src/scenes/lobby/logic.c
+        src/scenes/lobby/render.c
+        src/scenes/shopScreen/event.c
+        src/scenes/shopScreen/logic.c
+        src/scenes/shopScreen/render.c
+        src/scenes/test/test.c
+        src/scenes/test/event.c
+        src/scenes/test/logic.c
+        src/scenes/test/render.c
+    )
 
 set(HDR
         src/asset.h
@@ -105,7 +121,25 @@ set(HDR
         src/dungeon/dungeon.h
         src/dungeon/room.h
         src/dungeon/symbol.h
-        )
+        src/scenes/loadingScreen/event.h
+        src/scenes/loadingScreen/render.h
+        src/scenes/loadingScreen/logic.h
+        src/scenes/mainMenu/event.h
+        src/scenes/mainMenu/render.h
+        src/scenes/mainMenu/logic.h
+        src/scenes/lobby/event.h
+        src/scenes/lobby/logic.h
+        src/scenes/lobby/render.h
+        src/scenes/shopScreen/event.h
+        src/scenes/shopScreen/logic.h
+        src/scenes/shopScreen/render.h
+        src/scenes/test/test.h
+        src/scenes/test/event.h
+        src/scenes/test/logic.h
+        src/scenes/test/render.h
+        src/structures/shopScreen.h
+        src/structures/mainMenu.h
+    )
 
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
