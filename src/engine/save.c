@@ -6,7 +6,7 @@
 
 //Init of the game and the save
 extern void init_Save(char* saveName, Data* data) {
-    data->referenceItems = loadReferenceItems();
+
 
     data->Isaac = malloc(sizeof(Player));
     if(!data->Isaac) {

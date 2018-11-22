@@ -46,7 +46,15 @@ extern referenceTable* loadReferenceItems() {
     return reference;
 }
 
-extern void freeReference(referenceTable* table) {
+extern void freeReference(referenceTable** refTable) {
+    for(int i = 0; i < (*refTable)->sizeItems; i++) {
+        free((*refTable)->table[i].characteristics);
+        (*refTable)->table[i].characteristics = NULL;
+    }
+    free((*refTable)->table);
+    (*refTable)->table = NULL;
+    free(refTable);
+    *refTable = 0;
 }
 
 //Init shop inventory

@@ -28,7 +28,7 @@ typedef struct referenceTable {
 }referenceTable;
 
 extern referenceTable* loadReferenceItems();
-extern void freeReference(referenceTable* table);
+extern void freeReference(referenceTable** refTable);
 
 extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* size);
 extern void freeOne_SlotInventory(SlotInventory** item);
