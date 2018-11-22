@@ -20,7 +20,7 @@ struct Engine;
 extern SceneCollector* init_SceneCollector();
 extern void clean_SceneCollector(SceneCollector** mySceneCollector);
 
-extern void load_SceneCollector(struct Engine* engine, Data* data, const char name[],
+extern void load_SceneCollector(struct Engine* engine, Data* data, const char name[], int type,
         void (*assets)(struct Engine* engine, Data* data, bool loadOrUnload),
         void (*init)(struct Engine* engine, Data* data, bool loadOrUnload),
         void (*renderScene)(SDL_Surface* window, struct Engine* engine, Data* data),
