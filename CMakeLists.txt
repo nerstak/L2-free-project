@@ -50,7 +50,9 @@ set(SRC
         src/dungeon/condition.c
         src/dungeon/edge.c
         src/dungeon/dungeon.c
+        src/dungeon/generator.c
         src/dungeon/room.c
+        src/dungeon/roomlist.c
         src/dungeon/symbol.c
         src/scenes/loadingScreen/event.c
         src/scenes/loadingScreen/render.c
@@ -119,7 +121,9 @@ set(HDR
         src/dungeon/condition.h
         src/dungeon/edge.h
         src/dungeon/dungeon.h
+        src/dungeon/generator.h
         src/dungeon/room.h
+        src/dungeon/roomlist.h
         src/dungeon/symbol.h
         src/scenes/loadingScreen/event.h
         src/scenes/loadingScreen/render.h

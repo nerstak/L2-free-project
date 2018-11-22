@@ -2,6 +2,9 @@
 #include <stdio.h>
 
 #include "dungeon.h"
+#include "roomlist.h"
+
+static void convertTreeToList(KeyLevelRoomMapping* keylevel, TreeMapNode* node);
 
 extern Dungeon* init_Dungeon() {
     // Initialization of a Dungeon pointer
@@ -28,12 +31,25 @@ extern Bounds* getExtentBounds_Dungeon(Dungeon* p) {
     return p->bounds;
 }
 
-extern Room* getRooms_Dungeon(Dungeon* p) {
-    // Values() in java so idk
+extern struct KeyLevelRoomMapping* getRooms_Dungeon(Dungeon* p) {
+    KeyLevelRoomMapping* keylevel = init_KeyLevelRoomMapping();
+
+    convertTreeToList(keylevel, p->rooms->root);
+
+    return keylevel;
+}
+
+static void convertTreeToList(KeyLevelRoomMapping* keylevel, TreeMapNode* node) {
+    if (node != NULL) {
+        addRoom_KeyLevelRoomMapping(keylevel, 0, node->value);
+
+        convertTreeToList(keylevel, node->link[0]);
+        convertTreeToList(keylevel, node->link[1]);
+    }
 }
 
 extern int roomCount_Dungeon(Dungeon* p) {
-    // Get size
+    return size_TreeMap(p->rooms->root);
 }
 
 extern Room* getByCoord_Dungeon(Dungeon* p, Coord* c) {
@@ -83,7 +99,11 @@ extern void add_Dungeon(Dungeon* p, Room* r) {
 }
 
 extern void linkOneWay_Dungeon(Dungeon* p, Room* r1, Room* r2, Symbol* c) {
-    // Assert that both rooms is in our dungeon
+    if (get_TreeMap(p->rooms, r1->coord) == NULL && get_TreeMap(p->rooms, r2->coord)) {
+        // Err
+
+        return;
+    }
 
     if (!isAdjacent_Coord(r1->coord, r2->coord)) {
         // Err
@@ -96,7 +116,11 @@ extern void linkOneWay_Dungeon(Dungeon* p, Room* r1, Room* r2, Symbol* c) {
 }
 
 extern void link_Dungeon(Dungeon* p, Room* r1, Room* r2, Symbol* c) {
-    // Assert that both rooms is in our dungeon
+    if (get_TreeMap(p->rooms, r1->coord) == NULL && get_TreeMap(p->rooms, r2->coord)) {
+        // Err
+
+        return;
+    }
 
     if (!isAdjacent_Coord(r1->coord, r2->coord)) {
         // Err

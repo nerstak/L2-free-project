@@ -13,8 +13,7 @@ typedef struct Dungeon {
 extern Dungeon* init_Dungeon();
 extern void clean_Dungeon(Dungeon** p);
 extern Bounds* getExtentBounds_Dungeon(Dungeon* p);
-// TODO: Adjust this one may be wrong
-extern Room* getRooms_Dungeon(Dungeon* p);
+extern struct KeyLevelRoomMapping* getRooms_Dungeon(Dungeon* p);
 extern int roomCount_Dungeon(Dungeon* p);
 extern Room* getByCoord_Dungeon(Dungeon* p, Coord* c);
 extern Room* getByCoordAlt_Dungeon(Dungeon* p, int x, int y);
