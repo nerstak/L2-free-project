@@ -4,8 +4,6 @@
 
 #include "symbol.h"
 
-enum symbolType {START = -1, GOAL = -2, BOSS = -3, KEY = -4};
-
 extern Symbol* init_Symbol(int value) {
     // Initialization of a Coord pointer
     Symbol* mySymbol = NULL;

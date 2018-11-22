@@ -8,6 +8,8 @@ typedef struct Symbol {
     char name[255];
 } Symbol;
 
+enum symbolType {START = -1, GOAL = -2, BOSS = -3, KEY = -4};
+
 extern Symbol* init_Symbol(int value);
 extern void clean_Symbol(Symbol** mySymbol);
 
