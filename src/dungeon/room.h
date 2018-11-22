@@ -1,6 +1,8 @@
 #ifndef FREE_PROJECT_DUNGEONS_ROOM_H
 #define FREE_PROJECT_DUNGEONS_ROOM_H
 
+#include <stdlib.h>
+
 #include "condition.h"
 #include "../utils/coord.h"
 #include "edge.h"
@@ -11,6 +13,7 @@ typedef struct Room {
     Symbol* item;
     Edge* edges[4];
     double difficulty;
+    size_t childrenLength;
     struct Room* parent;
     struct Room* children[];
 } Room;

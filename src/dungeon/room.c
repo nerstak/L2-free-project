@@ -31,6 +31,8 @@ extern Room* init_Room(Coord* coord, Room* parent, Symbol* item, Condition* preC
         myRoom->children[i] = NULL;
     }
 
+    myRoom->childrenLength = 0;
+
     return myRoom;
 }
 
@@ -106,7 +108,7 @@ extern Room** getChildren_Room(Room* myRoom) {
     return myRoom->children;
 }
 
-extern void addChild(Room* myRoom, Room* child) {
+extern void addChild_Room(Room* myRoom, Room* child) {
     int i;
 
     for (i = 0; i < 4; i += 1) {
@@ -116,6 +118,7 @@ extern void addChild(Room* myRoom, Room* child) {
     }
 
     myRoom->children[i] = child;
+    myRoom->childrenLength += 1;
 }
 
 extern void printf_Room(Room* myRoom) {
