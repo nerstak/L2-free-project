@@ -30,7 +30,7 @@ static void enterMainMenu(Data* data, Engine* engine) {
         case 0:
             //New game
             init_Save("", data);
-            display_SceneCollector(engine,data,"inventory");
+            display_SceneCollector(engine,data,"lobby");
             break;
         case 1:
             //Load game
