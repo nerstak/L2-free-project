@@ -214,6 +214,8 @@ extern void load_SoundCollector(SoundCollector* p, const char path[], const char
 
         return;
     }
+
+    add_AudioElement(p, temp);
 }
 
 extern void loadList_SoundCollector(SoundCollector* p, Asset* assetsList) {
@@ -271,7 +273,7 @@ extern void unloadList_SoundCollector(SoundCollector* p, Asset* assetsList) {
     }
 }
 
-extern AudioElement* get_ImageCollector(SoundCollector* p, const char name[]) {
+extern AudioElement* get_SoundCollector(SoundCollector* p, const char name[]) {
     AudioElement* temp = p->audioElements;
 
     // We retrieve the existing Image from our ImageCollector

@@ -37,6 +37,6 @@ extern void loadList_SoundCollector(SoundCollector* p, Asset* assetsList);
 extern void unload_SoundCollector(SoundCollector* p, const char name[], int type);
 extern void unloadList_SoundCollector(SoundCollector* p, Asset* assetsList);
 
-extern AudioElement* get_ImageCollector(SoundCollector* p, const char name[]);
+extern AudioElement* get_SoundCollector(SoundCollector* p, const char name[]);
 
 #endif //FREE_PROJECT_ENGINE_COLLECTORS_SOUND_H

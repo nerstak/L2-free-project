@@ -14,6 +14,7 @@
 #include "engine/collectors/scene.h"
 
 #include "structures/scene.h"
+#include "engine/collectors/sound.h"
 
 #include <SDL/SDL.h>
 
@@ -45,6 +46,9 @@ extern void gameLoop(SDL_Surface* window) {
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 40, "menu/40");
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 20, "menu/20");
 
+    // Initializing SoundCollector
+    SoundCollector* mySoundCollector = init_SoundCollector();
+
     // Initializing SceneCollector
     SceneCollector* mySceneCollector = init_SceneCollector();
 
@@ -53,6 +57,7 @@ extern void gameLoop(SDL_Surface* window) {
     myEngine->sceneCollector = mySceneCollector;
     myEngine->fontCollector = myFontCollector;
     myEngine->imageCollector = myImageCollector;
+    myEngine->soundCollector = mySoundCollector;
 
     // Initializing Data
     Data* myData = init_Data();
@@ -133,6 +138,7 @@ extern void gameLoop(SDL_Surface* window) {
     clean_ImageCollector(&myImageCollector);
     clean_SceneCollector(&mySceneCollector);
     clean_FontCollector(&myFontCollector);
+    clean_SoundCollector(&mySoundCollector);
     clean_Data(&myData);
     clean_Engine(&myEngine);
 }
