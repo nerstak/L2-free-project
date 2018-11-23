@@ -97,7 +97,6 @@ extern void gameLoop(SDL_Surface* window) {
 
                     break;
                 }
-
                 case SDL_QUIT: {
                     Game_stop = 0;
 

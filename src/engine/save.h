@@ -6,5 +6,6 @@
 extern void init_Save(char* saveName, Data* data);
 extern void write_Save(Data* data);
 int read_Save(Data* data);
+static void loadPlayer(Data* data);
 
 #endif //FREE_PROJECT_ENGINE_SAVE_H
