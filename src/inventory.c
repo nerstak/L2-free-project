@@ -28,19 +28,17 @@ extern referenceTable* loadReferenceItems() {
     while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d TYPE=%c H=%d D=%d S=%d A=%d\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price), &(tempStock.type), &(tempStock.characteristics->health), &(tempStock.characteristics->damage),&(tempStock.characteristics->speed),&(tempStock.characteristics->agility)) != EOF) {
         //Resizing the array
         temp = reference->table;
-        reference->table = realloc(reference->table, sizeof(SlotInventory) * (i+1));
-        if(reference->table == NULL) {
+        reference->table = realloc(reference->table, sizeof(SlotInventory) * (i + 1));
+        if (reference->table == NULL) {
             free(temp);
             return NULL;
         }
 
-        reference->table[i] = tempStock;
         reference->table[i].characteristics = malloc(sizeof(stats_entity));
-        *(reference->table[i].characteristics) = *(tempStock.characteristics);
+        copyItems(&(reference->table[i]), tempStock);
 
         i++;
     }
-
     reference->sizeItems = i;
     fclose(dataFile);
     return reference;
@@ -67,6 +65,10 @@ extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* si
         while(fscanf(file,"%d;%d\n",&id,&quantity) != EOF && *size < 20) {
             add_SlotInventory(&shop_inv, create_SlotInventory(id,quantity,referenceItems), size);
         }
+    }
+    //Pop items if the size wasn't respected
+    while(*size > 16) {
+        remove_SlotInventory(&shop_inv,shop_inv->id,size);
     }
     fclose(file);
     return shop_inv;
@@ -95,7 +97,6 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
         return NULL;
     }
     new_item->characteristics = malloc(sizeof(stats_entity));
-
     if(new_item->characteristics == NULL) {
         return NULL;
     }
@@ -103,6 +104,8 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
     copyItems(new_item,referenceItems->table[id]);
 
     new_item->quantity = quantity;
+    new_item->next = NULL;
+    new_item->prev = NULL;
     return new_item;
 }
 

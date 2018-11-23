@@ -1,10 +1,26 @@
-0: 'NAME0' 'DESC0' PRICE=0 TYPE=f H=2 D=0 S=0 A=0
-1: 'NAME1' 'DESC1' PRICE=151 TYPE=f H=3 D=0 S=0 A=0
-2: 'NAME2' 'DESC2' PRICE=252 TYPE=f H=4 D=0 S=0 A=0
-3: 'NAME3' 'DESC3' PRICE=353 TYPE=f H=0 D=0 S=0 A=0
-4: 'NAME4' 'DESC4' PRICE=454 TYPE=f H=0 D=0 S=0 A=0
-5: 'NAME5NAME5NAME5NAME5NA' 'DESC5' PRICE=555 TYPE=f H=0 D=0 S=0 A=0
-6: 'NAME6' 'DESC6' PRICE=656 TYPE=f H=0 D=0 S=0 A=0
-7: 'NAME7' 'DESC7' PRICE=757 TYPE=f H=0 D=0 S=0 A=0
-8: 'NAME8' 'DESC8' PRICE=858 TYPE=f H=0 D=0 S=0 A=0
-9: 'NAME9' 'DESC9' PRICE=959 TYPE=f H=10 D=0 S=0 A=0
+0: 'Wild radish seed' 'Just a seed. Nothing to worry about. Right?' PRICE=1 TYPE=s H=2 D=0 S=0 A=0
+1: 'Tomato seed' 'Is this the ancestor of ketchup?' PRICE=80 TYPE=s H=3 D=0 S=0 A=0
+2: 'Potatoes seed' 'I cant wait to use my potato gun' PRICE=250 TYPE=s H=4 D=0 S=0 A=0
+3: 'Corn seed' 'Oh, looking at these seed make my corny!' PRICE=540 TYPE=s H=0 D=0 S=0 A=0
+4: 'Pumpkin seed' 'Damn, I thought pumpkin where made of plastic just for Halloween.' PRICE=890 TYPE=s H=0 D=0 S=0 A=0
+5: 'Wild radish' 'Ewww... It looks a bit small' PRICE=10 TYPE=v H=0 D=0 S=0 A=0
+6: 'Tomatoes' 'A juicy red vegetetable. Or is it a fruit?' PRICE=120 TYPE=v H=0 D=0 S=0 A=0
+7: 'Potatoes' 'So many ways to cook them...' PRICE=300 TYPE=v H=0 D=0 S=0 A=0
+8: 'Corn' 'Get ready to pop it!' PRICE=580 TYPE=v H=0 D=0 S=0 A=0
+9: 'Pumpkin' 'A spooky vegetetable.' PRICE=1000 TYPE=v H=10 D=0 S=0 A=0
+10: 'Basic health potion' 'Where is the fairy?' PRICE=20 TYPE=p H=20 D=0 S=0 A=0
+11: 'Super health potion' 'Where is the fairy Queen?' PRICE=80 TYPE=p H=80 D=0 S=0 A=0
+12: 'Basic strength potion' 'Is this blood inside?' PRICE=20 TYPE=p H=0 D=10 S=0 A=0
+13: 'Super strength potion' 'I can feel an infinite source of power inside...' PRICE=80 TYPE=p H=0 D=30 S=0 A=0
+14: 'Basic speed potion' 'Ooooh, coffee!' PRICE=20 TYPE=p H=0 D=0 S=10 A=0
+15: 'Super speed potion' 'This a Truc de Fou Energy!' PRICE=80 TYPE=p H=0 D=0 S=20 A=0
+16: 'Basic agility potion' 'I dont want to know what is inside this bottle' PRICE=20 TYPE=p H=0 D=0 S=0 A=5
+17: 'Super agility potion' 'I am kinda addicted to it' PRICE=80 TYPE=p H=0 D=0 S=0 A=10
+18: 'Loot1' 'DescLoot1' PRICE=20 TYPE=n H=0 D=0 S=0 A=0
+19: 'Loot2' 'DescLoot2' PRICE=20 TYPE=n H=0 D=0 S=0 A=0
+20: 'Loot3' 'DescLoot3' PRICE=40 TYPE=n H=0 D=0 S=0 A=0
+21: 'Loot4' 'DescLoot4' PRICE=40 TYPE=n H=0 D=0 S=0 A=0
+22: 'Loot5' 'DescLoot5' PRICE=60 TYPE=n H=0 D=0 S=0 A=0
+23: 'Loot6' 'DescLoot6' PRICE=60 TYPE=n H=0 D=0 S=0 A=0
+24: 'Loot7' 'DescLoot7' PRICE=80 TYPE=n H=0 D=0 S=0 A=0
+25: 'Loot8' 'DescLoot8' PRICE=80 TYPE=n H=0 D=0 S=0 A=0

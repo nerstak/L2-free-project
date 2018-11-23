@@ -55,7 +55,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
                     break;
                 }
                 case 1: {
-                    sprintf(dialog, "%s.",data->shop->selected->description);
+                    sprintf(dialog, "%s",data->shop->selected->description);
                     break;
                 }
                 case 2: {

@@ -50,7 +50,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
                     break;
                 }
                 case 1: {
-                    sprintf(dialog, "%s.",data->inventory->selected->description);
+                    sprintf(dialog, "%s",data->inventory->selected->description);
                     break;
                 }
                 case 2: {
