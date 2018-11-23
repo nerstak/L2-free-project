@@ -24,6 +24,10 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         }
 
         data->lobby->layout = loadSingleLayout("lobby","lobby");
+        data->lobby->askAction=0;
+        data->lobby->menuHouse=0;
+        data->lobby->counterPressKey = 0;
+
     } else {
         freeSingleLayout(&(data->lobby->layout));
         free(data->lobby);

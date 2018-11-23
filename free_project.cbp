@@ -78,6 +78,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/game.h" />
+		<Unit filename="src/garden.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/garden.h" />
 		<Unit filename="src/inventory.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -162,6 +166,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scenes/shopScreen/shopScreen.h" />
+		<Unit filename="src/structures/lobby.h" />
 		<Unit filename="src/structures/mainMenu.h" />
 		<Unit filename="src/structures/scene.h" />
 		<Unit filename="src/structures/shopScreen.h" />
