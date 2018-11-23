@@ -86,6 +86,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/launch.h" />
+		<Unit filename="src/layout.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/layout.h" />
 		<Unit filename="src/movement.c">
 			<Option compilerVar="CC" />
 		</Unit>

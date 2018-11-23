@@ -4,10 +4,9 @@
 #include "inventory.h"
 #include <SDL/SDL.h>
 
-
 typedef struct coordinates_entity {
-    int x;
-    int y;
+    float x;
+    float y;
 } coordinates_entity;
 
 
@@ -31,6 +30,7 @@ typedef struct MovementValues {
     int step; //animation step
     int direction;
     SDL_Rect * SpriteBox;
+    int timesince;
 }MovementValues;
 
 

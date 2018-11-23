@@ -1,1 +1,2 @@
-src/gfx/menu/main_bg.png lobby/bg
+src/gfx/scenes/lobby/lobby_bg.png lobby/bg
+src/gfx/player/sprites_hero.png lobby/player

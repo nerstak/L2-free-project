@@ -22,8 +22,8 @@ extern void init_Save(char* saveName, Data* data) {
     data->Isaac->movement = malloc(sizeof(MovementValues));
 
     data->Isaac->movement->pos = malloc(sizeof(coordinates_entity));
-    data->Isaac->movement->pos->x = 0;
-    data->Isaac->movement->pos->y = 0;
+    data->Isaac->movement->pos->x = 640;
+    data->Isaac->movement->pos->y = 400;
 
     data->Isaac->movement->velocity = malloc(sizeof(coordinates_entity));
     data->Isaac->movement->velocity->x = 0;
