@@ -3,6 +3,7 @@
 static void moveInventorySelector(Data* data);
 static void deleteItemInventory(Data* data);
 static void useItem(Data* data);
+static void applyEffect(Data* data);
 static void moveDeleteCursor(Data* data);
 
 extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
@@ -97,8 +98,8 @@ static void deleteItemInventory(Data* data) {
 static void useItem(Data* data) {
     //First we should check if the item is usable
     if(data->inventory->selected) {
-        if(data->inventory->selected->type != 'n') {
-
+        if(data->inventory->selected->type != 'n' && data->inventory->selected->type != 's') {
+            applyEffect(data);
             (data->inventory->selected->quantity)--;
             if(data->inventory->selected->quantity <= 0) {
                 deleteItemInventory(data);
@@ -111,11 +112,17 @@ static void applyEffect(Data* data) {
     SlotInventory* current = data->inventory->selected;
     switch(current->type) {
         case 'p': {
-            alterHealth(data->Isaac, current->characteristics->health * data->Isaac->current_stats->health,'c');
+            alterHealth(data->Isaac, current->characteristics->health * data->Isaac->current_stats->health, 'c');
+            alterAgility(data->Isaac, current->characteristics->agility * data->Isaac->current_stats->agility, 'c');
+            alterSpeed(data->Isaac, current->characteristics->agility * data->Isaac->current_stats->speed, 'c');
+            alterDamage(data->Isaac, current->characteristics->damage * data->Isaac->current_stats->damage, 'c');
             break;
         }
         case 'v': {
-
+            alterHealth(data->Isaac, current->characteristics->health * data->Isaac->basic_stats->health, 'b');
+            alterAgility(data->Isaac, current->characteristics->agility * data->Isaac->basic_stats->agility, 'b');
+            alterSpeed(data->Isaac, current->characteristics->agility * data->Isaac->basic_stats->speed, 'b');
+            alterDamage(data->Isaac, current->characteristics->damage * data->Isaac->basic_stats->damage, 'b');
             break;
         }
         default: {
