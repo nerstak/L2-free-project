@@ -136,7 +136,7 @@ extern void link_Dungeon(Dungeon* p, Room* r1, Room* r2, Symbol* c) {
 }
 
 
-extern bool areRoomsLinked_Dungeon(Dungeon* p, Room* r1, Room* r2) {
+extern bool areRoomsLinked_Dungeon(Room* r1, Room* r2) {
     Direction* d = getDirectionTo_Coord(r1->coord, r2->coord);
     bool result = getEdge_Room(r1, d) != NULL || getEdge_Room(r2, d) != NULL;
 
