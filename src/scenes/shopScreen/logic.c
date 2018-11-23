@@ -111,19 +111,14 @@ static void moveShopSelector(Data* data) {
             //Case for down
             if(data->shop->nSelected / 4 != 3 && data->shop->nSelected / 4 != 7) {
                 pos_to_go = data->shop->nSelected + 4;
-                while (data->shop->selected->next != NULL && data->shop->nSelected != pos_to_go) {
-                    data->shop->selected = data->shop->selected->next;
-                    (data->shop->nSelected)++;
-                }
+            } else if(data->shop->nSelected / 4 != 3) {
+                pos_to_go = 15;
             } else {
-                if(data->shop->nSelected < 16) {
-                    data->shop->selected = data->Isaac->inventory;
-                    data->shop->nSelected = 0;
-                } else {
-                    data->shop->selected = data->shop->shop_inv;
-                    data->shop->nSelected = 16;
-                }
-
+                pos_to_go = 31;
+            }
+            while (data->shop->selected->next != NULL && data->shop->nSelected != pos_to_go) {
+                data->shop->selected = data->shop->selected->next;
+                (data->shop->nSelected)++;
             }
             break;
         }
@@ -153,7 +148,7 @@ static void buy_item(Data * data, SlotInventory * item_buying, int number) {
 
 static void sell_item(Data * data, SlotInventory * item_selling, int number) {
     for(int i = 0; i < number; i++) {
-        alter_money(data->Isaac,item_selling->price);
+        alter_money(data->Isaac,(int)(item_selling->price * .8));
         (item_selling->quantity)--;
         //Checking if the item has to be removed from the inventory
         if(item_selling->quantity <= 0) {

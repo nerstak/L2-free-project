@@ -19,6 +19,9 @@ extern Data* init_Data() {
     // Default value of our instance
     myData->mainMenu = NULL;
 
+    //Loading of the reference
+    myData->referenceItems = loadReferenceItems();
+
     return myData;
 }
 

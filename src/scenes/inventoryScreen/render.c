@@ -50,11 +50,11 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
                     break;
                 }
                 case 1: {
-                    sprintf(dialog, "%s.",data->inventory->selected->description);
+                    sprintf(dialog, "%s",data->inventory->selected->description);
                     break;
                 }
                 case 2: {
-                    sprintf(dialog, "This is worth %d$, and I've %d of those.",data->inventory->selected->price,data->inventory->selected->quantity);
+                    sprintf(dialog, "This is worth %d$, and I've %d of those.",(int)(data->inventory->selected->price * .8),data->inventory->selected->quantity);
                     break;
                 }
             }
@@ -95,7 +95,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
         for(int i = 0; i < 4; i++) {
             switch (i) {
                 case 0: {
-                    sprintf(dialog, "Are you sure you want to delete it?", data->inventory->selected->name);
+                    sprintf(dialog, "Are you sure you want to delete it?");
                     dialogInfoPos.x = 515;
                     dialogInfoPos.y = 280;
                     break;

@@ -26,44 +26,47 @@ static void moveInventorySelector(Data* data) {
     int pos_to_go;
     if(data->inventory->selected) {
         switch(data->inventory->askAction) {
-            //Case for right
-            case 1:
+            case 1: {
+                //Case for right
                 //If we are just moving inside the inventory
-                if(data->inventory->selected->next != NULL) {
+                if (data->inventory->selected->next != NULL) {
                     data->inventory->selected = data->inventory->selected->next;
                     (data->inventory->nSelected)++;
                 }
                 break;
+            }
+            case -1: {
                 //Case for left
-            case -1:
                 //If we are just moving inside the inventory
-                if(data->inventory->selected->prev != NULL) {
+                if (data->inventory->selected->prev != NULL) {
                     data->inventory->selected = data->inventory->selected->prev;
                     (data->inventory->nSelected)--;
                 }
                 break;
+            }
+            case 10: {
                 //Case for down
-            case 10: ;
                 pos_to_go = (data->inventory->nSelected + 4) % 16;
                 while (data->inventory->selected->next != NULL && data->inventory->nSelected != pos_to_go) {
                     data->inventory->selected = data->inventory->selected->next;
                     (data->inventory->nSelected)++;
                 }
                 break;
+            }
+            case -10: {
                 //Case for up
-            case -10: ;
-                if(data->inventory->nSelected / 4 != 0) {
+                if (data->inventory->nSelected / 4 != 0) {
                     pos_to_go = (data->inventory->nSelected - 4) % 16;
                     while (data->inventory->selected->prev != NULL && data->inventory->nSelected != pos_to_go) {
                         data->inventory->selected = data->inventory->selected->prev;
                         (data->inventory->nSelected)--;
                     }
-                }
-                else {
+                } else {
                     data->inventory->selected = data->Isaac->inventory;
                     data->inventory->nSelected = 0;
                 }
                 break;
+            }
             default:
                 break;
         }

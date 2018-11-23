@@ -6,7 +6,7 @@
 
 //Init of the game and the save
 extern void init_Save(char* saveName, Data* data) {
-    data->referenceItems = loadReferenceItems();
+
 
     data->Isaac = malloc(sizeof(Player));
     if(!data->Isaac) {
@@ -61,6 +61,7 @@ extern void init_Save(char* saveName, Data* data) {
     data->Isaac->current_stats = data->Isaac->basic_stats;
 }
 
+//Write important data inside the file
 extern void write_Save(Data* data) {
     FILE * save_file;
     Player * Isaac = data->Isaac;
@@ -76,13 +77,13 @@ extern void write_Save(Data* data) {
         //Writing save_name and money
         fprintf(save_file,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++(Isaac->day),Isaac->money);
         //Writing stats
-        fprintf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->ability);
+        fprintf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->agility);
         //Writing weapons
         for(int i = 0; i < 4; i++) {
-            fprintf(save_file,"WEAPON: '%s' '%s' D=%d S=%d\n",Isaac->weapons[i].name,Isaac->weapons[i].description,Isaac->weapons[i].damage,Isaac->weapons[i].swing_speed);
+            fprintf(save_file,"WEAPON: '%s' '%s' D=%d A=%d\n",Isaac->weapons[i].name,Isaac->weapons[i].description,Isaac->weapons[i].damage,Isaac->weapons[i].agility);
         }
         int i = 0;
-        while(current != NULL && i < 20) {
+        while(current != NULL && i < 16) {
             fprintf(save_file,"ID=%d QUANT=%d\n",current->id,current->quantity);
             current = current->next;
             i++;
@@ -91,6 +92,7 @@ extern void write_Save(Data* data) {
     }
 }
 
+//Read the values inside one of the file
 int read_Save(Data* data) {
     FILE * save_file;
     char temp[50];
@@ -109,15 +111,16 @@ int read_Save(Data* data) {
         printf("Error while reading save");
         return 0;
     } else {
+        //Reading all values
         fscanf(save_file,"%s\n",temp);
         fscanf(save_file,"DAY=%d\n",&(data->Isaac->day));
         fscanf(save_file,"MONEY=%d\n",&(data->Isaac->money));
-        fscanf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->ability));
+        fscanf(save_file,"STATS: H=%d D=%d S=%d A=%d\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->agility));
         for(int i = 0; i < 4; i++) {
-            fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%d S=%d\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].swing_speed));
+            fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%d S=%d\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].agility));
         }
         int i = 0;
-        while(fscanf(save_file,"ID=%d QUANT=%d\n",&(id),&(quantity)) != EOF && i < 20) {
+        while(fscanf(save_file,"ID=%d QUANT=%d\n",&(id),&(quantity)) != EOF && i < 16) {
             add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
         }
         data->Isaac->size_inventory = i;
