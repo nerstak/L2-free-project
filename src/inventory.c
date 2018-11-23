@@ -29,7 +29,7 @@ extern referenceTable* loadReferenceItems() {
         return NULL;
     }
     //Scanning line by line
-    while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d TYPE=%c H=%d D=%d S=%d A=%d\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price), &(tempStock.type), &(tempStock.characteristics->health), &(tempStock.characteristics->damage),&(tempStock.characteristics->speed),&(tempStock.characteristics->agility)) != EOF) {
+    while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d TYPE=%c H=%f D=%f S=%f A=%f\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price), &(tempStock.type), &(tempStock.characteristics->health), &(tempStock.characteristics->damage),&(tempStock.characteristics->speed),&(tempStock.characteristics->agility)) != EOF) {
         //Resizing the array
         temp = reference->table;
         reference->table = realloc(reference->table, sizeof(SlotInventory) * (i + 1));

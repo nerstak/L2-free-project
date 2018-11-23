@@ -96,17 +96,32 @@ static void deleteItemInventory(Data* data) {
 
 static void useItem(Data* data) {
     //First we should check if the item is usable
-    //But because we don't have a proper list of items, we can't
-
     if(data->inventory->selected) {
-        (data->inventory->selected->quantity)--;
-        if(data->inventory->selected->quantity <= 0) {
-            deleteItemInventory(data);
+        if(data->inventory->selected->type != 'n') {
+
+            (data->inventory->selected->quantity)--;
+            if(data->inventory->selected->quantity <= 0) {
+                deleteItemInventory(data);
+            }
         }
     }
+}
 
+static void applyEffect(Data* data) {
+    SlotInventory* current = data->inventory->selected;
+    switch(current->type) {
+        case 'p': {
+            alterHealth(data->Isaac, current->characteristics->health * data->Isaac->current_stats->health,'c');
+            break;
+        }
+        case 'v': {
 
-    //TODO: Fill that shit
+            break;
+        }
+        default: {
+            break;
+        }
+    }
 }
 
 static void moveDeleteCursor(Data* data) {
