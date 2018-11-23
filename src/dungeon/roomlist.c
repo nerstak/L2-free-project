@@ -179,9 +179,6 @@ extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keyleve
                 RoomList* elB = getRoom(p, keylevel, newPlace);
                 RoomList* prevB = getRoom(p, keylevel, newPlace - 1);
 
-                RoomList* nextA = (*pRoomList)->next;
-                RoomList* nextB = elB->next;
-
                 (*pRoomList) = elB;
                 prevB->next = elA;
 
@@ -193,9 +190,6 @@ extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keyleve
                 RoomList* elB = getRoom(p, keylevel, newPlace);
                 RoomList* prevA = getRoom(p, keylevel, i - 1);
                 RoomList* prevB = getRoom(p, keylevel, newPlace - 1);
-
-                RoomList* nextA = elA->next;
-                RoomList* nextB = elB->next;
 
                 prevA->next = elB;
                 prevB->next = elA;
