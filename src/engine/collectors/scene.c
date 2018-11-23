@@ -187,14 +187,18 @@ extern void display_SceneCollector(struct Engine* engine, Data* data, const char
     while (temp != NULL) {
         if (strcmp(temp->name, name) == 0) {
             // Now we do our shit behind the scene
-            // First we clean the previous scene
+            // First we clean the previous scene (only if new scene is a Scene and there is a previous one)
             if (previousScene != NULL && temp->type == SCENE) {
                 previousScene->assets(engine, data, false);
                 previousScene->init(engine, data, false);
             }
 
-            temp->assets(engine, data, true);
-            temp->init(engine, data, true);
+            // If we leave a Overlay, we shouldn't reload the new scene
+            if (!(previousScene != NULL && previousScene->type == OVERLAY)) {
+                temp->assets(engine, data, true);
+                temp->init(engine, data, true);
+            }
+
             // We hide it
             engine->sceneCollector->currentScene = temp;
 
