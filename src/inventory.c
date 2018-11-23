@@ -7,17 +7,20 @@
 
 //Init Reference Array for Items
 extern referenceTable* loadReferenceItems() {
+    //Creating referenceTable
     referenceTable* reference= NULL;
     reference = malloc(sizeof(referenceTable));
     SlotInventory *temp;
     reference->table = calloc(1,sizeof(SlotInventory));
 
+    //Init the temp Slot
     SlotInventory tempStock;
     tempStock.next = NULL;
     tempStock.prev = NULL;
     tempStock.quantity = -1;
     tempStock.characteristics = malloc(sizeof(stats_entity));
 
+    //Opening file
     int i = 0;
     FILE* dataFile;
     dataFile = fopen("src/data/items/items.data","r");
@@ -25,6 +28,7 @@ extern referenceTable* loadReferenceItems() {
         printf("Error while opening items file");
         return NULL;
     }
+    //Scanning line by line
     while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d TYPE=%c H=%d D=%d S=%d A=%d\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price), &(tempStock.type), &(tempStock.characteristics->health), &(tempStock.characteristics->damage),&(tempStock.characteristics->speed),&(tempStock.characteristics->agility)) != EOF) {
         //Resizing the array
         temp = reference->table;
@@ -44,6 +48,7 @@ extern referenceTable* loadReferenceItems() {
     return reference;
 }
 
+//Free a referenceTable
 extern void freeReference(referenceTable** refTable) {
     for(int i = 0; i < (*refTable)->sizeItems; i++) {
         free((*refTable)->table[i].characteristics);
@@ -62,13 +67,9 @@ extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* si
     FILE * file;
     file = fopen("src/data/shop/shop.data","r");
     if(file) {
-        while(fscanf(file,"%d;%d\n",&id,&quantity) != EOF && *size < 20) {
+        while(fscanf(file,"%d;%d\n",&id,&quantity) != EOF && *size < 16) {
             add_SlotInventory(&shop_inv, create_SlotInventory(id,quantity,referenceItems), size);
         }
-    }
-    //Pop items if the size wasn't respected
-    while(*size > 16) {
-        remove_SlotInventory(&shop_inv,shop_inv->id,size);
     }
     fclose(file);
     return shop_inv;
@@ -91,6 +92,7 @@ extern void freeAll_SlotInventory(SlotInventory** item) {
 
 //Create an item and return its address
 extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable* referenceItems) {
+    //Init the item
     SlotInventory* new_item;
     new_item = malloc(sizeof(SlotInventory));
     if(new_item == NULL) {
@@ -101,8 +103,8 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
         return NULL;
     }
 
+    //Set values of data
     copyItems(new_item,referenceItems->table[id]);
-
     new_item->quantity = quantity;
     new_item->next = NULL;
     new_item->prev = NULL;
@@ -111,11 +113,10 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
 
 //Add an existing item to the beginning of a list
 extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size) {
-    if(*list == NULL)
-    {
+    if(*list == NULL) {
         *list = item;
         (*size)++;
-    } else if (*size < 20) {
+    } else if (*size < 16) {
         item->next = *list;
         (*list)->prev = item;
         *list = item;
@@ -136,7 +137,7 @@ extern SlotInventory* remove_SlotInventory(SlotInventory** list, int id, int* si
                 temp->prev->next = temp->next;
             }
             if(temp->prev == NULL) {
-                //Important case: if we empty the list
+                //Important case: if we remove the first element
                 *list = temp->next;
             }
             (*size)--;
@@ -150,9 +151,9 @@ extern SlotInventory* remove_SlotInventory(SlotInventory** list, int id, int* si
 //Search an item in a list and return its adress
 extern SlotInventory* search_SlotInventory(SlotInventory* list, int id) {
     SlotInventory * current = list;
-    //Even if it is not supposed to have more than 20 elements, we check
+    //Even if it is not supposed to have more than 16 elements, we check
     int i = 0;
-    while(current != NULL && i < 20) {
+    while(current != NULL && i < 16) {
         if(current->id == id) {
             return current;
         } else {
@@ -163,6 +164,7 @@ extern SlotInventory* search_SlotInventory(SlotInventory* list, int id) {
     return NULL;
 }
 
+//Copy the characteristics of an item
 extern void copyItems(SlotInventory* receiver, SlotInventory original) {
     strcpy(receiver->name, original.name);
     strcpy(receiver->description, original.description);
