@@ -26,7 +26,8 @@ extern Symbol* getItem_Room(Room* myRoom);
 extern void setItem_Room(Room* myRoom, Symbol* item);
 extern Edge** getEdges_Room(Room* myRoom);
 extern Edge* getEdge_Room(Room* myRoom, Direction* direction);
-extern int linkAmount(Room* myRoom);
+/**
+extern int linkAmount_Room(Room* myRoom);
 
 extern bool isStart_Room(Room* myRoom);
 extern bool isGoal_Room(Room* myRoom);

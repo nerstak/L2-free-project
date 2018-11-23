@@ -64,7 +64,7 @@ extern Edge* getEdge_Room(Room* myRoom, Direction* direction) {
     return myRoom->edges[direction->code];
 }
 
-extern int linkAmount(Room* myRoom) {
+extern int linkAmount_Room(Room* myRoom) {
     int amount = 0;
 
     for (int i = 0; i < 4; i += 1) {
