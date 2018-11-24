@@ -190,6 +190,36 @@ extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keyleve
     }
 }
 
+extern void sortRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel) {
+    RoomList* start = *getRooms(p, keylevel);
+
+    int swapped;
+    int i;
+
+    RoomList* ptr1 = NULL;
+    RoomList* lptr = NULL;
+
+    if (start == NULL) {
+        return;
+    }
+
+    do {
+        swapped = 0;
+        ptr1 = start;
+
+        while (ptr1->next != lptr) {
+            if (ptr1->data->difficulty > ptr1->next->data->difficulty) {
+                Room* temp = ptr1->data;
+                ptr1->data = ptr1->next->data;
+                ptr1->next->data = temp;
+                swapped = 1;
+            }
+
+            ptr1 = ptr1->next;
+        }
+    } while (swapped);
+}
+
 extern Room* chooseRoomWithFreeEdge(DungeonGenerator* g, KeyLevelRoomMapping* p, int keylevel) {
     shuffleRooms_KeyLevelRoomMapping(p, keylevel);
     RoomList* rooms = *getRooms(p, keylevel);

@@ -71,6 +71,13 @@ extern int amountRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel)
  */
 extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel);
 /**
+ * Sort the RoomList of a given KeyLevelRoomMapping at a given keylevel
+ * Bubble Sort (stable)
+ * @param p        a KeyLevelRoomMapping object
+ * @param keylevel a keylevel, an integer
+ */
+extern void sortRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel);
+/**
  * Choose a random Room with free Edge
  * @param g        a DungeonGenerator object
  * @param p        a KeyLevelRoomMapping object
