@@ -6,13 +6,19 @@
 #include "generator.h"
 #include "roomlist.h"
 
+static double INTENSITY_GROWTH_JITTER = 0.1;
+static double INTENSITY_EASE_OFF = 0.2;
+
 static Direction* chooseFreeEdge(DungeonGenerator* g, Room* room);
+
+static double applyIntensity(Room* room, double intensity);
+static void normalizeIntensity(DungeonGenerator* p);
 
 static void initEntranceRoom_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
 static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
 static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
 static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
-static void computeIntensity(DungeonGenerator* p, KeyLevelRoomMapping* levels);
+static void computeIntensity_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
 
 extern DungeonGenerator* init_DungeonGenerator(int seed) {
     // Initialization of a DungeonGenerator pointer
@@ -56,6 +62,42 @@ static Direction* chooseFreeEdge(DungeonGenerator* g, Room* room) {
 
     // Asert false
     return NULL;
+}
+
+static double applyIntensity(Room* room, double intensity) {
+    intensity *= 1.0 - INTENSITY_GROWTH_JITTER/2.0 + INTENSITY_GROWTH_JITTER * ((double) rand() / RAND_MAX);
+
+    setDifficulty_Room(room, intensity);
+
+    double maxIntensity = intensity;
+    Room** children = getChildren_Room(room);
+
+    for (int i = 0; i < room->childrenLength; i += 1) {
+        if (impliesCondition_Condition(getPrecondition_Room(room), getPrecondition_Room(children[i]))) {
+            maxIntensity = maxDouble(maxIntensity, applyIntensity(children[i], intensity + 1.0));
+        }
+    }
+
+    return maxIntensity;
+}
+
+static void normalizeIntensity(DungeonGenerator* p) {
+    double maxIntensity = 0.0;
+    RoomList* rooms = getRooms_Dungeon(p->dungeon)->map[0];
+    RoomList* temp = rooms;
+
+    while (temp != NULL) {
+        maxIntensity = maxDouble(maxIntensity, getDifficulty_Room(temp->data));
+
+        temp = temp->next;
+    }
+
+    temp = rooms;
+    while (temp != NULL) {
+        setDifficulty_Room(temp->data, getDifficulty_Room(temp->data) * 0.99 / maxIntensity);
+
+        temp = temp->next;
+    }
 }
 
 extern void generate_DungeonGenerator(DungeonGenerator* p) {
@@ -295,13 +337,25 @@ static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* 
     }
 }
 
-static void computeIntensity(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
+static void computeIntensity_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
     double nextLevelBaseIntensity = 0.0;
     for (int level = 0; level < keyCount_KeyLevelRoomMapping(levels); level += 1) {
-        double intensity = nextLevelBaseIntensity * (1.0 - 0.2);
+        double intensity = nextLevelBaseIntensity * (1.0 - INTENSITY_EASE_OFF);
 
-        /*for () {
+        RoomList* temp = *getRooms(levels, level);
 
-        }*/
+        while (temp != NULL) {
+            if (getParent_Room(temp->data) == NULL ||
+                !impliesCondition_Condition(getPrecondition_Room(getParent_Room(temp->data)), getPrecondition_Room(temp->data))) {
+                nextLevelBaseIntensity = maxDouble(nextLevelBaseIntensity, applyIntensity(temp->data, intensity));
+            }
+
+            temp = temp->next;
+        }
     }
+
+    normalizeIntensity(p);
+
+    setDifficulty_Room(findBoss_Dungeon(p->dungeon), 1.0);
+    setDifficulty_Room(findGoal_Dungeon(p->dungeon), 0.0);
 }
