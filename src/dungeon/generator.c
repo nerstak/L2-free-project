@@ -174,7 +174,7 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
         bool doLock = false;
 
         if (amountRooms_KeyLevelRoomMapping(levels, keylevel) >= roomsPerLock
-            && keylevel < maxKeys - 1) {
+            && keylevel < maxKeys) {
             latestKey = init_Symbol(keylevel += 1);
             condition = initAndSymbol_Condition(condition, latestKey);
             doLock = true;
@@ -195,7 +195,11 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
         Coord* coords = nextInDirection_Coord(parentRoom->coord, d);
         Room* room = init_Room(coords, parentRoom, NULL, condition);
 
-        // Assert room doesn't exist for now
+
+        if (get_TreeMap(p->dungeon->rooms, room->coord) != NULL) {
+            // TODO: Handle possible error here
+        }
+
         add_Dungeon(p->dungeon, room);
         addChild_Room(parentRoom, room);
         link_Dungeon(p->dungeon, parentRoom, room, doLock ? latestKey : NULL);
@@ -231,7 +235,7 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
     }
 
     if (amountRooms_KeyLevelRoomMapping(possibleGoalRooms, 0) == 0) {
-        printf("FAILURE BLYAT");
+        printf("FAILURE BLYAT"); // TODO: clean the dungeon and regen
         exit(EXIT_FAILURE);
     }
 
@@ -243,6 +247,8 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
     setItem_Room(goalRoom, init_Symbol(GOAL));
     setItem_Room(bossRoom, init_Symbol(BOSS));
 
+    /*printf_Room(bossRoom);
+
     int oldKeyLevel = getKeyLevel_Condition(getPrecondition_Room(bossRoom));
     int newKeyLevel = min(keyCount_KeyLevelRoomMapping(levels), 3);
 
@@ -250,9 +256,9 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
     removeRoom_KeyLevelRoomMapping(levels, oldKeyLevel, bossRoom);
 
     addRoom_KeyLevelRoomMapping(levels, newKeyLevel, goalRoom);
-    addRoom_KeyLevelRoomMapping(levels, newKeyLevel, bossRoom);
+    addRoom_KeyLevelRoomMapping(levels, newKeyLevel, bossRoom);*/
 
-    Symbol* bossKey = init_Symbol(newKeyLevel - 1);
+    /*Symbol* bossKey = init_Symbol(newKeyLevel - 1);
     Condition* preCond = initAndSymbol_Condition(getPrecondition_Room(bossRoom), bossKey);
     setPrecondition_Room(bossRoom, preCond);
     setPrecondition_Room(goalRoom, preCond);
@@ -261,9 +267,9 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
         link_Dungeon(p->dungeon, getParent_Room(bossRoom), bossRoom, NULL);
     } else {
         link_Dungeon(p->dungeon, getParent_Room(bossRoom), bossRoom, bossKey);
-    }
+    }*/
 
-    link_Dungeon(p->dungeon, bossRoom, goalRoom, NULL);
+    //link_Dungeon(p->dungeon, bossRoom, goalRoom, NULL);
 }
 
 static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
@@ -307,12 +313,12 @@ static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* 
                 }
 
                 if (getEdge_Room(temp->data, d) != NULL) {
-                    temp = temp->next;
+                    //temp = temp->next;
                 } else {
                     Room* nextRoom = getByCoord_Dungeon(p->dungeon, nextInDirection_Coord(temp->data->coord, d));
 
                     if (nextRoom == NULL || isGoal_Room(nextRoom) || isBoss_Room(nextRoom)) {
-                        temp = temp->next;
+                        //temp = temp->next;
                     } else {
                         bool forwardImplies = impliesCondition_Condition(getPrecondition_Room(temp->data), getPrecondition_Room(nextRoom));
                         bool backwardImplies = impliesCondition_Condition(getPrecondition_Room(nextRoom), getPrecondition_Room(temp->data));
@@ -328,7 +334,7 @@ static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* 
                             Symbol* difference = singleSymbolDifference_Condition(getPrecondition_Room(temp->data), getPrecondition_Room(nextRoom));
 
                             if (difference == NULL) {
-                                temp = temp->next; // Verify condition here
+                                //temp = temp->next; // Verify condition here
                             } else {
                                 link_Dungeon(p->dungeon, temp->data, nextRoom, difference);
                             }
@@ -336,6 +342,8 @@ static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* 
                     }
                 }
             }
+
+            temp = temp->next;
         }
     }
 }

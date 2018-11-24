@@ -124,4 +124,6 @@ extern void addChild_Room(Room* myRoom, Room* child) {
 extern void printf_Room(Room* myRoom) {
     printf("Room: ");
     printf_Coord(myRoom->coord);
+    printf_Condition(myRoom->preCondition);
+    printf_Symbol(myRoom->item);
 }
