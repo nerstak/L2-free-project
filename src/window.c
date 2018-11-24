@@ -4,13 +4,14 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_mixer.h>
 
 static void cleanWindow();
 
 SDL_Surface* window = NULL;
 
 extern void initWindow() {
-    SDL_Init(SDL_INIT_VIDEO); // We only init VIDEO_mod for now
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO); // We only init VIDEO_mod for now
     TTF_Init();
 
     window = SDL_SetVideoMode(1280, 720, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
@@ -22,12 +23,15 @@ extern void initWindow() {
 
     SDL_WM_SetCaption("free_project v0.0.1 Super Alpha", NULL);
 
+    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+
     gameLoop(window);
 
     cleanWindow();
 
-    SDL_Quit();
+    Mix_CloseAudio();
     TTF_Quit();
+    SDL_Quit();
 }
 
 static void cleanWindow() {

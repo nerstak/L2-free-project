@@ -24,4 +24,6 @@ extern int getTicks_Timer(Timer* myTimer);
 extern bool isStarted_Timer(Timer* myTimer);
 extern bool isPaused_Timer(Timer* myTimer);
 
+extern float getTime_Timer(Timer* myTimer);
+
 #endif //FREE_PROJECT_TIMER_H

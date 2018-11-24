@@ -4,25 +4,17 @@
 #include "inventory.h"
 #include <SDL/SDL.h>
 
-
 typedef struct coordinates_entity {
-    int x;
-    int y;
+    float x;
+    float y;
 } coordinates_entity;
 
-
-typedef struct stats_entity {
-    int health;
-    int damage;
-    int speed;
-    int ability;
-} stats_entity;
 
 typedef struct Weapon {
     char name[20];
     char description[100];
-    int damage;
-    int swing_speed;
+    float damage;
+    float agility;
 }Weapon;
 
 typedef struct MovementValues {
@@ -31,6 +23,7 @@ typedef struct MovementValues {
     int step; //animation step
     int direction;
     SDL_Rect * SpriteBox;
+    int timesince;
 }MovementValues;
 
 
@@ -40,14 +33,18 @@ typedef struct Player {
     SlotInventory * inventory;
     int size_inventory;
     Weapon * weapons;
-    stats_entity * current_stats;
-    stats_entity * basic_stats;
+    struct stats_entity* current_stats;
+    struct stats_entity* basic_stats;
+    struct stats_entity* maxStats;
     char save_name[20];
     int day;
 } Player;
 
 
-int alter_money(Player *Isaac, int money_change);
-void alter_health(Player *Isaac, int alter_health);
+int alterMoney(Player* Isaac, int money_change);
+void alterHealth(Player* Isaac, float alterHealth, char type);
+void alterSpeed(Player* Isaac, float alterSpeed, char type);
+void alterAgility(Player* Isaac, float alterAgility, char type);
+void alterDamage(Player* Isaac, float alterDamage, char type);
 
 #endif // PLAYER_H_INCLUDED

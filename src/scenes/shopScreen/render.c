@@ -55,12 +55,12 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
                     break;
                 }
                 case 1: {
-                    sprintf(dialog, "%s.",data->shop->selected->description);
+                    sprintf(dialog, "%s",data->shop->selected->description);
                     break;
                 }
                 case 2: {
                     if(data->shop->nSelected < 16) {
-                        sprintf(dialog, "You have %d of those. I can give you %d$/piece.",data->shop->selected->quantity,data->shop->selected->price);
+                        sprintf(dialog, "You have %d of those. I can give you %d$/piece.",data->shop->selected->quantity,(int)(data->shop->selected->price * .8));
                     } else {
                         sprintf(dialog, "This is worth %d$. Deal?",data->shop->selected->price);
                     }
@@ -112,7 +112,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     }
 
     //Confirmation box blit
-    if(data->shop->askTransaction != -1) {
+    if(data->shop->askTransaction != -1 && data->shop->selected) {
         confirmPos.x = 0;
         confirmPos.y = 0;
         SDL_BlitSurface(confirm, NULL, shop, &confirmPos);

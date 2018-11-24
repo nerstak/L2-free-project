@@ -15,6 +15,7 @@
 #include "engine/collectors/scene.h"
 
 #include "structures/scene.h"
+#include "engine/collectors/sound.h"
 
 #include <SDL/SDL.h>
 
@@ -46,6 +47,9 @@ extern void gameLoop(SDL_Surface* window) {
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 40, "menu/40");
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 20, "menu/20");
 
+    // Initializing SoundCollector
+    SoundCollector* mySoundCollector = init_SoundCollector();
+
     // Initializing SceneCollector
     SceneCollector* mySceneCollector = init_SceneCollector();
 
@@ -54,6 +58,7 @@ extern void gameLoop(SDL_Surface* window) {
     myEngine->sceneCollector = mySceneCollector;
     myEngine->fontCollector = myFontCollector;
     myEngine->imageCollector = myImageCollector;
+    myEngine->soundCollector = mySoundCollector;
 
     // Initializing Data
     Data* myData = init_Data();
@@ -74,9 +79,8 @@ extern void gameLoop(SDL_Surface* window) {
         //printf("fps_counter: %d\n",getTicks_Timer(fpsCounter));
 
         // Event loop
-        while (SDL_PollEvent(&event)) {
-            mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
-
+        mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
+        if(SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_KEYDOWN: {
                     // Key pressed
@@ -95,7 +99,6 @@ extern void gameLoop(SDL_Surface* window) {
 
                     break;
                 }
-
                 case SDL_QUIT: {
                     Game_stop = 0;
 
@@ -132,9 +135,11 @@ extern void gameLoop(SDL_Surface* window) {
     clean_Timer(&fpsCounter);
     clean_Timer(&update);
 
+    freeReference(&(myData->referenceItems));
     clean_ImageCollector(&myImageCollector);
     clean_SceneCollector(&mySceneCollector);
     clean_FontCollector(&myFontCollector);
+    clean_SoundCollector(&mySoundCollector);
     clean_Data(&myData);
     clean_Engine(&myEngine);
 }

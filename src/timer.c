@@ -92,3 +92,8 @@ extern bool isPaused_Timer(Timer* myTimer) {
     // Return the status of our Timer
     return myTimer->paused;
 }
+
+extern float getTime_Timer(Timer* myTimer) {
+    // Return time that passed since the init of the timer in secondss
+    return (float) getTicks_Timer(myTimer) / 1000;
+}
