@@ -132,20 +132,6 @@ extern int keyCount_KeyLevelRoomMapping(KeyLevelRoomMapping* p) {
     return (int) p->length;
 }
 
-extern int size_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel) {
-    RoomList** pRoomList = getRooms(p, keylevel);
-    RoomList* temp = * pRoomList;
-
-    int result = 0;
-    while (temp != NULL) {
-        result += 1;
-
-        temp = temp->next;
-    }
-
-    return result;
-}
-
 extern int amountRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel) {
     RoomList* temp = *getRooms(p, keylevel);
     int amount = 0;

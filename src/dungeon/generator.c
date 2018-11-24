@@ -186,12 +186,12 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
         }
     }
 
-    if (size_KeyLevelRoomMapping(possibleGoalRooms, 0) == 0) {
+    if (amountRooms_KeyLevelRoomMapping(possibleGoalRooms, 0) == 0) {
         printf("FAILURE BLYAT");
         exit(EXIT_FAILURE);
     }
 
-    int length = size_KeyLevelRoomMapping(possibleGoalRooms, 0);
+    int length = amountRooms_KeyLevelRoomMapping(possibleGoalRooms, 0);
     Room* goalRoom = getRoom(possibleGoalRooms, 0, rand() % length)->data;
     Room* bossRoom = getParent_Room(goalRoom);
 

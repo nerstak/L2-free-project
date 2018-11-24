@@ -17,7 +17,7 @@ extern void addRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, Ro
 extern RoomList* getRoom(KeyLevelRoomMapping* p, int keylevel, int i);
 extern void removeRoom(KeyLevelRoomMapping* p, int keylevel, Room* r);
 extern int keyCount_KeyLevelRoomMapping(KeyLevelRoomMapping* p);
-extern int size_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel);
+/**
 extern int amountRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel);
 extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel);
 extern Room* chooseRoomWithFreeEdge(DungeonGenerator* g, KeyLevelRoomMapping* p, int keylevel);
