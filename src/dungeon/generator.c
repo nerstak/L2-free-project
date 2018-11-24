@@ -22,6 +22,7 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
 static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
 static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
 static void computeIntensity_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
+static void placeKeys_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels);
 
 extern DungeonGenerator* init_DungeonGenerator(int seed) {
     // Initialization of a DungeonGenerator pointer
@@ -127,32 +128,10 @@ extern void generate_DungeonGenerator(DungeonGenerator* p) {
         // Compute intensities
         computeIntensity_DungeonGenerator(p, levels);
 
+        // Place keys
+        placeKeys_DungeonGenerator(p, levels);
 
-        printf("\n\n\n\n");
-
-        RoomList* temp = levels->map[0];
-        while (temp != NULL) {
-            printf_Coord(temp->data->coord);
-            temp = temp->next;
-        }
-
-        printf("\n\n\n\n");
-
-        temp = levels->map[1];
-        while (temp != NULL) {
-            printf_Coord(temp->data->coord);
-            temp = temp->next;
-        }
-
-        printf("\n\n\n\n");
-
-        temp = levels->map[2];
-        while (temp != NULL) {
-            printf_Coord(temp->data->coord);
-            temp = temp->next;
-        }
-
-        break;
+        return;
     }
 }
 
@@ -370,4 +349,30 @@ static void computeIntensity_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomM
 
     setDifficulty_Room(findBoss_Dungeon(p->dungeon), 1.0);
     setDifficulty_Room(findGoal_Dungeon(p->dungeon), 0.0);
+}
+
+static void placeKeys_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
+    for (int level = 0; level < keyCount_KeyLevelRoomMapping(levels); level += 1) {
+        shuffleRooms_KeyLevelRoomMapping(levels, level);
+        sortRooms_KeyLevelRoomMapping(levels, level);
+
+        bool placedKey = false;
+
+        RoomList* temp = *getRooms(levels, level);
+
+        while (temp != NULL) {
+            if (getItem_Room(temp->data) == NULL) {
+                printf("Placed a key");
+                setItem_Room(temp->data, init_Symbol(level));
+                placedKey = true;
+                break;
+            }
+
+            temp = temp->next;
+        }
+
+        if (placedKey == false) {
+            // Assert error here, handle it
+        }
+    }
 }
