@@ -37,8 +37,9 @@ extern void clean_TreeMap(TreeMap** tree) {
     while (temp != NULL) {
         if (temp->link[0] == NULL) {
             save = temp->link[1];
-            // Free the room here
-            // And other datas
+
+            clean_Room(&(save->value));
+
             free(temp);
         } else {
             save = temp->link[0];
@@ -145,7 +146,7 @@ static int assert(TreeMapNode* root) {
         lh = assert(leftNode);
         rh = assert(rightNode);
 
-        // Binary search tree violation check TODO: check if key condition is good
+        // Binary search tree violation check
         if ((leftNode != NULL && compareTo_Coord(leftNode->key, root->key) >= 0) || (rightNode != NULL && compareTo_Coord(rightNode->key, root->key
         ) <= 0)) {
             printf("An error occured while asserting a TreeMap object (Binary tree violation)");
@@ -189,7 +190,7 @@ static TreeMapNode* insertRecursively(TreeMapNode* root, Room* value) {
     if (root == NULL) {
         root = createNode(value);
     } else if (compareTo_Coord(root->key, value->coord) != 0) {
-        int direction = compareTo_Coord(root->key, value->coord) < 0; // TODO: check if key condition is good
+        int direction = compareTo_Coord(root->key, value->coord) < 0;
         root->link[direction] = insertRecursively(root->link[direction], value);
 
         if (isRed(root->link[direction])) {
@@ -218,7 +219,7 @@ static TreeMapNode* removeRecursively(TreeMapNode* root, Room* value, int* done)
     } else {
         int direction;
 
-        if (compareTo_Coord(root->key, value->coord) == 0) { // TODO: check if key condition is good
+        if (compareTo_Coord(root->key, value->coord) == 0) {
             if (root->link[0] == NULL || root->link[1] == NULL) {
                 TreeMapNode* temp = root->link[root->link[0] == NULL];
 
@@ -230,7 +231,8 @@ static TreeMapNode* removeRecursively(TreeMapNode* root, Room* value, int* done)
                     (*done) = 1;
                 }
 
-                // Free root ? TODO: Free root here
+                clean_Room(&(root->value));
+                free(root);
 
                 return temp;
             } else {
@@ -241,7 +243,7 @@ static TreeMapNode* removeRecursively(TreeMapNode* root, Room* value, int* done)
                 }
 
                 root->key = heir->key;
-                root->value = heir->value; // TODO: check that too
+                root->value = heir->value;
                 value = heir->value;
             }
         }
