@@ -19,6 +19,17 @@ extern RoomList* init_RoomList() {
     return p;
 }
 
+extern void clean_RoomList(RoomList** p) {
+    if ((*p) != NULL) {
+        if ((*p)->next != NULL) {
+            clean_RoomList(&((*p)->next));
+        }
+
+        free((*p));
+        (*p) = NULL;
+    }
+}
+
 extern KeyLevelRoomMapping* init_KeyLevelRoomMapping(int size) {
     // Initialization of a RoomList pointer
     KeyLevelRoomMapping* p = NULL;
@@ -38,6 +49,19 @@ extern KeyLevelRoomMapping* init_KeyLevelRoomMapping(int size) {
     }
 
     return p;
+}
+
+extern void clean_KeyLevelRoomMapping(KeyLevelRoomMapping** p) {
+    if ((*p) != NULL) {
+        KeyLevelRoomMapping* ptr = (*p);
+
+        for (int i = 0; i < (int) ptr->length; i += 1) {
+            clean_RoomList(&(ptr->map[i]));
+        }
+
+        free(ptr);
+        (*p) = NULL;
+    }
 }
 
 extern RoomList** getRooms(KeyLevelRoomMapping* p, int keylevel) {
@@ -199,7 +223,6 @@ extern void sortRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel) 
     RoomList* start = *getRooms(p, keylevel);
 
     int swapped;
-    int i;
 
     RoomList* ptr1 = NULL;
     RoomList* lptr = NULL;

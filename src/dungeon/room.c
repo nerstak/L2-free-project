@@ -37,7 +37,20 @@ extern Room* init_Room(Coord* coord, Room* parent, Symbol* item, Condition* preC
 }
 
 extern void clean_Room(Room** myRoom) {
-    // TODO: clean process
+    if ((*myRoom) != NULL) {
+        Room* p = (*myRoom);
+
+        clean_Condition(&(p->preCondition));
+        clean_Coord(&(p->coord));
+        clean_Symbol(&(p->item));
+
+        for (int i = 0; i < 4; i += 1) {
+            clean_Edge(&(p->edges[i]));
+        }
+
+        free(p);
+        (*myRoom) = NULL;
+    }
 }
 
 extern double getDifficulty_Room(Room* myRoom) {

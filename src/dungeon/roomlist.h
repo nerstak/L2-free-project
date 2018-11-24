@@ -15,12 +15,21 @@ typedef struct RoomList {
  */
 extern RoomList* init_RoomList();
 /**
+ * Clean a RoomList object
+ * @param p a double pointer to a RoomList object
+ */
+extern void clean_RoomList(RoomList** p);
+
+/**
  * Create a KeyLevelRoomMapping object
  * @return a KeyLevelRoomMapping object
  */
 extern KeyLevelRoomMapping* init_KeyLevelRoomMapping(int size);
-
-// TODO: clean functions
+/**
+ * Clean a KeyLevelRoomMapping object
+ * @param p a double pointer to a KeyLevelRoomMapping object
+ */
+extern void clean_KeyLevelRoomMapping(KeyLevelRoomMapping** p);
 
 /**
  * Get a double pointer on the beginning of a RoomList object (SLL)

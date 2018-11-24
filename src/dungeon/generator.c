@@ -1,10 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <setjmp.h>
 
 #include "../utils/math.h"
 
 #include "generator.h"
 #include "roomlist.h"
+
+// Global var used to be able to throw from a sub function
+jmp_buf ex_buf__;
+#define TRY do { if( !setjmp(ex_buf__) ) {
+#define CATCH } else {
+#define ETRY } } while(0)
+#define THROW longjmp(ex_buf__, 1)
+
+static int MAX_RETRIES = 20;
 
 static double INTENSITY_GROWTH_JITTER = 0.1;
 static double INTENSITY_EASE_OFF = 0.2;
@@ -76,7 +86,7 @@ static double applyIntensity(Room* room, double intensity) {
     double maxIntensity = intensity;
     Room** children = getChildren_Room(room);
 
-    for (int i = 0; i < room->childrenLength; i += 1) {
+    for (int i = 0; (size_t) i < room->childrenLength; i += 1) {
         if (impliesCondition_Condition(getPrecondition_Room(room), getPrecondition_Room(children[i]))) {
             maxIntensity = maxDouble(maxIntensity, applyIntensity(children[i], intensity + 1.0));
         }
@@ -108,30 +118,45 @@ extern void generate_DungeonGenerator(DungeonGenerator* p) {
     int attempt = 0;
 
     while (true) {
-        p->dungeon = init_Dungeon();
+        KeyLevelRoomMapping* levelsCatch = NULL;
 
-        // Maps of keylevel -> A list of rooms created with a specific lockCount
-        KeyLevelRoomMapping* levels = init_KeyLevelRoomMapping(maxKeys);
+        TRY {
+            p->dungeon = init_Dungeon();
 
-        // Create the entrance to our dungeon
-        initEntranceRoom_DungeonGenerator(p, levels);
+            // Maps of keylevel -> A list of rooms created with a specific lockCount
+            KeyLevelRoomMapping* levels = init_KeyLevelRoomMapping(maxKeys);
+            levelsCatch = levels;
 
-        // Fill the dungeon
-        placeRooms_DungeonGenerator(p, levels);
+            // Create the entrance to our dungeon
+            initEntranceRoom_DungeonGenerator(p, levels);
 
-        // Place a Boss and Goal rooms in the dungeon
-        placeBossGoalRooms_DungeonGenerator(p, levels);
+            // Fill the dungeon
+            placeRooms_DungeonGenerator(p, levels);
 
-        // Make it more like a graph
-        graphify_DungeonGenerator(p, levels);
+            // Place a Boss and Goal rooms in the dungeon
+            placeBossGoalRooms_DungeonGenerator(p, levels);
 
-        // Compute intensities
-        computeIntensity_DungeonGenerator(p, levels);
+            // Make it more like a graph
+            graphify_DungeonGenerator(p, levels);
 
-        // Place keys
-        placeKeys_DungeonGenerator(p, levels);
+            // Compute intensities
+            computeIntensity_DungeonGenerator(p, levels);
 
-        return;
+            // Place keys
+            placeKeys_DungeonGenerator(p, levels);
+
+            return;
+        } CATCH {
+            if (++attempt > MAX_RETRIES) {
+                // Dungeon generation failed.
+
+                return;
+            }
+
+            // Retrying
+            clean_KeyLevelRoomMapping(&levelsCatch);
+            clean_Dungeon(&(p->dungeon));
+        } ETRY;
     }
 }
 
@@ -177,7 +202,7 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
 
 
         if (get_TreeMap(p->dungeon->rooms, room->coord) != NULL) {
-            // TODO: Handle possible error here
+            THROW;
         }
 
         add_Dungeon(p->dungeon, room);
@@ -215,8 +240,9 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
     }
 
     if (amountRooms_KeyLevelRoomMapping(possibleGoalRooms, 0) == 0) {
-        printf("FAILURE BLYAT"); // TODO: clean the dungeon and regen
-        exit(EXIT_FAILURE);
+        clean_KeyLevelRoomMapping(&possibleGoalRooms);
+
+        THROW;
     }
 
     int length = amountRooms_KeyLevelRoomMapping(possibleGoalRooms, 0);
@@ -226,30 +252,6 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
 
     setItem_Room(goalRoom, init_Symbol(GOAL));
     setItem_Room(bossRoom, init_Symbol(BOSS));
-
-    /*printf_Room(bossRoom);
-
-    int oldKeyLevel = getKeyLevel_Condition(getPrecondition_Room(bossRoom));
-    int newKeyLevel = min(keyCount_KeyLevelRoomMapping(levels), 3);
-
-    removeRoom_KeyLevelRoomMapping(levels, oldKeyLevel, goalRoom);
-    removeRoom_KeyLevelRoomMapping(levels, oldKeyLevel, bossRoom);
-
-    addRoom_KeyLevelRoomMapping(levels, newKeyLevel, goalRoom);
-    addRoom_KeyLevelRoomMapping(levels, newKeyLevel, bossRoom);*/
-
-    /*Symbol* bossKey = init_Symbol(newKeyLevel - 1);
-    Condition* preCond = initAndSymbol_Condition(getPrecondition_Room(bossRoom), bossKey);
-    setPrecondition_Room(bossRoom, preCond);
-    setPrecondition_Room(goalRoom, preCond);
-
-    if (newKeyLevel == 0) {
-        link_Dungeon(p->dungeon, getParent_Room(bossRoom), bossRoom, NULL);
-    } else {
-        link_Dungeon(p->dungeon, getParent_Room(bossRoom), bossRoom, bossKey);
-    }*/
-
-    //link_Dungeon(p->dungeon, bossRoom, goalRoom, NULL);
 }
 
 static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
@@ -362,7 +364,6 @@ static void placeKeys_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping*
 
         while (temp != NULL) {
             if (getItem_Room(temp->data) == NULL) {
-                printf("Placed a key");
                 setItem_Room(temp->data, init_Symbol(level));
                 placedKey = true;
                 break;
@@ -372,7 +373,7 @@ static void placeKeys_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping*
         }
 
         if (placedKey == false) {
-            // Assert error here, handle it
+            THROW;
         }
     }
 }

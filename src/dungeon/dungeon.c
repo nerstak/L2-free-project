@@ -24,7 +24,13 @@ extern Dungeon* init_Dungeon() {
 }
 
 extern void clean_Dungeon(Dungeon** p) {
-    // TODO: clean process
+    if ((*p) != NULL) {
+        clean_Bounds(&((*p)->bounds));
+        clean_TreeMap(&((*p)->rooms));
+
+        free((*p));
+        (*p) = NULL;
+    }
 }
 
 extern Bounds* getExtentBounds_Dungeon(Dungeon* p) {
@@ -153,7 +159,7 @@ extern Room* findStart_Dungeon(Dungeon* p) {
 
     while (temp != NULL) {
         if (isStart_Room(temp->data)) {
-            // TODO: Memory leak here, clean the thing thx ty
+            clean_KeyLevelRoomMapping(&(rooms));
             return temp->data;
         }
 
@@ -169,7 +175,7 @@ extern Room* findBoss_Dungeon(Dungeon* p) {
 
     while (temp != NULL) {
         if (isBoss_Room(temp->data)) {
-            // TODO: Memory leak here, clean the thing thx ty
+            clean_KeyLevelRoomMapping(&(rooms));
             return temp->data;
         }
 
@@ -185,7 +191,7 @@ extern Room* findGoal_Dungeon(Dungeon* p) {
 
     while (temp != NULL) {
         if (isGoal_Room(temp->data)) {
-            // TODO: Memory leak here, clean the thing thx ty
+            clean_KeyLevelRoomMapping(&(rooms));
             return temp->data;
         }
 

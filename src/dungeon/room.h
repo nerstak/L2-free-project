@@ -29,7 +29,7 @@ typedef struct Room {
 extern Room* init_Room(Coord* coord, Room* parent, Symbol* item, Condition* preCondition);
 /**
  * Clean a Room object
- * @param myRoom a double pointer to a Coord object
+ * @param myRoom a double pointer to a Room object
  */
 extern void clean_Room(Room** myRoom);
 /**
