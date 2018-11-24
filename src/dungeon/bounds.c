@@ -23,10 +23,12 @@ extern Bounds* init_Bounds(int x, int y, int right, int bottom) {
 }
 
 extern void clean_Bounds(Bounds** p) {
-    // First we free the memory
-    free(*(p));
-    // We set the pointer to NULL by security
-    *(p) = NULL;
+    if ((*p) != NULL) {
+        // First we free the memory
+        free(*(p));
+        // We set the pointer to NULL by security
+        *(p) = NULL;
+    }
 }
 
 extern int width_Bounds(Bounds* p) {

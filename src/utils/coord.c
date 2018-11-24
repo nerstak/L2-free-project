@@ -22,10 +22,12 @@ extern Coord* init_Coord(int x, int y) {
 }
 
 extern void clean_Coord(Coord** myCoord) {
-    // First we free the memory
-    free(*(myCoord));
-    // We set the pointer to NULL by security
-    *(myCoord) = NULL;
+    if ((*myCoord) != NULL) {
+        // First we free the memory
+        free(*(myCoord));
+        // We set the pointer to NULL by security
+        *(myCoord) = NULL;
+    }
 }
 
 extern Coord* nextInDirection_Coord(Coord* myCoord, Direction* myDirection) {

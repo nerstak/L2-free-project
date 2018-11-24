@@ -22,10 +22,12 @@ extern Direction* init_Direction(int code, int x, int y) {
 }
 
 extern void clean_Direction(Direction** myDirection) {
-    // First we free the memory
-    free(*(myDirection));
-    // We set the pointer to NULL by security
-    *(myDirection) = NULL;
+    if ((*myDirection) != NULL) {
+        // First we free the memory
+        free(*(myDirection));
+        // We set the pointer to NULL by security
+        *(myDirection) = NULL;
+    }
 }
 
 extern Direction* opposite_Direction(Direction* myDirection) {

@@ -36,10 +36,12 @@ extern Edge* initEmpty_Edge() {
 }
 
 extern void clean_Edge(Edge** myEdge) {
-    // First we free the memory
-    free(*(myEdge));
-    // We set the pointer to NULL by security
-    *(myEdge) = NULL;
+    if ((*myEdge) != NULL) {
+        // First we free the memory
+        free(*(myEdge));
+        // We set the pointer to NULL by security
+        *(myEdge) = NULL;
+    }
 }
 
 extern bool hasSymbol_Edge(Edge* myEdge) {

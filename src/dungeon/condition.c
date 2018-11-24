@@ -55,10 +55,12 @@ extern Condition* initCopy_Condition(Condition* other) {
 }
 
 extern void clean_Condition(Condition** myCondition) {
-    // First we free the memory
-    free(*(myCondition));
-    // We set the pointer to NULL by security
-    *(myCondition) = NULL;
+    if ((*myCondition) != NULL) {
+        // First we free the memory
+        free(*(myCondition));
+        // We set the pointer to NULL by security
+        *(myCondition) = NULL;
+    }
 }
 
 extern bool isEqual_Condition(Condition* myCondition, Condition* other) {
