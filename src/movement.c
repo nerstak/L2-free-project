@@ -117,7 +117,7 @@ extern void CheckObstacle(Data* data,int t)
 extern void ProcessAnimation(MovementValues * move,int t)
 {
     if(move->velocity->x || move->velocity->y )
-        move->step=(move->step+(10*t/17))%480; //bases how much you advance in the animation on time change
+        move->step=(move->step+(10*t/17))%440; //bases how much you advance in the animation on time change
     else
         move->step=0; //resets animation when player stops moving
 
@@ -136,7 +136,7 @@ extern void ProcessAnimation(MovementValues * move,int t)
 
 extern void SpriteSelection(MovementValues * move, SDL_Rect * box)
 {
-    box->x=(move->step/120)*64; // 0 1 2 3 based on where we are in the animation times the width of a single sprite
+    box->x=(move->step/55)*64; // 0 1 2 3 based on where we are in the animation times the width of a single sprite
     box->y=move->direction*128; // 0 1 2 3 based on direction times the width of a single sprite
 //    box->h=128;
 //    box->w=64;

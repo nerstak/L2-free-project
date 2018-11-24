@@ -98,6 +98,23 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/player.h" />
+		<Unit filename="src/scenes/inventoryScreen/event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/event.h" />
+		<Unit filename="src/scenes/inventoryScreen/files.asset" />
+		<Unit filename="src/scenes/inventoryScreen/inventoryScreen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/inventoryScreen.h" />
+		<Unit filename="src/scenes/inventoryScreen/logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/logic.h" />
+		<Unit filename="src/scenes/inventoryScreen/render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/render.h" />
 		<Unit filename="src/scenes/loadingScreen/event.c">
 			<Option compilerVar="CC" />
 		</Unit>
