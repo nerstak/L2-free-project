@@ -8,9 +8,9 @@
  * W:3 -1 0
  */
 
- /**
-  * 4 Direction possible
-  */
+/**
+ * 4 Direction possible
+ */
 
 typedef struct Direction {
     int code;
@@ -18,10 +18,31 @@ typedef struct Direction {
     int y;
 } Direction;
 
+/**
+ * Create a Direction object with given "axises"
+ * @param code the code corresponding to the direction (N, E, S, W)
+ * @param x    the X axis
+ * @param y    the Y axis
+ * @return a Direction object
+ */
 extern Direction* init_Direction(int code, int x, int y);
+/**
+ * Clean a Direction object
+ * @param myDirection a double pointer to a Direction object
+ */
 extern void clean_Direction(Direction** myDirection);
 
+/**
+ * Get a Direction object from a given code
+ * @param code the code corresponding to the direction (N, E, S, W)
+ * @return a Direction object
+ */
 extern Direction* fromCode_Direction(int code);
+/**
+ * Get the opposite Direction to a given one
+ * @param myDirection the given position
+ * @return a Direction object opposed to the given one
+ */
 extern Direction* opposite_Direction(Direction* myDirection);
 
 #endif //FREE_PROJECT_UTILS_DIRECTION_H
