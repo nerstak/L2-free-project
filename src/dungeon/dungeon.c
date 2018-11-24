@@ -32,7 +32,7 @@ extern Bounds* getExtentBounds_Dungeon(Dungeon* p) {
 }
 
 extern struct KeyLevelRoomMapping* getRooms_Dungeon(Dungeon* p) {
-    KeyLevelRoomMapping* keylevel = init_KeyLevelRoomMapping();
+    KeyLevelRoomMapping* keylevel = init_KeyLevelRoomMapping(1);
 
     convertTreeToList(keylevel, p->rooms->root);
 

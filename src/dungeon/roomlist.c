@@ -19,7 +19,7 @@ extern RoomList* init_RoomList() {
     return p;
 }
 
-extern KeyLevelRoomMapping* init_KeyLevelRoomMapping() {
+extern KeyLevelRoomMapping* init_KeyLevelRoomMapping(int size) {
     // Initialization of a RoomList pointer
     KeyLevelRoomMapping* p = NULL;
     p = malloc(1 * sizeof(KeyLevelRoomMapping));
@@ -30,7 +30,7 @@ extern KeyLevelRoomMapping* init_KeyLevelRoomMapping() {
         exit(EXIT_FAILURE);
     }
 
-    p->length = 3;
+    p->length = (size_t) size;
     p->map = malloc(p->length * sizeof(RoomList));
 
     for (int i = 0; i < (int) p->length; i += 1) {
@@ -41,6 +41,11 @@ extern KeyLevelRoomMapping* init_KeyLevelRoomMapping() {
 }
 
 extern RoomList** getRooms(KeyLevelRoomMapping* p, int keylevel) {
+    while (keylevel >= keyCount_KeyLevelRoomMapping(p)) {
+        p->map[p->length - 1] = NULL;
+        p->length += 1;
+    }
+
     return &(p->map[keylevel]);
 }
 
@@ -83,7 +88,7 @@ extern void addRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, Ro
     }
 }
 
-extern RoomList* getRoom(KeyLevelRoomMapping* p, int keylevel, int i) {
+extern RoomList* getRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, int i) {
     RoomList** pRoomList = getRooms(p, keylevel);
     RoomList* result = *pRoomList;
 
@@ -96,7 +101,7 @@ extern RoomList* getRoom(KeyLevelRoomMapping* p, int keylevel, int i) {
     return result;
 }
 
-extern void removeRoom(KeyLevelRoomMapping* p, int keylevel, Room* r) {
+extern void removeRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, Room* r) {
     RoomList** pRoomList = getRooms(p, keylevel);
     RoomList* result = *pRoomList;
 
@@ -162,8 +167,8 @@ extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keyleve
         if (newPlace != i) {
             if (i == 0) {
                 RoomList* elA = (*pRoomList);
-                RoomList* elB = getRoom(p, keylevel, newPlace);
-                RoomList* prevB = getRoom(p, keylevel, newPlace - 1);
+                RoomList* elB = getRoom_KeyLevelRoomMapping(p, keylevel, newPlace);
+                RoomList* prevB = getRoom_KeyLevelRoomMapping(p, keylevel, newPlace - 1);
 
                 (*pRoomList) = elB;
                 prevB->next = elA;
@@ -172,10 +177,10 @@ extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keyleve
                 elA->next = elB->next;
                 elB->next = temp;
             } else {
-                RoomList* elA = getRoom(p, keylevel, i);
-                RoomList* elB = getRoom(p, keylevel, newPlace);
-                RoomList* prevA = getRoom(p, keylevel, i - 1);
-                RoomList* prevB = getRoom(p, keylevel, newPlace - 1);
+                RoomList* elA = getRoom_KeyLevelRoomMapping(p, keylevel, i);
+                RoomList* elB = getRoom_KeyLevelRoomMapping(p, keylevel, newPlace);
+                RoomList* prevA = getRoom_KeyLevelRoomMapping(p, keylevel, i - 1);
+                RoomList* prevB = getRoom_KeyLevelRoomMapping(p, keylevel, newPlace - 1);
 
                 prevA->next = elB;
                 prevB->next = elA;

@@ -9,6 +9,9 @@
 static double INTENSITY_GROWTH_JITTER = 0.1;
 static double INTENSITY_EASE_OFF = 0.2;
 
+static int maxSpaces = 15;
+static int maxKeys = 3;
+
 static Direction* chooseFreeEdge(DungeonGenerator* g, Room* room);
 
 static double applyIntensity(Room* room, double intensity);
@@ -107,7 +110,7 @@ extern void generate_DungeonGenerator(DungeonGenerator* p) {
         p->dungeon = init_Dungeon();
 
         // Maps of keylevel -> A list of rooms created with a specific lockCount
-        KeyLevelRoomMapping* levels = init_KeyLevelRoomMapping();
+        KeyLevelRoomMapping* levels = init_KeyLevelRoomMapping(maxKeys);
 
         // Create the entrance to our dungeon
         initEntranceRoom_DungeonGenerator(p, levels);
@@ -161,18 +164,17 @@ static void initEntranceRoom_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomM
 }
 
 static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
-    int roomsPerLock = 15 / 3; // A lock is a "region" locked by a Condition, a key here
+    int roomsPerLock = maxSpaces / maxKeys; // A lock is a "region" locked by a Condition, a key here
 
     int keylevel = 0;
     Symbol* latestKey = NULL;
     Condition* condition = initTrue_Condition();
 
-    while (roomCount_Dungeon(p->dungeon) < 15) {
+    while (roomCount_Dungeon(p->dungeon) < maxSpaces) {
         bool doLock = false;
 
         if (amountRooms_KeyLevelRoomMapping(levels, keylevel) >= roomsPerLock
-            && keylevel < (3 - 1)) {
-            // TODO: Memory leak here
+            && keylevel < maxKeys - 1) {
             latestKey = init_Symbol(keylevel += 1);
             condition = initAndSymbol_Condition(condition, latestKey);
             doLock = true;
@@ -203,7 +205,7 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
 }
 
 static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
-    KeyLevelRoomMapping* possibleGoalRooms = init_KeyLevelRoomMapping();
+    KeyLevelRoomMapping* possibleGoalRooms = init_KeyLevelRoomMapping(1);
     possibleGoalRooms->length = 1;
     KeyLevelRoomMapping* rooms = getRooms_Dungeon(p->dungeon);
     RoomList* temp = *getRooms(rooms, 0);
@@ -234,7 +236,8 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
     }
 
     int length = amountRooms_KeyLevelRoomMapping(possibleGoalRooms, 0);
-    Room* goalRoom = getRoom(possibleGoalRooms, 0, rand() % length)->data;
+
+    Room* goalRoom = getRoom_KeyLevelRoomMapping(possibleGoalRooms, 0, rand() % length)->data;
     Room* bossRoom = getParent_Room(goalRoom);
 
     setItem_Room(goalRoom, init_Symbol(GOAL));
@@ -243,8 +246,8 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
     int oldKeyLevel = getKeyLevel_Condition(getPrecondition_Room(bossRoom));
     int newKeyLevel = min(keyCount_KeyLevelRoomMapping(levels), 3);
 
-    removeRoom(levels, oldKeyLevel, goalRoom);
-    removeRoom(levels, oldKeyLevel, bossRoom);
+    removeRoom_KeyLevelRoomMapping(levels, oldKeyLevel, goalRoom);
+    removeRoom_KeyLevelRoomMapping(levels, oldKeyLevel, bossRoom);
 
     addRoom_KeyLevelRoomMapping(levels, newKeyLevel, goalRoom);
     addRoom_KeyLevelRoomMapping(levels, newKeyLevel, bossRoom);

@@ -18,7 +18,7 @@ extern RoomList* init_RoomList();
  * Create a KeyLevelRoomMapping object
  * @return a KeyLevelRoomMapping object
  */
-extern KeyLevelRoomMapping* init_KeyLevelRoomMapping();
+extern KeyLevelRoomMapping* init_KeyLevelRoomMapping(int size);
 
 // TODO: clean functions
 
@@ -43,14 +43,14 @@ extern void addRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, Ro
  * @param i        an index, an integer
  * @return a RoomList object
  */
-extern RoomList* getRoom(KeyLevelRoomMapping* p, int keylevel, int i);
+extern RoomList* getRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, int i);
 /**
  * Remove a given Room of a given KeyLevelRoomMapping at a given keylevel
  * @param p        a KeyLevelRoomMapping object
  * @param keylevel a keylevel, an integer
  * @param r        a Room object
  */
-extern void removeRoom(KeyLevelRoomMapping* p, int keylevel, Room* r);
+extern void removeRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, Room* r);
 /**
  * Get the amount of "keylevel" of a given KeyLevelRoomMapping
  * @param p a KeyLevelRoomMapping object
