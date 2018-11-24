@@ -148,13 +148,49 @@ extern bool areRoomsLinked_Dungeon(Room* r1, Room* r2) {
 }
 
 extern Room* findStart_Dungeon(Dungeon* p) {
+    KeyLevelRoomMapping* rooms = getRooms_Dungeon(p);
+    RoomList* temp = *getRooms(rooms, 0);
+
+    while (temp != NULL) {
+        if (isStart_Room(temp->data)) {
+            // TODO: Memory leak here, clean the thing thx ty
+            return temp->data;
+        }
+
+        temp = temp->next;
+    }
+
     return NULL;
 }
 
 extern Room* findBoss_Dungeon(Dungeon* p) {
+    KeyLevelRoomMapping* rooms = getRooms_Dungeon(p);
+    RoomList* temp = *getRooms(rooms, 0);
+
+    while (temp != NULL) {
+        if (isBoss_Room(temp->data)) {
+            // TODO: Memory leak here, clean the thing thx ty
+            return temp->data;
+        }
+
+        temp = temp->next;
+    }
+
     return NULL;
 }
 
 extern Room* findGoal_Dungeon(Dungeon* p) {
+    KeyLevelRoomMapping* rooms = getRooms_Dungeon(p);
+    RoomList* temp = *getRooms(rooms, 0);
+
+    while (temp != NULL) {
+        if (isGoal_Room(temp->data)) {
+            // TODO: Memory leak here, clean the thing thx ty
+            return temp->data;
+        }
+
+        temp = temp->next;
+    }
+
     return NULL;
 }

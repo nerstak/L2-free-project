@@ -125,6 +125,7 @@ extern void generate_DungeonGenerator(DungeonGenerator* p) {
         graphify_DungeonGenerator(p, levels);
 
         // Compute intensities
+        computeIntensity_DungeonGenerator(p, levels);
 
 
         printf("\n\n\n\n");
