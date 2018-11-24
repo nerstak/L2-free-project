@@ -23,8 +23,6 @@ extern Symbol* init_Symbol(int value) {
         strcpy(mySymbol->name, "Goal");
     } else if (value == BOSS) {
         strcpy(mySymbol->name, "Boss");
-    } else if (value == KEY) {
-        strcpy(mySymbol->name, "Key");
     } else if (value >= 0 && value < 26) {
         mySymbol->name[0] = (char)((int) 'A' + value);
         mySymbol->name[1] = '\0';
@@ -37,10 +35,12 @@ extern Symbol* init_Symbol(int value) {
 }
 
 extern void clean_Symbol(Symbol** mySymbol) {
-    // First we free the memory
-    free(*(mySymbol));
-    // We set the pointer to NULL by security
-    *(mySymbol) = NULL;
+    if ((*mySymbol) != NULL) {
+        // First we free the memory
+        free(*(mySymbol));
+        // We set the pointer to NULL by security
+        *(mySymbol) = NULL;
+    }
 }
 
 extern bool isEqual_Symbol(Symbol* mySymbol, Symbol* other) {
@@ -65,10 +65,6 @@ extern bool isGoal_Symbol(Symbol* mySymbol) {
 
 extern bool isBoss_Symbol(Symbol* mySymbol) {
     return mySymbol->value == BOSS;
-}
-
-extern bool isKey_Symbol(Symbol* mySymbol) {
-    return mySymbol->value == KEY;
 }
 
 extern void printf_Symbol(Symbol* mySymbol) {

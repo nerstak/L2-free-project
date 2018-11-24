@@ -9,7 +9,7 @@ typedef struct Symbol {
 } Symbol;
 
 
-enum symbolType {START = -1, GOAL = -2, BOSS = -3, KEY = -4};
+enum symbolType {START = -1, GOAL = -2, BOSS = -3};
 
 /**
  * Create a Symbol object with a given value
@@ -60,12 +60,6 @@ extern bool isGoal_Symbol(Symbol* mySymbol);
  * @return a boolean according to the result
  */
 extern bool isBoss_Symbol(Symbol* mySymbol);
-/**
- * Verify if a Symbol is the Key Symbol
- * @param mySymbol a Symbol object
- * @return a boolean according to the result
- */
-extern bool isKey_Symbol(Symbol* mySymbol);
 /**
  * Print a given Symbol (test purpose)
  * @param mySymbol the Symbol to display
