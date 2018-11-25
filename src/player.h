@@ -40,7 +40,7 @@ typedef struct Player {
     int day;
 } Player;
 
-
+extern Player* initPlayer();
 int alterMoney(Player* Isaac, int money_change);
 void alterHealth(Player* Isaac, float alterHealth, char type);
 void alterSpeed(Player* Isaac, float alterSpeed, char type);

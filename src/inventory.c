@@ -164,6 +164,14 @@ extern SlotInventory* search_SlotInventory(SlotInventory* list, int id) {
     return NULL;
 }
 
+//Copy the stats
+extern void copyStats(stats_entity* receiver, stats_entity* original) {
+    receiver->health = original->health;
+    receiver->damage = original->damage;
+    receiver->agility = original->agility;
+    receiver->speed = original->speed;
+}
+
 //Copy the characteristics of an item
 extern void copyItems(SlotInventory* receiver, SlotInventory original) {
     strcpy(receiver->name, original.name);
@@ -173,8 +181,5 @@ extern void copyItems(SlotInventory* receiver, SlotInventory original) {
     receiver->id = original.id;
     receiver->quantity = original.quantity;
 
-    receiver->characteristics->health = original.characteristics->health;
-    receiver->characteristics->damage = original.characteristics->damage;
-    receiver->characteristics->agility = original.characteristics->agility;
-    receiver->characteristics->speed = original.characteristics->speed;
+    copyStats(receiver->characteristics,original.characteristics);
 }

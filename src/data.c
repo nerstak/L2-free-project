@@ -22,7 +22,10 @@ extern Data* init_Data() {
     //Loading of the reference
     myData->referenceItems = loadReferenceItems();
 
-    myData->stop=1;
+    //Loading player
+    myData->Isaac = initPlayer();
+
+    myData->stop = 1;
 
     return myData;
 }

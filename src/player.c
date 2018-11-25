@@ -3,6 +3,69 @@
 
 #include "player.h"
 
+extern Player* initPlayer() {
+    Player* Isaac = malloc(sizeof(Player));
+    if(!Isaac) {
+        printf("Fail to init player.");
+        exit(EXIT_FAILURE);
+    }
+    Isaac->inventory = NULL;
+
+    //Initialisation of stats
+    Isaac->current_stats = malloc(sizeof(stats_entity));
+    Isaac->basic_stats = malloc(sizeof(stats_entity));
+    Isaac->maxStats = malloc(sizeof(stats_entity));
+    if(!Isaac->current_stats || !Isaac->basic_stats || !Isaac->maxStats) {
+        printf("Fail to init stats of the player.");
+        exit(EXIT_FAILURE);
+    }
+
+    Isaac->weapons = malloc(sizeof(Weapon )* 4);
+    if(!Isaac->weapons) {
+        printf("Fail to init Player weapons'.");
+        exit(EXIT_FAILURE);
+    }
+
+    //Initialisation of coordinates and movement
+    //Those coordinates will have to correspond to the one of the lobby
+    Isaac->movement = malloc(sizeof(MovementValues));
+    if(!Isaac->movement) {
+        printf("Fail to init movement of player.");
+        exit(EXIT_FAILURE);
+    }
+
+    Isaac->movement->pos = malloc(sizeof(coordinates_entity));
+    if(!Isaac->movement->pos) {
+        printf("Fail to init pos of player.");
+        exit(EXIT_FAILURE);
+    }
+    Isaac->movement->pos->x = 640;
+    Isaac->movement->pos->y = 400;
+
+    Isaac->movement->velocity = malloc(sizeof(coordinates_entity));
+    if(!Isaac->movement->velocity) {
+        printf("Fail to init velocity of player.");
+        exit(EXIT_FAILURE);
+    }
+    Isaac->movement->velocity->x = 0;
+    Isaac->movement->velocity->y = 0;
+
+    Isaac->movement->SpriteBox = malloc(sizeof(SDL_Rect));
+    if(!Isaac->movement->SpriteBox) {
+        printf("Fail to init SpriteBox of player.");
+        exit(EXIT_FAILURE);
+    }
+    Isaac->movement->SpriteBox->x = 0;
+    Isaac->movement->SpriteBox->y = 0;
+    Isaac->movement->SpriteBox->h = 128;
+    Isaac->movement->SpriteBox->w = 64;
+
+    Isaac->movement->step = 0;
+    Isaac->movement->direction = 0;
+
+    return Isaac;
+}
+
 //Change the balance of the wallet, IFF possible (return 1 if done)
 int alterMoney(Player* Isaac, int money_change) {
     if (Isaac->money + money_change >= 0 && Isaac->money + money_change <= 15000) {

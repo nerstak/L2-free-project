@@ -5,62 +5,15 @@
 #include "save.h"
 
 //Init of the game and the save
-extern void init_Save(char* saveName, Data* data) {
-
-
-    data->Isaac = malloc(sizeof(Player));
-    if(!data->Isaac) {
-        return;
-    }
-    //First, initialisation of easy variables
+extern void initGame(char* saveName, Data* data) {
     strcpy(data->Isaac->save_name,saveName);
-    data->Isaac->money = 0;
-    data->Isaac->inventory = NULL;
 
-    //Initialisation of coordinates and movement
-    //Those coordinates will have to correspond to the one of the lobby
-    data->Isaac->movement = malloc(sizeof(MovementValues));
-
-    data->Isaac->movement->pos = malloc(sizeof(coordinates_entity));
-    data->Isaac->movement->pos->x = 640;
-    data->Isaac->movement->pos->y = 400;
-
-    data->Isaac->movement->velocity = malloc(sizeof(coordinates_entity));
-    data->Isaac->movement->velocity->x = 0;
-    data->Isaac->movement->velocity->y = 0;
-
-    data->Isaac->movement->SpriteBox = malloc(sizeof(SDL_Rect));
-    data->Isaac->movement->SpriteBox->x = 0;
-    data->Isaac->movement->SpriteBox->y = 0;
-    data->Isaac->movement->SpriteBox->h = 128;
-    data->Isaac->movement->SpriteBox->w = 64;
-
-    data->Isaac->movement->step = 0;
-    data->Isaac->movement->direction = 0;
-
-    //Initialisation of stats
-    data->Isaac->current_stats = malloc(sizeof(stats_entity));
-    data->Isaac->basic_stats = malloc(sizeof(stats_entity));
-    data->Isaac->maxStats = malloc(sizeof(stats_entity));
-
-    data->Isaac->weapons = malloc(sizeof(Weapon )* 4);
-
-    if(data->Isaac->weapons && data->Isaac->current_stats && data->Isaac->basic_stats && data->Isaac->maxStats && data->Isaac->movement)
-    {
-        loadPlayer(data);
-        if(data->Isaac->movement->pos && data->Isaac->movement->velocity && data->Isaac->movement->SpriteBox)
-            read_Save(data);
-        else
-            return;
-    }
-    else {
-        return;
-    }
-
+    loadPlayer(data);
+    read_Save(data);
 
     //TODO: LITTLE GARDEN
 
-    data->Isaac->current_stats = data->Isaac->basic_stats;
+    copyStats(data->Isaac->basic_stats,data->Isaac->current_stats);
 }
 
 //Write important data inside the file
