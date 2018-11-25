@@ -105,8 +105,6 @@ extern void gameLoop(SDL_Surface* window) {
     clean_Timer(&fpsCounter);
     clean_Timer(&update);
 
-    freeReference(&(myData->referenceItems));
-    freePlayer(&(myData->Isaac));
     clean_ImageCollector(&myImageCollector);
     clean_SceneCollector(&mySceneCollector);
     clean_FontCollector(&myFontCollector);

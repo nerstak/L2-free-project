@@ -77,14 +77,17 @@ extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* si
 
 //Free an item
 extern void freeOne_SlotInventory(SlotInventory** item) {
-    free(*item);
-    *item = NULL;
-
+    if(item) {
+        free(*item);
+        *item = NULL;
+    }
 }
 
 //Free a list of items
 extern void freeAll_SlotInventory(SlotInventory** item) {
-    if(*item != NULL) {
+    if(!item) {
+        return;
+    }else if(*item != NULL) {
         freeAll_SlotInventory(&((*item)->next));
         freeOne_SlotInventory(item);
     }
@@ -113,14 +116,16 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
 
 //Add an existing item to the beginning of a list
 extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size) {
-    if(*list == NULL) {
-        *list = item;
-        (*size)++;
-    } else if (*size < 16) {
-        item->next = *list;
-        (*list)->prev = item;
-        *list = item;
-        (*size)++;
+    if(list && item) {
+        if(*list == NULL) {
+            *list = item;
+            (*size)++;
+        } else if (*size < 16) {
+            item->next = *list;
+            (*list)->prev = item;
+            *list = item;
+            (*size)++;
+        }
     }
 }
 

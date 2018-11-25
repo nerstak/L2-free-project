@@ -95,10 +95,12 @@ extern void freePlayer(Player** Isaac) {
 }
 
 //Change the balance of the wallet, IFF possible (return 1 if done)
-extern void alterMoney(Player* Isaac, int alterMoney) {
+extern int alterMoney(Player* Isaac, int alterMoney) {
     if (Isaac->money + alterMoney >= 0 && Isaac->money + alterMoney <= 15000) {
         Isaac->money = Isaac->money + alterMoney;
+        return 1;
     }
+    return 0;
 }
 
 //Change the health of the Player. 'b' for definitif, 'c' for temp

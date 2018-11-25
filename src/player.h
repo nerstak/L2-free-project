@@ -55,8 +55,9 @@ extern void freePlayer(Player** Isaac);
  * Alter the money of the Player, respecting boundaries
  * @param Isaac pointer to the Player Object
  * @param alterMoney Integer of the modification of money to do
+ * @return Integer of the proceeding of the operation (0: Not Done; 1: Done)
  */
-extern void alterMoney(Player* Isaac, int alterMoney);
+extern int alterMoney(Player* Isaac, int alterMoney);
 
 /**
  * Alter the health of the Player, respecting boundaries
