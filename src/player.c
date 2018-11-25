@@ -66,17 +66,43 @@ extern Player* initPlayer() {
     return Isaac;
 }
 
+extern void freePlayer(Player** Isaac) {
+    free((*Isaac)->movement->SpriteBox);
+    (*Isaac)->movement->SpriteBox = NULL;
+
+    free((*Isaac)->movement->velocity);
+    (*Isaac)->movement->velocity = NULL;
+
+    free((*Isaac)->movement->pos);
+    (*Isaac)->movement->pos = NULL;
+
+    free((*Isaac)->movement);
+    (*Isaac)->movement = NULL;
+
+    free((*Isaac)->weapons);
+    (*Isaac)->weapons = NULL;
+
+    free((*Isaac)->maxStats);
+    (*Isaac)->maxStats;
+
+    free((*Isaac)->current_stats);
+    (*Isaac)->current_stats;
+
+    free((*Isaac)->basic_stats);
+    (*Isaac)->basic_stats;
+
+    freeAll_SlotInventory(&((*Isaac)->inventory));
+}
+
 //Change the balance of the wallet, IFF possible (return 1 if done)
-int alterMoney(Player* Isaac, int money_change) {
-    if (Isaac->money + money_change >= 0 && Isaac->money + money_change <= 15000) {
-        Isaac->money = Isaac->money + money_change;
-        return 1;
+extern void alterMoney(Player* Isaac, int alterMoney) {
+    if (Isaac->money + alterMoney >= 0 && Isaac->money + alterMoney <= 15000) {
+        Isaac->money = Isaac->money + alterMoney;
     }
-    return 0;
 }
 
 //Change the health of the Player. 'b' for definitif, 'c' for temp
-void alterHealth(Player* Isaac, float alterHealth, char type) {
+extern void alterHealth(Player* Isaac, float alterHealth, char type) {
     switch(type) {
         case 'c': {
             Isaac->current_stats->health = (alterHealth + Isaac->current_stats->health);
@@ -105,7 +131,7 @@ void alterHealth(Player* Isaac, float alterHealth, char type) {
 }
 
 //Change the speed of the Player. 'b' for definitif, 'c' for temp
-void alterSpeed(Player* Isaac, float alterSpeed, char type) {
+extern void alterSpeed(Player* Isaac, float alterSpeed, char type) {
     switch(type) {
         case 'c': {
             Isaac->current_stats->speed = (alterSpeed + Isaac->current_stats->speed);
@@ -134,7 +160,7 @@ void alterSpeed(Player* Isaac, float alterSpeed, char type) {
 }
 
 //Change the agility of the Player. 'b' for definitif, 'c' for temp
-void alterAgility(Player* Isaac, float alterAgility, char type) {
+extern void alterAgility(Player* Isaac, float alterAgility, char type) {
     switch(type) {
         case 'c': {
             Isaac->current_stats->agility = (alterAgility + Isaac->current_stats->agility);
@@ -162,7 +188,7 @@ void alterAgility(Player* Isaac, float alterAgility, char type) {
 }
 
 //Change the damage of the Player. 'b' for definitif, 'c' for temp
-void alterDamage(Player* Isaac, float alterDamage, char type) {
+extern void alterDamage(Player* Isaac, float alterDamage, char type) {
     switch(type) {
         case 'c': {
             Isaac->current_stats->damage = (alterDamage + Isaac->current_stats->damage);
