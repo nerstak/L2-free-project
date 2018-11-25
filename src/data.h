@@ -15,6 +15,7 @@ typedef struct Data {
     struct mainMenu_t* mainMenu;
     struct shop_t* shop;
     struct Player * Isaac;
+    int stop;
 } Data;
 
 extern Data* init_Data();

@@ -73,43 +73,13 @@ extern void gameLoop(SDL_Surface* window) {
 
     display_SceneCollector(myEngine, myData, "mainMenu");
 
-    while (Game_stop) {
+    while (myData->stop) {
         // Start the FPS limiter Timer
         start_Timer(fpsLimiter);
         //printf("fps_counter: %d\n",getTicks_Timer(fpsCounter));
 
         // Event loop
         mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
-        if(SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_KEYDOWN: {
-                    // Key pressed
-                    switch (event.key.keysym.sym) {
-                        case SDLK_ESCAPE:
-                            // We should only leave if we're on the main menu
-                            // Either way we bring the pause menu
-                            Game_stop = 0;
-
-                            break;
-
-                        default:
-
-                            break;
-                    }
-
-                    break;
-                }
-                case SDL_QUIT: {
-                    Game_stop = 0;
-
-                    break;
-                }
-
-                default: {
-                    break;
-                }
-            }
-        }
 
         // Logic
         mySceneCollector->currentScene->logicProcess(myEngine, myData);

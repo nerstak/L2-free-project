@@ -17,14 +17,18 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event, Engine* engine, Data* d
                     case SDLK_RETURN:
                         data->mainMenu->askAction = 5;
                         break;
-                    default: {
+                    case SDLK_ESCAPE:
+                        data->stop= 0;
                         break;
-                    }
+                    default:
+                        break;
                 }
-
                 break;
             }
-
+            case SDL_QUIT: {
+                    data->stop = 0;
+                    break;
+            }
             default: {
                 data->mainMenu->askAction = 0;
                 break;

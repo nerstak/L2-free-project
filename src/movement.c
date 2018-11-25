@@ -14,15 +14,16 @@ extern void MovePlayer(Data* data)
     if(timechange>300)
         timechange=0;
 
+    data->Isaac->current_stats->speed=1; //TEMP
 
     ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange); //Dampens and caps velocity
     ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange);
-    CheckObstacle(data,timechange); //Checks for obstacles on the map and adjusts velocity accordingly
+    CheckObstacle(data,timechange,data->Isaac->current_stats->speed); //Checks for obstacles on the map and adjusts velocity accordingly
 
-    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03; //actually changes the character's movement according to the velocity we done got
-    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
+    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->current_stats->speed; //actually changes the character's movement according to the velocity we done got
+    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->current_stats->speed; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
 
-    ProcessAnimation(data->Isaac->movement,timechange);// takes care of the character's animation
+    ProcessAnimation(data->Isaac->movement,timechange,data->Isaac->current_stats->speed);// takes care of the character's animation
 
     SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox); //selects the appropriate section of the spritesheet to display
 }
@@ -51,15 +52,20 @@ extern void ProcessVelocity(float* v,int t)
         (*v)=-12;
 }
 
+extern void StopVelocity(MovementValues * move)
+{
+    move->velocity->x=0;
+    move->velocity->y=0;
+}
 
 
-extern void CheckObstacle(Data* data,int t)
+extern void CheckObstacle(Data* data,int t,float speedstat)
 {
     float Xpos=data->Isaac->movement->pos->x; //X and Y coordinates of the top left of the player
     float Ypos=data->Isaac->movement->pos->y;
 
-    float  Vx=(data->Isaac->movement->velocity->x)*t*0.03; // this is the total change in position due to velocity
-    float  Vy=(data->Isaac->movement->velocity->y)*t*0.03;
+    float  Vx=(data->Isaac->movement->velocity->x)*t*0.03*speedstat; // this is the total change in position due to velocity
+    float  Vy=(data->Isaac->movement->velocity->y)*t*0.03*speedstat;
 
     int top=(Ypos + 85)/64; //these 4 are the top bottom left and right values for the walls of the hitbox
     int bot=(Ypos + 120)/64;
@@ -114,10 +120,13 @@ extern void CheckObstacle(Data* data,int t)
 
 }
 
-extern void ProcessAnimation(MovementValues * move,int t)
+extern void ProcessAnimation(MovementValues * move,int t,float speedstat)
 {
     if(move->velocity->x || move->velocity->y )
-        move->step=(move->step+(10*t/17))%480; //bases how much you advance in the animation on time change
+    {
+        int steppo=move->step+(10*speedstat*t*0.06);
+        move->step=steppo%440; //bases how much you advance in the animation on time change
+    }
     else
         move->step=0; //resets animation when player stops moving
 
@@ -136,7 +145,7 @@ extern void ProcessAnimation(MovementValues * move,int t)
 
 extern void SpriteSelection(MovementValues * move, SDL_Rect * box)
 {
-    box->x=(move->step/120)*64; // 0 1 2 3 based on where we are in the animation times the width of a single sprite
+    box->x=(move->step/55)*64; // 0 1 2 3 based on where we are in the animation times the width of a single sprite
     box->y=move->direction*128; // 0 1 2 3 based on direction times the width of a single sprite
 //    box->h=128;
 //    box->w=64;

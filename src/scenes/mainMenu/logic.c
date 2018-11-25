@@ -42,7 +42,7 @@ static void enterMainMenu(Data* data, Engine* engine) {
             break;
         case 3:
             //Leave game
-            Game_stop = 0;
+            data->stop = 0;
         default:
             break;
     }

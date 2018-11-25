@@ -4,4 +4,5 @@
 extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
 {
     MovePlayer(data);
+    //StopVelocity(data->Isaac->movement); // for benoit <3
 }
