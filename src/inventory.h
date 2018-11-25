@@ -4,9 +4,9 @@
 //Statistics, also used for the player
 typedef struct stats_entity {
     int health;
-    int damage;
-    int speed;
-    int agility;
+    float damage;
+    float speed;
+    float agility;
 } stats_entity;
 
 //Functions relative to the inventory and the shop
