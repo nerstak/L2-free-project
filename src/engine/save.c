@@ -9,7 +9,7 @@ extern void initGame(char* saveName, Data* data) {
     strcpy(data->Isaac->save_name,saveName);
 
     loadPlayer(data);
-    read_Save(data);
+    readSave(data);
 
     //TODO: LITTLE GARDEN
 
@@ -17,7 +17,7 @@ extern void initGame(char* saveName, Data* data) {
 }
 
 //Write important data inside the file
-extern void write_Save(Data* data) {
+extern void writeSave(Data* data) {
     FILE * save_file;
     Player * Isaac = data->Isaac;
     SlotInventory * current = Isaac->inventory;
@@ -28,6 +28,7 @@ extern void write_Save(Data* data) {
     save_file = fopen(temp, "w+");
     if(save_file == NULL) {
         printf("Error while creating or opening file during saving.\n");
+        exit(EXIT_FAILURE);
     } else {
         //Writing save_name and money
         fprintf(save_file,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++(Isaac->day),Isaac->money);
@@ -48,7 +49,7 @@ extern void write_Save(Data* data) {
 }
 
 //Read the values inside one of the file
-int read_Save(Data* data) {
+extern void readSave(Data* data) {
     FILE * save_file;
     char temp[50];
     int id, quantity;
@@ -64,7 +65,7 @@ int read_Save(Data* data) {
 
     if(save_file == NULL) {
         printf("Error while reading save");
-        return 0;
+        exit(EXIT_FAILURE);
     } else {
         //Reading all values
         fscanf(save_file,"%s\n",temp);
@@ -81,7 +82,6 @@ int read_Save(Data* data) {
         data->Isaac->size_inventory = i;
     }
     fclose(save_file);
-    return 1;
 }
 
 static void loadPlayer(Data* data) {
@@ -90,7 +90,7 @@ static void loadPlayer(Data* data) {
     playerFile = fopen("src/data/player/player.data","r");
     if(!playerFile) {
         printf("Error while opening player.data");
-        return;
+        exit(EXIT_FAILURE);
     }
     fscanf(playerFile,"MH=%f MS=%f MA=%f MD=%f\n",&(data->Isaac->maxStats->health),&(data->Isaac->maxStats->speed),&(data->Isaac->maxStats->agility),&(data->Isaac->maxStats->damage));
     fclose(playerFile);
