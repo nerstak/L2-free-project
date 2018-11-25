@@ -21,8 +21,17 @@ typedef struct Layout{
     Tiles** map;
 }Layout;
 
-
+/**
+ * Load the layout of a map
+ * @param environment String of the environment
+ * @param name String of the specific room (no need for lobby)
+ * @return Pointer of Layout Object
+ */
 extern Layout* loadSingleLayout(char* environment, char* name);
+/**
+ * Free a Layout Object
+ * @param room Double pointer of Layout Object
+ */
 extern void freeSingleLayout(Layout** room);
 
 #endif //FREE_PROJECT_LAYOUT_H

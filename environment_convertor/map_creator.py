@@ -50,7 +50,7 @@ for filename in enumerate(os.listdir("rooms_png")):
     room_png.close()
 
     #Name, size, kind of mobs allowed to spawn
-    map_file = open("rooms_out/"+name+".loli","w") #Large Output Last Idea
+    map_file = open("rooms_out/"+name+".map","w")
     map_file.write(name+",\n")
     map_file.write("COLUMNS="+str(column)+",LINES="+str(line)+",\n")
     map_file.write("SET_MOB="+mobs+",\n")

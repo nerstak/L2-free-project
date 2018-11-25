@@ -12,7 +12,7 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
 
     //Opening file
     if(strcmp(environment,"lobby") == 0) {
-        sprintf(path,"src/data/lobby/%s.loli",name);
+        sprintf(path,"src/data/lobby/%s.map",name);
     }
     else if(strcmp(environment,"dungeons") == 0) {
         //TODO: Add dungeons

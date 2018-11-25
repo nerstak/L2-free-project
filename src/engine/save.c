@@ -13,7 +13,7 @@ extern void initGame(char* saveName, Data* data) {
 
     //TODO: LITTLE GARDEN
 
-    copyStats(data->Isaac->basic_stats,data->Isaac->current_stats);
+    copyStats(data->Isaac->current_stats,data->Isaac->basic_stats);
 }
 
 //Write important data inside the file
@@ -72,6 +72,11 @@ extern void readSave(Data* data) {
         fscanf(save_file,"DAY=%d\n",&(data->Isaac->day));
         fscanf(save_file,"MONEY=%d\n",&(data->Isaac->money));
         fscanf(save_file,"STATS: H=%f D=%f S=%f A=%f\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->agility));
+        //Checking that the value are not to high
+        alterDamage(data->Isaac,0,'b');
+        alterSpeed(data->Isaac,0,'b');
+        alterAgility(data->Isaac,0,'b');
+        alterHealth(data->Isaac,0,'b');
         for(int i = 0; i < 4; i++) {
             fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%f S=%f\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].agility));
         }
