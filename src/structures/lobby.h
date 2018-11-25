@@ -9,6 +9,8 @@ typedef struct lobby_t{
     int askMove;
     int menuHouse;
     int counterPressKey;
+    int counterPressKeyMove;
+    struct Plant* actualPlant;
     //TODO: Add everything we need
 }lobby_t;
 

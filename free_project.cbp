@@ -5,6 +5,7 @@
 		<Option title="free_project" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="src\structures\;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/free_project" prefix_auto="1" extension_auto="1" />
@@ -43,8 +44,215 @@
 			<Add library="dxguid" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/include/SDL-1.2.15/lib" />
 		</Linker>
+		<Unit filename=".gitignore">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="CMakeLists.txt">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="README.md">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="SDL.dll">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="SDL_image.dll">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="SDL_ttf.dll">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="bin/Debug/free_project.exe">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="environment_convertor/.gitignore">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="environment_convertor/map_creator.py">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="environment_convertor/requirements.txt">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="environment_convertor/rooms_out/.gitkeep">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="environment_convertor/rooms_png/.gitkeep">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="environment_convertor/sheet_cheat.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="free_project.cscope_file_list">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="free_project.depend">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="free_project.layout">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="libfreetype-6.dll">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="libjpeg-8.dll">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="libpng15-15.dll">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="libtiff-5.dll">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="libwebp-2.dll">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="obj/Debug/main.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/asset.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/data.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/engine/collectors/image.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/engine/collectors/scene.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/engine/collectors/ttf.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/engine/main.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/engine/save.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/game.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/garden.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/image.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/inventory.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/launch.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/layout.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/menu.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/movement.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/player.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/save.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scene.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/inventoryScreen/event.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/inventoryScreen/inventoryScreen.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/inventoryScreen/logic.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/inventoryScreen/render.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/loadingScreen.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/loadingScreen/event.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/loadingScreen/loadingScreen.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/loadingScreen/logic.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/loadingScreen/render.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/lobby.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/lobby/event.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/lobby/lobby.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/lobby/logic.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/lobby/render.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/mainMenu.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/mainMenu/event.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/mainMenu/logic.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/mainMenu/mainMenu.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/mainMenu/render.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/shopScreen.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/shopScreen/event.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/shopScreen/logic.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/shopScreen/render.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/scenes/shopScreen/shopScreen.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/timer.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/ttf.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="obj/Debug/src/window.o">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="saves/.gitkeep">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="saves/save1.save">
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/asset.c">
 			<Option compilerVar="CC" />
@@ -54,6 +262,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/data.h" />
+		<Unit filename="src/data/items/items.data">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/data/lobby/lobby.loli">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/data/save/basic.save">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/data/shop/shop.data">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/engine/collectors/image.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -74,6 +294,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/engine/save.h" />
+		<Unit filename="src/fonts/menu.ttf">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/game.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -81,7 +304,51 @@
 		<Unit filename="src/garden.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/garden.h" />
+		<Unit filename="src/garden.h">
+			<Option virtualFolder="src/structures/" />
+		</Unit>
+		<Unit filename="src/gfx/building/shop.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/enemies/mite_placeholder.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/interface/confirm_layout.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/interface/frame.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/interface/frame_selected.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/interface/inventory_layout.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/interface/shop_layout.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/menu/main_bg.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/menu/main_cursorDouble.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/menu/main_cursorSingle.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/player/sprites_hero.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/scenes/loadingScreen/loadingSprite.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/scenes/lobby/Menu1.png">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/gfx/scenes/lobby/lobby_bg.png">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/inventory.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -98,14 +365,40 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/movement.h" />
+		<Unit filename="src/plants.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/plants.h" />
 		<Unit filename="src/player.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/player.h" />
+		<Unit filename="src/scenes/inventoryScreen/event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/event.h" />
+		<Unit filename="src/scenes/inventoryScreen/files.asset">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/inventoryScreen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/inventoryScreen.h" />
+		<Unit filename="src/scenes/inventoryScreen/logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/logic.h" />
+		<Unit filename="src/scenes/inventoryScreen/render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/render.h" />
 		<Unit filename="src/scenes/loadingScreen/event.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scenes/loadingScreen/event.h" />
+		<Unit filename="src/scenes/loadingScreen/files.asset">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/scenes/loadingScreen/loadingScreen.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -122,6 +415,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scenes/lobby/event.h" />
+		<Unit filename="src/scenes/lobby/files.asset">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/scenes/lobby/lobby.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -138,6 +434,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scenes/mainMenu/event.h" />
+		<Unit filename="src/scenes/mainMenu/files.asset">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/scenes/mainMenu/logic.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -154,6 +453,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scenes/shopScreen/event.h" />
+		<Unit filename="src/scenes/shopScreen/files.asset">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/scenes/shopScreen/logic.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -166,6 +468,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scenes/shopScreen/shopScreen.h" />
+		<Unit filename="src/sfx/.gitkeep">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/structures/inventoryScreen.h" />
 		<Unit filename="src/structures/lobby.h" />
 		<Unit filename="src/structures/mainMenu.h" />
 		<Unit filename="src/structures/scene.h" />
@@ -178,6 +484,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/window.h" />
+		<Unit filename="zlib1.dll">
+			<Option target="Release" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

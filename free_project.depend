@@ -14,31 +14,32 @@
 
 1540078154 d:\documents\github\project\src\asset.h
 
-1542809916 source:d:\documents\github\project\src\data.c
+1542987826 source:d:\documents\github\project\src\data.c
 	<stdlib.h>
 	<stdio.h>
 	"data.h"
 
-1542809916 d:\documents\github\project\src\data.h
+1543066915 d:\documents\github\project\src\data.h
 	"structures/mainMenu.h"
 	"structures/shopScreen.h"
 	"structures/lobby.h"
+	"structures/inventoryScreen.h"
 	"player.h"
 	"inventory.h"
 
 1542809916 d:\documents\github\project\src\structures\mainmenu.h
 
-1542809916 d:\documents\github\project\src\structures\shopscreen.h
+1542987826 d:\documents\github\project\src\structures\shopscreen.h
 	"../inventory.h"
 
-1542809916 d:\documents\github\project\src\inventory.h
+1542987826 d:\documents\github\project\src\inventory.h
 
-1542922466 d:\documents\github\project\src\structures\lobby.h
+1543105494 d:\documents\github\project\src\structures\lobby.h
 	"../layout.h"
 
 1542809916 d:\documents\github\project\src\layout.h
 
-1542809916 d:\documents\github\project\src\player.h
+1542987826 d:\documents\github\project\src\player.h
 	"inventory.h"
 	<SDL/SDL.h>
 
@@ -55,17 +56,17 @@
 	<SDL/SDL_video.h>
 	"../../asset.h"
 
-1542809916 source:d:\documents\github\project\src\engine\collectors\scene.c
+1542987826 source:d:\documents\github\project\src\engine\collectors\scene.c
 	"scene.h"
 	"../../structures/scene.h"
 
-1542809916 d:\documents\github\project\src\engine\collectors\scene.h
+1542987826 d:\documents\github\project\src\engine\collectors\scene.h
 	<stdlib.h>
 	<stdbool.h>
 	<SDL/SDL.h>
 	"../../data.h"
 
-1542809916 d:\documents\github\project\src\structures\scene.h
+1542987826 d:\documents\github\project\src\structures\scene.h
 	<stdbool.h>
 	<SDL/SDL.h>
 	"../data.h"
@@ -88,7 +89,7 @@
 1542809916 source:d:\documents\github\project\src\engine\main.c
 	"main.h"
 
-1542809916 source:d:\documents\github\project\src\engine\save.c
+1542987826 source:d:\documents\github\project\src\engine\save.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -97,12 +98,13 @@
 1542809916 d:\documents\github\project\src\engine\save.h
 	"../data.h"
 
-1542901751 source:d:\documents\github\project\src\game.c
+1542992761 source:d:\documents\github\project\src\game.c
 	"game.h"
 	"window.h"
 	"timer.h"
 	"engine/collectors/image.h"
 	"engine/main.h"
+	"scenes/inventoryScreen/inventoryScreen.h"
 	"scenes/mainMenu/mainMenu.h"
 	"scenes/loadingScreen/loadingScreen.h"
 	"scenes/shopScreen/shopScreen.h"
@@ -215,7 +217,7 @@
 	"../../data.h"
 	"../../engine/main.h"
 
-1542929961 source:d:\documents\github\project\src\garden.c
+1543105738 source:d:\documents\github\project\src\garden.c
 	<stdlib.h>
 	<string.h>
 	<stdio.h>
@@ -223,10 +225,11 @@
 	"data.h"
 	"engine/save.h"
 	"garden.h"
+	"plants.h"
 
-1542925218 d:\documents\github\project\src\garden.h
+1542987990 d:\documents\github\project\src\garden.h
 
-1542809916 source:d:\documents\github\project\src\inventory.c
+1542987826 source:d:\documents\github\project\src\inventory.c
 	<stdlib.h>
 	<string.h>
 	<stdio.h>
@@ -242,7 +245,7 @@
 	<stdlib.h>
 	"layout.h"
 
-1542815859 source:d:\documents\github\project\src\movement.c
+1542987979 source:d:\documents\github\project\src\movement.c
 	<stdlib.h>
 	<string.h>
 	<stdio.h>
@@ -250,7 +253,7 @@
 	"data.h"
 	"movement.h"
 
-1542809916 d:\documents\github\project\src\movement.h
+1542987826 d:\documents\github\project\src\movement.h
 
 1541584582 source:d:\documents\github\project\src\player.c
 	<stdlib.h>
@@ -270,23 +273,24 @@
 	"render.h"
 	"../../window.h"
 
-1542929731 source:d:\documents\github\project\src\scenes\lobby\event.c
+1543105738 source:d:\documents\github\project\src\scenes\lobby\event.c
 	"event.h"
 
-1542922689 source:d:\documents\github\project\src\scenes\lobby\lobby.c
+1543105598 source:d:\documents\github\project\src\scenes\lobby\lobby.c
 	"lobby.h"
 
-1542930107 source:d:\documents\github\project\src\scenes\lobby\logic.c
+1543105034 source:d:\documents\github\project\src\scenes\lobby\logic.c
 	"logic.h"
+	"../../movement.h"
 
-1542902681 source:d:\documents\github\project\src\scenes\lobby\render.c
+1543103603 source:d:\documents\github\project\src\scenes\lobby\render.c
 	"render.h"
 	"../../window.h"
 
 1542809916 source:d:\documents\github\project\src\scenes\mainmenu\event.c
 	"event.h"
 
-1542809916 source:d:\documents\github\project\src\scenes\mainmenu\logic.c
+1542987826 source:d:\documents\github\project\src\scenes\mainmenu\logic.c
 	"logic.h"
 	"../../game.h"
 	"../../engine/save.h"
@@ -298,17 +302,17 @@
 	"render.h"
 	"../../window.h"
 
-1542809916 source:d:\documents\github\project\src\scenes\shopscreen\event.c
+1542987826 source:d:\documents\github\project\src\scenes\shopscreen\event.c
 	"event.h"
 
-1542809916 source:d:\documents\github\project\src\scenes\shopscreen\logic.c
+1542987826 source:d:\documents\github\project\src\scenes\shopscreen\logic.c
 	"logic.h"
 
-1542809916 source:d:\documents\github\project\src\scenes\shopscreen\render.c
+1542987826 source:d:\documents\github\project\src\scenes\shopscreen\render.c
 	"render.h"
 	"../../window.h"
 
-1542809916 source:d:\documents\github\project\src\scenes\shopscreen\shopscreen.c
+1542987826 source:d:\documents\github\project\src\scenes\shopscreen\shopscreen.c
 	"shopScreen.h"
 
 1540078154 source:d:\documents\github\project\src\timer.c
@@ -322,4 +326,52 @@
 	"game.h"
 	<SDL/SDL.h>
 	<SDL/SDL_ttf.h>
+
+1542987826 d:\documents\github\project\src\structures\inventoryscreen.h
+	"../inventory.h"
+
+1542987826 d:\documents\github\project\src\scenes\inventoryscreen\inventoryscreen.h
+	<stdbool.h>
+	"../../engine/collectors/image.h"
+	"../../data.h"
+	"event.h"
+	"logic.h"
+	"render.h"
+
+1542987826 d:\documents\github\project\src\scenes\inventoryscreen\event.h
+	<SDL/SDL.h>
+	"../../data.h"
+	"../../engine/main.h"
+
+1542987826 d:\documents\github\project\src\scenes\inventoryscreen\logic.h
+	"../../data.h"
+	"../../engine/main.h"
+
+1542987826 d:\documents\github\project\src\scenes\inventoryscreen\render.h
+	"../../engine/collectors/image.h"
+	"../../engine/collectors/ttf.h"
+	"../../data.h"
+	"../../engine/main.h"
+
+1542987826 source:d:\documents\github\project\src\scenes\inventoryscreen\event.c
+	"event.h"
+
+1542987826 source:d:\documents\github\project\src\scenes\inventoryscreen\inventoryscreen.c
+	"inventoryScreen.h"
+
+1542987826 source:d:\documents\github\project\src\scenes\inventoryscreen\logic.c
+	"logic.h"
+
+1542987826 source:d:\documents\github\project\src\scenes\inventoryscreen\render.c
+	"render.h"
+	"../../window.h"
+
+1543101686 source:d:\documents\github\project\src\plants.c
+	<stdlib.h>
+	<string.h>
+	"plants.h"
+	"data.h"
+
+1543066926 d:\documents\github\project\src\plants.h
+	"data.h"
 
