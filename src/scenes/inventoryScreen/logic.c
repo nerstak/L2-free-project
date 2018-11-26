@@ -22,9 +22,9 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
     data->inventory->askAction = 0;
 
     if(isStarted_Timer(data->inventory->timerMessage)){
-        if(getTime_Timer(data->inventory->timerMessage) > 5) {
+        if(getTime_Timer(data->inventory->timerMessage) > 3) {
             stop_Timer(data->inventory->timerMessage);
-            strcpy(data->inventory->nameUsed,"");
+            strcpy(data->inventory->messageUsed,"");
         }
     }
 }
@@ -106,7 +106,7 @@ static void useItem(Data* data) {
     //First we should check if the item is usable
     if(data->inventory->selected) {
         if(data->inventory->selected->type != 'n' && data->inventory->selected->type != 's') {
-            strcpy(data->inventory->nameUsed, data->inventory->selected->name);
+            strcpy(data->inventory->messageUsed, data->inventory->selected->useMessage);
             applyEffect(data);
             (data->inventory->selected->quantity)--;
             if(data->inventory->selected->quantity <= 0) {

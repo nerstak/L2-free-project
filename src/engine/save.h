@@ -22,10 +22,4 @@ extern void writeSave(Data* data);
  */
 extern void readSave(Data* data);
 
-/**
- * Read the common value of the Player Object
- * @param data Pointer of Data Object
- */
-static void loadPlayer(Data* data);
-
 #endif //FREE_PROJECT_ENGINE_SAVE_H

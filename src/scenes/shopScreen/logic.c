@@ -1,8 +1,8 @@
 #include "logic.h"
 
 static void moveShopSelector(Data* data);
-static void buy_item(Data* data, SlotInventory * item_buying, int number);
-static void sell_item(Data* data, SlotInventory * item_selling, int number);
+static void buy_item(Data* data, SlotInventory * itemBuying, int number);
+static void sell_item(Data* data, SlotInventory * itemSelling, int number);
 static void moveConfirmCursor(Data* data);
 
 extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
@@ -10,12 +10,17 @@ extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
     if(data->shop->askTransaction != -1 || action == 5) {
         moveConfirmCursor(data);
     } else if(action != 0) {
-        if(action != 5) {
-            //Moving
-            moveShopSelector(data);
-        }
+        //Moving
+        moveShopSelector(data);
     }
     data->shop->askAction = 0;
+
+    if(isStarted_Timer(data->shop->timerMessage)){
+        if(getTime_Timer(data->shop->timerMessage) > 3) {
+            stop_Timer(data->shop->timerMessage);
+            strcpy(data->shop->messageAction,"");
+        }
+    }
 }
 
 //Cursor displacement (right: 1; left: -1; down: 10; up: -10)
@@ -127,50 +132,65 @@ static void moveShopSelector(Data* data) {
     }
 }
 
-static void buy_item(Data * data, SlotInventory * item_buying, int number) {
+static void buy_item(Data * data, SlotInventory * itemBuying, int number) {
     SlotInventory * current_item;
+    int j = 0;
+    char nameItem[25];
     for(int i = 0; i < number; i++) {
         //If it is possible to buy
-        if(alterMoney(data->Isaac, -item_buying->price) == 1) {
-            current_item = search_SlotInventory(data->Isaac->inventory, item_buying->id);
+        if(alterMoney(data->Isaac, - itemBuying->price) == 1) {
+            ++j;
+            strcpy(nameItem, itemBuying->name);
+            current_item = search_SlotInventory(data->Isaac->inventory, itemBuying->id);
             if(current_item != NULL) {
                 //If the player already has an exemplar of the item in its inventory
                 (current_item->quantity)++;
             } else {
                 //If the player is buying a new item, we create it inside its inventory
                 add_SlotInventory(&(data->Isaac->inventory),
-                                  create_SlotInventory(item_buying->id,1,data->referenceItems),
+                                  create_SlotInventory(itemBuying->id,1,data->referenceItems),
                                   &(data->Isaac->size_inventory));
             }
         }
     }
+    if(j != 0) {
+        sprintf(data->shop->messageAction, "You bought %d %s!", j, nameItem);
+        start_Timer(data->shop->timerMessage);
+    }
 }
 
-static void sell_item(Data * data, SlotInventory * item_selling, int number) {
-    for(int i = 0; i < number; i++) {
-        alterMoney(data->Isaac, (int) (item_selling->price * .8));
-        (item_selling->quantity)--;
+static void sell_item(Data * data, SlotInventory * itemSelling, int number) {
+    int i;
+    char nameItem[25];
+    for(i = 0; i < number; i++) {
+        strcpy(nameItem, itemSelling->name);
+        alterMoney(data->Isaac, (int) (itemSelling->price * .8));
+        (itemSelling->quantity)--;
         //Checking if the item has to be removed from the inventory
-        if(item_selling->quantity <= 0) {
+        if(itemSelling->quantity <= 0) {
             //Loop to replace the cursor
-            if(item_selling->next != NULL) {
-                data->shop->selected = item_selling->next;
-            } else if (item_selling->prev != NULL) {
-                data->shop->selected = item_selling->prev;
+            if(itemSelling->next != NULL) {
+                data->shop->selected = itemSelling->next;
+            } else if (itemSelling->prev != NULL) {
+                data->shop->selected = itemSelling->prev;
                 data->shop->nSelected--;
             } else {
                 data->shop->selected = data->shop->shop_inv;
                 data->shop->nSelected = 0;
             }
             //Finally removing the item
-            remove_SlotInventory(&(data->Isaac->inventory), item_selling->id, &(data->Isaac->size_inventory));
-            freeOne_SlotInventory(&item_selling);
+            remove_SlotInventory(&(data->Isaac->inventory), itemSelling->id, &(data->Isaac->size_inventory));
+            freeOne_SlotInventory(&itemSelling);
 
             if(data->Isaac->inventory == NULL) {
                 data->shop->nSelected = 16;
                 data->shop->selected = data->shop->shop_inv;
             }
         }
+    }
+    if(i != 0) {
+        sprintf(data->shop->messageAction, "You sold %d %s!", i, nameItem);
+        start_Timer(data->shop->timerMessage);
     }
 }
 
@@ -226,6 +246,7 @@ static void moveConfirmCursor(Data* data) {
                 }
                 break;
             }
+            default: break;
         }
     }
 }

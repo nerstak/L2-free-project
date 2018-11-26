@@ -4,6 +4,12 @@
 
 #include "save.h"
 
+/**
+ * Read the common value of the Player Object
+ * @param data Pointer of Data Object
+ */
+static void loadPlayer(Data* data);
+
 //Init of the game and the save
 extern void initGame(char* saveName, Data* data) {
     strcpy(data->Isaac->save_name,saveName);

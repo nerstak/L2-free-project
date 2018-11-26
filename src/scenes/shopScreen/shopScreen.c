@@ -27,6 +27,8 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
         data->shop->itemsInTransaction = 0;
         data->shop->size_shop = 0;
 
+        data->shop->timerMessage = init_Timer();
+
         data->shop->shop_inv = init_ShopInventory(data->referenceItems, &(data->shop->size_shop));
 
         if(data->Isaac->inventory) {
@@ -34,12 +36,13 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
             data->shop->nSelected = 0;
         } else {
             data->shop->selected = data->shop->shop_inv;
-            data->shop->nSelected = 20;
+            data->shop->nSelected = 16;
         }
 
     } else {
         freeAll_SlotInventory(&(data->shop->shop_inv));
         data->shop->selected = NULL;
+        clean_Timer(&(data->shop->timerMessage));
         free(data->shop);
         data->shop = NULL;
     }

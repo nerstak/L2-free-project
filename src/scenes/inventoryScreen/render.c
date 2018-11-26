@@ -66,7 +66,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
             SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
         }
     } else if(isStarted_Timer(data->inventory->timerMessage)) {
-        sprintf(dialog, "You used %s!", data->inventory->nameUsed);
+        strcpy(dialog, data->inventory->messageUsed);
         dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
 
         dialogInfoPos.x = 152;

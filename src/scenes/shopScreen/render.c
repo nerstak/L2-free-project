@@ -41,7 +41,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     SDL_BlitSurface(layout, NULL, shop, &layoutPos);
 
     //DialogBox blit
-    if(data->shop->selected != NULL) {
+    if(data->shop->selected != NULL && !isStarted_Timer(data->shop->timerMessage)) {
         //Informations of the item
         for(int i = 0; i < 3; i++) {
             switch (i) {
@@ -75,6 +75,14 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
 
             SDL_BlitSurface(dialogInfo, NULL, shop, &dialogInfoPos);
         }
+    } else if(isStarted_Timer(data->shop->timerMessage)) {
+        strcpy(dialog, data->shop->messageAction);
+        dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+
+        dialogInfoPos.x = 80;
+        dialogInfoPos.y = 570;
+
+        SDL_BlitSurface(dialogInfo, NULL, shop, &dialogInfoPos);
     }
 
 

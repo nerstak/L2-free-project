@@ -7,7 +7,7 @@ typedef struct inventory_t {
     int askAction;
     int askDeletion;
     int nSelected;
-    char nameUsed[25];
+    char messageUsed[100];
     SlotInventory * selected;
     Timer* timerMessage;
 } inventory_t;
