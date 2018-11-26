@@ -5,7 +5,7 @@
 
 #include "engine/save.h"
 #include "plants.h"
-
+// StopVelocity(data->Isaac->movement); for benoit <3
 static void test_plant(Data* data);
 
 extern void doAction_Garden(Data* data) {
