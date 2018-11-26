@@ -1,5 +1,6 @@
 #include "logic.h"
 #include "../../movement.h"
+#include "../../garden.h"
 
 extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
 {
@@ -30,25 +31,25 @@ else if ( data->lobby->counterPressKeyMove == -1 ){
 
 if(data->lobby->menuHouse == 0){
     if(data->lobby->askAction == 1 ){
-        doAction(data);
+        doAction_Garden(data);
     }
    else MovePlayer(data);
 }
 else if(data->lobby->menuHouse == 1){
-    processMenu1(data);
+    processMenu1_Garden(data);
 }
 else if(data->lobby->menuHouse == 2){
-    processMenu2(data);
+    processMenu2_Garden(data);
 }
 else if(data->lobby->menuHouse == 21){
 
-    menuSelectionPlanting(data);
+    menuSelectionPlanting_Garden(data);
 }
 else if(data->lobby->menuHouse == 22){
-    menuSelectionDonjon(data);
+    menuSelectionDonjon_Garden(data);
 }
 else if(data->lobby->menuHouse == 23){
-    menuNotReady(data);
+    menuNotReady_Garden(data);
 }
 
 

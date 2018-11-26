@@ -1,9 +1,16 @@
-#ifndef GARDEN_H_INCLUDED
-#define GARDEN_H_INCLUDED
+#ifndef FREE_PROJECT_GARDEN_H
+#define FREE_PROJECT_GARDEN_H
 
-extern int checkAction(Data* data);
+#include "data.h"
 
-extern void doAction(Data* data);
+extern int checkAction_Garden(Data* data);
+extern void doAction_Garden(Data* data);
 
+extern void processMenu1_Garden(Data* data);
+extern void processMenu2_Garden(Data* data);
+extern void processField_Garden(Data* data);
+extern void menuSelectionDonjon_Garden(Data* data);
+extern void menuSelectionPlanting_Garden(Data* data);
+extern void menuNotReady_Garden(Data* data);
 
-#endif // GARDEN_H_INCLUDED
+#endif // FREE_PROJECT_GARDEN_H
