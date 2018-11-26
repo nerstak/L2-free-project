@@ -41,7 +41,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     SDL_BlitSurface(layout, NULL, inventory, &layoutPos);
 
     //DialogBox blit
-    if(data->inventory->selected != NULL && data->inventory->askDeletion == -1) {
+    if(data->inventory->selected != NULL && !isStarted_Timer(data->inventory->timerMessage)) {
         //Informations of the item
         for(int i = 0; i < 3; i++) {
             switch (i) {
@@ -65,6 +65,14 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
 
             SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
         }
+    } else if(isStarted_Timer(data->inventory->timerMessage)) {
+        sprintf(dialog, "You used %s!", data->inventory->nameUsed);
+        dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+
+        dialogInfoPos.x = 152;
+        dialogInfoPos.y = 547;
+
+        SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
     }
 
     //Money Blit

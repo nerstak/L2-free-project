@@ -25,11 +25,13 @@ extern void init_Scene_inventory(Engine* engine, Data* data, bool loadOrUnload) 
         data->inventory->nSelected = 0;
         data->inventory->askAction = 0;
         data->inventory->askDeletion = -1;
+        data->inventory->timerMessage = init_Timer();
 
         data->inventory->selected = data->Isaac->inventory;
     } else {
         data->inventory->selected = NULL;
         free(data->inventory);
         data->inventory = NULL;
+        clean_Timer(&(data->inventory->timerMessage));
     }
 }

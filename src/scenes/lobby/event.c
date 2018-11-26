@@ -7,21 +7,36 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
 
     Uint8 *keystate = SDL_GetKeyState(NULL);
 
-    switch (event.type) {
-        case SDL_KEYDOWN: {
-            // Key pressed
-            switch (event.key.keysym.sym) {
-                case SDLK_SPACE:
-                    //inventory ? i pref E key
-                    break;
-                case SDLK_RETURN:
-                    data->lobby->counterPressKey = 3;
+    if(SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_KEYDOWN: {
+                // Key pressed
+                switch (event.key.keysym.sym) {
+                    case SDLK_SPACE:
+                        //Interact with shop or garden, has to be implemented
+                        break;
+                    case SDLK_RETURN:
+                        data->lobby->counterPressKey = 3;
+                        break;
+                    case SDLK_ESCAPE:
+                        data->stop= 0;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            }
+            case SDL_QUIT: {
+                    data->stop = 0;
                     break;
             }
+            default:
+                break;
         }
-        default:
-            if(keystate[SDLK_w]||keystate[SDLK_a]||keystate[SDLK_s]||keystate[SDLK_d])
-            {
+    }
+    
+    if(keystate[SDLK_w]||keystate[SDLK_a]||keystate[SDLK_s]||keystate[SDLK_d])
+    {
                 if(keystate[SDLK_w])
                     data->Isaac->movement->velocity->y-=Vchange;
                 if(keystate[SDLK_a]) {

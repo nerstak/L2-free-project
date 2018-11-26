@@ -4,6 +4,7 @@
 typedef struct Asset {
     char name[255];
     char path[255];
+    int type;
 
     struct Asset* next;
 } Asset;

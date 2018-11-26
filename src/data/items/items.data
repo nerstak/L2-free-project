@@ -3,19 +3,19 @@
 2: 'Potatoes seed' 'I cant wait to use my potato gun' PRICE=250 TYPE=s H=4 D=0 S=0 A=0
 3: 'Corn seed' 'Oh, looking at these seed make my corny!' PRICE=540 TYPE=s H=0 D=0 S=0 A=0
 4: 'Pumpkin seed' 'Damn, I thought pumpkin where made of plastic just for Halloween.' PRICE=890 TYPE=s H=0 D=0 S=0 A=0
-5: 'Wild radish' 'Ewww... It looks a bit small' PRICE=10 TYPE=v H=0 D=0 S=0 A=0
-6: 'Tomatoes' 'A juicy red vegetetable. Or is it a fruit?' PRICE=120 TYPE=v H=0 D=0 S=0 A=0
-7: 'Potatoes' 'So many ways to cook them...' PRICE=300 TYPE=v H=0 D=0 S=0 A=0
-8: 'Corn' 'Get ready to pop it!' PRICE=580 TYPE=v H=0 D=0 S=0 A=0
+5: 'Wild radish' 'Ewww... It looks a bit small' PRICE=10 TYPE=v H=0.1 D=0 S=0 A=0.1
+6: 'Tomatoes' 'A juicy red vegetetable. Or is it a fruit?' PRICE=120 TYPE=v H=0.2 D=0.05 S=0 A=0
+7: 'Potatoes' 'So many ways to cook them...' PRICE=300 TYPE=v H=0.3 D=0 S=0.1 A=0
+8: 'Corn' 'Get ready to pop it!' PRICE=580 TYPE=v H=0.4 D=0.1 S=0 A=0.2
 9: 'Pumpkin' 'A spooky vegetetable.' PRICE=1000 TYPE=v H=10 D=0 S=0 A=0
-10: 'Basic health potion' 'Where is the fairy?' PRICE=20 TYPE=p H=20 D=0 S=0 A=0
-11: 'Super health potion' 'Where is the fairy Queen?' PRICE=80 TYPE=p H=80 D=0 S=0 A=0
-12: 'Basic strength potion' 'Is this blood inside?' PRICE=20 TYPE=p H=0 D=10 S=0 A=0
-13: 'Super strength potion' 'I can feel an infinite source of power inside...' PRICE=80 TYPE=p H=0 D=30 S=0 A=0
-14: 'Basic speed potion' 'Ooooh, coffee!' PRICE=20 TYPE=p H=0 D=0 S=10 A=0
-15: 'Super speed potion' 'This a Truc de Fou Energy!' PRICE=80 TYPE=p H=0 D=0 S=20 A=0
-16: 'Basic agility potion' 'I dont want to know what is inside this bottle' PRICE=20 TYPE=p H=0 D=0 S=0 A=5
-17: 'Super agility potion' 'I am kinda addicted to it' PRICE=80 TYPE=p H=0 D=0 S=0 A=10
+10: 'Basic health potion' 'Where is the fairy?' PRICE=20 TYPE=p H=0.1 D=0 S=0 A=0
+11: 'Super health potion' 'Where is the fairy Queen?' PRICE=80 TYPE=p H=0.5 D=0 S=0 A=0
+12: 'Basic strength potion' 'Is this blood inside?' PRICE=20 TYPE=p H=0 D=0.1 S=0 A=0
+13: 'Super strength potion' 'I can feel an infinite source of power inside...' PRICE=80 TYPE=p H=0 D=0.5 S=0 A=0
+14: 'Basic speed potion' 'Ooooh, coffee!' PRICE=20 TYPE=p H=0 D=0 S=0.1 A=0
+15: 'Super speed potion' 'This a Truc de Fou Energy!' PRICE=80 TYPE=p H=0 D=0 S=0.5 A=0
+16: 'Basic agility potion' 'I dont want to know what is inside this bottle' PRICE=20 TYPE=p H=0 D=0 S=0 A=0.1
+17: 'Super agility potion' 'I am kinda addicted to it' PRICE=80 TYPE=p H=0 D=0 S=0 A=0.5
 18: 'Loot1' 'DescLoot1' PRICE=20 TYPE=n H=0 D=0 S=0 A=0
 19: 'Loot2' 'DescLoot2' PRICE=20 TYPE=n H=0 D=0 S=0 A=0
 20: 'Loot3' 'DescLoot3' PRICE=40 TYPE=n H=0 D=0 S=0 A=0

@@ -377,9 +377,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scenes/inventoryScreen/event.h" />
-		<Unit filename="src/scenes/inventoryScreen/files.asset">
-			<Option target="Release" />
-		</Unit>
+		<Unit filename="src/scenes/inventoryScreen/files.asset" />
 		<Unit filename="src/scenes/inventoryScreen/inventoryScreen.c">
 			<Option compilerVar="CC" />
 		</Unit>

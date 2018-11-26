@@ -131,7 +131,7 @@ static void buy_item(Data * data, SlotInventory * item_buying, int number) {
     SlotInventory * current_item;
     for(int i = 0; i < number; i++) {
         //If it is possible to buy
-        if(alter_money(data->Isaac,- item_buying->price) == 1) {
+        if(alterMoney(data->Isaac, -item_buying->price) == 1) {
             current_item = search_SlotInventory(data->Isaac->inventory, item_buying->id);
             if(current_item != NULL) {
                 //If the player already has an exemplar of the item in its inventory
@@ -148,7 +148,7 @@ static void buy_item(Data * data, SlotInventory * item_buying, int number) {
 
 static void sell_item(Data * data, SlotInventory * item_selling, int number) {
     for(int i = 0; i < number; i++) {
-        alter_money(data->Isaac,(int)(item_selling->price * .8));
+        alterMoney(data->Isaac, (int) (item_selling->price * .8));
         (item_selling->quantity)--;
         //Checking if the item has to be removed from the inventory
         if(item_selling->quantity <= 0) {
