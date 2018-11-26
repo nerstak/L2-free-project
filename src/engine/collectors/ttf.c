@@ -67,7 +67,7 @@ static void remove_Font(FontCollector* myFontCollector, Font* myFont) {
 extern FontCollector* init_FontCollector() {
     // Initialization of a FontCollector pointer
     FontCollector* myFontCollector = NULL;
-    myFontCollector = malloc(1 * sizeof(myFontCollector));
+    myFontCollector = malloc(1 * sizeof(FontCollector));
 
     // If we failed to allocate, exit the program
     if (myFontCollector == NULL) {
@@ -87,7 +87,7 @@ extern void clean_FontCollector(FontCollector** myFontCollector) {
     Font* temp = (*myFontCollector)->fonts;
     Font* next = NULL;
 
-    while (temp != NULL) {
+    while (temp->next != NULL) {
         next = temp->next;
 
         TTF_CloseFont(temp->font);

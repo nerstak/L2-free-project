@@ -83,13 +83,13 @@ extern void freePlayer(Player** Isaac) {
     (*Isaac)->weapons = NULL;
 
     free((*Isaac)->maxStats);
-    (*Isaac)->maxStats;
+    (*Isaac)->maxStats = NULL;
 
     free((*Isaac)->current_stats);
-    (*Isaac)->current_stats;
+    (*Isaac)->current_stats = NULL;
 
     free((*Isaac)->basic_stats);
-    (*Isaac)->basic_stats;
+    (*Isaac)->basic_stats = NULL;
 
     freeAll_SlotInventory(&((*Isaac)->inventory));
 }

@@ -56,8 +56,8 @@ extern void freeReference(referenceTable** refTable) {
     }
     free((*refTable)->table);
     (*refTable)->table = NULL;
-    free(refTable);
-    *refTable = 0;
+    free(*refTable);
+    *refTable = NULL;
 }
 
 //Init shop inventory

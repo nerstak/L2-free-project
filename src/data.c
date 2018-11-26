@@ -49,11 +49,9 @@ extern void clean_Data(Data** myData) {
         clean_shop_Data(&((*myData)->shop));
     }
 
-
     freeReference(&((*myData)->referenceItems));
     freePlayer(&((*myData)->Isaac));
 
-    // We free this SceneCollector
     free(*myData);
     (*myData) = NULL;
 }
