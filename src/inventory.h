@@ -13,6 +13,7 @@ typedef struct stats_entity {
 typedef struct SlotInventory {
     char description[100];
     char name[25];
+    char useMessage[100];
     char type;
     int id;
     int price;
