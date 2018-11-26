@@ -87,7 +87,7 @@ static void test_plant(Data* data){
 }
 
 extern void processField(Data* data){
-    printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
+    //printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
 
     if( data->lobby->actualPlant->vegetable == 0){
         data->lobby->menuHouse = 21; // plant ?
@@ -124,7 +124,7 @@ extern void menuSelectionDonjon(Data* data){
 extern void menuSelectionPlanting(Data* data){
     if(data->lobby->askAction == 0){
 
-            printf("%d",data->lobby->askMove);
+           // printf("%d",data->lobby->askMove);
             if( data->lobby->askMove > 3)
                 data->lobby->askMove = 3;
             if(data->lobby->askMove < 0)
@@ -132,8 +132,9 @@ extern void menuSelectionPlanting(Data* data){
     }
     else if(data->lobby->askAction == 1){
         if(data->lobby->askMove == 0){
-            data->lobby->actualPlant->dayLeft = 3; //BIG PROBLEME WITH SATURATION
             data->lobby->actualPlant->vegetable = 1;
+            data->lobby->actualPlant->dayLeft = 3;
+           // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
 
         }
         else if(data->lobby->askMove == 1){
@@ -147,9 +148,14 @@ extern void menuSelectionPlanting(Data* data){
         else if(data->lobby->askMove == 3){
 
         }
-        data->lobby->actualPlant->dayLeft = NULL;
+        data->lobby->actualPlant = NULL;
         data->lobby->menuHouse = 0;
-        printf("That's a test \n");
     }
 }
 
+extern void menuNotReady(Data* data){
+    if(data->lobby->askAction == 1){
+        data->lobby->actualPlant = NULL;
+        data->lobby->menuHouse = 0;
+    }
+}

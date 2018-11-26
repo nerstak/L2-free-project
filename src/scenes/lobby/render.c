@@ -80,11 +80,42 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     }
 
+    if(data->lobby->menuHouse == 21){
+        SDL_Surface* menuPlant = NULL;
+        SDL_Rect posMenuPlant;
+
+        if(data->Isaac->movement->pos->x > 1085.00) {
+           posMenuPlant.x = 850 ;
+        }
+        else{
+            posMenuPlant.x = (data->Isaac->movement->pos->x) - 200 ;
+        }
+        posMenuPlant.y = (data->Isaac->movement->pos->y) + 100 ;
+
+        if(data->lobby->askMove == 0){
+            menuPlant = get_ImageCollector(myImageCollector, "lobby/menu21")->surface;
+        }
+        else if(data->lobby->askMove == 1){
+            menuPlant = get_ImageCollector(myImageCollector, "lobby/menu22")->surface;
+        }
+        else if(data->lobby->askMove == 2){
+            menuPlant = get_ImageCollector(myImageCollector, "lobby/menu23")->surface;
+        }
+        else if(data->lobby->askMove == 3){
+            menuPlant = get_ImageCollector(myImageCollector, "lobby/menu24")->surface;
+        }
+
+        SDL_BlitSurface(menuPlant, NULL, lobbySurface, &posMenuPlant);
+
+
+    }
+
     if(data->lobby->menuHouse == 22 ){
+
         SDL_Color black = {0, 0, 0, 0};
 
         TTF_Font* font1 = NULL;
-        font1 = get_FontCollector(myFontCollector, "menu/35")->font;
+        font1 = get_FontCollector(myFontCollector, "menu/25")->font;
 
         TTF_Font* font2 = NULL;
         font2 = get_FontCollector(myFontCollector, "menu/30")->font;
@@ -101,7 +132,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
             interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
         }
 
-        menu1x1 = TTF_RenderText_Solid(font1, "Save Game?", black);
+        menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", black);
         menu1x2 = TTF_RenderText_Solid(font2, "YES", black);
         menu1x3 = TTF_RenderText_Solid(font2, "NO", black);
 
@@ -112,11 +143,16 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_Rect posMenu1x4;
         SDL_Rect posMenu1xInterface;
 
-        posMenu1xInterface.x = (data->Isaac->movement->pos->x)-170;
-        posMenu1xInterface.y = (data->Isaac->movement->pos->y)-270;
 
-        posMenu1x1.x = (data->Isaac->movement->pos->x)-50;
-        posMenu1x1.y = (data->Isaac->movement->pos->y)-105;
+        posMenu1xInterface.x = 850;
+        if (data->Isaac->movement->pos->y > 135 ){
+        posMenu1xInterface.y = -50;
+        }
+        else{
+        posMenu1xInterface.y = 150;
+        }
+        posMenu1x1.x = posMenu1xInterface.x+120;
+        posMenu1x1.y = posMenu1xInterface.y+165;
 
         posMenu1x2.x = posMenu1x1.x-91;
         posMenu1x2.y = posMenu1x1.y-5;
@@ -132,6 +168,36 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     }
 
+    if(data->lobby->menuHouse == 23 ){
+        SDL_Surface* wait = NULL;
+        SDL_Surface* menu1x1;
+
+        SDL_Rect posMenu1xInterface;
+        SDL_Rect posMenu1x1;
+
+        SDL_Color black = {0, 0, 0, 0};
+
+        TTF_Font* font1 = NULL;
+        font1 = get_FontCollector(myFontCollector, "menu/35")->font;
+
+        wait = get_ImageCollector(myImageCollector, "lobby/wait")->surface;
+        menu1x1 = TTF_RenderText_Solid(font1, "Wait Dude !", black);
+
+
+        posMenu1xInterface.x = 850;
+        if (data->Isaac->movement->pos->y > 135 ){
+        posMenu1xInterface.y = -50;
+        }
+        else{
+        posMenu1xInterface.y = 150;
+        }
+        posMenu1x1.x = posMenu1xInterface.x+120;
+        posMenu1x1.y = posMenu1xInterface.y+165;
+
+
+        SDL_BlitSurface(wait, NULL, lobbySurface, &posMenu1xInterface);
+        SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
+    }
 
     SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
 

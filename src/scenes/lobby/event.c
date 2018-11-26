@@ -26,13 +26,13 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                     data->Isaac->movement->velocity->y-=Vchange;
                 if(keystate[SDLK_a]) {
                     data->Isaac->movement->velocity->x-=Vchange;
-                    data->lobby->askMove -= 1;
+                    data->lobby->counterPressKeyMove = -3;
                 }
                 if(keystate[SDLK_s])
                     data->Isaac->movement->velocity->y+=Vchange;
                 if(keystate[SDLK_d]) {
                     data->Isaac->movement->velocity->x+=Vchange;
-                    data->lobby->askMove += 1;
+                    data->lobby->counterPressKeyMove = 3;
                 }
             }
     }
