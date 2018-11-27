@@ -14,6 +14,7 @@ typedef struct Data {
     struct lobby_t* lobby;
     struct mainMenu_t* mainMenu;
     struct shop_t* shop;
+    struct field_t* field;
     struct Player* Isaac;
     int stop;
 } Data;

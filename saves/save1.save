@@ -1,4 +1,5 @@
 save1.save
+<<<<<<< HEAD
 DAY=12
 MONEY=5000
 STATS: H=1 D=1 S=18 A=1
@@ -9,6 +10,5 @@ WEAPON: 'name_wep3' 'desc_wep' D=3 S=30
 ID=1 QUANT=9
 ID=2 QUANT=5
 ID=3 QUANT=2
-ID=4 QUANT=8
-ID=5 QUANT=1
-ID=7 QUANT=10
+ID=2 QUANT=5
+ID=1 QUANT=3

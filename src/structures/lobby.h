@@ -5,6 +5,12 @@
 
 typedef struct lobby_t{
     Layout* layout;
+    int askAction;
+    int askMove;
+    int menuHouse;
+    int counterPressKey;
+    int counterPressKeyMove;
+    struct Plant* actualPlant;
     //TODO: Add everything we need
 }lobby_t;
 
