@@ -26,7 +26,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
 
-    if(data->lobby->menuHouse == 1){
+    if(data->lobby->actionProcess == SLEEP){
         SDL_Color black = {0, 0, 0, 0};
 
         TTF_Font* font1 = NULL;
@@ -80,7 +80,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     }
 
-    if(data->lobby->menuHouse == 21){
+    if(data->lobby->actionProcess == PLANT){
         SDL_Surface* menuPlant = NULL;
         SDL_Rect posMenuPlant;
 
@@ -110,7 +110,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     }
 
-    if(data->lobby->menuHouse == 22 ){
+    if(data->lobby->actionProcess == GOTO_DUNGEON ){
 
         SDL_Color black = {0, 0, 0, 0};
 
@@ -168,7 +168,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     }
 
-    if(data->lobby->menuHouse == 23 ){
+    if(data->lobby->actionProcess == WAIT ){
         SDL_Surface* wait = NULL;
         SDL_Surface* menu1x1;
 

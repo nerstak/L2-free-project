@@ -13,16 +13,17 @@ extern void doAction_Garden(Data* data) {
 
     switch (checkAction_Garden(data)) {
         case 0: {
+            data->lobby->actionProcess = INVENTORY;
             break;
         }
         case 1: {
-            data->lobby->menuHouse = 1;
+            data->lobby->actionProcess = SLEEP;
             data->lobby->askMove = 0;
 
             break;
         }
         case 2: {
-            data->lobby->menuHouse = 2;
+            data->lobby->actionProcess = GARDEN;
             data->lobby->askMove = 0;
 
             break;
@@ -62,7 +63,7 @@ extern void processMenu1_Garden(Data* data) {
         }
     } else if (data->lobby->askAction == 1) {
         if (data->lobby->askMove == 0) {
-            write_Save(data);
+            writeSave(data);
             printf("%d day",data->Isaac->day);
         }
         else {
@@ -70,7 +71,7 @@ extern void processMenu1_Garden(Data* data) {
         }
 
         data->lobby->askAction = 0;
-        data->lobby->menuHouse = 0;
+        data->lobby->actionProcess = NONE;
     }
 }
 
@@ -103,11 +104,11 @@ extern void processField_Garden(Data* data) {
     // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
 
     if (data->lobby->actualPlant->vegetable == 0) {
-        data->lobby->menuHouse = 21; // plant ?
+        data->lobby->actionProcess = PLANT; // plant ?
     } else if (data->lobby->actualPlant->dayLeft == 0) {
-        data->lobby->menuHouse = 22; //go to dj?
+        data->lobby->actionProcess = GOTO_DUNGEON; //go to dj?
     } else if (data->lobby->actualPlant->dayLeft != 0) {
-        data->lobby->menuHouse = 23;
+        data->lobby->actionProcess = WAIT;
     }
 }
 
@@ -129,7 +130,7 @@ extern void menuSelectionDonjon_Garden(Data* data) {
         }
 
         data->lobby->askAction = 0;
-        data->lobby->menuHouse = 0;
+        data->lobby->actionProcess = NONE;
     }
 }
 
@@ -160,13 +161,13 @@ extern void menuSelectionPlanting_Garden(Data* data) {
         }
 
         data->lobby->actualPlant = NULL;
-        data->lobby->menuHouse = 0;
+        data->lobby->actionProcess = NONE;
     }
 }
 
 extern void menuNotReady_Garden(Data* data) {
     if (data->lobby->askAction == 1) {
         data->lobby->actualPlant = NULL;
-        data->lobby->menuHouse = 0;
+        data->lobby->actionProcess = NONE;
     }
 }
