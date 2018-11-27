@@ -5,7 +5,7 @@
 
 #include "engine/save.h"
 #include "plants.h"
-// StopVelocity(data->Isaac->movement); for benoit <3
+
 static void test_plant(Data* data);
 
 extern void doAction_Garden(Data* data) {
@@ -39,14 +39,17 @@ extern void doAction_Garden(Data* data) {
 
 extern int checkAction_Garden(Data* data) {
     if (data->lobby->layout->map[(int) ((data->Isaac->movement->pos->y)/64)+2][(int) ((data->Isaac->movement->pos->x)/64)].type == 'M') {
+        //Case for home
         return 1;
     }
 
     if (data->lobby->layout->map[((int) (data->Isaac->movement->pos->y)/64)+2][(int) (data->Isaac->movement->pos->x)/64].type == 'P') {
+        //Case for plant spot
         return 2;
     }
 
     if (data->lobby->layout->map[(int) (data->Isaac->movement->pos->y)/64][(int) (data->Isaac->movement->pos->x)/64].type == 'S') {
+        //Case for shop
         return 3;
     }
 
@@ -64,7 +67,6 @@ extern void processMenu1_Garden(Data* data) {
     } else if (data->lobby->askAction == 1) {
         if (data->lobby->askMove == 0) {
             writeSave(data);
-            printf("%d day",data->Isaac->day);
         }
         else {
 
@@ -112,7 +114,7 @@ extern void processField_Garden(Data* data) {
     }
 }
 
-extern void menuSelectionDonjon_Garden(Data* data) {
+extern void menuSelectionDungeon_Garden(Data* data) {
     if (data->lobby->askAction == 0) {
         if (data->lobby->askMove > 1) {
             data->lobby->askMove = 1;

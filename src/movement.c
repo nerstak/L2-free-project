@@ -52,8 +52,7 @@ extern void ProcessVelocity(float* v,int t)
         (*v)=-12;
 }
 
-extern void StopVelocity(MovementValues * move)
-{
+extern void StopVelocity(MovementValues * move) {
     move->velocity->x=0;
     move->velocity->y=0;
     move->direction=0;

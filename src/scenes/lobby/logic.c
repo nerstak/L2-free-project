@@ -30,30 +30,33 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
 
     if(data->lobby->actionProcess == NONE){
         if(data->lobby->askAction == 1 ){
+            StopVelocity(data->Isaac->movement);
             doAction_Garden(data);
         }
-       else {
+        else {
             MovePlayer(data);
-       }
-    }
-    else if(data->lobby->actionProcess == SLEEP){
-        processMenu1_Garden(data);
-    }
-    else if(data->lobby->actionProcess == GARDEN){
-        processMenu2_Garden(data);
-    }
-    else if(data->lobby->actionProcess == PLANT){
-        menuSelectionPlanting_Garden(data);
-    }
-    else if(data->lobby->actionProcess == GOTO_DUNGEON){
-        menuSelectionDonjon_Garden(data);
-    }
-    else if(data->lobby->actionProcess == WAIT){
-        menuNotReady_Garden(data);
-    }
+        }
+    } else {
+        StopVelocity(data->Isaac->movement);
+        if(data->lobby->actionProcess == SLEEP){
+            processMenu1_Garden(data);
+        }
+        else if(data->lobby->actionProcess == GARDEN){
+            processMenu2_Garden(data);
+        }
+        else if(data->lobby->actionProcess == PLANT){
+            menuSelectionPlanting_Garden(data);
+        }
+        else if(data->lobby->actionProcess == GOTO_DUNGEON){
+            menuSelectionDungeon_Garden(data);
+        }
+        else if(data->lobby->actionProcess == WAIT){
+            menuNotReady_Garden(data);
+        }
 
-    if(data->lobby->actionProcess == INVENTORY) {
-        data->lobby->actionProcess = NONE;
-        display_SceneCollector(engine, data, "inventory");
+        if(data->lobby->actionProcess == INVENTORY) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "inventory");
+        }
     }
 }
