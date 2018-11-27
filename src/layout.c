@@ -73,8 +73,7 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
         fscanf(file, "SPAWN %14[^:]: %d-%d,\n", room->Spawnable[i].type, &(room->Spawnable[i].x), &(room->Spawnable[i].y));
     }
 
-    //Reading metadata of the map\
-
+    //Reading metadata of the map
     fgets(line,60,file);// This right here is the cheapest dirtiest bug fix, you're welcome
     int i= 0;
     while(fgets(line,60,file) && i < room->lines)

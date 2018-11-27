@@ -16,11 +16,6 @@ extern void assets_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
 
 extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
     if (loadOrUnload == true) {
-            //TEMP//
-            init_Field(data);
-
-
-            //TEMP//
         data->lobby = NULL;
         data->lobby = malloc(1 * sizeof(lobby_t));
 

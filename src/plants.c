@@ -5,27 +5,29 @@
 #include "data.h"
 
 
-static Plant * init_Plants(int x,int y);
+static Plant* init_Plants(int x,int y);
 
-extern void init_Field(Data * data){
-     data->field = malloc(sizeof(field_t));
-     if( data->field == NULL){
-         printf("data->field is NULL");
+extern field_t* initField(){
+     field_t* field = malloc(sizeof(field_t));
+     if(field == NULL){
+         printf("Allocation of field_t failed.");
          exit(EXIT_FAILURE);
      }
-     data->field->plantBotLeft = init_Plants(15,5);
-     data->field->plantBotRight = init_Plants(17,5);
-     data->field->plantTopLeft = init_Plants(15,2);
-     data->field->plantTopRight = init_Plants(17,2);
+     field->plantBotLeft = init_Plants(15,5);
+     field->plantBotRight = init_Plants(17,5);
+     field->plantTopLeft = init_Plants(15,2);
+     field->plantTopRight = init_Plants(17,2);
+
+     return field;
 }
 
 
 
-static Plant * init_Plants(int x,int y){
-    Plant * temp = NULL;
+static Plant* init_Plants(int x,int y){
+    Plant* temp = NULL;
     temp = malloc(sizeof(Plant));
     if(temp == NULL){
-        printf("probleme allocation plants");
+        printf("Allocation of Plant failed.");
         exit(EXIT_FAILURE);
     }
     temp->dayLeft = 0;

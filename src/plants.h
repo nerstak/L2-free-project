@@ -1,10 +1,9 @@
 #ifndef PLANTS_H_INCLUDED
 #define PLANTS_H_INCLUDED
 
-#include "data.h"
-
+//0-Not 1-Tomato 2-Eggplant 3-Carotte
 typedef struct Plant{
-    int vegetable; //0-Not 1-Tomato 2-Eggplant 3-Carotte
+    int vegetable;
     int x;
     int y;
     int dayLeft;
@@ -18,6 +17,10 @@ typedef struct field_t{
     struct Plant * plantBotLeft;
 }field_t;
 
-extern void init_Field(Data * data);
+/**
+ * Initialise a field_t Object
+ * @return A pointer to a field_t Object
+ */
+extern field_t* initField();
 
 #endif // PLANTS_H_INCLUDED

@@ -7,6 +7,7 @@
 #include "structures/inventoryScreen.h"
 #include "player.h"
 #include "inventory.h"
+#include "plants.h"
 
 typedef struct Data {
     struct referenceTable* referenceItems;
