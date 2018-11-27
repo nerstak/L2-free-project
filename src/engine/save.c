@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "save.h"
+#include "../plants.h"
 
 /**
  * Read the common value of the Player Object
@@ -12,14 +13,20 @@ static void loadPlayer(Data* data);
 
 //Init of the game and the save
 extern void initGame(char* saveName, Data* data) {
+    //Loading of the reference
+    data->referenceItems = loadReferenceItems();
+
+    //Loading player
+    data->Isaac = initPlayer();
+
     strcpy(data->Isaac->save_name,saveName);
 
     loadPlayer(data);
     readSave(data);
 
-    //TODO: LITTLE GARDEN
-
     copyStats(data->Isaac->current_stats,data->Isaac->basic_stats);
+
+    data->field = initField();
 }
 
 //Write important data inside the file
@@ -84,7 +91,7 @@ extern void readSave(Data* data) {
         alterAgility(data->Isaac,0,'b');
         alterHealth(data->Isaac,0,'b');
         for(int i = 0; i < 4; i++) {
-            fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%f S=%f\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].agility));
+            fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%f A=%f\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].agility));
         }
         int i = 0;
         while(fscanf(save_file,"ID=%d QUANT=%d\n",&(id),&(quantity)) != EOF && i < 16) {
