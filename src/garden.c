@@ -13,7 +13,6 @@ extern void doAction_Garden(Data* data) {
 
     switch (checkAction_Garden(data)) {
         case 0: {
-            data->lobby->actionProcess = INVENTORY;
             break;
         }
         case 1: {
@@ -38,17 +37,17 @@ extern void doAction_Garden(Data* data) {
 }
 
 extern int checkAction_Garden(Data* data) {
-    if (data->lobby->layout->map[(int) ((data->Isaac->movement->pos->y)/64)][(int) ((data->Isaac->movement->pos->x)/64)].type == 'M') {
+    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'M', 48, 0, 0, NULL, NULL)) {
         //Case for home
         return 1;
     }
 
-    if (data->lobby->layout->map[((int) (data->Isaac->movement->pos->y)/64)][(int) (data->Isaac->movement->pos->x)/64].type == 'P') {
+    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, NULL, NULL)) {
         //Case for plant spot
         return 2;
     }
 
-    if (data->lobby->layout->map[(int) (data->Isaac->movement->pos->y)/64][(int) (data->Isaac->movement->pos->x)/64].type == 'S') {
+    if (data->lobby->layout->map[(int) (data->Isaac->movement->pos->y)/64 + 2][(int) (data->Isaac->movement->pos->x)/64].type == 'S') {
         //Case for shop
         return 3;
     }
@@ -83,19 +82,22 @@ extern void processMenu2_Garden(Data* data) {
 }
 
 static void test_plant(Data* data) {
-    if ((int) (data->Isaac->movement->pos->x)/64 == 15 ) {
-        if ((int) (data->Isaac->movement->pos->y) / 64 + 2 == 5) {
-            data->lobby->actualPlant = data->field->plantBotLeft;
-            // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
-        } else if ((int) (data->Isaac->movement->pos->y) / 64 + 2 == 2) {
-            data->lobby->actualPlant = data->field->plantTopLeft;
-        }
-    } else if ((int) (data->Isaac->movement->pos->x) / 64 == 17) {
-        if ((int) (data->Isaac->movement->pos->y) / 64 + 2 == 5) {
-            data->lobby->actualPlant = data->field->plantBotRight;
-        }
-        else if ((int) (data->Isaac->movement->pos->y) / 64 + 2 == 2) {
-            data->lobby->actualPlant = data->field->plantTopRight;
+    int coordX, coordY;
+    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
+        if (coordX == 15 ) {
+            if (coordY == 5) {
+                data->lobby->actualPlant = data->field->plantBotLeft;
+            } else if (coordY == 2) {
+                data->lobby->actualPlant = data->field->plantTopLeft;
+            }
+        } else if (coordX == 17) {
+            if (coordY == 5) {
+                data->lobby->actualPlant = data->field->plantBotRight;
+            } else if (coordY == 2) {
+                data->lobby->actualPlant = data->field->plantTopRight;
+            }
+        } else {
+            data->lobby->actualPlant = NULL;
         }
     } else {
         data->lobby->actualPlant = NULL;

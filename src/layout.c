@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "layout.h"
+#include "player.h"
 
 extern Layout* loadSingleLayout(char* environment, char* name) {
     FILE* file;
@@ -108,4 +109,35 @@ extern void freeSingleLayout(Layout** room) {
 
     free(*room);
     *room = NULL;
+}
+
+extern int checkTilesPlayer(Player* player, Layout* layout, char type, int radius, int deltaW, int deltaH, int* tileX, int* tileY) {
+    int columns = layout->columns;
+    int lines = layout->lines;
+    float posX = player->movement->pos->x;
+    float posY = player->movement->pos->y;
+    int tempX, tempY;
+
+    for(int i = -1; i <= 1; i++) {
+        for(int j = -1; j <= 1; j++) {
+            //If i and j are different from 0, we divide them by two
+            //We are recovering 9 values, and 8 of them are on a circle with a radius and a separation angle of 45°
+            tempX = i * radius / ((i != 0 && j != 0)?2:1);
+            tempY = j * radius / ((i != 0 && j != 0)?2:1);
+
+            //Checking that the value is inside the bounds
+            if((posX + tempX) > deltaW && (posX + tempX) < (columns * 64 + deltaW) && (posY + tempY) > deltaW && (posY + tempY) < (lines * 64 + deltaH)) {
+                if(layout->map[(int) (posY + tempY + deltaH) / 64 + 2][(int) ((posX + tempX + deltaW) / 64 + .5)].type == type) {
+                    if(tileX && tileY) {
+                        //If we have to recover the coordinates of the tile
+                        *tileX = (int) ((posX + tempX + deltaW) / 64 + .5);
+                        *tileY = (int) (posY + tempY + deltaH) / 64 + 2;
+                    }
+                    return 1;
+                }
+            }
+        }
+    }
+
+    return 0;
 }

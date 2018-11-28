@@ -12,6 +12,10 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
             case SDL_KEYDOWN: {
                 // Key pressed
                 switch (event.key.keysym.sym) {
+                    case SDLK_e: {
+                        data->lobby->actionProcess = INVENTORY;
+                        break;
+                    }
                     case SDLK_SPACE:
                         //Interact with shop or garden, has to be implemented
                         break;

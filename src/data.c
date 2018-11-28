@@ -105,7 +105,8 @@ static void clean_field_Data(field_t** field) {
 
 static void clean_lobby_Data(lobby_t** lobby) {
     if((*lobby)->actualPlant != NULL) {
-        clean_field_Data(&((*lobby)->actualPlant));
+        //TODO: UPDATE THE CLEANING
+        //clean_field_Data(&((*lobby)->actualPlant));
     }
 
     if((*lobby)->layout != NULL) {
