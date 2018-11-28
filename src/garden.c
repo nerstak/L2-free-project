@@ -47,7 +47,7 @@ extern int checkAction_Garden(Data* data) {
         return 2;
     }
 
-    if (data->lobby->layout->map[(int) (data->Isaac->movement->pos->y)/64 + 2][(int) (data->Isaac->movement->pos->x)/64].type == 'S') {
+    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'S', 48, 0, 0, NULL, NULL)) {
         //Case for shop
         return 3;
     }
