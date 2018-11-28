@@ -38,12 +38,12 @@ extern void doAction_Garden(Data* data) {
 }
 
 extern int checkAction_Garden(Data* data) {
-    if (data->lobby->layout->map[(int) ((data->Isaac->movement->pos->y)/64)+2][(int) ((data->Isaac->movement->pos->x)/64)].type == 'M') {
+    if (data->lobby->layout->map[(int) ((data->Isaac->movement->pos->y)/64)][(int) ((data->Isaac->movement->pos->x)/64)].type == 'M') {
         //Case for home
         return 1;
     }
 
-    if (data->lobby->layout->map[((int) (data->Isaac->movement->pos->y)/64)+2][(int) (data->Isaac->movement->pos->x)/64].type == 'P') {
+    if (data->lobby->layout->map[((int) (data->Isaac->movement->pos->y)/64)][(int) (data->Isaac->movement->pos->x)/64].type == 'P') {
         //Case for plant spot
         return 2;
     }

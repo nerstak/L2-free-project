@@ -65,7 +65,7 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
     }
 
     room->Spawnable = calloc(sizeof(Coords),1);
-    for(int unsigned i = 0; i < strlen(room->setMobs); i++) {
+    for(int unsigned i = 0; i < strlen(room->setMobs)-1; i++) {
         coords = realloc(room->Spawnable, i+1);
         if(room->Spawnable == NULL) {
             free(coords);
@@ -74,7 +74,6 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
     }
 
     //Reading metadata of the map
-    fgets(line,60,file);// This right here is the cheapest dirtiest bug fix, you're welcome
     int i= 0;
     while(fgets(line,60,file) && i < room->lines)
     {

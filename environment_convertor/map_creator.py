@@ -53,7 +53,7 @@ for filename in enumerate(os.listdir("rooms_png")):
     map_file = open("rooms_out/"+name+".map","w")
     map_file.write(name+",\n")
     map_file.write("COLUMNS="+str(column)+",LINES="+str(line)+",\n")
-    map_file.write("SET_MOB="+mobs+",\n")
+    map_file.write("SET_MOB="+mobs+" ,\n")
 
     #Position allowed for mobs to spawn
     for coord in spawn_coord:
