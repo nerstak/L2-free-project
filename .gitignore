@@ -62,3 +62,6 @@ bin/
 
 # Ignore built version of the project
 free_project
+
+# Docs
+docs/
