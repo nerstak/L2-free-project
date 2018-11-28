@@ -78,17 +78,7 @@ extern void CheckObstacle(Data* data, int t, float speedstat, Tiles** map)
     int TopHit = (Vy + Ypos + 85) / 64;
     int BotHit = (Vy + Ypos + 120) / 64;
 
-    if(Vx!=0 || Vy!=0)
-    {
-        if((Xpos + Vx) < 0 || (Xpos + Vx) > 1280) //if the player is going to move out of bounds stop his velocity
-        {
-            data->Isaac->movement->velocity->x=0;
-        }
-        if((Ypos + Vy) < -64 || (Ypos + Vy) > 592)
-        {
-            data->Isaac->movement->velocity->y=0;
-        }
-    }
+    checkBound(data, 1280, 704, 0, 0);
 
     Vx=(data->Isaac->movement->velocity->x);
     Vy=(data->Isaac->movement->velocity->y);
@@ -150,3 +140,17 @@ extern void SpriteSelection(MovementValues * move, SDL_Rect * box)
 //    box->w=64;
 }
 
+extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH) {
+    int Vx = data->Isaac->movement->velocity->x;
+    int Vy = data->Isaac->movement->velocity->y;
+    int Xpos = data->Isaac->movement->pos->x;
+    int Ypos = data->Isaac->movement->pos->y;
+    if(Vx != 0 || Vy != 0) {
+        if((Xpos + Vx) < deltaW || (Xpos + Vx) > (w - data->Isaac->movement->SpriteBox->w + deltaW)) {
+            data->Isaac->movement->velocity->x = 0;
+        }
+        if((Ypos + Vy) < (deltaH -64) || (Ypos + Vy) >(h - data->Isaac->movement->SpriteBox->h + deltaH)) {
+            data->Isaac->movement->velocity->y = 0;
+        }
+    }
+}

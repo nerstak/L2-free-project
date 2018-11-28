@@ -14,4 +14,6 @@ extern void ProcessAnimation(MovementValues * move,int t,float speedstat);
 
 extern void SpriteSelection(MovementValues * move, SDL_Rect * box);
 
+extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH);
+
 #endif // MOVEMENT_H_INCLUDED
