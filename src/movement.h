@@ -2,13 +2,13 @@
 #define MOVEMENT_H_INCLUDED
 
 
-extern void MovePlayer(Data* data);
+extern void MovePlayer(Data* data, Tiles** map);
 
 extern void ProcessVelocity(float* v,int t);
 
 extern void StopVelocity(MovementValues * move);
 
-extern void CheckObstacle(Data* data,int t,float speedstat);
+extern void CheckObstacle(Data* data, int t, float speedstat, Tiles** map);
 
 extern void ProcessAnimation(MovementValues * move,int t,float speedstat);
 

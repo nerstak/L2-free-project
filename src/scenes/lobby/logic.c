@@ -34,7 +34,7 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
             doAction_Garden(data);
         }
         else {
-            MovePlayer(data);
+            MovePlayer(data, data->lobby->layout->map);
         }
     } else {
         StopVelocity(data->Isaac->movement);

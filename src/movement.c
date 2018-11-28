@@ -6,7 +6,7 @@
 #include "data.h"
 #include "movement.h"
 
-extern void MovePlayer(Data* data)
+extern void MovePlayer(Data* data, Tiles** map)
 {
     int tick=SDL_GetTicks();
     int timechange=tick - data->Isaac->movement->timesince;     // Timer to get the time since the last frame of movement
@@ -18,7 +18,7 @@ extern void MovePlayer(Data* data)
 
     ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange); //Dampens and caps velocity
     ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange);
-    CheckObstacle(data,timechange,data->Isaac->current_stats->speed); //Checks for obstacles on the map and adjusts velocity accordingly
+    CheckObstacle(data, timechange, data->Isaac->current_stats->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
 
     data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->current_stats->speed; //actually changes the character's movement according to the velocity we done got
     data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->current_stats->speed; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
@@ -60,33 +60,31 @@ extern void StopVelocity(MovementValues * move) {
 }
 
 
-extern void CheckObstacle(Data* data,int t,float speedstat)
+extern void CheckObstacle(Data* data, int t, float speedstat, Tiles** map)
 {
-    float Xpos=data->Isaac->movement->pos->x; //X and Y coordinates of the top left of the player
-    float Ypos=data->Isaac->movement->pos->y;
+    float Xpos = data->Isaac->movement->pos->x; //X and Y coordinates of the top left of the player
+    float Ypos = data->Isaac->movement->pos->y;
 
-    float  Vx=(data->Isaac->movement->velocity->x)*t*0.03*speedstat; // this is the total change in position due to velocity
-    float  Vy=(data->Isaac->movement->velocity->y)*t*0.03*speedstat;
+    float  Vx = (data->Isaac->movement->velocity->x) * t * 0.03 * speedstat; // this is the total change in position due to velocity
+    float  Vy = (data->Isaac->movement->velocity->y) * t * 0.03 * speedstat;
 
-    int top=(Ypos + 85)/64; //these 4 are the top bottom left and right values for the walls of the hitbox
-    int bot=(Ypos + 120)/64;
-    int left=(Xpos + 10)/64;
-    int right=(Xpos + 54)/64;
+    int top = (Ypos + 85) / 64; //these 4 are the top bottom left and right values for the walls of the hitbox
+    int bot = (Ypos + 120) / 64;
+    int left = (Xpos + 10) / 64;
+    int right = (Xpos + 54) / 64;
 
-    int RightHit=(Vx + Xpos + 54)/64; //these are the layout-relative-coordinates of each side of the hitbox after they have moved from velocity
-    int LeftHit=(Vx + Xpos + 10)/64;
-    int TopHit=(Vy + Ypos + 85)/64;
-    int BotHit=(Vy + Ypos + 120)/64;
-
-    Tiles ** map=data->lobby->layout->map; // getting 2d array layout of map
+    int RightHit = (Vx + Xpos + 54) / 64; //these are the layout-relative-coordinates of each side of the hitbox after they have moved from velocity
+    int LeftHit = (Vx + Xpos + 10) / 64;
+    int TopHit = (Vy + Ypos + 85) / 64;
+    int BotHit = (Vy + Ypos + 120) / 64;
 
     if(Vx!=0 || Vy!=0)
     {
-        if(Xpos + Vx<0 || Xpos + Vx>1216) //if the player is going to move out of bounds stop his velocity
+        if((Xpos + Vx) < 0 || (Xpos + Vx) > 1280) //if the player is going to move out of bounds stop his velocity
         {
             data->Isaac->movement->velocity->x=0;
         }
-        if((Ypos + Vy)<-64 || (Ypos + Vy)>592)
+        if((Ypos + Vy) < -64 || (Ypos + Vy) > 592)
         {
             data->Isaac->movement->velocity->y=0;
         }
