@@ -31,8 +31,31 @@ static Plant* init_Plants(int x,int y){
         exit(EXIT_FAILURE);
     }
     temp->dayLeft = 0;
-    temp->vegetable = 0;
+    temp->idVegetable = -1;
     temp->x = x;
     temp->y = y;
     return temp;
+}
+
+extern Plant* assignPlant(int n, field_t* field) {
+    if(field == NULL) {
+        return NULL;
+    }
+    switch(n) {
+        case 0: {
+            return field->plantTopLeft;
+        }
+        case 1: {
+            return field->plantTopRight;
+        }
+        case 2: {
+            return field->plantBotLeft;
+        }
+        case 3: {
+            return field->plantBotRight;
+        }
+        default: {
+            return NULL;
+        }
+    }
 }
