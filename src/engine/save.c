@@ -11,12 +11,14 @@
 static void loadPlayer(Data* data);
 
 static void writePlayer(FILE* saveFile,Player* Isaac);
+static void writeGameStats(FILE* saveFile, Player* Isaac);
 static void writeStats(FILE* saveFile,Player* Isaac);
 static void writeWeapons(FILE* saveFile, Player* Isaac);
 static void writeGarden(FILE* saveFile,field_t* field);
 static void writeInventory(FILE* saveFile, Player* Isaac);
 
 static void readPlayer(FILE* saveFile, Data* data, char* fileName);
+static void readGameStats(FILE* saveFile, Data* data);
 static void readStats(FILE* saveFile, Data* data);
 static void readWeapons(FILE* saveFile, Data* data);
 static void readGarden(FILE* saveFile, Data* data);
@@ -51,6 +53,7 @@ extern void writeSave(Data* data) {
     }
 
     writePlayer(saveFile, data->Isaac);
+    writeGameStats(saveFile, data->Isaac);
     writeStats(saveFile, data->Isaac);
     writeWeapons(saveFile, data->Isaac);
     writeGarden(saveFile, data->field);
@@ -79,6 +82,7 @@ extern void readSave(Data* data) {
     }
 
     readPlayer(saveFile, data, temp);
+    readGameStats(saveFile, data);
     readStats(saveFile, data);
     readWeapons(saveFile, data);
     readGarden(saveFile, data);
@@ -102,6 +106,10 @@ static void loadPlayer(Data* data) {
 
 static void writePlayer(FILE* saveFile,Player* Isaac) {
     fprintf(saveFile,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++(Isaac->day),Isaac->money);
+}
+
+static void writeGameStats(FILE* saveFile, Player* Isaac) {
+    fprintf(saveFile,"%d %d %d\n",Isaac->gameStats->death, Isaac->gameStats->dungeons, Isaac->gameStats->kills);
 }
 
 static void writeStats(FILE* saveFile,Player* Isaac) {
@@ -138,6 +146,10 @@ static void writeInventory(FILE* saveFile, Player* Isaac) {
 
 static void readPlayer(FILE* saveFile, Data* data, char* fileName) {
     fscanf(saveFile,"%s\nDAY=%d\nMONEY=%d\n",fileName,&(data->Isaac->day),&(data->Isaac->money));
+}
+
+static void readGameStats(FILE* saveFile, Data* data) {
+    fscanf(saveFile,"%d %d %d\n",&(data->Isaac->gameStats->death), &(data->Isaac->gameStats->dungeons), &(data->Isaac->gameStats->kills));
 }
 
 static void readStats(FILE* saveFile, Data* data) {

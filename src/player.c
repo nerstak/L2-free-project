@@ -26,6 +26,12 @@ extern Player* initPlayer() {
         exit(EXIT_FAILURE);
     }
 
+    Isaac->gameStats = malloc(sizeof(GameStats));
+    if(!Isaac->gameStats) {
+        printf("Fail to init GameStats'.");
+        exit(EXIT_FAILURE);
+    }
+
     //Initialisation of coordinates and movement
     //Those coordinates will have to correspond to the one of the lobby
     Isaac->movement = malloc(sizeof(MovementValues));
@@ -67,29 +73,50 @@ extern Player* initPlayer() {
 }
 
 extern void freePlayer(Player** Isaac) {
-    free((*Isaac)->movement->SpriteBox);
-    (*Isaac)->movement->SpriteBox = NULL;
+    if((*Isaac)->movement) {
+        if((*Isaac)->movement->SpriteBox) {
+            free((*Isaac)->movement->SpriteBox);
+            (*Isaac)->movement->SpriteBox = NULL;
+        }
 
-    free((*Isaac)->movement->velocity);
-    (*Isaac)->movement->velocity = NULL;
+        if((*Isaac)->movement->velocity) {
+            free((*Isaac)->movement->velocity);
+            (*Isaac)->movement->velocity = NULL;
+        }
 
-    free((*Isaac)->movement->pos);
-    (*Isaac)->movement->pos = NULL;
+        if((*Isaac)->movement->pos) {
+            free((*Isaac)->movement->pos);
+            (*Isaac)->movement->pos = NULL;
+        }
 
-    free((*Isaac)->movement);
-    (*Isaac)->movement = NULL;
+        free((*Isaac)->movement);
+        (*Isaac)->movement = NULL;
+    }
 
-    free((*Isaac)->weapons);
-    (*Isaac)->weapons = NULL;
+    if((*Isaac)->weapons) {
+        free((*Isaac)->weapons);
+        (*Isaac)->weapons = NULL;
+    }
 
-    free((*Isaac)->maxStats);
-    (*Isaac)->maxStats = NULL;
+    if((*Isaac)->maxStats) {
+        free((*Isaac)->maxStats);
+        (*Isaac)->maxStats = NULL;
+    }
 
-    free((*Isaac)->current_stats);
-    (*Isaac)->current_stats = NULL;
+    if((*Isaac)->current_stats) {
+        free((*Isaac)->current_stats);
+        (*Isaac)->current_stats = NULL;
+    }
 
-    free((*Isaac)->basic_stats);
-    (*Isaac)->basic_stats = NULL;
+    if((*Isaac)->basic_stats) {
+        free((*Isaac)->basic_stats);
+        (*Isaac)->basic_stats = NULL;
+    }
+
+    if((*Isaac)->gameStats) {
+        free((*Isaac)->gameStats);
+        (*Isaac)->gameStats = NULL;
+    }
 
     freeAll_SlotInventory(&((*Isaac)->inventory));
 }
