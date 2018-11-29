@@ -127,10 +127,6 @@ extern int checkTilesPlayer(Player* player, Layout* layout, char type, int radiu
 
             //Checking that the value is inside the bounds
             if((posX + tempX + 32) > deltaW && (posX + tempX + 32) < (columns * 64 + deltaW) && (posY + tempY + 128) > deltaH && (posY + tempY + 128) < (lines * 64 + deltaH)) {
-                int inte = (posY + tempY + 64);
-                int intr = (lines * 64 + deltaH);
-                int jy = (int) (posY + tempY - deltaH) / 64 + 2;
-                int jx = (int) ((posX + tempX - deltaW) / 64 + .5);
                 if(layout->map[(int) (posY + tempY - deltaH) / 64 + 2][(int) ((posX + tempX - deltaW) / 64 + .5)].type == type) {
                     if(tileX && tileY) {
                         //If we have to recover the coordinates of the tile

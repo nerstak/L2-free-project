@@ -1,13 +1,11 @@
 #ifndef PLANTS_H_INCLUDED
 #define PLANTS_H_INCLUDED
 
-//0-Not 1-Tomato 2-Eggplant 3-Carotte
 typedef struct Plant{
-    int vegetable;
+    int idVegetable;
     int x;
     int y;
     int dayLeft;
-
 }Plant;
 
 typedef struct field_t{
@@ -22,5 +20,13 @@ typedef struct field_t{
  * @return A pointer to a field_t Object
  */
 extern field_t* initField();
+
+/**
+ * Return the plant according to an int
+ * @param n int corresponding to the number of the plant
+ * @param field Pointer to the field
+ * @return Pointer of plant
+ */
+extern Plant* assignPlant(int n, field_t* field);
 
 #endif // PLANTS_H_INCLUDED

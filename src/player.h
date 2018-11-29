@@ -9,6 +9,12 @@ typedef struct coordinates_entity {
     float y;
 } coordinates_entity;
 
+typedef struct GameStats {
+    int death;
+    int dungeons;
+    int kills;
+}GameStats;
+
 
 typedef struct Weapon {
     char name[20];
@@ -33,6 +39,7 @@ typedef struct Player {
     SlotInventory * inventory;
     int size_inventory;
     Weapon * weapons;
+    struct GameStats* gameStats;
     struct stats_entity* current_stats;
     struct stats_entity* basic_stats;
     struct stats_entity* maxStats;
