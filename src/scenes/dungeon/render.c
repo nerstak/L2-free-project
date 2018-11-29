@@ -44,7 +44,7 @@ static SDL_Surface* renderLifebar(Engine* engine, Data* data) {
     SDL_Surface* result = SDL_CreateRGBSurface(SDL_HWSURFACE, 217, 34, 32, 0, 0, 0, 0);
 
     float percentLife = (data->Isaac->current_stats->health / data->Isaac->basic_stats->health) * 100;
-    int divPerPercent = 217 / 100;
+    float divPerPercent = (float) 217 / 100;
 
     SDL_Rect upperBg = {0, 0, (Uint16) (percentLife * divPerPercent), 7};
     SDL_Rect middleBg = {0, 7, (Uint16) (percentLife * divPerPercent), 20};
