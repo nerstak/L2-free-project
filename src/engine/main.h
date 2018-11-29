@@ -5,8 +5,11 @@
 #include "../engine/collectors/ttf.h"
 #include "../engine/collectors/scene.h"
 #include "../engine/collectors/sound.h"
+#include "fps.h"
 
 typedef struct Engine {
+    Fps* fps;
+
     SceneCollector* sceneCollector;
     ImageCollector* imageCollector;
     FontCollector* fontCollector;

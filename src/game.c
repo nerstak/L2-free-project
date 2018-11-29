@@ -1,9 +1,12 @@
 #include "game.h"
 #include "window.h"
 
-#include "timer.h"
-#include "engine/collectors/image.h"
 #include "engine/main.h"
+#include "engine/fps.h"
+#include "engine/collectors/image.h"
+#include "engine/collectors/ttf.h"
+#include "engine/collectors/scene.h"
+#include "engine/collectors/sound.h"
 
 #include "scenes/inventoryScreen/inventoryScreen.h"
 #include "scenes/mainMenu/mainMenu.h"
@@ -11,11 +14,8 @@
 #include "scenes/shopScreen/shopScreen.h"
 #include "scenes/test/test.h"
 #include "scenes/lobby/lobby.h"
-#include "engine/collectors/ttf.h"
-#include "engine/collectors/scene.h"
 
 #include "structures/scene.h"
-#include "engine/collectors/sound.h"
 
 #include <SDL/SDL.h>
 
@@ -27,16 +27,8 @@ int Game_stop = 1; // External
 extern void gameLoop(SDL_Surface* window) {
     SDL_Event event;
 
-    int frame = 0;
-    Timer* fpsLimiter = init_Timer();
-    Timer* fpsCounter = init_Timer();
-    Timer* update = init_Timer();
-
-    // Start the update Timer
-    start_Timer(update);
-
-    // Start the fps counter Timer
-    start_Timer(fpsCounter);
+    // Initializing Fps
+    Fps* myFps = init_Fps();
 
     // Initializing ImageCollector
     ImageCollector* myImageCollector = init_ImageCollector();
@@ -59,6 +51,7 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Initializing Engine
     Engine* myEngine = init_Engine();
+    myEngine->fps = myFps;
     myEngine->sceneCollector = mySceneCollector;
     myEngine->fontCollector = myFontCollector;
     myEngine->imageCollector = myImageCollector;
@@ -79,8 +72,7 @@ extern void gameLoop(SDL_Surface* window) {
 
     while (myData->stop) {
         // Start the FPS limiter Timer
-        start_Timer(fpsLimiter);
-        //printf("fps_counter: %d\n",getTicks_Timer(fpsCounter));
+        startLimiterTimer_Fps(myFps);
 
         // Event loop
         mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
@@ -91,23 +83,12 @@ extern void gameLoop(SDL_Surface* window) {
         // Rendering
         mySceneCollector->currentScene->renderScene(window, myEngine, myData);
         renderScreen();
-        frame++;
 
-        // FPS counter
-        if (getTicks_Timer(update) > 1000) {
-            printf("FPS %d\n", frame / ((getTicks_Timer(fpsCounter) / 1000)));
-            start_Timer(update);
-        }
-
-        // FPS Limiter
-        if (getTicks_Timer(fpsLimiter) < (1000 / 60)) {
-            SDL_Delay((1000 / 60) - getTicks_Timer(fpsLimiter));
-        }
+        count_Fps(myFps);
+        limit_Fps(myFps);
     }
 
-    clean_Timer(&fpsLimiter);
-    clean_Timer(&fpsCounter);
-    clean_Timer(&update);
+    clean_Fps(&myFps);
 
     clean_ImageCollector(&myImageCollector);
     clean_SceneCollector(&mySceneCollector);
