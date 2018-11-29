@@ -56,5 +56,10 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "shop");
         }
+
+        if (data->lobby->actionProcess == 10) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "dungeon");
+        }
     }
 }
