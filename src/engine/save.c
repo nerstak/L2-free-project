@@ -9,11 +9,18 @@
  * @param data Pointer of Data Object
  */
 static void loadPlayer(Data* data);
+
 static void writePlayer(FILE* saveFile,Player* Isaac);
 static void writeStats(FILE* saveFile,Player* Isaac);
 static void writeWeapons(FILE* saveFile, Player* Isaac);
 static void writeGarden(FILE* saveFile,field_t* field);
 static void writeInventory(FILE* saveFile, Player* Isaac);
+
+static void readPlayer(FILE* saveFile, Data* data, char* fileName);
+static void readStats(FILE* saveFile, Data* data);
+static void readWeapons(FILE* saveFile, Data* data);
+static void readGarden(FILE* saveFile, Data* data);
+static void readInventory(FILE* saveFile, Data* data);
 
 //Init of the game and the save
 extern void initGame(char* saveName, Data* data) {
@@ -26,11 +33,8 @@ extern void initGame(char* saveName, Data* data) {
     strcpy(data->Isaac->save_name,saveName);
 
     loadPlayer(data);
-    readSave(data);
-
-    copyStats(data->Isaac->current_stats,data->Isaac->basic_stats);
-
     data->field = initField();
+    readSave(data);
 }
 
 //Write important data inside the file
@@ -57,43 +61,30 @@ extern void writeSave(Data* data) {
 
 //Read the values inside one of the file
 extern void readSave(Data* data) {
-    FILE * save_file;
+    FILE * saveFile;
     char temp[50];
-    int id, quantity;
 
     //Chose the right file to open
     if(strcmp(data->Isaac->save_name,"") == 0) {
-        save_file = fopen("src/data/save/basic.save","r");
+        saveFile = fopen("src/data/save/basic.save","r");
         strcpy(data->Isaac->save_name,"save1.save");
     } else {
         sprintf(temp,"saves/%s",data->Isaac->save_name);
-        save_file = fopen(temp, "r");
+        saveFile = fopen(temp, "r");
     }
 
-    if(save_file == NULL) {
+    if(saveFile == NULL) {
         printf("Error while reading save");
         exit(EXIT_FAILURE);
     }
-    //Reading all values
-    fscanf(save_file,"%s\n",temp);
-    fscanf(save_file,"DAY=%d\n",&(data->Isaac->day));
-    fscanf(save_file,"MONEY=%d\n",&(data->Isaac->money));
-    fscanf(save_file,"STATS: H=%f D=%f S=%f A=%f\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->agility));
-    //Checking that the value are not to high
-    alterDamage(data->Isaac,0,'b');
-    alterSpeed(data->Isaac,0,'b');
-    alterAgility(data->Isaac,0,'b');
-    alterHealth(data->Isaac,0,'b');
-    for(int i = 0; i < 4; i++) {
-        fscanf(save_file,"WEAPON: '%18[^']' '%98[^']' D=%f A=%f\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].agility));
-    }
 
-    int i = 0;
-    while(fscanf(save_file,"ID=%d QUANT=%d\n",&(id),&(quantity)) != EOF && i < 16) {
-        add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
-    }
-    data->Isaac->size_inventory = i;
-    fclose(save_file);
+    readPlayer(saveFile, data, temp);
+    readStats(saveFile, data);
+    readWeapons(saveFile, data);
+    readGarden(saveFile, data);
+    readInventory(saveFile, data);
+
+    fclose(saveFile);
 }
 
 static void loadPlayer(Data* data) {
@@ -143,4 +134,42 @@ static void writeInventory(FILE* saveFile, Player* Isaac) {
         current = current->next;
         i++;
     }
+}
+
+static void readPlayer(FILE* saveFile, Data* data, char* fileName) {
+    fscanf(saveFile,"%s\nDAY=%d\nMONEY=%d\n",fileName,&(data->Isaac->day),&(data->Isaac->money));
+}
+
+static void readStats(FILE* saveFile, Data* data) {
+    fscanf(saveFile,"STATS: H=%f D=%f S=%f A=%f\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->agility));
+    //Checking that the value are not to high
+    alterDamage(data->Isaac,0,'b');
+    alterSpeed(data->Isaac,0,'b');
+    alterAgility(data->Isaac,0,'b');
+    alterHealth(data->Isaac,0,'b');
+
+    copyStats(data->Isaac->current_stats,data->Isaac->basic_stats);
+}
+
+static void readWeapons(FILE* saveFile, Data* data) {
+    for(int i = 0; i < 4; i++) {
+        fscanf(saveFile,"WEAPON: '%18[^']' '%98[^']' D=%f A=%f\n",data->Isaac->weapons[i].name,data->Isaac->weapons[i].description,&(data->Isaac->weapons[i].damage),&(data->Isaac->weapons[i].agility));
+    }
+}
+
+static void readGarden(FILE* saveFile, Data* data) {
+    for(int i = 0; i < 4; i++) {
+        Plant* tempPlant = assignPlant(i, data->field);
+        fscanf(saveFile,"PLANT: %d %d\n",&(tempPlant->idVegetable),&(tempPlant->dayLeft));
+        tempPlant->x = 15 + (i % 2) * 2;
+        tempPlant->y = 2 + (i / 2) * 2;
+    }
+}
+
+static void readInventory(FILE* saveFile, Data* data) {
+    int id, quantity, i = 0;
+    while(fscanf(saveFile,"ID=%d QUANT=%d\n",&(id),&(quantity)) != EOF && i < 16) {
+        add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
+    }
+    data->Isaac->size_inventory = i;
 }
