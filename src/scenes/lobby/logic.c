@@ -48,5 +48,10 @@ static void processTimer(Data* data) {
                 data->lobby->actionProcess = NONE;
             }
         }
+
+        if (data->lobby->actionProcess == 10) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "dungeon");
+        }
     }
 }

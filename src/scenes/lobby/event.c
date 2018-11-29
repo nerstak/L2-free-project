@@ -30,6 +30,9 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                     case SDLK_ESCAPE:
                         data->stop= 0;
                         break;
+                    case SDLK_UNDERSCORE:
+                        data->lobby->actionProcess = 10;
+                        break;
                     default:
                         break;
                 }
