@@ -14,7 +14,6 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     TTF_Font* font2 = NULL;
     font2 = get_FontCollector(myFontCollector, "menu/40")->font;
     SDL_Color black = {0, 0, 0, 0};
-    SDL_Color white = {255, 255, 255, 0};
 
     //Surfaces init
     SDL_Surface* layout = NULL;

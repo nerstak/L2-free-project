@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "save.h"
-#include "../plants.h"
 
 /**
  * Read the common value of the Player Object
@@ -34,6 +33,7 @@ extern void writeSave(Data* data) {
     FILE * save_file;
     Player * Isaac = data->Isaac;
     SlotInventory * current = Isaac->inventory;
+    Plant* tempPlant;
     char temp[50];
 
     //We create or reset the save file
@@ -42,23 +42,34 @@ extern void writeSave(Data* data) {
     if(save_file == NULL) {
         printf("Error while creating or opening file during saving.\n");
         exit(EXIT_FAILURE);
-    } else {
-        //Writing save_name and money
-        fprintf(save_file,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++(Isaac->day),Isaac->money);
-        //Writing stats
-        fprintf(save_file,"STATS: H=%f D=%f S=%f A=%f\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->agility);
-        //Writing weapons
-        for(int i = 0; i < 4; i++) {
-            fprintf(save_file,"WEAPON: '%s' '%s' D=%f A=%f\n",Isaac->weapons[i].name,Isaac->weapons[i].description,Isaac->weapons[i].damage,Isaac->weapons[i].agility);
-        }
-        int i = 0;
-        while(current != NULL && i < 16) {
-            fprintf(save_file,"ID=%d QUANT=%d\n",current->id,current->quantity);
-            current = current->next;
-            i++;
-        }
-        fclose(save_file);
     }
+
+    //Writing save_name and money
+    fprintf(save_file,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++(Isaac->day),Isaac->money);
+    //Writing stats
+    fprintf(save_file,"STATS: H=%f D=%f S=%f A=%f\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->agility);
+    //Writing weapons
+    for(int i = 0; i < 4; i++) {
+        fprintf(save_file,"WEAPON: '%s' '%s' D=%f A=%f\n",Isaac->weapons[i].name,Isaac->weapons[i].description,Isaac->weapons[i].damage,Isaac->weapons[i].agility);
+    }
+
+    //Writing garden
+    for(int i = 0; i < 4; i++) {
+        tempPlant = assignPlant(i, data->field);
+        if(tempPlant) {
+            fprintf(save_file, "PLANT: %d\n", tempPlant->idVegetable);
+        } else {
+            fprintf(save_file, "PLANT: -1\n");
+        }
+    }
+
+    int i = 0;
+    while(current != NULL && i < 16) {
+        fprintf(save_file,"ID=%d QUANT=%d\n",current->id,current->quantity);
+        current = current->next;
+        i++;
+    }
+    fclose(save_file);
 }
 
 //Read the values inside one of the file
