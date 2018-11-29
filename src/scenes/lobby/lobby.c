@@ -1,4 +1,5 @@
 #include "lobby.h"
+#include "../../plants.h"
 
 
 extern void assets_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
@@ -15,11 +16,6 @@ extern void assets_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
 
 extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
     if (loadOrUnload == true) {
-            //TEMP//
-            init_Field(data);
-
-
-            //TEMP//
         data->lobby = NULL;
         data->lobby = malloc(1 * sizeof(lobby_t));
 
@@ -30,8 +26,8 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->lobby->layout = loadSingleLayout("lobby","lobby");
         data->lobby->actualPlant = NULL;
-        data->lobby->askAction=0;
-        data->lobby->menuHouse=0;
+        data->lobby->askAction = 0;
+        data->lobby->actionProcess = NONE;
         data->lobby->counterPressKey = 0;
         data->lobby->counterPressKeyMove = 0;
 

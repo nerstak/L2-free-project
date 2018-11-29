@@ -8,23 +8,26 @@ static void moveDeleteCursor(Data* data);
 
 extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
     int action = data->inventory->askAction;
-    if(data->inventory->askDeletion != -1) {
-        moveDeleteCursor(data);
-    } else if(action != 0) {
-        if(action != 5 && action != 8) {
-            moveInventorySelector(data);
-        } else if(action == 5) {
-            useItem(data);
-        } else if(action == 8) {
-            moveDeleteCursor(data);
-        }
-    }
-    data->inventory->askAction = 0;
 
     if(isStarted_Timer(data->inventory->timerMessage)){
-        if(getTime_Timer(data->inventory->timerMessage) > 5) {
+        if(getTime_Timer(data->inventory->timerMessage) > 3) {
             stop_Timer(data->inventory->timerMessage);
-            strcpy(data->inventory->nameUsed,"");
+            strcpy(data->inventory->messageUsed,"");
+        }
+    }
+
+    if(data->inventory->askDeletion != -1) {
+        moveDeleteCursor(data);
+    } else if(action != I_NONE) {
+        if(action != I_ENTER && action != I_DELETE && action != I_LEAVE) {
+            moveInventorySelector(data);
+            data->inventory->askAction = I_NONE;
+        } else if(action == I_ENTER) {
+            useItem(data);
+            data->inventory->askAction = I_NONE;
+        } else if(action == I_LEAVE) {
+            data->inventory->askAction = I_NONE;
+            display_SceneCollector(engine, data, "lobby");
         }
     }
 }
@@ -34,7 +37,7 @@ static void moveInventorySelector(Data* data) {
     int pos_to_go;
     if(data->inventory->selected) {
         switch(data->inventory->askAction) {
-            case 1: {
+            case I_RIGHT: {
                 //Case for right
                 //If we are just moving inside the inventory
                 if (data->inventory->selected->next != NULL) {
@@ -43,7 +46,7 @@ static void moveInventorySelector(Data* data) {
                 }
                 break;
             }
-            case -1: {
+            case I_LEFT: {
                 //Case for left
                 //If we are just moving inside the inventory
                 if (data->inventory->selected->prev != NULL) {
@@ -52,7 +55,7 @@ static void moveInventorySelector(Data* data) {
                 }
                 break;
             }
-            case 10: {
+            case I_DOWN: {
                 //Case for down
                 pos_to_go = (data->inventory->nSelected + 4) % 16;
                 while (data->inventory->selected->next != NULL && data->inventory->nSelected != pos_to_go) {
@@ -61,7 +64,7 @@ static void moveInventorySelector(Data* data) {
                 }
                 break;
             }
-            case -10: {
+            case I_UP: {
                 //Case for up
                 if (data->inventory->nSelected / 4 != 0) {
                     pos_to_go = (data->inventory->nSelected - 4) % 16;
@@ -106,7 +109,7 @@ static void useItem(Data* data) {
     //First we should check if the item is usable
     if(data->inventory->selected) {
         if(data->inventory->selected->type != 'n' && data->inventory->selected->type != 's') {
-            strcpy(data->inventory->nameUsed, data->inventory->selected->name);
+            strcpy(data->inventory->messageUsed, data->inventory->selected->useMessage);
             applyEffect(data);
             (data->inventory->selected->quantity)--;
             if(data->inventory->selected->quantity <= 0) {
@@ -150,18 +153,18 @@ static void moveDeleteCursor(Data* data) {
             }
             case 0: {
                 //Button 'CANCEL'
-                if(data->inventory->askAction == -1) {
+                if(data->inventory->askAction == I_LEFT) {
                     data->inventory->askDeletion = 1;
-                } else if(data->inventory->askAction == 5) {
+                } else if(data->inventory->askAction == I_ENTER) {
                     data->inventory->askDeletion = -1;
                 }
                 break;
             }
             case 1: {
                 //Button 'CONFIRM'
-                if(data->inventory->askAction == 1) {
+                if(data->inventory->askAction == I_RIGHT) {
                     data->inventory->askDeletion = 0;
-                } else if(data->inventory->askAction == 5) {
+                } else if(data->inventory->askAction == I_ENTER) {
                     data->inventory->askDeletion = 2;
                 }
                 break;

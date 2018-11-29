@@ -18,7 +18,7 @@ for filename in enumerate(os.listdir("rooms_png")):
             color = pix[j,i]
             if color[:3] == (0,255,0): #Green stands for the floor
                 correspondance_array[i].append('F')
-            elif color[:3] == (0,200,0): #Darkest green stands for path
+            elif color[:3] == (0,200,0): #Darkest green stands for plantation
                 correspondance_array[i].append('P')
             elif color[:3] == (255,220,0): #Yellow stands for shop
                 correspondance_array[i].append('S')
@@ -50,10 +50,10 @@ for filename in enumerate(os.listdir("rooms_png")):
     room_png.close()
 
     #Name, size, kind of mobs allowed to spawn
-    map_file = open("rooms_out/"+name+".loli","w") #Large Output Last Idea
+    map_file = open("rooms_out/"+name+".map","w")
     map_file.write(name+",\n")
     map_file.write("COLUMNS="+str(column)+",LINES="+str(line)+",\n")
-    map_file.write("SET_MOB="+mobs+",\n")
+    map_file.write("SET_MOB="+mobs+" ,\n")
 
     #Position allowed for mobs to spawn
     for coord in spawn_coord:

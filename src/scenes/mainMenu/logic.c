@@ -29,12 +29,12 @@ static void enterMainMenu(Data* data, Engine* engine) {
     switch(getCurrentMainMenuSelector(data)) {
         case 0:
             //New game
-            init_Save("", data);
+            initGame("", data);
             display_SceneCollector(engine,data,"lobby");
             break;
         case 1:
             //Load game
-            init_Save("save1.save", data);
+            initGame("save1.save", data);
             display_SceneCollector(engine,data,"lobby");
             break;
         case 2:

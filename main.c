@@ -3,8 +3,7 @@
 
 #include "src/launch.h"
 
-int main()
-{
+int main() {
     launch();
 
     return 0;

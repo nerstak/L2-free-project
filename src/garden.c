@@ -5,7 +5,7 @@
 
 #include "engine/save.h"
 #include "plants.h"
-// StopVelocity(data->Isaac->movement); for benoit <3
+
 static void test_plant(Data* data);
 
 extern void doAction_Garden(Data* data) {
@@ -16,18 +16,20 @@ extern void doAction_Garden(Data* data) {
             break;
         }
         case 1: {
-            data->lobby->menuHouse = 1;
+            data->lobby->actionProcess = SLEEP;
             data->lobby->askMove = 0;
 
             break;
         }
         case 2: {
-            data->lobby->menuHouse = 2;
+            data->lobby->actionProcess = GARDEN;
             data->lobby->askMove = 0;
 
             break;
         }
         case 3: {
+            data->lobby->actionProcess = SHOP;
+            data->lobby->askMove = 0;
             break;
         }
         default: {
@@ -37,15 +39,18 @@ extern void doAction_Garden(Data* data) {
 }
 
 extern int checkAction_Garden(Data* data) {
-    if (data->lobby->layout->map[(int) ((data->Isaac->movement->pos->y)/64)+2][(int) ((data->Isaac->movement->pos->x)/64)].type == 'M') {
+    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'M', 48, 0, 0, NULL, NULL)) {
+        //Case for home
         return 1;
     }
 
-    if (data->lobby->layout->map[((int) (data->Isaac->movement->pos->y)/64)+2][(int) (data->Isaac->movement->pos->x)/64].type == 'P') {
+    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, NULL, NULL)) {
+        //Case for plant spot
         return 2;
     }
 
-    if (data->lobby->layout->map[(int) (data->Isaac->movement->pos->y)/64][(int) (data->Isaac->movement->pos->x)/64].type == 'S') {
+    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'S', 48, 0, 0, NULL, NULL)) {
+        //Case for shop
         return 3;
     }
 
@@ -62,15 +67,14 @@ extern void processMenu1_Garden(Data* data) {
         }
     } else if (data->lobby->askAction == 1) {
         if (data->lobby->askMove == 0) {
-            write_Save(data);
-            printf("%d day",data->Isaac->day);
+            writeSave(data);
         }
         else {
 
         }
 
         data->lobby->askAction = 0;
-        data->lobby->menuHouse = 0;
+        data->lobby->actionProcess = NONE;
     }
 }
 
@@ -80,19 +84,22 @@ extern void processMenu2_Garden(Data* data) {
 }
 
 static void test_plant(Data* data) {
-    if ((int) (data->Isaac->movement->pos->x)/64 == 15 ) {
-        if ((int) (data->Isaac->movement->pos->y) / 64 + 2 == 5) {
-            data->lobby->actualPlant = data->field->plantBotLeft;
-            // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
-        } else if ((int) (data->Isaac->movement->pos->y) / 64 + 2 == 2) {
-            data->lobby->actualPlant = data->field->plantTopLeft;
-        }
-    } else if ((int) (data->Isaac->movement->pos->x) / 64 == 17) {
-        if ((int) (data->Isaac->movement->pos->y) / 64 + 2 == 5) {
-            data->lobby->actualPlant = data->field->plantBotRight;
-        }
-        else if ((int) (data->Isaac->movement->pos->y) / 64 + 2 == 2) {
-            data->lobby->actualPlant = data->field->plantTopRight;
+    int coordX, coordY;
+    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
+        if (coordX == 15 ) {
+            if (coordY == 5) {
+                data->lobby->actualPlant = data->field->plantBotLeft;
+            } else if (coordY == 2) {
+                data->lobby->actualPlant = data->field->plantTopLeft;
+            }
+        } else if (coordX == 17) {
+            if (coordY == 5) {
+                data->lobby->actualPlant = data->field->plantBotRight;
+            } else if (coordY == 2) {
+                data->lobby->actualPlant = data->field->plantTopRight;
+            }
+        } else {
+            data->lobby->actualPlant = NULL;
         }
     } else {
         data->lobby->actualPlant = NULL;
@@ -103,15 +110,15 @@ extern void processField_Garden(Data* data) {
     // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
 
     if (data->lobby->actualPlant->vegetable == 0) {
-        data->lobby->menuHouse = 21; // plant ?
+        data->lobby->actionProcess = PLANT; // plant ?
     } else if (data->lobby->actualPlant->dayLeft == 0) {
-        data->lobby->menuHouse = 22; //go to dj?
+        data->lobby->actionProcess = GOTO_DUNGEON; //go to dj?
     } else if (data->lobby->actualPlant->dayLeft != 0) {
-        data->lobby->menuHouse = 23;
+        data->lobby->actionProcess = WAIT;
     }
 }
 
-extern void menuSelectionDonjon_Garden(Data* data) {
+extern void menuSelectionDungeon_Garden(Data* data) {
     if (data->lobby->askAction == 0) {
         if (data->lobby->askMove > 1) {
             data->lobby->askMove = 1;
@@ -129,7 +136,7 @@ extern void menuSelectionDonjon_Garden(Data* data) {
         }
 
         data->lobby->askAction = 0;
-        data->lobby->menuHouse = 0;
+        data->lobby->actionProcess = NONE;
     }
 }
 
@@ -160,13 +167,13 @@ extern void menuSelectionPlanting_Garden(Data* data) {
         }
 
         data->lobby->actualPlant = NULL;
-        data->lobby->menuHouse = 0;
+        data->lobby->actionProcess = NONE;
     }
 }
 
 extern void menuNotReady_Garden(Data* data) {
     if (data->lobby->askAction == 1) {
         data->lobby->actualPlant = NULL;
-        data->lobby->menuHouse = 0;
+        data->lobby->actionProcess = NONE;
     }
 }

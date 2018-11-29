@@ -40,11 +40,55 @@ typedef struct Player {
     int day;
 } Player;
 
+/**
+ * Initialise the Object Player
+ * @return Pointer to Player Object
+ */
+extern Player* initPlayer();
 
-int alterMoney(Player* Isaac, int money_change);
-void alterHealth(Player* Isaac, float alterHealth, char type);
-void alterSpeed(Player* Isaac, float alterSpeed, char type);
-void alterAgility(Player* Isaac, float alterAgility, char type);
-void alterDamage(Player* Isaac, float alterDamage, char type);
+/**
+ * Cleaning and free a Player Object
+ */
+extern void freePlayer(Player** Isaac);
+
+/**
+ * Alter the money of the Player, respecting boundaries
+ * @param Isaac pointer to the Player Object
+ * @param alterMoney Integer of the modification of money to do
+ * @return Integer of the proceeding of the operation (0: Not Done; 1: Done)
+ */
+extern int alterMoney(Player* Isaac, int alterMoney);
+
+/**
+ * Alter the health of the Player, respecting boundaries
+ * @param Isaac pointer to the Player Object
+ * @param alterHealth Integer of the modification of health to do
+ * @param type char. 'b' to modify basic stats (def), 'c' for current stats (temp)
+ */
+extern void alterHealth(Player* Isaac, float alterHealth, char type);
+
+/**
+ * Alter the speed of the Player, respecting boundaries
+ * @param Isaac pointer to the Player Object
+ * @param alterSpeed Integer of the modification of speed to do
+ * @param type char. 'b' to modify basic stats (def), 'c' for current stats (temp)
+ */
+extern void alterSpeed(Player* Isaac, float alterSpeed, char type);
+
+/**
+ * Alter the agility of the Player, respecting boundaries
+ * @param Isaac pointer to the Player Object
+ * @param alterAgility Integer of the modification of agility to do
+ * @param type char. 'b' to modify basic stats (def), 'c' for current stats (temp)
+ */
+extern void alterAgility(Player* Isaac, float alterAgility, char type);
+
+/**
+ * Alter the damage of the Player, respecting boundaries
+ * @param Isaac pointer to the Player Object
+ * @param alterDamage Integer of the modification of damage to do
+ * @param type char. 'b' to modify basic stats (def), 'c' for current stats (temp)
+ */
+extern void alterDamage(Player* Isaac, float alterDamage, char type);
 
 #endif // PLAYER_H_INCLUDED

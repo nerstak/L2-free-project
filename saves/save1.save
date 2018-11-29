@@ -1,14 +1,14 @@
 save1.save
-DAY=2
+DAY=9
 MONEY=1500
-STATS: H=2000 D=200 S=20 A=2
-WEAPON: 'name_wep' 'desc_wep' D=0 A=0
-WEAPON: 'name_wep' 'desc_wep' D=1 A=10
-WEAPON: 'name_wep' 'desc_wep' D=2 A=20
-WEAPON: 'name_wep' 'desc_wep' D=3 A=30
-ID=7 QUANT=12
-ID=5 QUANT=3
-ID=4 QUANT=1
-ID=3 QUANT=2
-ID=2 QUANT=5
+STATS: H=1.000000 D=1.000000 S=1.000000 A=1.000000
+WEAPON: 'name_wep' 'desc_wep' D=0.000000 A=0.000000
+WEAPON: 'name_wep' 'desc_wep' D=1.000000 A=10.000000
+WEAPON: 'name_wep' 'desc_wep' D=2.000000 A=20.000000
+WEAPON: 'name_wep' 'desc_wep' D=3.000000 A=30.000000
 ID=1 QUANT=3
+ID=2 QUANT=5
+ID=3 QUANT=2
+ID=4 QUANT=1
+ID=5 QUANT=3
+ID=7 QUANT=12

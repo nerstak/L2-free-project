@@ -29,7 +29,7 @@ extern referenceTable* loadReferenceItems() {
         return NULL;
     }
     //Scanning line by line
-    while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' PRICE=%d TYPE=%c H=%f D=%f S=%f A=%f\n",&(tempStock.id),tempStock.name,tempStock.description,&(tempStock.price), &(tempStock.type), &(tempStock.characteristics->health), &(tempStock.characteristics->damage),&(tempStock.characteristics->speed),&(tempStock.characteristics->agility)) != EOF) {
+    while(fscanf(dataFile,"%d: '%23[^']' '%98[^']' '%98[^']' PRICE=%d TYPE=%c H=%f D=%f S=%f A=%f\n",&(tempStock.id),tempStock.name,tempStock.description,tempStock.useMessage,&(tempStock.price), &(tempStock.type), &(tempStock.characteristics->health), &(tempStock.characteristics->damage),&(tempStock.characteristics->speed),&(tempStock.characteristics->agility)) != EOF) {
         //Resizing the array
         temp = reference->table;
         reference->table = realloc(reference->table, sizeof(SlotInventory) * (i + 1));
@@ -56,8 +56,8 @@ extern void freeReference(referenceTable** refTable) {
     }
     free((*refTable)->table);
     (*refTable)->table = NULL;
-    free(refTable);
-    *refTable = 0;
+    free(*refTable);
+    *refTable = NULL;
 }
 
 //Init shop inventory
@@ -77,14 +77,17 @@ extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* si
 
 //Free an item
 extern void freeOne_SlotInventory(SlotInventory** item) {
-    free(*item);
-    *item = NULL;
-
+    if(item) {
+        free(*item);
+        *item = NULL;
+    }
 }
 
 //Free a list of items
 extern void freeAll_SlotInventory(SlotInventory** item) {
-    if(*item != NULL) {
+    if(!item) {
+        return;
+    }else if(*item != NULL) {
         freeAll_SlotInventory(&((*item)->next));
         freeOne_SlotInventory(item);
     }
@@ -113,14 +116,16 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
 
 //Add an existing item to the beginning of a list
 extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size) {
-    if(*list == NULL) {
-        *list = item;
-        (*size)++;
-    } else if (*size < 16) {
-        item->next = *list;
-        (*list)->prev = item;
-        *list = item;
-        (*size)++;
+    if(list && item) {
+        if(*list == NULL) {
+            *list = item;
+            (*size)++;
+        } else if (*size < 16) {
+            item->next = *list;
+            (*list)->prev = item;
+            *list = item;
+            (*size)++;
+        }
     }
 }
 
@@ -164,17 +169,23 @@ extern SlotInventory* search_SlotInventory(SlotInventory* list, int id) {
     return NULL;
 }
 
+//Copy the stats
+extern void copyStats(stats_entity* receiver, stats_entity* original) {
+    receiver->health = original->health;
+    receiver->damage = original->damage;
+    receiver->agility = original->agility;
+    receiver->speed = original->speed;
+}
+
 //Copy the characteristics of an item
 extern void copyItems(SlotInventory* receiver, SlotInventory original) {
     strcpy(receiver->name, original.name);
     strcpy(receiver->description, original.description);
+    strcpy(receiver->useMessage, original.useMessage);
     receiver->price = original.price;
     receiver->type = original.type;
     receiver->id = original.id;
     receiver->quantity = original.quantity;
 
-    receiver->characteristics->health = original.characteristics->health;
-    receiver->characteristics->damage = original.characteristics->damage;
-    receiver->characteristics->agility = original.characteristics->agility;
-    receiver->characteristics->speed = original.characteristics->speed;
+    copyStats(receiver->characteristics,original.characteristics);
 }

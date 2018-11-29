@@ -2,10 +2,10 @@ basic.save
 DAY=1
 MONEY=1500
 STATS: H=1 D=1 S=1 A=1
-WEAPON: 'name_wep' 'desc_wep' D=0 S=0
-WEAPON: 'name_wep' 'desc_wep' D=1 S=10
-WEAPON: 'name_wep' 'desc_wep' D=2 S=20
-WEAPON: 'name_wep' 'desc_wep' D=3 S=30
+WEAPON: 'name_wep' 'desc_wep' D=0 A=0
+WEAPON: 'name_wep' 'desc_wep' D=1 A=10
+WEAPON: 'name_wep' 'desc_wep' D=2 A=20
+WEAPON: 'name_wep' 'desc_wep' D=3 A=30
 ID=1 QUANT=3
 ID=2 QUANT=5
 ID=3 QUANT=2

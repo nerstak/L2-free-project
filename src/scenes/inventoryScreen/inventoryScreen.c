@@ -30,8 +30,8 @@ extern void init_Scene_inventory(Engine* engine, Data* data, bool loadOrUnload) 
         data->inventory->selected = data->Isaac->inventory;
     } else {
         data->inventory->selected = NULL;
+        clean_Timer(&(data->inventory->timerMessage));
         free(data->inventory);
         data->inventory = NULL;
-        clean_Timer(&(data->inventory->timerMessage));
     }
 }
