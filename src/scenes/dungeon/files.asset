@@ -1,0 +1,5 @@
+src/gfx/interface/dungeon_ui-player.png dungeon/uiPlayer
+src/gfx/interface/dungeon_ui-player-dead.png dungeon/uiPlayerDead
+src/gfx/interface/dungeon_ui-lifebar-bg.png dungeon/uiLifebarBg
+src/gfx/interface/dungeon_ui-keys.png dungeon/uiKeys
+src/gfx/interface/dungeon_map-bg.png dungeon/mapBg
