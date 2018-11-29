@@ -58,5 +58,9 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "inventory");
         }
+        if(data->lobby->actionProcess == SHOP) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "shop");
+        }
     }
 }

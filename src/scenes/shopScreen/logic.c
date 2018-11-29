@@ -7,13 +7,6 @@ static void moveConfirmCursor(Data* data);
 
 extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
     int action = data->shop->askAction;
-    if(data->shop->askTransaction != -1 || action == 5) {
-        moveConfirmCursor(data);
-    } else if(action != 0) {
-        //Moving
-        moveShopSelector(data);
-    }
-    data->shop->askAction = 0;
 
     if(isStarted_Timer(data->shop->timerMessage)){
         if(getTime_Timer(data->shop->timerMessage) > 3) {
@@ -21,6 +14,19 @@ extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
             strcpy(data->shop->messageAction,"");
         }
     }
+
+    if(data->shop->askTransaction != -1 || action == I_ENTER) {
+        moveConfirmCursor(data);
+        data->shop->askAction = I_NONE;
+    } else if(action != I_NONE && action != I_LEAVE) {
+        //Moving
+        moveShopSelector(data);
+        data->shop->askAction = I_NONE;
+    } else if (action == I_LEAVE) {
+        data->shop->askAction = I_NONE;
+        display_SceneCollector(engine, data, "lobby");
+    }
+
 }
 
 //Cursor displacement (right: 1; left: -1; down: 10; up: -10)

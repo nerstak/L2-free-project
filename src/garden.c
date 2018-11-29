@@ -28,6 +28,8 @@ extern void doAction_Garden(Data* data) {
             break;
         }
         case 3: {
+            data->lobby->actionProcess = SHOP;
+            data->lobby->askMove = 0;
             break;
         }
         default: {
