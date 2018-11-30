@@ -18,14 +18,36 @@ extern void MovePlayer(Data* data, Tiles** map)
 
     ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange); //Dampens and caps velocity
     ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange);
+
+    if(data->Isaac->combat->step!=0)
+    {
+        DampenMovement(data->Isaac->movement);
+    }
+
+
     CheckObstacle(data, timechange, data->Isaac->current_stats->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
 
     data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->current_stats->speed; //actually changes the character's movement according to the velocity we done got
     data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->current_stats->speed; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
 
+    setPlayerHitbox(data->Isaac->movement);
+
     ProcessAnimation(data->Isaac->movement,timechange,data->Isaac->current_stats->speed);// takes care of the character's animation
 
     SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox); //selects the appropriate section of the spritesheet to display
+
+
+
+    //after this is temp
+    SDL_Rect dummy;
+    dummy.x=960;
+    dummy.y=256;
+    dummy.h=64;
+    dummy.w=64;
+    if(BoxCollision(&dummy,data->Isaac->movement->Hitbox))
+    {
+        printf("\n           DAMAGED\n");
+    }
 }
 
 extern void ProcessVelocity(float* v,int t)
@@ -151,4 +173,18 @@ extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH) {
     if((Ypos + Vy + 128) < (deltaH) || (Ypos + Vy) >(h - data->Isaac->movement->SpriteBox->h + deltaH)) {
         data->Isaac->movement->velocity->y = 0;
     }
+}
+
+extern void setPlayerHitbox(MovementValues * move)
+{
+    move->Hitbox->x=move->pos->x;
+    move->Hitbox->y=move->pos->y + 32;
+}
+
+
+
+extern void DampenMovement(MovementValues * move)
+{
+    move->velocity->x*=0.6;
+    move->velocity->y*=0.6;
 }

@@ -28,16 +28,15 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
     }
 
 
-    if(data->lobby->askCombat!=-1)
-    {
-        ProcessCombat(data,data->lobby->askCombat);
-    }
-
 
     if(data->lobby->actionProcess == NONE){
         if(data->lobby->askAction == 1 ){
             doAction_Garden(data);
         } else {
+            if(data->lobby->askCombat!=-1)
+            {
+                ProcessCombat(data,data->lobby->askCombat);
+            }
             MovePlayer(data, data->lobby->layout->map);
         }
     } else {
