@@ -21,7 +21,9 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                 switch (event.key.keysym.sym) {
                     case SDLK_UP: {
                         if(data->lobby->askCombat==-1)
+                        {
                             data->lobby->askCombat = 1;
+                        }
                         break;
                     }
                     case SDLK_DOWN: {
@@ -66,7 +68,8 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
         }
     }
 
-    if( (keystate[SDLK_w] || keystate[SDLK_a] || keystate[SDLK_s] || keystate[SDLK_d]) && data->lobby->askCombat==-1) {
+
+    if( (keystate[SDLK_w] || keystate[SDLK_a] || keystate[SDLK_s] || keystate[SDLK_d])) {
         if(keystate[SDLK_w]) {
             data->Isaac->movement->velocity->y -= Vchange;
         }
