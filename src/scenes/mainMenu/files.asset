@@ -1,3 +1,3 @@
-src/gfx/menu/main_bg.png menu/main_bg
-src/gfx/menu/main_cursorSingle.png menu/main_cursorSingle
-src/gfx/menu/main_cursorDouble.png menu/main_cursorDouble
+src/resources/gfx/scenes/mainMenu/main_bg.png menu/main_bg
+src/resources/gfx/scenes/mainMenu/main_cursorSingle.png menu/main_cursorSingle
+src/resources/gfx/scenes/mainMenu/main_cursorDouble.png menu/main_cursorDouble

@@ -1,10 +1,9 @@
 #include <stdlib.h>
-#include <stdio.h>
 
-#include "src/launch.h"
+#include "src/window.h"
 
-int main() {
-    launch();
+int main(int argc, char *argv[]) {
+    init_Window();
 
     return 0;
 }

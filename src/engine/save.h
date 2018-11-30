@@ -1,14 +1,14 @@
 #ifndef FREE_PROJECT_ENGINE_SAVE_H
 #define FREE_PROJECT_ENGINE_SAVE_H
 
-#include "../data.h"
+#include "data.h"
 
 /**
  * Initialise the values of the Game
  * @param saveName String of the save we want to open (extension included)
  * @param data Pointer of Data Object
  */
-extern void initGame(char* saveName, Data* data);
+extern int initGame(char* saveName, Data* data);
 
 /**
  * Write the save using info of the Game

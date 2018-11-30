@@ -3,7 +3,7 @@
 
 #include <SDL/SDL_video.h>
 
-#include "../../asset.h"
+#include "../asset.h"
 
 typedef struct Image {
     char name[255];

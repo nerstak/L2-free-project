@@ -1,5 +1,5 @@
 #include "lobby.h"
-#include "../../plants.h"
+#include "../../engine/game/plants.h"
 
 
 extern void assets_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {

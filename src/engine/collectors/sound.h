@@ -3,7 +3,7 @@
 
 #include <SDL/SDL_mixer.h>
 
-#include "../../asset.h"
+#include "../asset.h"
 
 enum audioType {SOUND = 0, MUSIC = 1};
 

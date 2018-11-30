@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 #include <SDL/SDL.h>
-#include "../../data.h"
+#include "../data.h"
 
 typedef struct SceneCollector {
     size_t size;

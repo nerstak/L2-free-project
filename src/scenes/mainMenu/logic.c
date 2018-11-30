@@ -29,16 +29,19 @@ static void enterMainMenu(Data* data, Engine* engine) {
     switch(getCurrentMainMenuSelector(data)) {
         case 0:
             //New game
-            initGame("", data);
-            display_SceneCollector(engine,data,"lobby");
+            if(initGame("", data)) {
+                display_SceneCollector(engine,data,"lobby");
+            }
             break;
         case 1:
             //Load game
-            initGame("save1.save", data);
-            display_SceneCollector(engine,data,"lobby");
+            if(initGame("save1.save", data)) {
+                display_SceneCollector(engine,data,"lobby");
+            }
             break;
         case 2:
             //Settings, not functional
+            display_SceneCollector(engine, data, "options");
             break;
         case 3:
             //Leave game

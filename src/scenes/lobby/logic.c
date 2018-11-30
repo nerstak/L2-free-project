@@ -1,6 +1,6 @@
 #include "logic.h"
-#include "../../movement.h"
-#include "../../garden.h"
+#include "../../engine/game/movement.h"
+#include "../../engine/game/garden.h"
 
 extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
 {

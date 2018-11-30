@@ -19,7 +19,7 @@ extern void renderScene_Scene_loadingScreen(SDL_Surface* window, Engine* engine,
     loadingScreenSurfacePos.x = 0;
     loadingScreenSurfacePos.y = 0;
 
-    loadSurface(loadingScreenSurface, window, loadingScreenSurfacePos);
+    applySurface_Window(loadingScreenSurface, window, loadingScreenSurfacePos);
 
     SDL_FreeSurface(loadingScreenSurface);
 }
