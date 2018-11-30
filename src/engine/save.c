@@ -47,7 +47,7 @@ extern int initGame(char* saveName, Data* data) {
 }
 
 static int isSavePresent(char* saveName, Data* data) {
-    FILE * saveFile;
+    FILE* saveFile = NULL;
     char temp[50];
 
     //Chose the right file to open
@@ -62,7 +62,6 @@ static int isSavePresent(char* saveName, Data* data) {
         fclose(saveFile);
         return 1;
     } else {
-        fclose(saveFile);
         return 0;
     }
 }
