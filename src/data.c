@@ -8,6 +8,7 @@ static void clean_inventory_Data(inventory_t** inventory);
 static void clean_shop_Data(shop_t** shop);
 static void clean_field_Data(field_t** field);
 static void clean_lobby_Data(lobby_t** lobby);
+static void clean_options_Data(options_t** options);
 
 extern Data* init_Data() {
     // Initialization of a SceneCollector pointer
@@ -26,6 +27,7 @@ extern Data* init_Data() {
     myData->mainMenu = NULL;
     myData->shop = NULL;
     myData->field = NULL;
+    myData->options = NULL;
 
     //Loading of the reference
     myData->referenceItems = NULL;
@@ -56,6 +58,9 @@ extern void clean_Data(Data** myData) {
     }
     if((*myData)->lobby != NULL) {
         clean_lobby_Data(&((*myData)->lobby));
+    }
+    if((*myData)->options != NULL) {
+        clean_options_Data(&(*myData)->options);
     }
 
 
@@ -112,4 +117,9 @@ static void clean_lobby_Data(lobby_t** lobby) {
     if((*lobby)->layout != NULL) {
         freeSingleLayout(&((*lobby)->layout));
     }
+}
+
+static void clean_options_Data(options_t** options) {
+    free(*options);
+    (*options) = NULL;
 }
