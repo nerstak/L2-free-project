@@ -1,9 +1,9 @@
 #include "render.h"
 #include "../../window.h"
 
-static SDL_Surface* getOptionsScreen(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
+static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
 
-static SDL_Surface* getOptionsScreen(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
     SDL_Surface* options = NULL;
     options = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
@@ -28,15 +28,15 @@ static SDL_Surface* getOptionsScreen(ImageCollector* myImageCollector, FontColle
     return options;
 }
 
-extern void renderScene_Scene_optionsScreen(SDL_Surface* window, Engine* engine, Data* data) {
-    SDL_Surface* optionsScreenSurface = NULL;
-    optionsScreenSurface = getOptionsScreen(engine->imageCollector, engine->fontCollector, data);
+extern void renderScene_Scene_options(SDL_Surface* window, Engine* engine, Data* data) {
+    SDL_Surface* optionsSurface = NULL;
+    optionsSurface = getOptions(engine->imageCollector, engine->fontCollector, data);
 
-    SDL_Rect optionsScreenSurfacePos;
-    optionsScreenSurfacePos.x = 0;
-    optionsScreenSurfacePos.y = 0;
+    SDL_Rect optionsSurfacePos;
+    optionsSurfacePos.x = 0;
+    optionsSurfacePos.y = 0;
 
-    applySurface_Window(optionsScreenSurface, window, optionsScreenSurfacePos);
+    applySurface_Window(optionsSurface, window, optionsSurfacePos);
 
-    SDL_FreeSurface(optionsScreenSurface);
+    SDL_FreeSurface(optionsSurface);
 }

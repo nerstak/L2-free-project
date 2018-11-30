@@ -41,6 +41,7 @@ static void enterMainMenu(Data* data, Engine* engine) {
             break;
         case 2:
             //Settings, not functional
+            display_SceneCollector(engine, data, "options");
             break;
         case 3:
             //Leave game

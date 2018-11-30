@@ -1,6 +1,6 @@
 #include "options.h"
 
-extern void assets_Scene_optionsScreen(Engine* engine, Data* data, bool loadOrUnload) {
+extern void assets_Scene_options(Engine* engine, Data* data, bool loadOrUnload) {
     Asset* assetsList = getList_Asset("src/scenes/options/files.asset");
 
     if (loadOrUnload == true) {
@@ -12,7 +12,7 @@ extern void assets_Scene_optionsScreen(Engine* engine, Data* data, bool loadOrUn
     clean_Asset(&assetsList);
 }
 
-extern void init_Scene_optionsScreen(Engine* engine, Data* data, bool loadOrUnload) {
+extern void init_Scene_options(Engine* engine, Data* data, bool loadOrUnload) {
     if (loadOrUnload == true) {
         data->options = NULL;
         data->options = malloc(1 * sizeof(options_t));
@@ -22,7 +22,7 @@ extern void init_Scene_optionsScreen(Engine* engine, Data* data, bool loadOrUnlo
             exit(EXIT_FAILURE);
         }
 
-        data->options->askAction = 0;
+        data->options->askAction = O_NONE;
         data->options->nSelected = 0;
         data->options->nTypeSelected = 0;
     } else {
