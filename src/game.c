@@ -19,12 +19,6 @@
 #include "scenes/shop/shop.h"
 #include "scenes/test/test.h"
 
-#include "structures/scene.h"
-
-/**
- * Global variables (use with caution please)
- */
-
 extern void gameLoop(SDL_Surface* window) {
     SDL_Event event;
 

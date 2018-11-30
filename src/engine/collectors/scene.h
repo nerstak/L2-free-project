@@ -7,6 +7,28 @@
 #include <SDL/SDL.h>
 #include "../data.h"
 
+struct Engine;
+
+enum sceneType {SCENE = 1, OVERLAY = 2};
+
+typedef struct Scene {
+    char name[255];
+    int type;
+
+    SDL_Surface* surface;
+
+    /**
+     * Functions
+     */
+    void (*renderScene)(SDL_Surface* window, struct Engine* engine, Data* data);
+    void (*logicProcess)(struct Engine* engine, Data* data);
+    void (*eventProcess)(SDL_Event event, struct Engine* engine, Data* data);
+    void (*assets)(struct Engine* engine, Data* data, bool loadOrUnload);
+    void (*init)(struct Engine* engine, Data* data, bool loadOrUnlaod);
+
+    struct Scene* next;
+} Scene;
+
 typedef struct SceneCollector {
     size_t size;
     struct Scene* previousScene;
@@ -14,8 +36,6 @@ typedef struct SceneCollector {
     struct Scene* loadingScene;
     struct Scene* scenes;
 } SceneCollector;
-
-struct Engine;
 
 extern SceneCollector* init_SceneCollector();
 extern void clean_SceneCollector(SceneCollector** mySceneCollector);

@@ -1,5 +1,6 @@
 #include "scene.h"
-#include "../../structures/scene.h"
+
+#include "../main.h"
 
 static void add_Scene(SceneCollector* mySceneCollector, Scene* myScene);
 static void remove_Scene(SceneCollector* mySceneCollector, Scene* myScene);
