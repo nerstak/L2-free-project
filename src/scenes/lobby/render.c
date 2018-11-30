@@ -12,8 +12,14 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     SDL_Surface* PlayerSprite=NULL;
 
+    SDL_Surface* FightSprite=NULL;
+
     SDL_Rect bgPos;
     SDL_Rect playerPos;
+
+    bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
+    PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
+    FightSprite = get_ImageCollector(myImageCollector, "lobby/scythe")->surface;
 
     bgPos.x = 0;
     bgPos.y = 0;
@@ -207,6 +213,17 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     }
 
 
+    if(data->lobby->askCombat!=-1)
+    {
+        playerPos.y-=32;
+        playerPos.x-=64;
+
+        SDL_BlitSurface(FightSprite, data->Isaac->combat->SpriteBox, lobbySurface, &playerPos);
+    }
+    else
+    {
+        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+    }
 
     return lobbySurface;
 }
