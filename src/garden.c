@@ -107,9 +107,9 @@ static void test_plant(Data* data) {
 }
 
 extern void processField_Garden(Data* data) {
-    // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
+    // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->idVegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
 
-    if (data->lobby->actualPlant->vegetable == 0) {
+    if (data->lobby->actualPlant->idVegetable == -1) {
         data->lobby->actionProcess = PLANT; // plant ?
     } else if (data->lobby->actualPlant->dayLeft == 0) {
         data->lobby->actionProcess = GOTO_DUNGEON; //go to dj?
@@ -151,17 +151,18 @@ extern void menuSelectionPlanting_Garden(Data* data) {
             data->lobby->askMove = 0;
         }
     } else if (data->lobby->askAction == 1) {
+        //TODO: Adapt the ID of vegetables, and check inside the inventory
         if (data->lobby->askMove == 0) {
-            data->lobby->actualPlant->vegetable = 1;
+            data->lobby->actualPlant->idVegetable = 1;
             data->lobby->actualPlant->dayLeft = 3;
 
-            // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->vegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
+            // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->idVegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
         } else if (data->lobby->askMove == 1) {
             data->lobby->actualPlant->dayLeft = 3;
-            data->lobby->actualPlant->vegetable = 2;
+            data->lobby->actualPlant->idVegetable = 2;
         } else if(data->lobby->askMove == 2) {
             data->lobby->actualPlant->dayLeft = 3;
-            data->lobby->actualPlant->vegetable = 3 ;
+            data->lobby->actualPlant->idVegetable = 3 ;
         } else if(data->lobby->askMove == 3) {
 
         }
@@ -177,3 +178,4 @@ extern void menuNotReady_Garden(Data* data) {
         data->lobby->actionProcess = NONE;
     }
 }
+

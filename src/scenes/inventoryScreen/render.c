@@ -14,7 +14,6 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     TTF_Font* font2 = NULL;
     font2 = get_FontCollector(myFontCollector, "menu/40")->font;
     SDL_Color black = {0, 0, 0, 0};
-    SDL_Color white = {255, 255, 255, 0};
 
     //Surfaces init
     SDL_Surface* layout = NULL;
@@ -75,14 +74,20 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
         SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
     }
 
-    //Money Blit
-    sprintf(dialog,"%d",data->Isaac->money);
-    dialogInfo = TTF_RenderText_Solid(font2, dialog, black);
+    //Money && Dungeons Beaten Blit
+    for(int i = 0; i < 2; i++) {
+        if(i == 0) {
+            sprintf(dialog,"%d",data->Isaac->money);
+            dialogInfoPos.x = 880;
+        } else {
+            sprintf(dialog,"%d",data->Isaac->gameStats->dungeons);
+            dialogInfoPos.x = 1000;
+        }
+        dialogInfoPos.y = 550;
+        dialogInfo = TTF_RenderText_Solid(font2, dialog, black);
 
-    dialogInfoPos.x = 880;
-    dialogInfoPos.y = 550;
-
-    SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
+        SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
+    }
 
     //Frames blit
     for(int i = 0; i < data->Isaac->size_inventory; i++) {
