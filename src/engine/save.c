@@ -4,6 +4,8 @@
 
 #include "save.h"
 
+static int isSavePresent(char* saveName, Data* data);
+
 /**
  * Read the common value of the Player Object
  * @param data Pointer of Data Object
@@ -25,18 +27,44 @@ static void readGarden(FILE* saveFile, Data* data);
 static void readInventory(FILE* saveFile, Data* data);
 
 //Init of the game and the save
-extern void initGame(char* saveName, Data* data) {
-    //Loading of the reference
-    data->referenceItems = loadReferenceItems();
+extern int initGame(char* saveName, Data* data) {
+    if(isSavePresent(saveName, data) == 1) {
+        //Loading of the reference
+        data->referenceItems = loadReferenceItems();
 
-    //Loading player
-    data->Isaac = initPlayer();
+        //Loading player
+        data->Isaac = initPlayer();
 
-    strcpy(data->Isaac->save_name,saveName);
+        strcpy(data->Isaac->save_name,saveName);
 
-    loadPlayer(data);
-    data->field = initField();
-    readSave(data);
+        loadPlayer(data);
+        data->field = initField();
+        readSave(data);
+        return 1;
+    }
+
+    return 0;
+}
+
+static int isSavePresent(char* saveName, Data* data) {
+    FILE * saveFile;
+    char temp[50];
+
+    //Chose the right file to open
+    if(strcmp(saveName,"") == 0) {
+        saveFile = fopen("src/data/save/basic.save","r");
+    } else {
+        sprintf(temp,"saves/%s",saveName);
+        saveFile = fopen(temp, "r");
+    }
+
+    if(saveFile) {
+        fclose(saveFile);
+        return 1;
+    } else {
+        fclose(saveFile);
+        return 0;
+    }
 }
 
 //Write important data inside the file
