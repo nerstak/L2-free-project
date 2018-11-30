@@ -1,6 +1,6 @@
 #include <time.h>
 #include "test.h"
-#include "../../dungeon/generator.h"
+#include "../../engine/game/dungeon/generator.h"
 
 extern void assets_Scene_test(Engine* engine, Data* data, bool loadOrUnload) {}
 

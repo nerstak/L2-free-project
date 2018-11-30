@@ -88,7 +88,7 @@ extern void renderScene_Scene_mainMenu(SDL_Surface* window, Engine* engine, Data
     mainMenuSurfacePos.x = 0;
     mainMenuSurfacePos.y = 0;
 
-    loadSurface(mainMenuSurface, window, mainMenuSurfacePos);
+    applySurface_Window(mainMenuSurface, window, mainMenuSurfacePos);
 
     SDL_FreeSurface(mainMenuSurface);
 }

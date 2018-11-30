@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <SDL/SDL.h>
 
-#include "../data.h"
+#include "../engine/data.h"
 #include "../engine/main.h"
 
 enum sceneType {SCENE = 1, OVERLAY = 2};

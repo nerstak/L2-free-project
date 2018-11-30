@@ -214,7 +214,7 @@ extern void renderScene_Scene_lobby(SDL_Surface* window, Engine* engine, Data* d
     lobbySurfacePos.x = 0;
     lobbySurfacePos.y = 0;
 
-    loadSurface(lobbySurface, window, lobbySurfacePos);
+    applySurface_Window(lobbySurface, window, lobbySurfacePos);
 
     SDL_FreeSurface(lobbySurface);
 }

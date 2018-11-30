@@ -1,7 +1,7 @@
-#include <stdbool.h>
+#ifndef FREE_PROJECT_ENGINE_TIMER_H
+#define FREE_PROJECT_ENGINE_TIMER_H
 
-#ifndef FREE_PROJECT_TIMER_H
-#define FREE_PROJECT_TIMER_H
+#include <stdbool.h>
 
 typedef struct Timer {
     int startTicks;
@@ -26,4 +26,4 @@ extern bool isPaused_Timer(Timer* myTimer);
 
 extern float getTime_Timer(Timer* myTimer);
 
-#endif //FREE_PROJECT_TIMER_H
+#endif //FREE_PROJECT_ENGINE_TIMER_H

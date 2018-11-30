@@ -1,4 +1,7 @@
 #include "game.h"
+
+#include <SDL/SDL.h>
+
 #include "window.h"
 
 #include "engine/main.h"
@@ -8,22 +11,19 @@
 #include "engine/collectors/scene.h"
 #include "engine/collectors/sound.h"
 
-#include "scenes/inventoryScreen/inventoryScreen.h"
-#include "scenes/mainMenu/mainMenu.h"
 #include "scenes/loadingScreen/loadingScreen.h"
-#include "scenes/shopScreen/shopScreen.h"
-#include "scenes/test/test.h"
+#include "scenes/mainMenu/mainMenu.h"
+#include "scenes/options/options.h"
 #include "scenes/lobby/lobby.h"
-#include "scenes/options/optionsScreen.h"
+#include "scenes/inventory/inventory.h"
+#include "scenes/shop/shop.h"
+#include "scenes/test/test.h"
 
 #include "structures/scene.h"
-
-#include <SDL/SDL.h>
 
 /**
  * Global variables (use with caution please)
  */
-int Game_stop = 1; // External
 
 extern void gameLoop(SDL_Surface* window) {
     SDL_Event event;
@@ -36,13 +36,13 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Initializing FontCollector
     FontCollector* myFontCollector = init_FontCollector();
-    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 65, "menu/65");
-    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 40, "menu/40");
-    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 20, "menu/20");
-    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 25, "menu/25");
-    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 30, "menu/30");
-    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 50, "menu/50");
-    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 35, "menu/35");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 20, "menu/20");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 25, "menu/25");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 30, "menu/30");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 35, "menu/35");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 40, "menu/40");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 50, "menu/50");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 65, "menu/65");
 
     // Initializing SoundCollector
     SoundCollector* mySoundCollector = init_SoundCollector();

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #include "../../engine/collectors/image.h"
-#include "../../data.h"
+#include "../../engine/data.h"
 
 #include "event.h"
 #include "logic.h"

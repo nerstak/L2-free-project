@@ -1,4 +1,6 @@
 #ifndef FREE_PROJECT_ENGINE_CONFIG_H
 #define FREE_PROJECT_ENGINE_CONFIG_H
 
+extern int alterKey();
+
 #endif //FREE_PROJECT_CONFIG_H

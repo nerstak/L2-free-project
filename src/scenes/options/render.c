@@ -36,7 +36,7 @@ extern void renderScene_Scene_optionsScreen(SDL_Surface* window, Engine* engine,
     optionsScreenSurfacePos.x = 0;
     optionsScreenSurfacePos.y = 0;
 
-    loadSurface(optionsScreenSurface, window, optionsScreenSurfacePos);
+    applySurface_Window(optionsScreenSurface, window, optionsScreenSurfacePos);
 
     SDL_FreeSurface(optionsScreenSurface);
 }
