@@ -65,7 +65,7 @@ extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* si
     SlotInventory *shop_inv = NULL;
     int quantity, id;
     FILE * file;
-    file = fopen("src/data/shop/shop.data","r");
+    file = fopen("src/data/items/shop.data","r");
     if(file) {
         while(fscanf(file,"%d;%d\n",&id,&quantity) != EOF && *size < 16) {
             add_SlotInventory(&shop_inv, create_SlotInventory(id,quantity,referenceItems), size);

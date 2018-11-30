@@ -1,4 +1,4 @@
-src/gfx/interface/shop_layout.png shop/interface
-src/gfx/interface/frame.png shop/frame
-src/gfx/interface/frame_selected.png shop/frameSelected
-src/gfx/interface/confirm_layout.png shop/confirm
+src/resources/gfx/scenes/interface/shop_layout.png shop/interface
+src/resources/gfx/scenes/interface/frame.png shop/frame
+src/resources/gfx/scenes/interface/frame_selected.png shop/frameSelected
+src/resources/gfx/scenes/interface/confirm_layout.png shop/confirm

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "layout.h"
-#include "player.h"
+#include "../player.h"
 
 extern Layout* loadSingleLayout(char* environment, char* name) {
     FILE* file;

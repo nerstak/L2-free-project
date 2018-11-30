@@ -52,7 +52,7 @@ static int isSavePresent(char* saveName, Data* data) {
 
     //Chose the right file to open
     if(strcmp(saveName,"") == 0) {
-        saveFile = fopen("src/data/save/basic.save","r");
+        saveFile = fopen("src/data/player/basic.save","r");
     } else {
         sprintf(temp,"saves/%s",saveName);
         saveFile = fopen(temp, "r");
@@ -97,7 +97,7 @@ extern void readSave(Data* data) {
 
     //Chose the right file to open
     if(strcmp(data->Isaac->save_name,"") == 0) {
-        saveFile = fopen("src/data/save/basic.save","r");
+        saveFile = fopen("src/data/player/basic.save","r");
         strcpy(data->Isaac->save_name,"save1.save");
     } else {
         sprintf(temp,"saves/%s",data->Isaac->save_name);

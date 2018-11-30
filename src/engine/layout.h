@@ -1,7 +1,7 @@
 #ifndef FREE_PROJECT_LAYOUT_H
 #define FREE_PROJECT_LAYOUT_H
 
-#include "player.h"
+#include "../player.h"
 
 typedef struct Tiles{
     char type;

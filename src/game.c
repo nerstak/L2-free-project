@@ -35,13 +35,13 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Initializing FontCollector
     FontCollector* myFontCollector = init_FontCollector();
-    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 65, "menu/65");
-    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 40, "menu/40");
-    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 20, "menu/20");
-    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 25, "menu/25");
-    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 30, "menu/30");
-    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 50, "menu/50");
-    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 35, "menu/35");
+    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 65, "menu/65");
+    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 40, "menu/40");
+    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 20, "menu/20");
+    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 25, "menu/25");
+    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 30, "menu/30");
+    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 50, "menu/50");
+    load_FontCollector(myFontCollector, "src/resources/fonts/menu.ttf", 35, "menu/35");
 
     // Initializing SoundCollector
     SoundCollector* mySoundCollector = init_SoundCollector();

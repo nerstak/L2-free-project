@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "../timer.h"
+#include "timer.h"
 
 typedef struct Fps {
     Timer* limiter;

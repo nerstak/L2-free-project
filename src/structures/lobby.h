@@ -1,7 +1,7 @@
 #ifndef FREE_PROJECT_STRUCTURES_LOBBY_H
 #define FREE_PROJECT_STRUCTURES_LOBBY_H
 
-#include "../layout.h"
+#include "../engine/layout.h"
 
 enum actionLobby {NONE = 0, INVENTORY = 100, SLEEP = 1, GARDEN = 2, PLANT = 21, GOTO_DUNGEON = 22, WAIT = 23, SHOP = 3};
 

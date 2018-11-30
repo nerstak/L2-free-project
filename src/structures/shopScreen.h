@@ -2,7 +2,7 @@
 #define FREE_PROJECT_STRUCTURES_SHOP_H
 
 #include "../inventory.h"
-#include "../timer.h"
+#include "../engine/timer.h"
 
 typedef struct shop_t {
     int askAction;
