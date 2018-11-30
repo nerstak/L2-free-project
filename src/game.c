@@ -14,6 +14,7 @@
 #include "scenes/shopScreen/shopScreen.h"
 #include "scenes/test/test.h"
 #include "scenes/lobby/lobby.h"
+#include "scenes/options/optionsScreen.h"
 
 #include "structures/scene.h"
 

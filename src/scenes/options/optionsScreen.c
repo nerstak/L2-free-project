@@ -23,6 +23,8 @@ extern void init_Scene_optionsScreen(Engine* engine, Data* data, bool loadOrUnlo
         }
 
         data->options->askAction = 0;
+        data->options->nSelected = 0;
+        data->options->nTypeSelected = 0;
     } else {
         free(data->options);
         data->options = NULL;
