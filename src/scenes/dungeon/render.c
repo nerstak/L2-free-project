@@ -129,6 +129,6 @@ static void renderKeys(SDL_Surface* window, Engine* engine, Data* data) {
 }
 
 
-extern void renderScene_Scene_Dungeon(SDL_Surface* window, Engine* engine, Data* data) {
+extern void renderScene_Scene_dungeon(SDL_Surface* window, Engine* engine, Data* data) {
     renderUI(window, engine, data);
 }

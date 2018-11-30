@@ -1,6 +1,6 @@
 #include "event.h"
 
-extern void eventProcess_Scene_Dungeon(SDL_Event event, Engine* engine, Data* data) {
+extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* data) {
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_KEYDOWN: {
