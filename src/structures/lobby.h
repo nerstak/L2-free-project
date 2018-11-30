@@ -9,6 +9,7 @@ typedef struct lobby_t{
     Layout* layout;
     int askAction;
     int askMove;
+    int askCombat;
     int actionProcess;
     int counterPressKey;
     int counterPressKeyMove;

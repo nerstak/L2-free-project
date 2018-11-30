@@ -27,6 +27,7 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->layout = loadSingleLayout("lobby","lobby");
         data->lobby->actualPlant = NULL;
         data->lobby->askAction = 0;
+        data->lobby->askCombat = -1;
         data->lobby->actionProcess = NONE;
         data->lobby->counterPressKey = 0;
         data->lobby->counterPressKeyMove = 0;

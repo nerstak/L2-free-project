@@ -69,6 +69,22 @@ extern Player* initPlayer() {
     Isaac->movement->step = 0;
     Isaac->movement->direction = 0;
 
+    Isaac->combat=malloc(sizeof(CombatValues));
+    if(!Isaac->combat) {
+        printf("Fail to init combat of player.");
+        exit(EXIT_FAILURE);
+    }
+
+
+    Isaac->combat->SpriteBox=malloc(sizeof(SDL_Rect));
+    if(!Isaac->combat) {
+        printf("Fail to init combat SpriteBox of player.");
+        exit(EXIT_FAILURE);
+    }
+
+    Isaac->combat->direction=-1;
+    Isaac->combat->step=0;
+
     return Isaac;
 }
 

@@ -1,5 +1,6 @@
 #include "logic.h"
 #include "../../movement.h"
+#include "../../combat.h"
 #include "../../garden.h"
 
 extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
@@ -25,6 +26,12 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
     }
     else if ( data->lobby->counterPressKeyMove == -1 ){
         data->lobby->askMove --;
+    }
+
+
+    if(data->lobby->askCombat!=-1)
+    {
+        ProcessCombat(data,data->lobby->askCombat);
     }
 
 
