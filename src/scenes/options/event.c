@@ -12,6 +12,26 @@ extern void eventProcess_Scene_options(SDL_Event event, Engine* engine, Data* da
                         data->options->askAction = O_LEAVE;
                         break;
                     }
+                    case SDLK_LEFT: {
+                        data->options->askAction = O_LEFT;
+                        break;
+                    }
+                    case SDLK_RIGHT: {
+                        data->options->askAction = O_RIGHT;
+                        break;
+                    }
+                    case SDLK_UP: {
+                        data->options->askAction = O_UP;
+                        break;
+                    }
+                    case SDLK_DOWN: {
+                        data->options->askAction = O_DOWN;
+                        break;
+                    }
+                    case SDLK_BACKSPACE: {
+                        data->options->askAction = O_ENTER;
+                        break;
+                    }
                     default:
                         break;
                 }

@@ -42,7 +42,6 @@ extern void eventProcess_Scene_inventory(SDL_Event event, Engine* engine, Data* 
 
                 break;
             }
-
             default: {
                 break;
             }

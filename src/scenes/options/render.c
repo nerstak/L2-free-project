@@ -9,12 +9,14 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
 
     SDL_Surface* bg = NULL;
 
+    /*
     TTF_Font* font1 = NULL;
     TTF_Font* font2 = NULL;
 
     font1 = get_FontCollector(myFontCollector, "menu/65")->font;
     font2 = get_FontCollector(myFontCollector, "menu/40")->font;
     SDL_Color black = {0, 0, 0, 0};
+    */
 
     SDL_Rect bgPos;
 

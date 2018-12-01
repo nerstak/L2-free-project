@@ -21,7 +21,6 @@ extern void init_Scene_options(Engine* engine, Data* data, bool loadOrUnload) {
             printf("An error occured while initializing a options_t object\n");
             exit(EXIT_FAILURE);
         }
-
         data->options->askAction = O_NONE;
         data->options->nSelected = 0;
         data->options->nTypeSelected = 0;
