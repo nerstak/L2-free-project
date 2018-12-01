@@ -41,10 +41,6 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
         selectionPos.y = 414 + (data->options->nSelected / 2) * 40;
     }
 
-
-
-
-
     SDL_BlitSurface(selection, NULL, options, &selectionPos);
 
     return options;

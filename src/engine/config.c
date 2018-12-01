@@ -6,7 +6,7 @@
 #include "main.h"
 #include "config.h"
 
-extern void setVolume(char* type, int newVolume) {
+extern void setVolume(Engine* engine, char* type, int newVolume) {
     if(newVolume < 0) {
         newVolume = 0;
     } else if (newVolume > 100) {
@@ -14,7 +14,9 @@ extern void setVolume(char* type, int newVolume) {
     }
     if(strcmp(type,"music") == 0) {
         Mix_VolumeMusic(newVolume/100 * 128);
+        engine->volumeMusic = newVolume;
     } else if(strcmp(type, "sfx") == 0) {
+        engine->volumeSFX = newVolume;
         Mix_Volume(-1, newVolume/100 * 128);
     }
 }
@@ -42,8 +44,9 @@ extern void readConfig(Engine* engine) {
 
         fclose(cfgFile);
 
-        setVolume("sfx",engine->volumeSFX);
-        setVolume("music",engine->volumeMusic);
+        setMaxFps_Fps(engine->fps,true,engine->fps->maxFps);
+        setVolume(engine,"sfx",engine->volumeSFX);
+        setVolume(engine,"music",engine->volumeMusic);
     }
 }
 

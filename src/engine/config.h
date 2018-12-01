@@ -3,10 +3,11 @@
 
 /**
  * Define the volume of the game
+ * @param engine a pointer of Engine Object
  * @param type a string. Either "sfx", either "music"
  * @param newVolume an int corresponding to the new volume. From 0 to 100
  */
-extern void setVolume(char* type, int newVolume);
+extern void setVolume(Engine* engine, char* type, int newVolume);
 
 
 /**

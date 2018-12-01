@@ -16,7 +16,7 @@ extern Engine* init_Engine() {
     p->fontCollector = NULL;
     p->sceneCollector = NULL;
     p->fps = NULL;
-    p->keys = initKeys();
+    p->keys = NULL;
 
     return p;
 }

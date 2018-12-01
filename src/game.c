@@ -19,6 +19,8 @@
 #include "scenes/shop/shop.h"
 #include "scenes/test/test.h"
 
+#include "engine/config.h"
+
 extern void gameLoop(SDL_Surface* window) {
     SDL_Event event;
 
@@ -51,6 +53,8 @@ extern void gameLoop(SDL_Surface* window) {
     myEngine->fontCollector = myFontCollector;
     myEngine->imageCollector = myImageCollector;
     myEngine->soundCollector = mySoundCollector;
+    myEngine->keys = initKeys();
+    readConfig(myEngine);
 
     // Initializing Data
     Data* myData = init_Data();
