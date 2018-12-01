@@ -1,6 +1,6 @@
 #include "event.h"
 
-
+#include "../../utils/enhancedSwitch.h"
 
 extern void eventProcess_Scene_mainMenu(SDL_Event event, Engine* engine, Data* data) {
     if(SDL_PollEvent(&event)) {
@@ -9,34 +9,28 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event, Engine* engine, Data* d
                 // Key pressed
                 int input = event.key.keysym.sym;
 
-                printf("%s\n",SDL_GetKeyName(input));
-                if(input == engine->keys->UP) {
-                    data->mainMenu->askAction = -10;
-                } else if (input == engine->keys->DOWN) {
-                    data->mainMenu->askAction = 10;
-                } else if (input == engine->keys->SELECT) {
-                    data->mainMenu->askAction = 5;
-                } else if (input == SDLK_ESCAPE) {
-                    data->stop = 0;
-                }
-
-                /*
-                switch (event.key.keysym.sym) {
-                    case SDLK_UP:
+                SWITCH(input)
+                    CASE(engine->keys->UP)
                         data->mainMenu->askAction = -10;
-                        break;
-                    case SDLK_DOWN:
+                    BREAK
+
+                    CASE(engine->keys->DOWN)
                         data->mainMenu->askAction = 10;
-                        break;
-                    case SDLK_RETURN:
+                    BREAK
+
+                    CASE(engine->keys->SELECT)
                         data->mainMenu->askAction = 5;
-                        break;
-                    case SDLK_ESCAPE:
-                        data->stop= 0;
-                        break;
-                    default:
-                        break;
-                }*/
+                    BREAK
+
+                    CASE(SDLK_ESCAPE)
+                        data->stop = 0;
+                    BREAK;
+
+                    DEFAULT
+
+                    BREAK_DEFAULT;
+                ENDSWITCH
+
                 break;
             }
             case SDL_QUIT: {
