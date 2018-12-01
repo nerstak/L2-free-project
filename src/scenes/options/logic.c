@@ -15,26 +15,33 @@ extern void logicProcess_Scene_options(Engine* engine, Data* data) {
 static void moveCursorOptions(Data* data) {
     switch(data->options->askAction) {
         case O_LEFT: {
-            if(data->options->nSelected > 0) {
+            if((data->options->nTypeSelected == 3 && data->options->nSelected % 2 != 0) || (data->options->nSelected > 0 && data->options->nTypeSelected != 3)) {
                 (data->options->nSelected)--;
             }
             break;
         }
         case O_RIGHT: {
-            if ((data->options->nTypeSelected == 3 && data->options->nSelected == 0) || (data->options->nSelected < 3 && data->options->nTypeSelected != 3)) {
+            if ((data->options->nTypeSelected == 3 && data->options->nSelected % 2 != 1) || (data->options->nSelected < 3 && data->options->nTypeSelected != 3)) {
                 (data->options->nSelected)++;
             }
             break;
         }
         case O_UP: {
             if(data->options->nTypeSelected != 0) {
-                (data->options->nTypeSelected)--;
+                if((data->options->nTypeSelected == 3 && data->options->nSelected / 2 == 0) || data->options->nTypeSelected < 3) {
+                    (data->options->nTypeSelected)--;
+                } else {
+                    (data->options->nSelected) -= 2;
+                }
+
             }
             break;
         }
         case O_DOWN: {
             if(data->options->nTypeSelected != 3) {
                 (data->options->nTypeSelected)++;
+            } else if(data->options->nSelected / 2 != 4) {
+                (data->options->nSelected) += 2;
             }
             break;
         }

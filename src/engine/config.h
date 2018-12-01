@@ -8,4 +8,17 @@
  */
 extern void setVolume(char* type, int newVolume);
 
-#endif //FREE_PROJECT_CONFIG_H
+
+/**
+ * Read the config from a file
+ * @param engine a pointer to an Engine Object
+ */
+extern void readConfig(Engine* engine);
+
+/**
+ * Write the config to a file
+ * @param engine a pointer to an Engine Object
+ */
+extern void writeConfig(Engine* engine);
+
+#endif

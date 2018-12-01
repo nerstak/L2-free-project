@@ -11,6 +11,8 @@
 typedef struct Engine {
     Fps* fps;
     referenceKey* keys;
+    int volumeSFX;
+    int volumeMusic;
 
     SceneCollector* sceneCollector;
     ImageCollector* imageCollector;

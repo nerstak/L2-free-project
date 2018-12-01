@@ -9,8 +9,16 @@ typedef struct referenceKey {
     int INVENTORY;
     int UP_ATTACK;
     int DOWN_ATTACK;
+    int LEFT_ATTACK;
     int RIGHT_ATTACK;
     int SELECT;
 }referenceKey;
+
+
+/**
+ * Initialise a referenceKey object
+ * @return a pointer of referenceKey Object
+ */
+extern referenceKey* initKeys();
 
 #endif

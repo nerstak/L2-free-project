@@ -65,3 +65,6 @@ free_project
 
 # Docs
 docs/
+
+#Ignore Std
+stdout.txt

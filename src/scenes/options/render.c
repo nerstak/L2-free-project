@@ -7,7 +7,15 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
     SDL_Surface* options = NULL;
     options = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
+    //Init surfaces
     SDL_Surface* bg = NULL;
+    SDL_Rect bgPos;
+
+    SDL_Surface* selection = NULL;
+    SDL_Rect selectionPos;
+
+    bg = get_ImageCollector(myImageCollector, "options/main_bg")->surface;
+    selection = get_ImageCollector(myImageCollector, "options/selection")->surface;
 
     /*
     TTF_Font* font1 = NULL;
@@ -18,14 +26,26 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
     SDL_Color black = {0, 0, 0, 0};
     */
 
-    SDL_Rect bgPos;
-
-    bg = get_ImageCollector(myImageCollector, "options/main_bg")->surface;
-
+    //Background blit
     bgPos.x = 0;
     bgPos.y = 0;
 
     SDL_BlitSurface(bg, NULL, options, &bgPos);
+
+    //Selection blit
+    if(data->options->nTypeSelected != 3) {
+        selectionPos.x = 563 + (data->options->nSelected) * 80;
+        selectionPos.y = 198 + (data->options->nTypeSelected) * 60;
+    } else {
+        selectionPos.x = 544 + (data->options->nSelected % 2) * 264;
+        selectionPos.y = 414 + (data->options->nSelected / 2) * 40;
+    }
+
+
+
+
+
+    SDL_BlitSurface(selection, NULL, options, &selectionPos);
 
     return options;
 }

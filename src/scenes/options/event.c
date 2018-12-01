@@ -28,7 +28,7 @@ extern void eventProcess_Scene_options(SDL_Event event, Engine* engine, Data* da
                         data->options->askAction = O_DOWN;
                         break;
                     }
-                    case SDLK_BACKSPACE: {
+                    case SDLK_RETURN: {
                         data->options->askAction = O_ENTER;
                         break;
                     }
