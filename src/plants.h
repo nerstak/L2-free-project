@@ -1,7 +1,7 @@
 #ifndef PLANTS_H_INCLUDED
 #define PLANTS_H_INCLUDED
 
-typedef struct Plant{
+typedef struct Plant{ // 0: empty 1:Carrot 2:Tomato 3:Potatoes 4: Corn 5: Eggplants
     int idVegetable;
     int x;
     int y;

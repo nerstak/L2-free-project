@@ -7,6 +7,7 @@
 #include "plants.h"
 
 static void test_plant(Data* data);
+static int ToPlant(int x, Data* data);
 
 extern void doAction_Garden(Data* data) {
     data->lobby->askAction = 0;
@@ -68,6 +69,7 @@ extern void processMenu1_Garden(Data* data) {
     } else if (data->lobby->askAction == 1) {
         if (data->lobby->askMove == 0) {
             writeSave(data);
+            DayPass(data);
         }
         else {
 
@@ -142,34 +144,63 @@ extern void menuSelectionDungeon_Garden(Data* data) {
 
 extern void menuSelectionPlanting_Garden(Data* data) {
     if (data->lobby->askAction == 0) {
-        // printf("%d",data->lobby->askMove);
-        if (data->lobby->askMove > 3) {
-            data->lobby->askMove = 3;
+        if (data->lobby->askMove > 5) {
+            data->lobby->askMove = 5;
         }
 
         if (data->lobby->askMove < 0) {
             data->lobby->askMove = 0;
         }
-    } else if (data->lobby->askAction == 1) {
-        //TODO: Adapt the ID of vegetables, and check inside the inventory
-        if (data->lobby->askMove == 0) {
-            data->lobby->actualPlant->idVegetable = 1;
-            data->lobby->actualPlant->dayLeft = 3;
-
-            // printf("%d %d %d %d ",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->idVegetable,data->lobby->actualPlant->x,data->lobby->actualPlant->y );
-        } else if (data->lobby->askMove == 1) {
-            data->lobby->actualPlant->dayLeft = 3;
-            data->lobby->actualPlant->idVegetable = 2;
-        } else if(data->lobby->askMove == 2) {
-            data->lobby->actualPlant->dayLeft = 3;
-            data->lobby->actualPlant->idVegetable = 3 ;
-        } else if(data->lobby->askMove == 3) {
-
-        }
-
-        data->lobby->actualPlant = NULL;
-        data->lobby->actionProcess = NONE;
     }
+    else if (data->lobby->askAction == 1) {
+        if (data->lobby->askMove != 5) {
+            if(ToPlant(data->lobby->askMove, data) == 1){
+                data->lobby->actionProcess = NONE;
+            }
+            else {
+                data->lobby->actionProcess = NOT_ENOUGH;
+            }
+        }
+        else if (data->lobby->askMove == 5){
+            data->lobby->actionProcess = NONE;
+        }
+        data->lobby->actualPlant = NULL;
+    }
+    //printf(" day left : %d  Vege :%d",data->lobby->actualPlant->dayLeft,data->lobby->actualPlant->idVegetable);
+}
+
+static int ToPlant(int x, Data* data){
+    SlotInventory * plant = search_SlotInventory(data->Isaac->inventory, x );
+    int q = plant->quantity;
+
+    if( q > 0){
+        switch(x){
+            case 0 :{
+                    data->lobby->actualPlant->dayLeft = 1;
+                    break;
+                    }
+            case 1 : {
+                    data->lobby->actualPlant->dayLeft = 2;
+                    break;
+                    }
+            case 2 :{
+                    data->lobby->actualPlant->dayLeft = 0;
+                    break;
+                    }
+            case 3 : {
+                    data->lobby->actualPlant->dayLeft = 3;
+                    break;
+                    }
+            case 4 :{
+                    data->lobby->actualPlant->dayLeft = 3;
+                    break;
+                    }
+        }
+        data->lobby->actualPlant->idVegetable = 1 + x ;
+        return 1;
+    }
+    return 0;
+
 }
 
 extern void menuNotReady_Garden(Data* data) {
@@ -179,3 +210,25 @@ extern void menuNotReady_Garden(Data* data) {
     }
 }
 
+extern void DayPass(Data* data){
+    for(int n=1; n<5 ; n++){
+        switch(n){
+        case 1 :data->lobby->actualPlant = data->field->plantBotLeft;
+                break;
+        case 2 :data->lobby->actualPlant = data->field->plantTopLeft;
+                break;
+        case 3:data->lobby->actualPlant = data->field->plantBotRight;
+                break;
+        case 4:data->lobby->actualPlant = data->field->plantTopRight;
+                break;
+        default:    printf("Probleme");
+                    exit(EXIT_FAILURE);
+                    break;
+        }
+        if(data->lobby->actualPlant->idVegetable != 0){
+            if(data->lobby->actualPlant->dayLeft > 0){
+                data->lobby->actualPlant->dayLeft --;
+            }
+        }
+    }
+}

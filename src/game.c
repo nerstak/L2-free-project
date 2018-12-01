@@ -43,6 +43,8 @@ extern void gameLoop(SDL_Surface* window) {
 
     // Initializing FontCollector
     FontCollector* myFontCollector = init_FontCollector();
+    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 90, "menu/90");
+    load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 75, "menu/75");
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 65, "menu/65");
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 40, "menu/40");
     load_FontCollector(myFontCollector, "src/fonts/menu.ttf", 20, "menu/20");

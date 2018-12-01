@@ -16,6 +16,14 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                         data->lobby->actionProcess = INVENTORY;
                         break;
                     }
+                    case SDLK_LEFT: {
+                        data->lobby->counterPressKeyMove = -3;
+                        break;
+                    }
+                    case SDLK_RIGHT: {
+                        data->lobby->counterPressKeyMove = 3;
+                        break;
+                    }
                     case SDLK_SPACE:
                         //Interact with shop or garden, has to be implemented
                         break;
@@ -38,21 +46,21 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                 break;
         }
     }
-    
+
     if(keystate[SDLK_w] || keystate[SDLK_a] || keystate[SDLK_s] || keystate[SDLK_d]) {
         if(keystate[SDLK_w]) {
             data->Isaac->movement->velocity->y -= Vchange;
         }
         if(keystate[SDLK_a]) {
             data->Isaac->movement->velocity->x-=Vchange;
-            data->lobby->counterPressKeyMove = -3;
+           // data->lobby->counterPressKeyMove = -3;
         }
         if(keystate[SDLK_s]) {
             data->Isaac->movement->velocity->y += Vchange;
         }
         if(keystate[SDLK_d]) {
             data->Isaac->movement->velocity->x+=Vchange;
-            data->lobby->counterPressKeyMove = 3;
+           // data->lobby->counterPressKeyMove = 3;
         }
     }
 }
