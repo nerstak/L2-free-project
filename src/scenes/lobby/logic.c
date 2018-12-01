@@ -44,7 +44,7 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
             menuSelectionPlanting_Garden(data);
         }else if(data->lobby->actionProcess == GOTO_DUNGEON){
             menuSelectionDungeon_Garden(data);
-        }else if(data->lobby->actionProcess == WAIT){
+        }else if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH){
             menuNotReady_Garden(data);
         }
 

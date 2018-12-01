@@ -274,6 +274,38 @@
 		<Unit filename="src/data/shop/shop.data">
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/dungeon/bounds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dungeon/bounds.h" />
+		<Unit filename="src/dungeon/condition.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dungeon/condition.h" />
+		<Unit filename="src/dungeon/dungeon.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dungeon/dungeon.h" />
+		<Unit filename="src/dungeon/edge.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dungeon/edge.h" />
+		<Unit filename="src/dungeon/generator.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dungeon/generator.h" />
+		<Unit filename="src/dungeon/room.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dungeon/room.h" />
+		<Unit filename="src/dungeon/roomlist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dungeon/roomlist.h" />
+		<Unit filename="src/dungeon/symbol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dungeon/symbol.h" />
 		<Unit filename="src/engine/collectors/image.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -282,6 +314,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/engine/collectors/scene.h" />
+		<Unit filename="src/engine/collectors/sound.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/engine/collectors/sound.h" />
 		<Unit filename="src/engine/collectors/ttf.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -466,6 +502,22 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scenes/shopScreen/shopScreen.h" />
+		<Unit filename="src/scenes/test/event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/test/event.h" />
+		<Unit filename="src/scenes/test/logic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/test/logic.h" />
+		<Unit filename="src/scenes/test/render.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/test/render.h" />
+		<Unit filename="src/scenes/test/test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scenes/test/test.h" />
 		<Unit filename="src/sfx/.gitkeep">
 			<Option target="Release" />
 		</Unit>
@@ -478,6 +530,26 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/timer.h" />
+		<Unit filename="src/utils/coord.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/coord.h" />
+		<Unit filename="src/utils/direction.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/direction.h" />
+		<Unit filename="src/utils/math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/math.h" />
+		<Unit filename="src/utils/queue.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/queue.h" />
+		<Unit filename="src/utils/treemap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/treemap.h" />
 		<Unit filename="src/window.c">
 			<Option compilerVar="CC" />
 		</Unit>
