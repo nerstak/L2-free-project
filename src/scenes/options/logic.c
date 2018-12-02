@@ -12,10 +12,14 @@ static void editValues(Engine* engine, Data* data);
 static void editFPS(Engine* engine, Data* data);
 static void editSound(Engine* engine, Data* data, char* type);
 
+static void alterKey(Engine* engine, Data* data);
+
 
 extern void logicProcess_Scene_options(Engine* engine, Data* data) {
-    if(data->options->askAction != O_NONE && data->options->askAction != O_LEAVE) {
+    if(data->options->askAction != O_NONE && data->options->askAction != O_LEAVE && data->options->isKeyChanging != 1) {
         moveCursorOptions(engine, data);
+    }else if(data->options->isKeyChanging == 1) {
+        alterKey(engine, data);
     }else if(data->options->askAction == O_LEAVE) {
         writeConfig(engine);
         display_SceneCollector(engine, data, "mainMenu");
@@ -56,6 +60,12 @@ static void moveCursorOptions(Engine* engine, Data* data) {
                 preSelect(engine,data);
             } else if(data->options->nSelected / 2 != 4) {
                 (data->options->nSelected) += 2;
+            }
+            break;
+        }
+        case O_ENTER: {
+            if(data->options->nTypeSelected == 3) {
+                data->options->isKeyChanging = 1;
             }
             break;
         }
@@ -160,10 +170,6 @@ static void editValues(Engine* engine, Data* data) {
             editSound(engine,data,"music");
             break;
         }
-        case 3: {
-            //Case Keys
-            break;
-        }
         default: {
             break;
         }
@@ -216,4 +222,16 @@ static void editSound(Engine* engine, Data* data, char* type) {
             break;
         }
     }
+}
+
+static void alterKey(Engine* engine, Data* data) {
+    if(data->options->newKey != SDLK_ESCAPE && data->options->newKey != SDLK_BACKSPACE && data->options->newKey != -1) {
+        alterKeyID(engine->keys, data->options->nSelected, data->options->newKey);
+        data->options->newKey = -1;
+        data->options->isKeyChanging = 0;
+    } else if (data->options->newKey != -1){
+        data->options->newKey = -1;
+        data->options->isKeyChanging = 0;
+    }
+    data->options->askAction = O_NONE;
 }

@@ -22,6 +22,8 @@ extern void init_Scene_options(Engine* engine, Data* data, bool loadOrUnload) {
             exit(EXIT_FAILURE);
         }
         data->options->askAction = O_NONE;
+        data->options->isKeyChanging = 0;
+        data->options->newKey = -1;
         data->options->nSelected = 0;
         data->options->nTypeSelected = 0;
     } else {

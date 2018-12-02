@@ -3,7 +3,7 @@
 
 #define SWITCH(var) do { int __input = var;
 #define CASE(value) if (__input == value) {
-#define BREAK return; }
+#define BREAK break; }
 #define DEFAULT if (1) {
 #define BREAK_DEFAULT }
 #define ENDSWITCH } while(0);

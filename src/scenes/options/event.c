@@ -7,7 +7,11 @@ extern void eventProcess_Scene_options(SDL_Event event, Engine* engine, Data* da
         switch (event.type) {
             case SDL_KEYDOWN: {
                 // Key pressed
-                switch (event.key.keysym.sym) {
+                int input = event.key.keysym.sym;
+                if(data->options->isKeyChanging == 1) {
+                    data->options->newKey = input;
+                }
+                switch (input) {
                     case SDLK_ESCAPE: {
                         data->options->askAction = O_LEAVE;
                         break;

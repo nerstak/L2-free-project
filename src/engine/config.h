@@ -22,4 +22,20 @@ extern void readConfig(Engine* engine);
  */
 extern void writeConfig(Engine* engine);
 
+/**
+ * Find the value of key asked with its ID (-1 if not found)
+ * @param keys pointer to a referenceKey Object
+ * @param id int. ID in the left to right, top to bottom order of settings screen
+ * @return int corresponding to the key
+ */
+extern int findKeyID(referenceKey* keys, int id);
+
+/**
+ * Edit the value of key asked with its ID if not used
+ * @param keys pointer to a referenceKey Object
+ * @param id int. ID in the left to right, top to bottom order of settings screen
+ * @param newKey int of the new value of the key (according to SDL values)
+ */
+extern void alterKeyID(referenceKey* keys, int id, int newKey);
+
 #endif
