@@ -124,17 +124,18 @@ static void applyEffect(Data* data) {
     SlotInventory* current = data->inventory->selected;
     switch(current->type) {
         case 'p': {
-            alterHealth(data->Isaac, current->characteristics->health * data->Isaac->current_stats->health, 'c');
-            alterAgility(data->Isaac, current->characteristics->agility * data->Isaac->current_stats->agility, 'c');
-            alterSpeed(data->Isaac, current->characteristics->agility * data->Isaac->current_stats->speed, 'c');
-            alterDamage(data->Isaac, current->characteristics->damage * data->Isaac->current_stats->damage, 'c');
+            //The health potions give back a certain amount of health, not depending of the player stat
+            alterHealth(data->Isaac, current->characteristics->health, 'c');
+            alterAgility(data->Isaac, current->characteristics->agility * data->Isaac->stats->current->agility, 'c');
+            alterSpeed(data->Isaac, current->characteristics->speed * data->Isaac->stats->current->speed, 'c');
+            alterDamage(data->Isaac, current->characteristics->damage * data->Isaac->stats->current->damage, 'c');
             break;
         }
         case 'v': {
-            alterHealth(data->Isaac, current->characteristics->health * data->Isaac->basic_stats->health, 'b');
-            alterAgility(data->Isaac, current->characteristics->agility * data->Isaac->basic_stats->agility, 'b');
-            alterSpeed(data->Isaac, current->characteristics->agility * data->Isaac->basic_stats->speed, 'b');
-            alterDamage(data->Isaac, current->characteristics->damage * data->Isaac->basic_stats->damage, 'b');
+            alterHealth(data->Isaac, current->characteristics->health * data->Isaac->stats->basic->health, 'b');
+            alterAgility(data->Isaac, current->characteristics->agility * data->Isaac->stats->basic->agility, 'b');
+            alterSpeed(data->Isaac, current->characteristics->speed * data->Isaac->stats->basic->speed, 'b');
+            alterDamage(data->Isaac, current->characteristics->damage * data->Isaac->stats->basic->damage, 'b');
             break;
         }
         default: {

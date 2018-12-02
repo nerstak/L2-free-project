@@ -12,10 +12,17 @@ extern Player* initPlayer() {
     Isaac->inventory = NULL;
 
     //Initialisation of stats
-    Isaac->current_stats = malloc(sizeof(stats_entity));
-    Isaac->basic_stats = malloc(sizeof(stats_entity));
-    Isaac->maxStats = malloc(sizeof(stats_entity));
-    if(!Isaac->current_stats || !Isaac->basic_stats || !Isaac->maxStats) {
+    Isaac->stats = malloc(sizeof(generalStats));
+    if(!Isaac->stats) {
+        printf("Fail to init general stats of the player.");
+        exit(EXIT_FAILURE);
+    }
+    
+    Isaac->stats->current = malloc(sizeof(stats_entity));
+    Isaac->stats->basic = malloc(sizeof(stats_entity));
+    Isaac->stats->max = malloc(sizeof(stats_entity));
+    Isaac->stats->potionsUsed = calloc(6,sizeof(int));
+    if(!Isaac->stats->max || !Isaac->stats->basic || !Isaac->stats->current || !Isaac->stats->potionsUsed) {
         printf("Fail to init stats of the player.");
         exit(EXIT_FAILURE);
     }
@@ -98,20 +105,32 @@ extern void freePlayer(Player** Isaac) {
         (*Isaac)->weapons = NULL;
     }
 
-    if((*Isaac)->maxStats) {
-        free((*Isaac)->maxStats);
-        (*Isaac)->maxStats = NULL;
-    }
+    if((*Isaac)->stats) {
+        if((*Isaac)->stats->max) {
+            free((*Isaac)->stats->max);
+            (*Isaac)->stats->max = NULL;
+        }
 
-    if((*Isaac)->current_stats) {
-        free((*Isaac)->current_stats);
-        (*Isaac)->current_stats = NULL;
-    }
+        if((*Isaac)->stats->current) {
+            free((*Isaac)->stats->current);
+            (*Isaac)->stats->current = NULL;
+        }
 
-    if((*Isaac)->basic_stats) {
-        free((*Isaac)->basic_stats);
-        (*Isaac)->basic_stats = NULL;
+        if((*Isaac)->stats->basic) {
+            free((*Isaac)->stats->basic);
+            (*Isaac)->stats->basic = NULL;
+        }
+
+        if((*Isaac)->stats->potionsUsed) {
+            free((*Isaac)->stats->potionsUsed);
+            (*Isaac)->stats->potionsUsed = NULL;
+        }
+
+        free((*Isaac)->stats);
+        (*Isaac)->stats = NULL;        
     }
+    
+    
 
     if((*Isaac)->gameStats) {
         free((*Isaac)->gameStats);
@@ -134,24 +153,24 @@ extern int alterMoney(Player* Isaac, int alterMoney) {
 extern void alterHealth(Player* Isaac, float alterHealth, char type) {
     switch(type) {
         case 'c': {
-            Isaac->current_stats->health = (alterHealth + Isaac->current_stats->health);
+            Isaac->stats->current->health = (alterHealth + Isaac->stats->current->health);
 
-            if(Isaac->current_stats->health > Isaac->basic_stats->health) {
-                Isaac->current_stats->health = Isaac->basic_stats->health;
+            if(Isaac->stats->current->health > Isaac->stats->basic->health) {
+                Isaac->stats->current->health = Isaac->stats->basic->health;
             }
-            if (Isaac->current_stats->health <= 0) {
-                Isaac->current_stats->health = 0;
+            if (Isaac->stats->current->health <= 0) {
+                Isaac->stats->current->health = 0;
             }
             break;
         }
         case 'b': {
-            Isaac->basic_stats->health = (alterHealth + Isaac->basic_stats->health);
+            Isaac->stats->basic->health = (alterHealth + Isaac->stats->basic->health);
 
-            if(Isaac->basic_stats->health > Isaac->maxStats->health) {
-                Isaac->basic_stats->health = Isaac->maxStats->health;
+            if(Isaac->stats->basic->health > Isaac->stats->max->health) {
+                Isaac->stats->basic->health = Isaac->stats->max->health;
             }
-            if (Isaac->basic_stats->health <= 0) {
-                Isaac->basic_stats->health = 0;
+            if (Isaac->stats->basic->health <= 0) {
+                Isaac->stats->basic->health = 0;
             }
             break;
         }
@@ -163,24 +182,24 @@ extern void alterHealth(Player* Isaac, float alterHealth, char type) {
 extern void alterSpeed(Player* Isaac, float alterSpeed, char type) {
     switch(type) {
         case 'c': {
-            Isaac->current_stats->speed = (alterSpeed + Isaac->current_stats->speed);
+            Isaac->stats->current->speed = (alterSpeed + Isaac->stats->current->speed);
 
-            if(Isaac->current_stats->speed > Isaac->basic_stats->speed) {
-                Isaac->current_stats->speed = Isaac->basic_stats->speed;
+            if(Isaac->stats->current->speed > Isaac->stats->max->speed) {
+                Isaac->stats->current->speed = Isaac->stats->max->speed;
             }
-            if (Isaac->current_stats->speed <= 0) {
-                Isaac->current_stats->speed = 0;
+            if (Isaac->stats->current->speed <= 0) {
+                Isaac->stats->current->speed = 0;
             }
             break;
         }
         case 'b': {
-            Isaac->basic_stats->speed = (alterSpeed + Isaac->basic_stats->speed);
+            Isaac->stats->basic->speed = (alterSpeed + Isaac->stats->basic->speed);
 
-            if(Isaac->basic_stats->speed > Isaac->maxStats->speed) {
-                    Isaac->basic_stats->speed = Isaac->maxStats->speed;
+            if(Isaac->stats->basic->speed > Isaac->stats->max->speed) {
+                    Isaac->stats->basic->speed = Isaac->stats->max->speed;
             }
-            if (Isaac->basic_stats->speed <= 0) {
-                Isaac->basic_stats->speed = 0;
+            if (Isaac->stats->basic->speed <= 0) {
+                Isaac->stats->basic->speed = 0;
             }
             break;
         }
@@ -192,24 +211,24 @@ extern void alterSpeed(Player* Isaac, float alterSpeed, char type) {
 extern void alterAgility(Player* Isaac, float alterAgility, char type) {
     switch(type) {
         case 'c': {
-            Isaac->current_stats->agility = (alterAgility + Isaac->current_stats->agility);
+            Isaac->stats->current->agility = (alterAgility + Isaac->stats->current->agility);
 
-            if(Isaac->current_stats->agility > Isaac->basic_stats->agility) {
-                    Isaac->current_stats->agility = Isaac->basic_stats->agility;
+            if(Isaac->stats->current->agility > Isaac->stats->basic->agility) {
+                    Isaac->stats->current->agility = Isaac->stats->basic->agility;
                 }
-            if (Isaac->current_stats->agility <= 0) {
-                Isaac->current_stats->agility = 0;
+            if (Isaac->stats->current->agility <= 0) {
+                Isaac->stats->current->agility = 0;
             }
             break;
         }
         case 'b': {
-            Isaac->basic_stats->agility = (alterAgility + Isaac->basic_stats->agility);
+            Isaac->stats->basic->agility = (alterAgility + Isaac->stats->basic->agility);
 
-            if(Isaac->basic_stats->agility > Isaac->maxStats->agility) {
-                Isaac->basic_stats->agility = Isaac->maxStats->agility;
+            if(Isaac->stats->basic->agility > Isaac->stats->max->agility) {
+                Isaac->stats->basic->agility = Isaac->stats->max->agility;
             }
-            if (Isaac->basic_stats->agility <= 0) {
-                Isaac->basic_stats->agility = 0;
+            if (Isaac->stats->basic->agility <= 0) {
+                Isaac->stats->basic->agility = 0;
             }
         }
         default: break;
@@ -220,24 +239,24 @@ extern void alterAgility(Player* Isaac, float alterAgility, char type) {
 extern void alterDamage(Player* Isaac, float alterDamage, char type) {
     switch(type) {
         case 'c': {
-            Isaac->current_stats->damage = (alterDamage + Isaac->current_stats->damage);
+            Isaac->stats->current->damage = (alterDamage + Isaac->stats->current->damage);
 
-            if(Isaac->current_stats->damage > Isaac->basic_stats->damage) {
-                Isaac->current_stats->damage = Isaac->basic_stats->damage;
+            if(Isaac->stats->current->damage > Isaac->stats->basic->damage) {
+                Isaac->stats->current->damage = Isaac->stats->basic->damage;
             }
-            if (Isaac->current_stats->damage <= 0) {
-                Isaac->current_stats->damage = 0;
+            if (Isaac->stats->current->damage <= 0) {
+                Isaac->stats->current->damage = 0;
             }
             break;
         }
         case 'b': {
-            Isaac->basic_stats->damage = (alterDamage + Isaac->basic_stats->damage);
+            Isaac->stats->basic->damage = (alterDamage + Isaac->stats->basic->damage);
 
-            if(Isaac->basic_stats->damage > Isaac->maxStats->damage) {
-                Isaac->basic_stats->damage = Isaac->maxStats->damage;
+            if(Isaac->stats->basic->damage > Isaac->stats->max->damage) {
+                Isaac->stats->basic->damage = Isaac->stats->max->damage;
             }
-            if (Isaac->basic_stats->damage <= 0) {
-                Isaac->basic_stats->damage = 0;
+            if (Isaac->stats->basic->damage <= 0) {
+                Isaac->stats->basic->damage = 0;
             }
         }
         default: break;

@@ -9,6 +9,13 @@ typedef struct stats_entity {
     float agility;
 } stats_entity;
 
+typedef struct generalStats {
+    stats_entity* current;
+    stats_entity* basic;
+    stats_entity* max;
+    int* potionsUsed;
+} generalStats;
+
 //Functions relative to the inventory and the shop
 typedef struct SlotInventory {
     char description[100];
