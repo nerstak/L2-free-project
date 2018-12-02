@@ -1,5 +1,7 @@
 #include "event.h"
 
+#include "../../utils/enhancedSwitch.h"
+
 
 
 extern void eventProcess_Scene_options(SDL_Event event, Engine* engine, Data* data) {
@@ -11,34 +13,31 @@ extern void eventProcess_Scene_options(SDL_Event event, Engine* engine, Data* da
                 if(data->options->isKeyChanging == 1) {
                     data->options->newKey = input;
                 }
-                switch (input) {
-                    case SDLK_ESCAPE: {
+                SWITCH(input)
+                    CASE(SDLK_ESCAPE)
                         data->options->askAction = O_LEAVE;
-                        break;
-                    }
-                    case SDLK_LEFT: {
+                    BREAK
+
+                    CASE(engine->keys->LEFT_ATTACK)
                         data->options->askAction = O_LEFT;
-                        break;
-                    }
-                    case SDLK_RIGHT: {
+                    BREAK
+
+                    CASE(engine->keys->RIGHT_ATTACK)
                         data->options->askAction = O_RIGHT;
-                        break;
-                    }
-                    case SDLK_UP: {
+                    BREAK
+
+                    CASE(engine->keys->UP_ATTACK)
                         data->options->askAction = O_UP;
-                        break;
-                    }
-                    case SDLK_DOWN: {
+                    BREAK
+
+                    CASE(engine->keys->DOWN_ATTACK)
                         data->options->askAction = O_DOWN;
-                        break;
-                    }
-                    case SDLK_RETURN: {
+                    BREAK
+
+                    CASE(engine->keys->SELECT)
                         data->options->askAction = O_ENTER;
-                        break;
-                    }
-                    default:
-                        break;
-                }
+                    BREAK
+                ENDSWITCH
                 break;
             }
             case SDL_QUIT: {

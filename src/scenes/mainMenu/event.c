@@ -10,11 +10,11 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event, Engine* engine, Data* d
                 int input = event.key.keysym.sym;
 
                 SWITCH(input)
-                    CASE(engine->keys->UP)
+                    CASE(engine->keys->UP_ATTACK)
                         data->mainMenu->askAction = -10;
                     BREAK
 
-                    CASE(engine->keys->DOWN)
+                    CASE(engine->keys->DOWN_ATTACK)
                         data->mainMenu->askAction = 10;
                     BREAK
 

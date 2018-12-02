@@ -14,6 +14,12 @@
  */
 static int isKeyAttributed(referenceKey* keys, int newKey);
 
+/**
+ * Set default parameters
+ * @param engine a pointer to an Engine Object
+ */
+static void setDefaultOptions(Engine* engine);
+
 extern void setVolume(Engine* engine, char* type, int newVolume) {
     if(newVolume < 0) {
         newVolume = 0;
@@ -34,7 +40,8 @@ extern void readConfig(Engine* engine) {
     cfgFile = fopen("config/options.txt","r");
 
     if(cfgFile == NULL) {
-        //TODO: Reset cfg
+        setDefaultOptions(engine);
+        writeConfig(engine);
     } else {
         fscanf(cfgFile,"FPS=%d\n",&(engine->fps->maxFps));
         fscanf(cfgFile,"SFX=%d\n",&(engine->volumeSFX));
@@ -203,4 +210,20 @@ static int isKeyAttributed(referenceKey* keys, int newKey) {
         return 1;
     }
     return 0;
+}
+
+static void setDefaultOptions(Engine* engine) {
+    engine->fps->maxFps = 60;
+    engine->volumeSFX= 100;
+    engine->volumeMusic = 100;
+    engine->keys->UP = SDLK_w;
+    engine->keys->DOWN = SDLK_s;
+    engine->keys->LEFT = SDLK_a;
+    engine->keys->RIGHT = SDLK_d;
+    engine->keys->INVENTORY = SDLK_e;
+    engine->keys->UP_ATTACK = SDLK_UP;
+    engine->keys->DOWN_ATTACK = SDLK_DOWN;
+    engine->keys->LEFT_ATTACK = SDLK_LEFT;
+    engine->keys->RIGHT_ATTACK = SDLK_RIGHT;
+    engine->keys->SELECT = SDLK_RETURN;
 }
