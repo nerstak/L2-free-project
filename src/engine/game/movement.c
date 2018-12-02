@@ -5,6 +5,7 @@
 
 #include "../data.h"
 #include "movement.h"
+#include "combat.h"
 
 extern void MovePlayer(Data* data, Tiles** map)
 {

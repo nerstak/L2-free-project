@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 
-#include "data.h"
+#include "../data.h"
 #include "combat.h"
 
 extern void ProcessCombat(Data * data, int direction)

@@ -16,4 +16,8 @@ extern void SpriteSelection(MovementValues * move, SDL_Rect * box);
 
 extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH);
 
+extern void DampenMovement(MovementValues * move);
+
+extern void setPlayerHitbox(MovementValues * move);
+
 #endif // FREE_PROJECT_ENGINE_GAME_MOVEMENT_H

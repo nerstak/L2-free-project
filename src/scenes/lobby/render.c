@@ -26,7 +26,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     playerPos.x=data->Isaac->movement->pos->x;
     playerPos.y=data->Isaac->movement->pos->y;
 
-    if(data->lobby->actionProcess == NONE){
+   if(data->lobby->actionProcess == NONE){ // TODO: Duplicate sprite here
     bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
     PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
 

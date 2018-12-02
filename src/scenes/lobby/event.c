@@ -34,23 +34,19 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                     case SDLK_RIGHT: {
                         if(data->lobby->askCombat==-1)
                             data->lobby->askCombat = 2;
+
+                        data->lobby->counterPressKeyMove = 3;
                         break;
                     }
                     case SDLK_LEFT: {
                         if(data->lobby->askCombat==-1)
                             data->lobby->askCombat = 3;
+
+                        data->lobby->counterPressKeyMove = -3;
                         break;
                     }
                     case SDLK_e: {
                         data->lobby->actionProcess = INVENTORY;
-                        break;
-                    }
-                    case SDLK_LEFT: {
-                        data->lobby->counterPressKeyMove = -3;
-                        break;
-                    }
-                    case SDLK_RIGHT: {
-                        data->lobby->counterPressKeyMove = 3;
                         break;
                     }
                     case SDLK_SPACE:
