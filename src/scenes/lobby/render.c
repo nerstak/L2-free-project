@@ -54,10 +54,10 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_Surface* menu1x3;
         SDL_Surface* menu1xSelec;
 
-        if(data->lobby->askMove == 0){
+        if(data->lobby->cursor == 0){
             interface = get_ImageCollector(myImageCollector, "lobby/menu11")->surface;
         }
-        else if (data->lobby->askMove == 1){
+        else if (data->lobby->cursor == 1){
             interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
         }
         menu1x1 = TTF_RenderText_Solid(font1, "Save Game?", black);

@@ -12,7 +12,7 @@
 extern int checkAction_Garden(Data* data);
 extern void doAction_Garden(Data* data);
 
-extern void processMenu1_Garden(Data* data);
+extern void processSleep(Data* data);
 extern void processMenu2_Garden(Data* data);
 extern void processField_Garden(Data* data);
 extern void menuSelectionDungeon_Garden(Data* data);
