@@ -213,8 +213,8 @@ extern void alterAgility(Player* Isaac, float alterAgility, char type) {
         case 'c': {
             Isaac->stats->current->agility = (alterAgility + Isaac->stats->current->agility);
 
-            if(Isaac->stats->current->agility > Isaac->stats->basic->agility) {
-                    Isaac->stats->current->agility = Isaac->stats->basic->agility;
+            if(Isaac->stats->current->agility > Isaac->stats->max->agility) {
+                    Isaac->stats->current->agility = Isaac->stats->max->agility;
                 }
             if (Isaac->stats->current->agility <= 0) {
                 Isaac->stats->current->agility = 0;
@@ -241,8 +241,8 @@ extern void alterDamage(Player* Isaac, float alterDamage, char type) {
         case 'c': {
             Isaac->stats->current->damage = (alterDamage + Isaac->stats->current->damage);
 
-            if(Isaac->stats->current->damage > Isaac->stats->basic->damage) {
-                Isaac->stats->current->damage = Isaac->stats->basic->damage;
+            if(Isaac->stats->current->damage > Isaac->stats->max->damage) {
+                Isaac->stats->current->damage = Isaac->stats->max->damage;
             }
             if (Isaac->stats->current->damage <= 0) {
                 Isaac->stats->current->damage = 0;

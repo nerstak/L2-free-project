@@ -34,11 +34,16 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     SDL_Rect itemPos;
     SDL_Rect itemSize;
 
+    SDL_Surface* effect = NULL;
+    SDL_Rect effectPos;
+    SDL_Rect effectSize;
+
     layout = get_ImageCollector(myImageCollector, "inventory/interface")->surface;
     frame = get_ImageCollector(myImageCollector, "inventory/frame")->surface;
     frameSelected = get_ImageCollector(myImageCollector, "inventory/frameSelected")->surface;
     confirm = get_ImageCollector(myImageCollector, "inventory/confirm")->surface;
     item = get_ImageCollector(myImageCollector, "inventory/items")->surface;
+    effect = get_ImageCollector(myImageCollector, "inventory/effects")->surface;
 
     //Layout blit
     layoutPos.x = 0;
@@ -93,6 +98,20 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
         dialogInfo = TTF_RenderText_Solid(font2, dialog, black);
 
         SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
+    }
+
+    //Effects blit
+    effectSize.h = 32;
+    effectSize.w = 32;
+    for(int i = 0; i < 6; i++) {
+        if(data->Isaac->stats->potionsUsed[i] == 1) {
+            effectSize.x = i * 32;
+            effectSize.y = 0;
+            effectPos.x = 775;
+            effectPos.y = 82 + i * 38;
+
+            SDL_BlitSurface(effect, &effectSize, inventory, &effectPos);
+        }
     }
 
     //Frames blit

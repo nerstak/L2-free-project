@@ -122,4 +122,10 @@ extern void copyItems(SlotInventory* receiver, SlotInventory original);
  */
 extern void reverseInventory(SlotInventory** inventory);
 
+/**
+ * Reset the potions used
+ * @param stats a pointer to a generalStats Object
+ */
+extern void resetUsedPotions(generalStats* stats);
+
 #endif //FREE_PROJECT_ENGINE_GAME_INVENTORY_H

@@ -206,3 +206,9 @@ extern void reverseInventory(SlotInventory** inventory) {
         *inventory = temp->prev;
     }
 }
+
+extern void resetUsedPotions(generalStats* stats) {
+    for(int i = 0; i < 6; i++) {
+        stats->potionsUsed[i] = 0;
+    }
+}

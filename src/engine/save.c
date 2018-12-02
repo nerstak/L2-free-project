@@ -211,4 +211,6 @@ static void readInventory(FILE* saveFile, Data* data) {
         add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
     }
     data->Isaac->size_inventory = i;
+
+    reverseInventory(&(data->Isaac->inventory));
 }

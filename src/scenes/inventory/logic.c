@@ -122,13 +122,24 @@ static void useItem(Data* data) {
 
 static void applyEffect(Data* data) {
     SlotInventory* current = data->inventory->selected;
+    int use = 0;
     switch(current->type) {
         case 'p': {
-            //The health potions give back a certain amount of health, not depending of the player stat
-            alterHealth(data->Isaac, current->characteristics->health, 'c');
-            alterAgility(data->Isaac, current->characteristics->agility * data->Isaac->stats->current->agility, 'c');
-            alterSpeed(data->Isaac, current->characteristics->speed * data->Isaac->stats->current->speed, 'c');
-            alterDamage(data->Isaac, current->characteristics->damage * data->Isaac->stats->current->damage, 'c');
+            if(current->id - 12 >= 0 && current->id - 12 < 6) {
+                if(data->Isaac->stats->potionsUsed[current->id - 12] == 0) {
+                    use = 1;
+                    data->Isaac->stats->potionsUsed[current->id - 12] = 1;
+                }
+            } else {
+                use = 1;
+            }
+            if(use == 1) {
+                //The health potions give back a certain amount of health, not depending of the player stat
+                alterHealth(data->Isaac, current->characteristics->health, 'c');
+                alterAgility(data->Isaac, current->characteristics->agility * data->Isaac->stats->current->agility, 'c');
+                alterSpeed(data->Isaac, current->characteristics->speed * data->Isaac->stats->current->speed, 'c');
+                alterDamage(data->Isaac, current->characteristics->damage * data->Isaac->stats->current->damage, 'c');
+            }
             break;
         }
         case 'v': {
