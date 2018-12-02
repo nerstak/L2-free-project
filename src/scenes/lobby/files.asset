@@ -1,9 +1,9 @@
 src/resources/gfx/scenes/lobby/lobby_bg.png lobby/bg
 src/resources/gfx/player/sprites_hero.png lobby/player
+src/resources/gfx/scenes/lobby/lobby_bg_flou.png lobby/bg_flou
+src/resources/gfx/player/sprites_hero_flou.png lobby/player_flou
 src/resources/gfx/scenes/lobby/Menu1.png lobby/menu11
 src/resources/gfx/scenes/lobby/Menu1-2.png lobby/menu12
-src/resources/gfx/scenes/lobby/Menu2-1.png lobby/menu21
-src/resources/gfx/scenes/lobby/Menu2-2.png lobby/menu22
-src/resources/gfx/scenes/lobby/Menu2-3.png lobby/menu23
-src/resources/gfx/scenes/lobby/Menu2-4.png lobby/menu24
+src/resources/gfx/scenes/lobby/Menu2Back.png lobby/menu21
+src/resources/gfx/scenes/lobby/Menu2Selector.png lobby/menu22
 src/resources/gfx/scenes/lobby/Wait.png lobby/wait

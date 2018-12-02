@@ -3,7 +3,7 @@
 
 #include "../engine/game/layout.h"
 
-enum actionLobby {NONE = 0, INVENTORY = 100, SLEEP = 1, GARDEN = 2, PLANT = 21, GOTO_DUNGEON = 22, WAIT = 23, SHOP = 3};
+enum actionLobby {NONE = 0, INVENTORY = 100, SLEEP = 1, GARDEN = 2, PLANT = 21, GOTO_DUNGEON = 22, WAIT = 23, NOT_ENOUGH = 24, SHOP = 3};
 
 typedef struct lobby_t{
     Layout* layout;

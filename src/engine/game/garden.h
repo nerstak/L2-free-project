@@ -18,5 +18,6 @@ extern void processField_Garden(Data* data);
 extern void menuSelectionDungeon_Garden(Data* data);
 extern void menuSelectionPlanting_Garden(Data* data);
 extern void menuNotReady_Garden(Data* data);
+extern void DayPass(Data* data);
 
 #endif // FREE_PROJECT_ENGINE_GAME_GARDEN_H
