@@ -65,3 +65,6 @@ free_project
 
 # Docs
 docs/
+
+# Ignore console output
+stdout.txt

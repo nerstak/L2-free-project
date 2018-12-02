@@ -7,6 +7,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     SDL_Surface* shop = NULL;
     shop = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
     char dialog[200];
+    SlotInventory* tempItem;
 
     //Font init
     TTF_Font* font1 = NULL;
@@ -29,10 +30,15 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     SDL_Surface* confirm = NULL;
     SDL_Rect confirmPos;
 
+    SDL_Surface* item = NULL;
+    SDL_Rect itemPos;
+    SDL_Rect itemSize;
+
     layout = get_ImageCollector(myImageCollector, "shop/interface")->surface;
     frame = get_ImageCollector(myImageCollector, "shop/frame")->surface;
     frameSelected = get_ImageCollector(myImageCollector, "shop/frameSelected")->surface;
     confirm = get_ImageCollector(myImageCollector, "shop/confirm")->surface;
+    item = get_ImageCollector(myImageCollector, "shop/items")->surface;
 
     //Layout blit
     layoutPos.x = 0;
@@ -115,6 +121,34 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
             SDL_BlitSurface(frameSelected, NULL, shop, &framePos);
         } else {
             SDL_BlitSurface(frame, NULL, shop, &framePos);
+        }
+    }
+
+    //Items inventory blit
+    itemSize.h = 64;
+    itemSize.w = 64;
+    tempItem = data->Isaac->inventory;
+    for(int i = 0; i < data->Isaac->size_inventory; i++) {
+        if(tempItem) {
+            itemSize.x = (tempItem->id % 5) * 64;
+            itemSize.y = (tempItem->id / 5) * 64;
+            itemPos.x = 62 + (i % 4) * 123;
+            itemPos.y = 95 + (i / 4) * 108;
+            SDL_BlitSurface(item, &itemSize, shop, &itemPos);
+            tempItem = tempItem->next;
+        }
+    }
+
+    //Items shop blit
+    tempItem = data->shop->shop_inv;
+    for(int i = 0; i < data->shop->size_shop; i++) {
+        if(tempItem) {
+            itemSize.x = (tempItem->id % 5) * 64;
+            itemSize.y = (tempItem->id / 5) * 64;
+            itemPos.x = 772 + (i % 4) * 123;
+            itemPos.y = 95 + (i / 4) * 108;
+            SDL_BlitSurface(item, &itemSize, shop, &itemPos);
+            tempItem = tempItem->next;
         }
     }
 

@@ -9,6 +9,13 @@ typedef struct stats_entity {
     float agility;
 } stats_entity;
 
+typedef struct generalStats {
+    stats_entity* current;
+    stats_entity* basic;
+    stats_entity* max;
+    int* potionsUsed;
+} generalStats;
+
 //Functions relative to the inventory and the shop
 typedef struct SlotInventory {
     char description[100];
@@ -108,5 +115,17 @@ extern void copyStats(stats_entity* receiver, stats_entity* original);
  * @param original SlotInventory object from where the information are copied
  */
 extern void copyItems(SlotInventory* receiver, SlotInventory original);
+
+/**
+ * Reverse the order of the inventory
+ * @param inventory double pointer of SlotInventory
+ */
+extern void reverseInventory(SlotInventory** inventory);
+
+/**
+ * Reset the potions used
+ * @param stats a pointer to a generalStats Object
+ */
+extern void resetUsedPotions(generalStats* stats);
 
 #endif //FREE_PROJECT_ENGINE_GAME_INVENTORY_H
