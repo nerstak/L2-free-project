@@ -8,20 +8,13 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
     if(data->lobby->actionProcess == NONE){
         if(data->lobby->askAction == SELECT ){
             doAction_Garden(data);
-        } else {
+        }else if (data->lobby->askAction == INVENTORY) {
+            data->lobby->actionProcess = INVENTORY;
+        }else {
             MovePlayer(data, data->lobby->layout->map);
         }
     } else {
         StopVelocity(data->Isaac->movement);
-
-        if(data->lobby->actionProcess == INVENTORY) {
-            data->lobby->actionProcess = NONE;
-            display_SceneCollector(engine, data, "inventory");
-        }
-        if(data->lobby->actionProcess == SHOP) {
-            data->lobby->actionProcess = NONE;
-            display_SceneCollector(engine, data, "shop");
-        }
 
         if(data->lobby->actionProcess == SLEEP){
             processSleep(data);
@@ -31,9 +24,16 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             menuSelectionPlanting_Garden(data);
         }else if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH) {
             processTimer(data);
+        }else if(data->lobby->actionProcess == SHOP) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "shop");
+        }else if(data->lobby->actionProcess == INVENTORY) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "inventory");
         }else if(data->lobby->actionProcess == GOTO_DUNGEON){
             menuSelectionDungeon_Garden(data);
         }
+        //TODO: Move this reset
         data->lobby->askAction = NONE;
     }
 }
@@ -45,7 +45,7 @@ static void processTimer(Data* data) {
             if(data->lobby->actionProcess == NOT_ENOUGH) {
                 data->lobby->actionProcess = PLANT;
             } else {
-                data->lobby->actionProcess = NULL;
+                data->lobby->actionProcess = NONE;
             }
         }
     }

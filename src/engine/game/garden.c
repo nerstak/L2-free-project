@@ -3,6 +3,7 @@
 
 #include "garden.h"
 
+#include "inventory.h"
 #include "../timer.h"
 #include "../save.h"
 #include "plants.h"
@@ -162,6 +163,10 @@ static int processPlanting(Data* data) {
         //Note that the remaining days are stored in the health
         data->lobby->actualPlant->dayLeft = (int) plant->characteristics->health;
         data->lobby->actualPlant->idVegetable = plant->id;
+        plant->quantity--;
+        if(plant->quantity <= 0) {
+            remove_SlotInventory(&(data->Isaac->inventory),plant->id,&(data->Isaac->size_inventory));
+        }
         return 1;
     }
     return 0;
