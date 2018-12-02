@@ -7,6 +7,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     SDL_Surface* inventory = NULL;
     inventory = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
     char dialog[200];
+    SlotInventory* tempItem;
 
     //Font init
     TTF_Font* font1 = NULL;
@@ -29,10 +30,15 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     SDL_Surface* confirm = NULL;
     SDL_Rect confirmPos;
 
+    SDL_Surface* item = NULL;
+    SDL_Rect itemPos;
+    SDL_Rect itemSize;
+
     layout = get_ImageCollector(myImageCollector, "inventory/interface")->surface;
     frame = get_ImageCollector(myImageCollector, "inventory/frame")->surface;
     frameSelected = get_ImageCollector(myImageCollector, "inventory/frameSelected")->surface;
     confirm = get_ImageCollector(myImageCollector, "inventory/confirm")->surface;
+    item = get_ImageCollector(myImageCollector, "inventory/items")->surface;
 
     //Layout blit
     layoutPos.x = 0;
@@ -97,6 +103,21 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
             SDL_BlitSurface(frameSelected, NULL, inventory, &framePos);
         } else {
             SDL_BlitSurface(frame, NULL, inventory, &framePos);
+        }
+    }
+
+    //Items blit
+    itemSize.h = 64;
+    itemSize.w = 64;
+    tempItem = data->Isaac->inventory;
+    for(int i = 0; i < data->Isaac->size_inventory; i++) {
+        if(tempItem) {
+            itemSize.x = (tempItem->id % 5) * 64;
+            itemSize.y = (tempItem->id / 5) * 64;
+            itemPos.x = 155 + (i % 4) * 123;
+            itemPos.y = 100 + (i / 4) * 108;
+            SDL_BlitSurface(item, &itemSize, inventory, &itemPos);
+            tempItem = tempItem->next;
         }
     }
 

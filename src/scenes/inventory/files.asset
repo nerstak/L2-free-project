@@ -2,3 +2,4 @@ src/resources/gfx/scenes/interface/inventory_layout.png inventory/interface
 src/resources/gfx/scenes/interface/frame.png inventory/frame
 src/resources/gfx/scenes/interface/frame_selected.png inventory/frameSelected
 src/resources/gfx/scenes/interface/confirm_layout.png inventory/confirm
+src/resources/gfx/scenes/interface/item_spritesheet.png inventory/items
