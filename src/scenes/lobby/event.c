@@ -73,7 +73,7 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
     }
 
 
-    if( (keystate[SDLK_w] || keystate[SDLK_a] || keystate[SDLK_s] || keystate[SDLK_d])) {
+    if(keystate[SDLK_w] || keystate[SDLK_a] || keystate[SDLK_s] || keystate[SDLK_d]) {
         if(keystate[SDLK_w]) {
             data->Isaac->movement->velocity->y -= Vchange;
         }

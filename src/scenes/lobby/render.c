@@ -18,7 +18,6 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     SDL_Rect playerPos;
 
     bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
-    PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
     FightSprite = get_ImageCollector(myImageCollector, "lobby/scythe")->surface;
 
     bgPos.x = 0;
@@ -27,22 +26,29 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     playerPos.y=data->Isaac->movement->pos->y;
 
    if(data->lobby->actionProcess == NONE){ // TODO: Duplicate sprite here
-    bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
-    PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
+        bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
+        PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
 
-
-    SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-    SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
     }
     else{
-    bg = get_ImageCollector(myImageCollector, "lobby/bg_flou")->surface;
-    PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player_flou")->surface;
-
+        bg = get_ImageCollector(myImageCollector, "lobby/bg_flou")->surface;
+        PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player_flou")->surface;
+    }
 
     SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-    SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
 
+    if(data->lobby->askCombat!=-1)
+    {
+        playerPos.y-=32;
+        playerPos.x-=64;
+
+        SDL_BlitSurface(FightSprite, data->Isaac->combat->SpriteBox, lobbySurface, &playerPos);
     }
+    else
+    {
+        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+    }
+
 
 
     if(data->lobby->actionProcess == SLEEP){
@@ -213,17 +219,6 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     }
 
 
-    if(data->lobby->askCombat!=-1)
-    {
-        playerPos.y-=32;
-        playerPos.x-=64;
-
-        SDL_BlitSurface(FightSprite, data->Isaac->combat->SpriteBox, lobbySurface, &playerPos);
-    }
-    else
-    {
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
-    }
 
     return lobbySurface;
 }
