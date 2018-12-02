@@ -116,4 +116,10 @@ extern void copyStats(stats_entity* receiver, stats_entity* original);
  */
 extern void copyItems(SlotInventory* receiver, SlotInventory original);
 
+/**
+ * Reverse the order of the inventory
+ * @param inventory double pointer of SlotInventory
+ */
+extern void reverseInventory(SlotInventory** inventory);
+
 #endif //FREE_PROJECT_ENGINE_GAME_INVENTORY_H

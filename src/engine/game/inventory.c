@@ -72,6 +72,7 @@ extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* si
         }
     }
     fclose(file);
+    reverseInventory(&shop_inv);
     return shop_inv;
 }
 
@@ -188,4 +189,20 @@ extern void copyItems(SlotInventory* receiver, SlotInventory original) {
     receiver->quantity = original.quantity;
 
     copyStats(receiver->characteristics,original.characteristics);
+}
+
+extern void reverseInventory(SlotInventory** inventory) {
+    SlotInventory* temp = NULL;
+    SlotInventory* current = *inventory;
+
+    while(current != NULL) {
+        temp = current->prev;
+        current->prev = current->next;
+        current->next = temp;
+        current = current->prev;
+    }
+
+    if(temp != NULL) {
+        *inventory = temp->prev;
+    }
 }
