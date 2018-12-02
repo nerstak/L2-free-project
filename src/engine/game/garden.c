@@ -40,17 +40,17 @@ extern void doAction_Garden(Data* data) {
 }
 
 extern int checkAction_Garden(Data* data) {
-    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'M', 48, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'M', 48, 0, 0, NULL, NULL)) {
         //Case for home
         return 1;
     }
 
-    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, NULL, NULL)) {
         //Case for plant spot
         return 2;
     }
 
-    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'S', 48, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'S', 48, 0, 0, NULL, NULL)) {
         //Case for shop
         return 3;
     }
@@ -87,7 +87,7 @@ extern void processMenu2_Garden(Data* data) {
 
 static void test_plant(Data* data) {
     int coordX, coordY;
-    if(checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
+    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
         if (coordX == 15 ) {
             if (coordY == 5) {
                 data->lobby->actualPlant = data->field->plantBotLeft;
@@ -170,37 +170,49 @@ extern void menuSelectionPlanting_Garden(Data* data) {
 }
 
 static int ToPlant(int x, Data* data){
-    SlotInventory * plant = search_SlotInventory(data->Isaac->inventory, x );
+    SlotInventory * plant = search_SlotInventory(data->Isaac->inventory, x);
     int q = plant->quantity;
 
-    if( q > 0){
-        switch(x){
-            case 0 :{
-                    data->lobby->actualPlant->dayLeft = 1;
-                    break;
-                    }
-            case 1 : {
-                    data->lobby->actualPlant->dayLeft = 2;
-                    break;
-                    }
-            case 2 :{
-                    data->lobby->actualPlant->dayLeft = 0;
-                    break;
-                    }
+    if(q > 0){
+        switch(x) {
+            case 0: {
+                data->lobby->actualPlant->dayLeft = 1;
+
+                break;
+            }
+            case 1: {
+                data->lobby->actualPlant->dayLeft = 2;
+
+                break;
+            }
+            case 2: {
+                data->lobby->actualPlant->dayLeft = 0;
+
+                break;
+            }
             case 3 : {
-                    data->lobby->actualPlant->dayLeft = 3;
-                    break;
-                    }
+                data->lobby->actualPlant->dayLeft = 3;
+
+                break;
+            }
             case 4 :{
-                    data->lobby->actualPlant->dayLeft = 3;
-                    break;
-                    }
+                data->lobby->actualPlant->dayLeft = 3;
+
+                break;
+            }
+
+            default:
+                // TODO: Fix here ?
+
+                break;
         }
-        data->lobby->actualPlant->idVegetable = 1 + x ;
+
+        data->lobby->actualPlant->idVegetable = 1 + x;
+
         return 1;
     }
-    return 0;
 
+    return 0;
 }
 
 extern void menuNotReady_Garden(Data* data) {
@@ -211,23 +223,39 @@ extern void menuNotReady_Garden(Data* data) {
 }
 
 extern void DayPass(Data* data){
-    for(int n=1; n<5 ; n++){
-        switch(n){
-        case 1 :data->lobby->actualPlant = data->field->plantBotLeft;
+    for (int n = 1; n<5; n++) {
+        switch(n) {
+            case 1: {
+                data->lobby->actualPlant = data->field->plantBotLeft;
+
                 break;
-        case 2 :data->lobby->actualPlant = data->field->plantTopLeft;
+            }
+            case 2: {
+                data->lobby->actualPlant = data->field->plantTopLeft;
+
                 break;
-        case 3:data->lobby->actualPlant = data->field->plantBotRight;
+            }
+            case 3: {
+                data->lobby->actualPlant = data->field->plantBotRight;
+
                 break;
-        case 4:data->lobby->actualPlant = data->field->plantTopRight;
+            }
+            case 4: {
+                data->lobby->actualPlant = data->field->plantTopRight;
+
                 break;
-        default:    printf("Probleme");
-                    exit(EXIT_FAILURE);
-                    break;
+            }
+            default: {
+                printf("Problème");
+                exit(EXIT_FAILURE);
+
+                break;
+            }
         }
-        if(data->lobby->actualPlant->idVegetable != 0){
-            if(data->lobby->actualPlant->dayLeft > 0){
-                data->lobby->actualPlant->dayLeft --;
+
+        if (data->lobby->actualPlant->idVegetable != 0) {
+            if (data->lobby->actualPlant->dayLeft > 0) {
+                data->lobby->actualPlant->dayLeft--;
             }
         }
     }
