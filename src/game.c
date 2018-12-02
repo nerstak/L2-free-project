@@ -14,6 +14,7 @@
 #include "scenes/loadingScreen/loadingScreen.h"
 #include "scenes/mainMenu/mainMenu.h"
 #include "scenes/options/options.h"
+#include "scenes/pauseMenu/pauseMenu.h"
 #include "scenes/lobby/lobby.h"
 #include "scenes/inventory/inventory.h"
 #include "scenes/shop/shop.h"
@@ -67,7 +68,7 @@ extern void gameLoop(SDL_Surface* window) {
     load_SceneCollector(myEngine, myData, "inventory", OVERLAY, &assets_Scene_inventory, &init_Scene_inventory, &renderScene_Scene_inventory, &logicProcess_Scene_inventory, &eventProcess_Scene_inventory);
     load_SceneCollector(myEngine, myData, "test", SCENE, &assets_Scene_test, &init_Scene_test, &renderScene_Scene_test, &logicProcess_Scene_test, &eventProcess_Scene_test);
     load_SceneCollector(myEngine, myData, "options", SCENE, &assets_Scene_options, &init_Scene_options, &renderScene_Scene_options, &logicProcess_Scene_options, &eventProcess_Scene_options);
-
+    load_SceneCollector(myEngine, myData, "pauseMenu", OVERLAY, &assets_Scene_pauseMenu, &init_Scene_pauseMenu, &renderScene_Scene_pauseMenu, &logicProcess_Scene_pauseMenu, &eventProcess_Scene_pauseMenu);
 
     display_SceneCollector(myEngine, myData, "mainMenu");
 
