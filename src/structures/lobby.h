@@ -8,12 +8,10 @@ enum actionLobby {NONE = 0, INVENTORY = 100, SLEEP = 1, GARDEN = 2, PLANT = 21, 
 typedef struct lobby_t{
     Layout* layout;
     int askAction;
-    int askMove;
     int actionProcess;
     int cursor;
-    int counterPressKey;
-    int counterPressKeyMove;
     struct Plant* actualPlant;
+    Timer* timerMessage;
 }lobby_t;
 
 #endif //FREE_PROJECT_STRUCTURES_LOBBY_H

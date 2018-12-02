@@ -13,11 +13,9 @@ extern int checkAction_Garden(Data* data);
 extern void doAction_Garden(Data* data);
 
 extern void processSleep(Data* data);
-extern void processMenu2_Garden(Data* data);
-extern void processField_Garden(Data* data);
+extern void processGarden(Data* data);
 extern void menuSelectionDungeon_Garden(Data* data);
 extern void menuSelectionPlanting_Garden(Data* data);
-extern void menuNotReady_Garden(Data* data);
 extern void DayPass(Data* data);
 
 #endif // FREE_PROJECT_ENGINE_GAME_GARDEN_H

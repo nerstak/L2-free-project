@@ -2,31 +2,9 @@
 #include "../../engine/game/movement.h"
 #include "../../engine/game/garden.h"
 
+static void processTimer(Data* data);
+
 extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
-    /*if(data->lobby->counterPressKey != 0){
-         data->lobby->counterPressKey --;
-    }
-    if(data->lobby->counterPressKey == 1){
-        data->lobby->askAction = 1;
-    }
-    else {
-        data->lobby->askAction = 0;
-    }
-
-    if (data->lobby->counterPressKeyMove < 0){
-        data->lobby->counterPressKeyMove ++;
-    }
-    else if(data->lobby->counterPressKeyMove > 0){
-        data->lobby->counterPressKeyMove --;
-    }
-    if( data->lobby->counterPressKeyMove == 1){
-        data->lobby->askMove ++;
-    }
-    else if ( data->lobby->counterPressKeyMove == -1 ){
-        data->lobby->askMove --;
-    }*/
-
-
     if(data->lobby->actionProcess == NONE){
         if(data->lobby->askAction == SELECT ){
             doAction_Garden(data);
@@ -35,17 +13,6 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
         }
     } else {
         StopVelocity(data->Isaac->movement);
-        if(data->lobby->actionProcess == SLEEP){
-            processSleep(data);
-        }else if(data->lobby->actionProcess == GARDEN){
-            processMenu2_Garden(data);
-        }else if(data->lobby->actionProcess == PLANT){
-            menuSelectionPlanting_Garden(data);
-        }else if(data->lobby->actionProcess == GOTO_DUNGEON){
-            menuSelectionDungeon_Garden(data);
-        }else if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH){
-            menuNotReady_Garden(data);
-        }
 
         if(data->lobby->actionProcess == INVENTORY) {
             data->lobby->actionProcess = NONE;
@@ -54,6 +21,32 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
         if(data->lobby->actionProcess == SHOP) {
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "shop");
+        }
+
+        if(data->lobby->actionProcess == SLEEP){
+            processSleep(data);
+        }else if(data->lobby->actionProcess == GARDEN){
+            processGarden(data);
+        }else if(data->lobby->actionProcess == PLANT){
+            menuSelectionPlanting_Garden(data);
+        }else if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH) {
+            processTimer(data);
+        }else if(data->lobby->actionProcess == GOTO_DUNGEON){
+            menuSelectionDungeon_Garden(data);
+        }
+        data->lobby->askAction = NONE;
+    }
+}
+
+static void processTimer(Data* data) {
+    if(isStarted_Timer(data->lobby->timerMessage)) {
+        if(getTime_Timer(data->lobby->timerMessage) > 2) {
+            stop_Timer(data->lobby->timerMessage);
+            if(data->lobby->actionProcess == NOT_ENOUGH) {
+                data->lobby->actionProcess = PLANT;
+            } else {
+                data->lobby->actionProcess = NULL;
+            }
         }
     }
 }

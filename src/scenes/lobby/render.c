@@ -17,25 +17,21 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     bgPos.x = 0;
     bgPos.y = 0;
-    playerPos.x=data->Isaac->movement->pos->x;
-    playerPos.y=data->Isaac->movement->pos->y;
+    playerPos.x = data->Isaac->movement->pos->x;
+    playerPos.y = data->Isaac->movement->pos->y;
 
     if(data->lobby->actionProcess == NONE){
-    bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
-    PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
+        bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
+        PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
 
+        SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
+        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+    }else{
+        bg = get_ImageCollector(myImageCollector, "lobby/bg_flou")->surface;
+        PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player_flou")->surface;
 
-    SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-    SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
-    }
-    else{
-    bg = get_ImageCollector(myImageCollector, "lobby/bg_flou")->surface;
-    PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player_flou")->surface;
-
-
-    SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-    SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
-
+        SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
+        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
     }
 
 
@@ -52,12 +48,10 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_Surface* menu1x1;
         SDL_Surface* menu1x2;
         SDL_Surface* menu1x3;
-        SDL_Surface* menu1xSelec;
 
         if(data->lobby->cursor == 0){
             interface = get_ImageCollector(myImageCollector, "lobby/menu11")->surface;
-        }
-        else if (data->lobby->cursor == 1){
+        }else if (data->lobby->cursor == 1){
             interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
         }
         menu1x1 = TTF_RenderText_Solid(font1, "Save Game?", black);
@@ -85,8 +79,6 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
         SDL_BlitSurface(menu1x2, NULL, lobbySurface, &posMenu1x2);
         SDL_BlitSurface(menu1x3, NULL, lobbySurface, &posMenu1x3);
-
-
     }
 
     if(data->lobby->actionProcess == PLANT){
@@ -99,24 +91,17 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenuPlant.x = 0 ;
         posMenuPlant.y = 0 ;
 
-        posMenuPlantSelect.x = 188 * (data->lobby->askMove);
+        posMenuPlantSelect.x = (Sint16) (188 * (data->lobby->cursor));
         posMenuPlantSelect.y = 0 ;
-
-
 
         menuPlantSelect = get_ImageCollector(myImageCollector, "lobby/menu22")->surface;
         menuPlant = get_ImageCollector(myImageCollector, "lobby/menu21")->surface;
 
-
-
         SDL_BlitSurface(menuPlant, NULL, lobbySurface, &posMenuPlant);
         SDL_BlitSurface(menuPlantSelect, NULL, lobbySurface, &posMenuPlantSelect);
-
-
     }
 
     if(data->lobby->actionProcess == GOTO_DUNGEON ){
-
         SDL_Color black = {0, 0, 0, 0};
 
         TTF_Font* font1 = NULL;
@@ -129,19 +114,16 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_Surface* menu1x1;
         SDL_Surface* menu1x2;
         SDL_Surface* menu1x3;
-        SDL_Surface* menu1xSelec;
 
-        if(data->lobby->askMove == 0){
+        if(data->lobby->cursor == 0){
             interface = get_ImageCollector(myImageCollector, "lobby/menu11")->surface;
-        }
-        else if (data->lobby->askMove == 1){
+        }else if (data->lobby->cursor == 1){
             interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
         }
 
         menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", black);
         menu1x2 = TTF_RenderText_Solid(font2, "YES", black);
         menu1x3 = TTF_RenderText_Solid(font2, "NO", black);
-
 
         SDL_Rect posMenu1x1;
         SDL_Rect posMenu1x2;
@@ -164,8 +146,6 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
         SDL_BlitSurface(menu1x2, NULL, lobbySurface, &posMenu1x2);
         SDL_BlitSurface(menu1x3, NULL, lobbySurface, &posMenu1x3);
-
-
     }
 
     if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH ){
@@ -184,30 +164,24 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
         if(data->lobby->actionProcess == WAIT){
             menu1x1 = TTF_RenderText_Solid(font1, "Wait Dude !", black);
-        }
-        else if(data->lobby->actionProcess == NOT_ENOUGH){
+        }else if(data->lobby->actionProcess == NOT_ENOUGH){
             menu1x1 = TTF_RenderText_Solid(font1, "No Seed !", black);
         }
-
 
         posMenu1xInterface.x = 0;
         posMenu1xInterface.y = 0;
 
-
         posMenu1x1.x = posMenu1xInterface.x + 470;
+
         if(data->lobby->actionProcess == WAIT){
             posMenu1x1.x -= 50;
         }
 
         posMenu1x1.y = posMenu1xInterface.y + 320;
 
-
         SDL_BlitSurface(wait, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
     }
-
-
-
     return lobbySurface;
 }
 
