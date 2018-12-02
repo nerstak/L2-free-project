@@ -13,22 +13,19 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                 // Key pressed
                 switch (event.key.keysym.sym) {
                     case SDLK_e: {
-                        data->lobby->actionProcess = INVENTORY;
+                        data->lobby->askAction = INVENTORY;
                         break;
                     }
                     case SDLK_LEFT: {
-                        data->lobby->counterPressKeyMove = -3;
+                        data->lobby->askAction = LEFT;
                         break;
                     }
                     case SDLK_RIGHT: {
-                        data->lobby->counterPressKeyMove = 3;
+                        data->lobby->askAction = RIGHT;
                         break;
                     }
-                    case SDLK_SPACE:
-                        //Interact with shop or garden, has to be implemented
-                        break;
                     case SDLK_RETURN:
-                        data->lobby->counterPressKey = 3;
+                        data->lobby->askAction = SELECT;
                         break;
                     case SDLK_ESCAPE:
                         data->stop= 0;
@@ -53,14 +50,12 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
         }
         if(keystate[SDLK_a]) {
             data->Isaac->movement->velocity->x-=Vchange;
-           // data->lobby->counterPressKeyMove = -3;
         }
         if(keystate[SDLK_s]) {
             data->Isaac->movement->velocity->y += Vchange;
         }
         if(keystate[SDLK_d]) {
             data->Isaac->movement->velocity->x+=Vchange;
-           // data->lobby->counterPressKeyMove = 3;
         }
     }
 }
