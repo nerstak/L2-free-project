@@ -3,3 +3,8 @@ src/gfx/interface/dungeon_ui-player-dead.png dungeon/uiPlayerDead
 src/gfx/interface/dungeon_ui-lifebar-bg.png dungeon/uiLifebarBg
 src/gfx/interface/dungeon_ui-keys.png dungeon/uiKeys
 src/gfx/interface/dungeon_map-bg.png dungeon/mapBg
+src/gfx/interface/dungeon_map-start.png dungeon/mapStart
+src/gfx/interface/dungeon_map-boss.png dungeon/mapBoss
+src/gfx/interface/dungeon_map-goal.png dungeon/mapGoal
+src/gfx/interface/dungeon_map-room.png dungeon/mapRoom
+src/gfx/interface/dungeon_map-room-visited.png dungeon/mapRoomVisited

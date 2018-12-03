@@ -1,13 +1,16 @@
 #include "render.h"
+#include "../../engine/game/dungeon/dungeon.h"
+#include "../../engine/game/dungeon/roomlist.h"
 
 static void renderUI(SDL_Surface* window, Engine* engine, Data* data);
 static SDL_Surface* renderLifebar(Engine* engine, Data* data);
 static void renderKeys(SDL_Surface* window, Engine* engine, Data* data);
+static void renderMap(SDL_Surface* window, Engine* engine, Data* data);
 
 static void renderUI(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* uiPlayer = NULL;
 
-    if (data->Isaac->current_stats->health == 0) {
+    if (data->Isaac->stats->current->health == 0) {
         uiPlayer = get_ImageCollector(engine->imageCollector, "dungeon/uiPlayerDead")->surface;
     } else {
         uiPlayer = get_ImageCollector(engine->imageCollector, "dungeon/uiPlayer")->surface;
@@ -43,7 +46,7 @@ static void renderUI(SDL_Surface* window, Engine* engine, Data* data) {
 static SDL_Surface* renderLifebar(Engine* engine, Data* data) {
     SDL_Surface* result = SDL_CreateRGBSurface(SDL_HWSURFACE, 217, 34, 32, 0, 0, 0, 0);
 
-    float percentLife = (data->Isaac->current_stats->health / data->Isaac->basic_stats->health) * 100;
+    float percentLife = (data->Isaac->stats->current->health / data->Isaac->stats->basic->health) * 100;
     float divPerPercent = (float) 217 / 100;
 
     SDL_Rect upperBg = {0, 0, (Uint16) (percentLife * divPerPercent), 7};
@@ -128,7 +131,70 @@ static void renderKeys(SDL_Surface* window, Engine* engine, Data* data) {
     }
 }
 
+static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
+    // x: 1116 y: 36px w: 150px h: 150px
+    SDL_Surface* start = get_ImageCollector(engine->imageCollector, "dungeon/mapStart")->surface;
+    SDL_Surface* boss = get_ImageCollector(engine->imageCollector, "dungeon/mapBoss")->surface;
+    SDL_Surface* goal = get_ImageCollector(engine->imageCollector, "dungeon/mapGoal")->surface;
+    SDL_Surface* room = get_ImageCollector(engine->imageCollector, "dungeon/mapRoom")->surface;
+    SDL_Surface* roomVisited = get_ImageCollector(engine->imageCollector, "dungeon/mapRoomVisited")->surface;
+
+    int x = data->dungeonScene->currentRoom->coord->x;
+    int y = data->dungeonScene->currentRoom->coord->y;
+
+    RoomList* temp = (*getRooms_KeyLevelRoomMapping(getRooms_Dungeon(data->dungeonScene->dungeon), 0));
+
+    while (temp != NULL) {
+        int offsetX = (temp->data->coord->x - x);
+        int offsetY = (temp->data->coord->y - y);
+
+        if (offsetX < 3 && offsetX > -3 && offsetY < 3 && offsetY > -3) {
+            SDL_Rect pos;
+            pos.x = (Sint16) (1116 + 25 * 2 + offsetX * 25);
+            pos.y = (Sint16) (36 + 25 * 2 + offsetY * 25);
+
+            if (temp->data->visited == true) {
+                if (isStart_Room(temp->data)) {
+                    SDL_BlitSurface(start, NULL, window, &pos);
+                } else if (isBoss_Room(temp->data)) {
+                    SDL_BlitSurface(boss, NULL, window, &pos);
+                } else if (isGoal_Room(temp->data)) {
+                    SDL_BlitSurface(goal, NULL, window, &pos);
+                } else {
+                    SDL_BlitSurface(roomVisited, NULL, window, &pos);
+                }
+
+                for (int i = 0; i < (int) temp->data->childrenLength; i += 1) {
+                    offsetX = (temp->data->children[i]->coord->x - x);
+                    offsetY = (temp->data->children[i]->coord->y - y);
+
+                    if (offsetX < 3 && offsetX > -3 && offsetY < 3 && offsetY > -3) {
+                        pos.x = (Sint16) (1116 + 25 * 2 + offsetX * 25);
+                        pos.y = (Sint16) (36 + 25 * 2 + offsetY * 25);
+
+                        if (isStart_Room(temp->data->children[i])) {
+                            SDL_BlitSurface(start, NULL, window, &pos);
+                        } else if (isBoss_Room(temp->data->children[i])) {
+                            SDL_BlitSurface(boss, NULL, window, &pos);
+                        } else if (isGoal_Room(temp->data->children[i])) {
+                            SDL_BlitSurface(goal, NULL, window, &pos);
+                        } else if (temp->data->children[i]->visited == false) {
+                            SDL_BlitSurface(room, NULL, window, &pos);
+                        }
+                    }
+                }
+            }
+
+
+            // TODO: Improve here
+        }
+
+        temp = temp->next;
+    }
+}
+
 
 extern void renderScene_Scene_dungeon(SDL_Surface* window, Engine* engine, Data* data) {
     renderUI(window, engine, data);
+    renderMap(window, engine, data);
 }
