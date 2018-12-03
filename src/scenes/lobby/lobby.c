@@ -32,6 +32,16 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->counterPressKey = 0;
         data->lobby->counterPressKeyMove = 0;
 
+        //TEMP because theres no monsters in the lobby but I still need to test this shit
+        data->monsters=malloc(sizeof(MonsterNode));
+        data->monsters->next=NULL;
+        data->monsters->monster=malloc(sizeof(Monster));
+        data->monsters->monster->movement=malloc(sizeof(MovementValues));
+        data->monsters->monster->movement->Hitbox=malloc(sizeof(SDL_Rect));
+        data->monsters->monster->movement->SpriteBox=malloc(sizeof(SDL_Rect));
+        data->monsters->monster->movement->pos=malloc(sizeof(coordinates_entity));
+        data->monsters->monster->movement->velocity=malloc(sizeof(coordinates_entity));
+
     } else {
         freeSingleLayout(&(data->lobby->layout));
         free(data->lobby);

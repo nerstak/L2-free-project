@@ -9,6 +9,7 @@
 
 extern void MovePlayer(Data* data, Tiles** map)
 {
+    // TODO: convert all my shitty timers to clem's clean ones
     int tick=SDL_GetTicks();
     int timechange=tick - data->Isaac->movement->timesince;     // Timer to get the time since the last frame of movement
     data->Isaac->movement->timesince=tick;
@@ -17,19 +18,19 @@ extern void MovePlayer(Data* data, Tiles** map)
 
     data->Isaac->current_stats->speed=1; //TEMP
 
-    ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange); //Dampens and caps velocity
-    ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange);
+    ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange,12,1); //Dampens and caps velocity
+    ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange,12,1);
 
+    float dampen=1;
     if(data->Isaac->combat->step!=0)
     {
-        DampenMovement(data->Isaac->movement);
+        dampen=0.3;
     }
-
 
     CheckObstacle(data, timechange, data->Isaac->current_stats->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
 
-    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->current_stats->speed; //actually changes the character's movement according to the velocity we done got
-    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->current_stats->speed; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
+    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->current_stats->speed*dampen; //actually changes the character's movement according to the velocity we done got
+    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->current_stats->speed*dampen; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
 
     setPlayerHitbox(data->Isaac->movement);
 
@@ -51,11 +52,11 @@ extern void MovePlayer(Data* data, Tiles** map)
     }
 }
 
-extern void ProcessVelocity(float* v,int t)
+extern void ProcessVelocity(float* v,int t, int max, float factor)
 {
     if((*v)>0) // gradually slows down the player so he stops when not pressing the button
     {
-        (*v)-=t*0.06; //this is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
+        (*v)-=t*0.06*factor; //this is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
         if((*v)<0)
             (*v)=0;
     }
@@ -63,16 +64,16 @@ extern void ProcessVelocity(float* v,int t)
 
     else if((*v)<0)
     {
-        (*v)+=t*0.06;
+        (*v)+=t*0.06*factor;
         if((*v)>0)
             (*v)=0;
     }
 
 
-    if((*v)>12) // Caps velocity
-        (*v)=12;
-    else if((*v)<-12)
-        (*v)=-12;
+    if((*v)>max) // Caps velocity
+        (*v)=max;
+    else if((*v)<-max)
+        (*v)=-max;
 }
 
 extern void StopVelocity(MovementValues * move) {
@@ -182,10 +183,12 @@ extern void setPlayerHitbox(MovementValues * move)
     move->Hitbox->y=move->pos->y + 32;
 }
 
-
-
-extern void DampenMovement(MovementValues * move)
+extern void freemovement(MovementValues * move)
 {
-    move->velocity->x*=0.6;
-    move->velocity->y*=0.6;
+    free(move->Hitbox);
+    free(move->pos);
+    free(move->SpriteBox);
+    free(move->velocity);
+    free(move);
 }
+

@@ -6,7 +6,7 @@
 
 extern void ProcessCombat(Data * data, int direction);
 
-extern void CombatAnimation(CombatValues * combat,int time);
+extern void CombatAnimation(CombatValues * combat,int time,int agility);
 
 extern void CombatSprite(CombatValues * combat);
 

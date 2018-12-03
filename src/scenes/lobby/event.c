@@ -5,7 +5,7 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
     if(Vchange>300)
         Vchange=0;
 
-    if(data->Isaac->combat->step>1200)
+    if(data->Isaac->combat->step>450)
     {
         data->Isaac->combat->step=0;
         data->Isaac->movement->direction=data->lobby->askCombat;
@@ -49,9 +49,6 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                         data->lobby->actionProcess = INVENTORY;
                         break;
                     }
-                    case SDLK_SPACE:
-                        //Interact with shop or garden, has to be implemented
-                        break;
                     case SDLK_RETURN:
                         data->lobby->counterPressKey = 3;
                         break;
