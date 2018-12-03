@@ -64,7 +64,7 @@ extern void clean_KeyLevelRoomMapping(KeyLevelRoomMapping** p) {
     }
 }
 
-extern RoomList** getRooms(KeyLevelRoomMapping* p, int keylevel) {
+extern RoomList** getRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel) {
     while (keylevel >= keyCount_KeyLevelRoomMapping(p)) {
         p->map[p->length - 1] = NULL;
         p->length += 1;
@@ -74,7 +74,7 @@ extern RoomList** getRooms(KeyLevelRoomMapping* p, int keylevel) {
 }
 
 extern void addRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, Room* r) {
-    RoomList** temp = getRooms(p, keylevel);
+    RoomList** temp = getRooms_KeyLevelRoomMapping(p, keylevel);
 
     // Is our list of Rooms empty ?
     if ((*temp) == NULL) {
@@ -113,7 +113,7 @@ extern void addRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, Ro
 }
 
 extern RoomList* getRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, int i) {
-    RoomList** pRoomList = getRooms(p, keylevel);
+    RoomList** pRoomList = getRooms_KeyLevelRoomMapping(p, keylevel);
     RoomList* result = *pRoomList;
 
     int j = 0;
@@ -126,7 +126,7 @@ extern RoomList* getRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keyleve
 }
 
 extern void removeRoom_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel, Room* r) {
-    RoomList** pRoomList = getRooms(p, keylevel);
+    RoomList** pRoomList = getRooms_KeyLevelRoomMapping(p, keylevel);
     RoomList* result = *pRoomList;
 
     RoomList* temp = result;
@@ -162,7 +162,7 @@ extern int keyCount_KeyLevelRoomMapping(KeyLevelRoomMapping* p) {
 }
 
 extern int amountRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel) {
-    RoomList* temp = *getRooms(p, keylevel);
+    RoomList* temp = *getRooms_KeyLevelRoomMapping(p, keylevel);
     int amount = 0;
 
     while (temp != NULL) {
@@ -178,7 +178,7 @@ extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keyleve
     // First we need the length of our list
     int length = amountRooms_KeyLevelRoomMapping(p, keylevel);
 
-    RoomList** pRoomList = getRooms(p, keylevel);
+    RoomList** pRoomList = getRooms_KeyLevelRoomMapping(p, keylevel);
 
     if (length == 1) {
         return;
@@ -220,7 +220,7 @@ extern void shuffleRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keyleve
 }
 
 extern void sortRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel) {
-    RoomList* start = *getRooms(p, keylevel);
+    RoomList* start = *getRooms_KeyLevelRoomMapping(p, keylevel);
 
     int swapped;
 
@@ -250,7 +250,7 @@ extern void sortRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel) 
 
 extern Room* chooseRoomWithFreeEdge(DungeonGenerator* g, KeyLevelRoomMapping* p, int keylevel) {
     shuffleRooms_KeyLevelRoomMapping(p, keylevel);
-    RoomList* rooms = *getRooms(p, keylevel);
+    RoomList* rooms = *getRooms_KeyLevelRoomMapping(p, keylevel);
     RoomList* temp = rooms;
 
     for (int i = 0; i < amountRooms_KeyLevelRoomMapping(p, keylevel); i += 1) {

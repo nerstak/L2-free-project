@@ -33,6 +33,9 @@ extern Room* init_Room(Coord* coord, Room* parent, Symbol* item, Condition* preC
 
     myRoom->childrenLength = 0;
 
+    myRoom->visited = false;
+    myRoom->cleaned = false;
+
     return myRoom;
 }
 
