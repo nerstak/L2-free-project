@@ -244,7 +244,6 @@ extern void display_SceneCollector(struct Engine* engine, Data* data, const char
 
                 temp->assets(engine, data, true);
                 temp->init(engine, data, true);
-                int x;
             }
             engine->sceneCollector->currentScene = temp;
 
