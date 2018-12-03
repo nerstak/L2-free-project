@@ -48,5 +48,9 @@ static void processTimer(Data* data) {
                 data->lobby->actionProcess = NONE;
             }
         }
+        if(data->lobby->actionProcess == PAUSE) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "pauseMenu");
+        }
     }
 }

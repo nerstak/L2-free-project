@@ -33,6 +33,8 @@ typedef struct SceneCollector {
     size_t size;
     struct Scene* previousScene;
     struct Scene* currentScene;
+    struct Scene* previousOverlay;
+    struct Scene* currentOverlay;
     struct Scene* loadingScene;
     struct Scene* scenes;
 } SceneCollector;

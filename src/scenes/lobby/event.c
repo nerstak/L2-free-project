@@ -1,4 +1,5 @@
 #include "event.h"
+#include "../../utils/enhancedSwitch.h"
 
 extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data) {
     float Vchange=2*(SDL_GetTicks() - data->Isaac->movement->timesince)*0.06;
@@ -11,28 +12,29 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
         switch (event.type) {
             case SDL_KEYDOWN: {
                 // Key pressed
-                switch (event.key.keysym.sym) {
-                    case SDLK_e: {
+                int input = event.key.keysym.sym;
+                SWITCH(input)
+                    CASE(engine->keys->INVENTORY)
                         data->lobby->askAction = INVENTORY;
-                        break;
-                    }
-                    case SDLK_LEFT: {
-                        data->lobby->askAction = LEFT;
-                        break;
-                    }
-                    case SDLK_RIGHT: {
-                        data->lobby->askAction = RIGHT;
-                        break;
-                    }
-                    case SDLK_RETURN:
+                    BREAK
+
+                    CASE(engine->keys->SELECT)
                         data->lobby->askAction = SELECT;
-                        break;
-                    case SDLK_ESCAPE:
-                        data->stop= 0;
-                        break;
-                    default:
-                        break;
-                }
+                    BREAK
+                    
+                    CASE(engine->keys->LEFT)
+                        data->lobby->askAction = LEFT;
+                    BREAK
+                    
+                    CASE(engine->keys->RIGHT)
+                        data->lobby->askAction = RIGHT;
+                    BREAK
+
+                    CASE(SDLK_ESCAPE)
+                        data->lobby->actionProcess = PAUSE;
+                    BREAK
+                ENDSWITCH
+
                 break;
             }
             case SDL_QUIT: {
@@ -43,18 +45,18 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                 break;
         }
     }
-
-    if(keystate[SDLK_w] || keystate[SDLK_a] || keystate[SDLK_s] || keystate[SDLK_d]) {
-        if(keystate[SDLK_w]) {
+   
+    if(keystate[engine->keys->UP] || keystate[engine->keys->LEFT] || keystate[engine->keys->DOWN] || keystate[engine->keys->RIGHT]) {
+        if(keystate[engine->keys->UP]) {
             data->Isaac->movement->velocity->y -= Vchange;
         }
-        if(keystate[SDLK_a]) {
+        if(keystate[engine->keys->LEFT]) {
             data->Isaac->movement->velocity->x-=Vchange;
         }
-        if(keystate[SDLK_s]) {
+        if(keystate[engine->keys->DOWN]) {
             data->Isaac->movement->velocity->y += Vchange;
         }
-        if(keystate[SDLK_d]) {
+        if(keystate[engine->keys->RIGHT]) {
             data->Isaac->movement->velocity->x+=Vchange;
         }
     }

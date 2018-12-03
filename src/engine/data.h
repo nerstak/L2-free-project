@@ -6,6 +6,7 @@
 #include "../structures/lobby.h"
 #include "../structures/inventory.h"
 #include "../structures/options.h"
+#include "../structures/pauseMenu.h"
 #include "game/player.h"
 #include "game/inventory.h"
 #include "game/plants.h"
@@ -16,6 +17,7 @@ typedef struct Data {
     struct lobby_t* lobby;
     struct mainMenu_t* mainMenu;
     struct options_t* options;
+    struct pauseMenu_t* pauseMenu;
     struct shop_t* shop;
     struct field_t* field;
     struct Player* Isaac;

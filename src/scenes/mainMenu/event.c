@@ -1,28 +1,36 @@
 #include "event.h"
 
-
+#include "../../utils/enhancedSwitch.h"
 
 extern void eventProcess_Scene_mainMenu(SDL_Event event, Engine* engine, Data* data) {
     if(SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_KEYDOWN: {
                 // Key pressed
-                switch (event.key.keysym.sym) {
-                    case SDLK_UP:
+                int input = event.key.keysym.sym;
+
+                SWITCH(input)
+                    CASE(engine->keys->UP_ATTACK)
                         data->mainMenu->askAction = -10;
-                        break;
-                    case SDLK_DOWN:
+                    BREAK
+
+                    CASE(engine->keys->DOWN_ATTACK)
                         data->mainMenu->askAction = 10;
-                        break;
-                    case SDLK_RETURN:
+                    BREAK
+
+                    CASE(engine->keys->SELECT)
                         data->mainMenu->askAction = 5;
-                        break;
-                    case SDLK_ESCAPE:
-                        data->stop= 0;
-                        break;
-                    default:
-                        break;
-                }
+                    BREAK
+
+                    CASE(SDLK_ESCAPE)
+                        data->stop = 0;
+                    BREAK;
+
+                    DEFAULT
+
+                    BREAK_DEFAULT;
+                ENDSWITCH
+
                 break;
             }
             case SDL_QUIT: {
@@ -30,7 +38,6 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event, Engine* engine, Data* d
                     break;
             }
             default: {
-                data->mainMenu->askAction = 0;
                 break;
             }
         }
