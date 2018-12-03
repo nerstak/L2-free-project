@@ -7,11 +7,13 @@ typedef struct referenceKey {
     int LEFT;
     int RIGHT;
     int INVENTORY;
+    int DELETE;
     int UP_ATTACK;
     int DOWN_ATTACK;
     int LEFT_ATTACK;
     int RIGHT_ATTACK;
     int SELECT;
+    int SWITCH;
 }referenceKey;
 
 

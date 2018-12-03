@@ -27,11 +27,11 @@ extern void setVolume(Engine* engine, char* type, int newVolume) {
         newVolume = 100;
     }
     if(strcmp(type,"music") == 0) {
-        Mix_VolumeMusic(newVolume/100 * 128);
+        Mix_VolumeMusic((int) (newVolume / 100.0 * 128));
         engine->volumeMusic = newVolume;
     } else if(strcmp(type, "sfx") == 0) {
         engine->volumeSFX = newVolume;
-        Mix_Volume(-1, newVolume/100 * 128);
+        Mix_Volume(-1,(int) (newVolume / 100.0 * 128));
     }
 }
 
@@ -51,11 +51,13 @@ extern void readConfig(Engine* engine) {
         fscanf(cfgFile,"LEFT=%d\n",&(engine->keys->LEFT));
         fscanf(cfgFile,"RIGHT=%d\n",&(engine->keys->RIGHT));
         fscanf(cfgFile,"INVENTORY=%d\n",&(engine->keys->INVENTORY));
+        fscanf(cfgFile,"DELETE=%d\n",&(engine->keys->DELETE));
         fscanf(cfgFile,"UP_ATTACK=%d\n",&(engine->keys->UP_ATTACK));
         fscanf(cfgFile,"DOWN_ATTACK=%d\n",&(engine->keys->DOWN_ATTACK));
         fscanf(cfgFile,"LEFT_ATTACK=%d\n",&(engine->keys->LEFT_ATTACK));
         fscanf(cfgFile,"RIGHT_ATTACK=%d\n",&(engine->keys->RIGHT_ATTACK));
         fscanf(cfgFile,"SELECT=%d\n",&(engine->keys->SELECT));
+        fscanf(cfgFile,"SWITCH=%d\n",&(engine->keys->SWITCH));
 
         fclose(cfgFile);
 
@@ -78,11 +80,13 @@ extern void writeConfig(Engine* engine) {
         fprintf(cfgFile,"LEFT=%d\n",engine->keys->LEFT);
         fprintf(cfgFile,"RIGHT=%d\n",engine->keys->RIGHT);
         fprintf(cfgFile,"INVENTORY=%d\n",engine->keys->INVENTORY);
+        fprintf(cfgFile,"DELETE=%d\n",engine->keys->DELETE);
         fprintf(cfgFile,"UP_ATTACK=%d\n",engine->keys->UP_ATTACK);
         fprintf(cfgFile,"DOWN_ATTACK=%d\n",engine->keys->DOWN_ATTACK);
         fprintf(cfgFile,"LEFT_ATTACK=%d\n",engine->keys->LEFT_ATTACK);
         fprintf(cfgFile,"RIGHT_ATTACK=%d\n",engine->keys->RIGHT_ATTACK);
         fprintf(cfgFile,"SELECT=%d\n",engine->keys->SELECT);
+        fprintf(cfgFile,"SWITCH=%d\n",engine->keys->SWITCH);
 
         fclose(cfgFile);
     }
@@ -129,6 +133,14 @@ extern int findKeyID(referenceKey* keys, int id) {
         case 9: {
             //Select
             return keys->SELECT;
+        }
+        case 10: {
+            //Delete
+            return keys->DELETE;
+        }
+        case 11: {
+            //Switch
+            return keys->SWITCH;
         }
         default: {
             return -1;
@@ -189,6 +201,16 @@ extern void alterKeyID(referenceKey* keys, int id, int newKey) {
                 keys->SELECT = newKey;
                 break;
             }
+            case 10: {
+                //Delete
+                keys->DELETE = newKey;
+                break;
+            }
+            case 11: {
+                //Switch
+                keys->SWITCH = newKey;
+                break;
+            }
             default: {
                 break;
             }
@@ -199,6 +221,8 @@ extern void alterKeyID(referenceKey* keys, int id, int newKey) {
 static int isKeyAttributed(referenceKey* keys, int newKey) {
     if(keys->SELECT == newKey
     || keys->INVENTORY == newKey
+    || keys->SWITCH == newKey
+    || keys->DELETE == newKey
     || keys->RIGHT_ATTACK == newKey
     || keys->LEFT_ATTACK == newKey
     || keys->DOWN_ATTACK == newKey
@@ -206,7 +230,8 @@ static int isKeyAttributed(referenceKey* keys, int newKey) {
     || keys->LEFT == newKey
     || keys->RIGHT == newKey
     || keys->DOWN == newKey
-    || keys->UP == newKey) {
+    || keys->UP == newKey
+    || SDLK_ESCAPE == newKey) {
         return 1;
     }
     return 0;
@@ -221,9 +246,11 @@ static void setDefaultOptions(Engine* engine) {
     engine->keys->LEFT = SDLK_a;
     engine->keys->RIGHT = SDLK_d;
     engine->keys->INVENTORY = SDLK_e;
+    engine->keys->DELETE = SDLK_BACKSPACE;
     engine->keys->UP_ATTACK = SDLK_UP;
     engine->keys->DOWN_ATTACK = SDLK_DOWN;
     engine->keys->LEFT_ATTACK = SDLK_LEFT;
     engine->keys->RIGHT_ATTACK = SDLK_RIGHT;
     engine->keys->SELECT = SDLK_RETURN;
+    engine->keys->SWITCH = SDLK_SPACE;
 }

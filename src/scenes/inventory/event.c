@@ -30,7 +30,7 @@ extern void eventProcess_Scene_inventory(SDL_Event event, Engine* engine, Data* 
                         data->inventory->askAction = I_ENTER;
                     BREAK
 
-                    CASE(SDLK_BACKSPACE)
+                    CASE(engine->keys->DELETE)
                         data->inventory->askAction = I_DELETE;
                     BREAK
 

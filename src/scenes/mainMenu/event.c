@@ -38,7 +38,6 @@ extern void eventProcess_Scene_mainMenu(SDL_Event event, Engine* engine, Data* d
                     break;
             }
             default: {
-                data->mainMenu->askAction = 0;
                 break;
             }
         }

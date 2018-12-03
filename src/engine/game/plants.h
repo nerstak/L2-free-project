@@ -22,6 +22,12 @@ typedef struct field_t{
 extern field_t* initField();
 
 /**
+ * Free a field_t Object
+ * @param field A double pointer to a field_t Object
+ */
+extern void freeField(field_t** field);
+
+/**
  * Return the plant according to an int
  * @param n int corresponding to the number of the plant
  * @param field Pointer to the field

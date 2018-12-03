@@ -200,6 +200,7 @@ extern void display_SceneCollector(struct Engine* engine, Data* data, const char
     Scene* previousScene = NULL;
 
     if (engine->sceneCollector->currentOverlay != NULL) { // An overlay is active
+        previousScene = engine->sceneCollector->previousScene;
         engine->sceneCollector->currentScene = engine->sceneCollector->loadingScene;
     } else if (engine->sceneCollector->currentScene != NULL) { // A scene is active
         previousScene = engine->sceneCollector->currentScene;
@@ -222,9 +223,10 @@ extern void display_SceneCollector(struct Engine* engine, Data* data, const char
                 engine->sceneCollector->previousOverlay = engine->sceneCollector->currentOverlay;
                 engine->sceneCollector->currentOverlay = temp;
             }
-
+            /*
             engine->sceneCollector->previousOverlay = engine->sceneCollector->currentOverlay;
             engine->sceneCollector->currentOverlay = temp;
+            */
         } else if (temp->type == SCENE) { // Leaving overlay
             engine->sceneCollector->currentOverlay->assets(engine, data, false);
             engine->sceneCollector->currentOverlay->init(engine, data, false);
@@ -236,6 +238,14 @@ extern void display_SceneCollector(struct Engine* engine, Data* data, const char
                 engine->sceneCollector->previousOverlay = NULL;
             }
 
+            if(strcmp(previousScene->name, temp->name) != 0) {
+                previousScene->assets(engine, data, false);
+                previousScene->init(engine, data, false);
+
+                temp->assets(engine, data, true);
+                temp->init(engine, data, true);
+                int x;
+            }
             engine->sceneCollector->currentScene = temp;
 
             engine->sceneCollector->currentOverlay = NULL;

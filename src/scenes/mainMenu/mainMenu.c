@@ -24,6 +24,19 @@ extern void init_Scene_mainMenu(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->mainMenu->position = 0;
         data->mainMenu->askAction = 0;
+
+        if(data->Isaac) {
+            freePlayer(&(data->Isaac));
+        }
+        if(data->field) {
+            freeField(&(data->field));
+        }
+        if(data->referenceItems) {
+            freeReference(&(data->referenceItems));
+        }
+
+
+
     } else {
         free(data->mainMenu);
         data->mainMenu = NULL;

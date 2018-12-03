@@ -16,8 +16,12 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
         }
     }
 
-    if(data->inventory->askDeletion != -1) {
+    if(data->inventory->askDeletion != -1 || action == I_DELETE) {
+        if(action == I_DELETE) {
+            data->inventory->askDeletion = -1;
+        }
         moveDeleteCursor(data);
+        data->inventory->askAction = I_NONE;
     } else if(action != I_NONE) {
         if(action != I_ENTER && action != I_DELETE && action != I_LEAVE) {
             moveInventorySelector(data);
@@ -27,7 +31,7 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
             data->inventory->askAction = I_NONE;
         } else if(action == I_LEAVE) {
             data->inventory->askAction = I_NONE;
-            display_SceneCollector(engine, data, "lobby");
+            display_SceneCollector(engine, data, engine->sceneCollector->previousScene->name);
         }
     }
 }

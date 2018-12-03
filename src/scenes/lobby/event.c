@@ -23,7 +23,7 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                     BREAK
 
                     CASE(SDLK_ESCAPE)
-                        data->stop= 0;
+                        data->lobby->actionProcess = PAUSE;
                     BREAK
                 ENDSWITCH
                 break;

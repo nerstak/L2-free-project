@@ -56,5 +56,9 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data)
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "shop");
         }
+        if(data->lobby->actionProcess == PAUSE) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "pauseMenu");
+        }
     }
 }

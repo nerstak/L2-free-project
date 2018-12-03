@@ -22,7 +22,12 @@ extern void logicProcess_Scene_options(Engine* engine, Data* data) {
         alterKey(engine, data);
     }else if(data->options->askAction == O_LEAVE) {
         writeConfig(engine);
-        display_SceneCollector(engine, data, "mainMenu");
+        if(engine->sceneCollector->previousOverlay == NULL) {
+            display_SceneCollector(engine, data, engine->sceneCollector->previousScene->name);
+        }else {
+            display_SceneCollector(engine, data, engine->sceneCollector->previousOverlay->name);
+        }
+
     }
 }
 
@@ -58,7 +63,7 @@ static void moveCursorOptions(Engine* engine, Data* data) {
             if(data->options->nTypeSelected != 3) {
                 (data->options->nTypeSelected)++;
                 preSelect(engine,data);
-            } else if(data->options->nSelected / 2 != 4) {
+            } else if(data->options->nSelected / 2 != 5) {
                 (data->options->nSelected) += 2;
             }
             break;
@@ -225,7 +230,7 @@ static void editSound(Engine* engine, Data* data, char* type) {
 }
 
 static void alterKey(Engine* engine, Data* data) {
-    if(data->options->newKey != SDLK_ESCAPE && data->options->newKey != SDLK_BACKSPACE && data->options->newKey != -1) {
+    if(data->options->newKey != -1) {
         alterKeyID(engine->keys, data->options->nSelected, data->options->newKey);
         data->options->newKey = -1;
         data->options->isKeyChanging = 0;
