@@ -2,7 +2,7 @@
 #include "../../engine/game/movement.h"
 #include "../../engine/game/garden.h"
 
-static void processTimer(Data* data);
+static void processTimer(Engine* engine, Data* data);
 
 extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
     if(data->lobby->actionProcess == NONE){
@@ -23,7 +23,7 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
         }else if(data->lobby->actionProcess == PLANT){
             menuSelectionPlanting_Garden(data);
         }else if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH) {
-            processTimer(data);
+            processTimer(engine, data);
         }else if(data->lobby->actionProcess == SHOP) {
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "shop");
@@ -32,13 +32,16 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             display_SceneCollector(engine, data, "inventory");
         }else if(data->lobby->actionProcess == GOTO_DUNGEON){
             menuSelectionDungeon_Garden(data);
+        } else if (data->lobby->actionProcess == 10) {
+            data->lobby->actionProcess = NONE;
+            display_SceneCollector(engine, data, "dungeon");
         }
         //TODO: Move this reset
-        data->lobby->askAction = NONE;
+        //data->lobby->askAction = NONE;
     }
 }
 
-static void processTimer(Data* data) {
+static void processTimer(Engine* engine, Data* data) {
     if(isStarted_Timer(data->lobby->timerMessage)) {
         if(getTime_Timer(data->lobby->timerMessage) > 2) {
             stop_Timer(data->lobby->timerMessage);
