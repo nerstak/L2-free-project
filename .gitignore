@@ -66,5 +66,5 @@ free_project
 # Docs
 docs/
 
-#Ignore Std
+# Ignore console output
 stdout.txt

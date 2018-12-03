@@ -40,6 +40,8 @@ extern void gameLoop(SDL_Surface* window) {
     load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 40, "menu/40");
     load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 50, "menu/50");
     load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 65, "menu/65");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 75, "menu/75");
+    load_FontCollector(myFontCollector, "src/resources/fonts/YellowSwamp.ttf", 90, "menu/90");
 
     // Initializing SoundCollector
     SoundCollector* mySoundCollector = init_SoundCollector();

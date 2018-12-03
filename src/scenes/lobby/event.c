@@ -15,17 +15,26 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                 int input = event.key.keysym.sym;
                 SWITCH(input)
                     CASE(engine->keys->INVENTORY)
-                        data->lobby->actionProcess = INVENTORY;
+                        data->lobby->askAction = INVENTORY;
                     BREAK
 
                     CASE(engine->keys->SELECT)
-                        data->lobby->counterPressKey = 3;
+                        data->lobby->askAction = SELECT;
+                    BREAK
+                    
+                    CASE(engine->keys->LEFT)
+                        data->lobby->askAction = LEFT;
+                    BREAK
+                    
+                    CASE(engine->keys->RIGHT)
+                        data->lobby->askAction = RIGHT;
                     BREAK
 
                     CASE(SDLK_ESCAPE)
                         data->lobby->actionProcess = PAUSE;
                     BREAK
                 ENDSWITCH
+
                 break;
             }
             case SDL_QUIT: {
@@ -36,21 +45,19 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                 break;
         }
     }
-    
+   
     if(keystate[engine->keys->UP] || keystate[engine->keys->LEFT] || keystate[engine->keys->DOWN] || keystate[engine->keys->RIGHT]) {
         if(keystate[engine->keys->UP]) {
             data->Isaac->movement->velocity->y -= Vchange;
         }
         if(keystate[engine->keys->LEFT]) {
             data->Isaac->movement->velocity->x-=Vchange;
-            data->lobby->counterPressKeyMove = -3;
         }
         if(keystate[engine->keys->DOWN]) {
             data->Isaac->movement->velocity->y += Vchange;
         }
         if(keystate[engine->keys->RIGHT]) {
             data->Isaac->movement->velocity->x+=Vchange;
-            data->lobby->counterPressKeyMove = 3;
         }
     }
 }

@@ -14,16 +14,14 @@ extern void MovePlayer(Data* data, Tiles** map)
     if(timechange>300)
         timechange=0;
 
-    data->Isaac->current_stats->speed=1; //TEMP
-
     ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange); //Dampens and caps velocity
     ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange);
-    CheckObstacle(data, timechange, data->Isaac->current_stats->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
+    CheckObstacle(data, timechange, data->Isaac->stats->current->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
 
-    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->current_stats->speed; //actually changes the character's movement according to the velocity we done got
-    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->current_stats->speed; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
+    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->stats->current->speed; //actually changes the character's movement according to the velocity we done got
+    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->stats->current->speed; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
 
-    ProcessAnimation(data->Isaac->movement,timechange,data->Isaac->current_stats->speed);// takes care of the character's animation
+    ProcessAnimation(data->Isaac->movement,timechange,data->Isaac->stats->current->speed);// takes care of the character's animation
 
     SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox); //selects the appropriate section of the spritesheet to display
 }

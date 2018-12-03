@@ -40,9 +40,7 @@ typedef struct Player {
     int size_inventory;
     Weapon * weapons;
     struct GameStats* gameStats;
-    struct stats_entity* current_stats;
-    struct stats_entity* basic_stats;
-    struct stats_entity* maxStats;
+    generalStats* stats;
     char save_name[20];
     int day;
 } Player;

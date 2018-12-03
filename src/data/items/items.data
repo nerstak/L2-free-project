@@ -1,26 +1,23 @@
-0: 'Wild radish seed' 'Just a seed. Nothing to worry about. Right?' ' ' PRICE=1 TYPE=s H=2 D=0 S=0 A=0
-1: 'Tomato seed' 'Is this the ancestor of ketchup?' ' ' PRICE=80 TYPE=s H=3 D=0 S=0 A=0
-2: 'Potatoes seed' 'I cant wait to use my potato gun' ' ' PRICE=250 TYPE=s H=4 D=0 S=0 A=0
-3: 'Corn seed' 'Oh, looking at these seed make my corny!' ' ' PRICE=540 TYPE=s H=0 D=0 S=0 A=0
-4: 'Pumpkin seed' 'Damn, I thought pumpkin where made of plastic just for Halloween.' ' ' PRICE=890 TYPE=s H=0 D=0 S=0 A=0
-5: 'Wild radish' 'Ewww... It looks a bit small' 'Cool1' PRICE=10 TYPE=v H=0.1 D=0 S=0 A=0.1
-6: 'Tomatoes' 'A juicy red vegetetable. Or is it a fruit?' 'Cool2' PRICE=120 TYPE=v H=0.2 D=0.05 S=0 A=0
-7: 'Potatoes' 'So many ways to cook them...' 'Cool3' PRICE=300 TYPE=v H=0.3 D=0 S=0.1 A=0
-8: 'Corn' 'Get ready to pop it!' 'Cool4' PRICE=580 TYPE=v H=0.4 D=0.1 S=0 A=0.2
-9: 'Pumpkin' 'A spooky vegetetable.' 'Cool5' PRICE=1000 TYPE=v H=10 D=0 S=0 A=0
-10: 'Basic health potion' 'Where is the fairy?' 'H1' PRICE=20 TYPE=p H=0.1 D=0 S=0 A=0
-11: 'Super health potion' 'Where is the fairy Queen?' 'H2' PRICE=80 TYPE=p H=0.5 D=0 S=0 A=0
-12: 'Basic strength potion' 'Is this blood inside?' 'S1' PRICE=20 TYPE=p H=0 D=0.1 S=0 A=0
-13: 'Super strength potion' 'I can feel an infinite source of power inside...' 'S2' PRICE=80 TYPE=p H=0 D=0.5 S=0 A=0
-14: 'Basic speed potion' 'Ooooh, coffee!' 'F1' PRICE=20 TYPE=p H=0 D=0 S=0.1 A=0
-15: 'Super speed potion' 'This a Truc de Fou Energy!' 'F2' PRICE=80 TYPE=p H=0 D=0 S=0.5 A=0
-16: 'Basic agility potion' 'I dont want to know what is inside this bottle' 'A1' PRICE=20 TYPE=p H=0 D=0 S=0 A=0.1
-17: 'Super agility potion' 'I am kinda addicted to it' 'A2' PRICE=80 TYPE=p H=0 D=0 S=0 A=0.5
-18: 'Loot1' 'DescLoot1' ' ' PRICE=20 TYPE=n H=0 D=0 S=0 A=0
-19: 'Loot2' 'DescLoot2' ' ' PRICE=20 TYPE=n H=0 D=0 S=0 A=0
-20: 'Loot3' 'DescLoot3' ' ' PRICE=40 TYPE=n H=0 D=0 S=0 A=0
-21: 'Loot4' 'DescLoot4' ' ' PRICE=40 TYPE=n H=0 D=0 S=0 A=0
-22: 'Loot5' 'DescLoot5' ' ' PRICE=60 TYPE=n H=0 D=0 S=0 A=0
-23: 'Loot6' 'DescLoot6' ' ' PRICE=60 TYPE=n H=0 D=0 S=0 A=0
-24: 'Loot7' 'DescLoot7' ' ' PRICE=80 TYPE=n H=0 D=0 S=0 A=0
-25: 'Loot8' 'DescLoot8' ' ' PRICE=80 TYPE=n H=0 D=0 S=0 A=0
+0: 'Carrot seed' 'Plant these to grow cursed radishes.' ' ' PRICE=0 TYPE=s H=1 D=0 S=0 A=0
+1: 'Tomato seed' 'Planting these will grow some nice pricey tomatoes.' ' ' PRICE=10 TYPE=s H=3 D=0 S=0 A=0
+2: 'Potatoes seed' 'Wait don t potatoes just grow from other potatoes?' ' ' PRICE=40 TYPE=s H=4 D=0 S=0 A=0
+3: 'Corn seed' 'Carrots normally take 3 months to grow, not these though.' ' ' PRICE=100 TYPE=s H=8 D=0 S=0 A=0
+4: 'Eggplant seed' 'You can feel chaotic energy radiate from these seeds.' ' ' PRICE=800 TYPE=s H=15 D=0 S=0 A=0
+5: 'Carrot' 'What s up doc.' 'You generally feel healthier.' PRICE=5 TYPE=v H=0.1 D=0 S=0 A=0
+6: 'Tomatoes' 'You feel like eating this could make you faster.' 'With this in your tummy, you gotta go fast.' PRICE=18 TYPE=v H=0.25 D=0 S=0.15 A=0
+7: 'Potatoes' 'Damn that potato looks strong as heck.' 'You now have the strength of ten Irishmen.' PRICE=60 TYPE=v H=0.5 D=0.4 S=0 A=0
+8: 'Corn' 'Is it a coincidence that rabbits are so heckin agile.' 'Your reflexes have improved and you feel more amiable.' PRICE=180 TYPE=v H=1 D=0 S=0 A=0.2
+9: 'Eggplant' 'Normally you shouldn t eat a raw eggplant buuuuut...' 'You feel all kinds of power coursing through you.' PRICE=1000 TYPE=v H=3 D=0.2 S=0.2 A=0.15
+10: 'Basic health potion' 'Heals you up for 20 hit points.' 'Glug glug, you healed 20 hit points.' PRICE=5 TYPE=p H=20 D=0 S=0 A=0
+11: 'Super health potion' 'Heals you up for 100 hit points.' 'Glug glug, you healed 100 hit points!' PRICE=15 TYPE=p H=100 D=0 S=0 A=0
+12: 'Basic speed potion' 'Increases your speed by 10%.' 'Zoop zoop you now possess the fast.' PRICE=1 TYPE=p H=0 D=0 S=0.1 A=0
+13: 'Truc de Fou' 'Increases your speed by 28% and supports local industry' 'Wow this actually doesn t taste that good.' PRICE=25 TYPE=p H=0 D=0 S=0.28 A=0
+14: 'Basic strength potion' 'Increases your strength by 18%.' 'Gulp gulp you feel your muscles grow.' PRICE=15 TYPE=p H=0 D=0.18 S=0 A=0
+15: 'Super strength potion' 'Increases your strength by 50%.' 'Gulp gulp your muscles are stretching your shirt.' PRICE=30 TYPE=p H=0 D=0.5 S=0 A=0
+16: 'Basic agility potion' 'Increases your swing speed by 10%.' 'Sip sip you can swing your weapons faster.' PRICE=20 TYPE=p H=0 D=0 S=0 A=0.1
+17: 'Super agility potion' 'Increases your swing speed by 25%.' 'Sip sip using your weapons now comes with great ease.' PRICE=40 TYPE=p H=0 D=0 S=0 A=0.25
+18: 'Bottle cap' 'These are going to be worth a lot when the bombs drop.' ' ' PRICE=3 TYPE=n H=0 D=0 S=0 A=0
+19: 'Efrei diploma' 'This is not worth a lot it turns out lmao.' ' ' PRICE=8 TYPE=n H=0 D=0 S=0 A=0
+20: 'Lost wallet' 'Looks like it was forgotten by a guy named "Teo Delete".' ' ' PRICE=14 TYPE=n H=0 D=0 S=0 A=0
+21: 'Vegetable Amulet' 'Crafted by a forgotten civilisation who whorshipped not starving.' ' ' PRICE=28 TYPE=n H=0 D=0 S=0 A=0
+22: 'Golden seed' 'Someone thought planting bits of gold would grow a gold tree.' ' ' PRICE=50 TYPE=n H=0 D=0 S=0 A=0

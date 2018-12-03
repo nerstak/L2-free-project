@@ -28,8 +28,8 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->actualPlant = NULL;
         data->lobby->askAction = 0;
         data->lobby->actionProcess = NONE;
-        data->lobby->counterPressKey = 0;
-        data->lobby->counterPressKeyMove = 0;
+        data->lobby->cursor = 0;
+        data->lobby->timerMessage = init_Timer();
 
     } else {
         freeSingleLayout(&(data->lobby->layout));

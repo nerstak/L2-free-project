@@ -1,7 +1,7 @@
 #ifndef FREE_PROJECT_ENGINE_GAME_PLANTS_H
 #define FREE_PROJECT_ENGINE_GAME_PLANTS_H
 
-typedef struct Plant{
+typedef struct Plant{ // -1: empty; 0:Carrot; 1:Tomato; 2:Potatoes; 3: Corn; 4: Eggplants
     int idVegetable;
     int x;
     int y;
