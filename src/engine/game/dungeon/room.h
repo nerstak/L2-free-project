@@ -8,6 +8,7 @@
 #include "edge.h"
 
 typedef struct Room {
+    // Generation related
     Condition* preCondition;
     Coord* coord;
     Symbol* item;
@@ -15,7 +16,11 @@ typedef struct Room {
     double difficulty;
     size_t childrenLength;
     struct Room* parent;
-    struct Room* children[];
+    struct Room* children[3];
+
+    // Gameplay related
+    bool visited;
+    bool cleaned;
 } Room;
 
 /**

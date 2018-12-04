@@ -17,7 +17,6 @@ extern void MovePlayer(Data* data, Tiles** map)
         timechange=0;
 
 
-    data->Isaac->current_stats->speed=1; //TEMP
 
     ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange,12,1); //Dampens and caps velocity
     ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange,12,1);
@@ -35,7 +34,7 @@ extern void MovePlayer(Data* data, Tiles** map)
 
     setPlayerHitbox(data->Isaac->movement);
 
-    ProcessAnimation(data->Isaac->movement,timechange,data->Isaac->current_stats->speed);// takes care of the character's animation
+    ProcessAnimation(data->Isaac->movement,timechange,data->Isaac->stats->current->speed);// takes care of the character's animation
 
     SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox); //selects the appropriate section of the spritesheet to display
 

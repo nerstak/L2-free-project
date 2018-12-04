@@ -126,7 +126,7 @@ static void loadPlayer(Data* data) {
         printf("Error while opening player.data");
         exit(EXIT_FAILURE);
     }
-    fscanf(playerFile,"MH=%f MS=%f MA=%f MD=%f\n",&(data->Isaac->maxStats->health),&(data->Isaac->maxStats->speed),&(data->Isaac->maxStats->agility),&(data->Isaac->maxStats->damage));
+    fscanf(playerFile,"MH=%f MS=%f MA=%f MD=%f\n",&(data->Isaac->stats->max->health),&(data->Isaac->stats->max->speed),&(data->Isaac->stats->max->agility),&(data->Isaac->stats->max->damage));
     fclose(playerFile);
 }
 
@@ -140,7 +140,7 @@ static void writeGameStats(FILE* saveFile, Player* Isaac) {
 }
 
 static void writeStats(FILE* saveFile,Player* Isaac) {
-    fprintf(saveFile,"STATS: H=%f D=%f S=%f A=%f\n",Isaac->basic_stats->health,Isaac->basic_stats->damage,Isaac->basic_stats->speed,Isaac->basic_stats->agility);
+    fprintf(saveFile,"STATS: H=%f D=%f S=%f A=%f\n",Isaac->stats->basic->health,Isaac->stats->basic->damage,Isaac->stats->basic->speed,Isaac->stats->basic->agility);
 }
 
 static void writeWeapons(FILE* saveFile, Player* Isaac) {
@@ -180,14 +180,14 @@ static void readGameStats(FILE* saveFile, Data* data) {
 }
 
 static void readStats(FILE* saveFile, Data* data) {
-    fscanf(saveFile,"STATS: H=%f D=%f S=%f A=%f\n",&(data->Isaac->basic_stats->health),&(data->Isaac->basic_stats->damage),&(data->Isaac->basic_stats->speed),&(data->Isaac->basic_stats->agility));
+    fscanf(saveFile,"STATS: H=%f D=%f S=%f A=%f\n",&(data->Isaac->stats->basic->health),&(data->Isaac->stats->basic->damage),&(data->Isaac->stats->basic->speed),&(data->Isaac->stats->basic->agility));
     //Checking that the value are not to high
     alterDamage(data->Isaac,0,'b');
     alterSpeed(data->Isaac,0,'b');
     alterAgility(data->Isaac,0,'b');
     alterHealth(data->Isaac,0,'b');
 
-    copyStats(data->Isaac->current_stats,data->Isaac->basic_stats);
+    copyStats(data->Isaac->stats->current,data->Isaac->stats->basic);
 }
 
 static void readWeapons(FILE* saveFile, Data* data) {
@@ -211,4 +211,6 @@ static void readInventory(FILE* saveFile, Data* data) {
         add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
     }
     data->Isaac->size_inventory = i;
+
+    reverseInventory(&(data->Isaac->inventory));
 }

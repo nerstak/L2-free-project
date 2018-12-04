@@ -35,25 +35,29 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                         if(data->lobby->askCombat==-1)
                             data->lobby->askCombat = 2;
 
-                        data->lobby->counterPressKeyMove = 3;
+                        data->lobby->askAction = RIGHT;
                         break;
                     }
                     case SDLK_LEFT: {
                         if(data->lobby->askCombat==-1)
                             data->lobby->askCombat = 3;
 
-                        data->lobby->counterPressKeyMove = -3;
+                        data->lobby->askAction = LEFT;
                         break;
                     }
                     case SDLK_e: {
-                        data->lobby->actionProcess = INVENTORY;
+                        data->lobby->askAction = INVENTORY;
                         break;
                     }
+
                     case SDLK_RETURN:
-                        data->lobby->counterPressKey = 3;
+                        data->lobby->askAction = SELECT;
                         break;
                     case SDLK_ESCAPE:
                         data->stop= 0;
+                        break;
+                    case SDLK_UNDERSCORE:
+                        data->lobby->actionProcess = 10;
                         break;
                     default:
                         break;
@@ -76,14 +80,12 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
         }
         if(keystate[SDLK_a]) {
             data->Isaac->movement->velocity->x-=Vchange;
-           // data->lobby->counterPressKeyMove = -3;
         }
         if(keystate[SDLK_s]) {
             data->Isaac->movement->velocity->y += Vchange;
         }
         if(keystate[SDLK_d]) {
             data->Isaac->movement->velocity->x+=Vchange;
-           // data->lobby->counterPressKeyMove = 3;
         }
     }
 }

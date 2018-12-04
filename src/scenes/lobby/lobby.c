@@ -29,8 +29,6 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->askAction = 0;
         data->lobby->askCombat = -1;
         data->lobby->actionProcess = NONE;
-        data->lobby->counterPressKey = 0;
-        data->lobby->counterPressKeyMove = 0;
 
         //TEMP because theres no monsters in the lobby but I still need to test this shit
         data->monsters=malloc(sizeof(MonsterNode));
@@ -54,6 +52,8 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->monsters->monster->movement->SpriteBox->y=0;
         data->monsters->monster->Health=1;
 
+        data->lobby->cursor = 0;
+        data->lobby->timerMessage = init_Timer();
 
     } else {
         freeSingleLayout(&(data->lobby->layout));

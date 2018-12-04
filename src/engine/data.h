@@ -6,6 +6,7 @@
 #include "../structures/lobby.h"
 #include "../structures/inventory.h"
 #include "../structures/options.h"
+#include "../structures/dungeonScene.h"
 #include "game/player.h"
 #include "game/inventory.h"
 #include "game/plants.h"
@@ -20,6 +21,7 @@ typedef struct Data {
     struct options_t* options;
     struct shop_t* shop;
     struct field_t* field;
+    struct dungeonScene_t* dungeonScene;
     struct Player* Isaac;
     int stop;
     MonsterLList monsters; //TEMP because theres no monsters in the lobby but I still need to test this shit
