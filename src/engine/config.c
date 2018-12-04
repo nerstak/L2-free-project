@@ -31,7 +31,7 @@ extern void setVolume(Engine* engine, char* type, int newVolume) {
         engine->volumeMusic = newVolume;
     } else if(strcmp(type, "sfx") == 0) {
         engine->volumeSFX = newVolume;
-        Mix_Volume(-1,(int) (newVolume / 100.0 * 128));
+        Mix_Volume(-1, (int) (newVolume / 100.0 * 128));
     }
 }
 
