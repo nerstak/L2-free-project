@@ -24,8 +24,31 @@ extern void init_Scene_options(Engine* engine, Data* data, bool loadOrUnload) {
         data->options->askAction = O_NONE;
         data->options->isKeyChanging = 0;
         data->options->newKey = -1;
-        data->options->nSelected = 0;
         data->options->nTypeSelected = 0;
+
+        switch(getMaxFps_Fps(engine->fps)) {
+            case 60: {
+                data->options->nSelected = 0;
+                break;
+            }
+            case 120: {
+                data->options->nSelected = 1;
+                break;
+            }
+            case 144: {
+                data->options->nSelected = 2;
+                break;
+            }
+            default: {
+                if(!engine->fps->fpsLimited) {
+                    data->options->nSelected = 3;
+                } else {
+                    data->options->nSelected = 0;
+                }
+                break;
+            }
+        }
+
     } else {
         free(data->options);
         data->options = NULL;

@@ -22,11 +22,11 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                         data->lobby->askAction = SELECT;
                     BREAK
                     
-                    CASE(engine->keys->LEFT)
+                    CASE(engine->keys->LEFT_ATTACK)
                         data->lobby->askAction = LEFT;
                     BREAK
                     
-                    CASE(engine->keys->RIGHT)
+                    CASE(engine->keys->RIGHT_ATTACK)
                         data->lobby->askAction = RIGHT;
                     BREAK
 
