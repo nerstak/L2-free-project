@@ -15,6 +15,7 @@ extern void init_Window() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     TTF_Init();
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+    Mix_AllocateChannels(10);
 
     // Creating our window
     window = SDL_SetVideoMode(1280, 720, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);

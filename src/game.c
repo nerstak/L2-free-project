@@ -14,11 +14,14 @@
 #include "scenes/loadingScreen/loadingScreen.h"
 #include "scenes/mainMenu/mainMenu.h"
 #include "scenes/options/options.h"
+#include "scenes/pauseMenu/pauseMenu.h"
 #include "scenes/lobby/lobby.h"
 #include "scenes/inventory/inventory.h"
 #include "scenes/shop/shop.h"
 #include "scenes/dungeon/dungeon.h"
 #include "scenes/test/test.h"
+
+#include "engine/config.h"
 
 extern void gameLoop(SDL_Surface* window) {
     SDL_Event event;
@@ -54,6 +57,8 @@ extern void gameLoop(SDL_Surface* window) {
     myEngine->fontCollector = myFontCollector;
     myEngine->imageCollector = myImageCollector;
     myEngine->soundCollector = mySoundCollector;
+    myEngine->keys = initKeys();
+    readConfig(myEngine);
 
     // Initializing Data
     Data* myData = init_Data();
@@ -66,8 +71,8 @@ extern void gameLoop(SDL_Surface* window) {
     load_SceneCollector(myEngine, myData, "inventory", OVERLAY, &assets_Scene_inventory, &init_Scene_inventory, &renderScene_Scene_inventory, &logicProcess_Scene_inventory, &eventProcess_Scene_inventory);
     load_SceneCollector(myEngine, myData, "dungeon", SCENE, &assets_Scene_dungeon, &init_Scene_dungeon, &renderScene_Scene_dungeon, &logicProcess_Scene_dungeon, &eventProcess_Scene_dungeon);
     load_SceneCollector(myEngine, myData, "test", SCENE, &assets_Scene_test, &init_Scene_test, &renderScene_Scene_test, &logicProcess_Scene_test, &eventProcess_Scene_test);
-    load_SceneCollector(myEngine, myData, "options", SCENE, &assets_Scene_options, &init_Scene_options, &renderScene_Scene_options, &logicProcess_Scene_options, &eventProcess_Scene_options);
-
+    load_SceneCollector(myEngine, myData, "options", OVERLAY, &assets_Scene_options, &init_Scene_options, &renderScene_Scene_options, &logicProcess_Scene_options, &eventProcess_Scene_options);
+    load_SceneCollector(myEngine, myData, "pauseMenu", OVERLAY, &assets_Scene_pauseMenu, &init_Scene_pauseMenu, &renderScene_Scene_pauseMenu, &logicProcess_Scene_pauseMenu, &eventProcess_Scene_pauseMenu);
 
     display_SceneCollector(myEngine, myData, "mainMenu");
 
@@ -75,14 +80,30 @@ extern void gameLoop(SDL_Surface* window) {
         // Start the FPS limiter Timer
         startLimiterTimer_Fps(myFps);
 
-        // Event loop
-        mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
+        if (mySceneCollector->currentOverlay != NULL) {
+            // Event loop
+            mySceneCollector->currentOverlay->eventProcess(event, myEngine, myData);
 
-        // Logic
-        mySceneCollector->currentScene->logicProcess(myEngine, myData);
+            // Logic
+            mySceneCollector->currentOverlay->logicProcess(myEngine, myData);
 
-        // Rendering
-        mySceneCollector->currentScene->renderScene(window, myEngine, myData);
+            if (mySceneCollector->currentOverlay != NULL) {
+                // Rendering
+                mySceneCollector->currentOverlay->renderScene(window, myEngine, myData);
+            }
+        } else {
+            // Event loop
+            mySceneCollector->currentScene->eventProcess(event, myEngine, myData);
+
+            // Logic
+            mySceneCollector->currentScene->logicProcess(myEngine, myData);
+
+            if (mySceneCollector->currentScene != NULL) {
+                // Rendering
+                mySceneCollector->currentScene->renderScene(window, myEngine, myData);
+            }
+        }
+
         renderScreen();
 
         count_Fps(myFps);

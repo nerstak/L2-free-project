@@ -52,8 +52,13 @@ extern int getMaxFps_Fps(Fps* p) {
 }
 
 extern void setMaxFps_Fps(Fps* p, bool enabled, int maxFps) {
-    p->fpsLimited = true;
+    if(maxFps == -1) {
+        p->fpsLimited = false;
+    } else {
+        p->fpsLimited = true;
+    }
     p->maxFps = maxFps;
+
 }
 
 extern void startCounterTimer_Fps(Fps* p) {

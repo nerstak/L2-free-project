@@ -1,7 +1,8 @@
 #include "event.h"
+
 #include "../../utils/enhancedSwitch.h"
 
-extern void eventProcess_Scene_shop(SDL_Event event, Engine* engine, Data* data) {
+extern void eventProcess_Scene_pauseMenu(SDL_Event event, Engine* engine, Data* data) {
     if(SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_KEYDOWN: {
@@ -10,32 +11,24 @@ extern void eventProcess_Scene_shop(SDL_Event event, Engine* engine, Data* data)
 
                 SWITCH(input)
                 CASE(engine->keys->UP_ATTACK)
-                data->shop->askAction = I_UP;
+                    data->pauseMenu->askAction = -10;
                 BREAK
 
                 CASE(engine->keys->DOWN_ATTACK)
-                data->shop->askAction = I_DOWN;
-                BREAK
-
-                CASE(engine->keys->LEFT_ATTACK)
-                data->shop->askAction = I_LEFT;
-                BREAK
-
-                CASE(engine->keys->RIGHT_ATTACK)
-                data->shop->askAction = I_RIGHT;
+                    data->pauseMenu->askAction = 10;
                 BREAK
 
                 CASE(engine->keys->SELECT)
-                data->shop->askAction = I_ENTER;
-                BREAK
-
-                CASE(SDLK_BACKSPACE)
-                data->shop->askAction = I_DELETE;
+                    data->pauseMenu->askAction = 5;
                 BREAK
 
                 CASE(SDLK_ESCAPE)
-                data->shop->askAction = I_LEAVE;
-                BREAK
+                    data->pauseMenu->backGame = 1;
+                BREAK;
+
+                DEFAULT
+
+                        BREAK_DEFAULT;
                 ENDSWITCH
 
                 break;
@@ -45,6 +38,7 @@ extern void eventProcess_Scene_shop(SDL_Event event, Engine* engine, Data* data)
                 break;
             }
             default: {
+                data->pauseMenu->askAction = 0;
                 break;
             }
         }

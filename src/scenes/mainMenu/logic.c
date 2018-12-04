@@ -25,7 +25,6 @@ static void moveMainMenuSelector(Data* data, int direction) {
 }
 
 static void enterMainMenu(Data* data, Engine* engine) {
-    printf("Selected: %d\n", data->mainMenu->position);
     switch(getCurrentMainMenuSelector(data)) {
         case 0:
             //New game

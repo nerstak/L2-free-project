@@ -98,6 +98,9 @@ extern SceneCollector* init_SceneCollector() {
     // Default value of our instance
     mySceneCollector->size = 0;
     mySceneCollector->currentScene = NULL;
+    mySceneCollector->previousScene = NULL;
+    mySceneCollector->currentOverlay = NULL;
+    mySceneCollector->previousOverlay = NULL;
     mySceneCollector->loadingScene = NULL;
     mySceneCollector->scenes = NULL;
 
@@ -177,35 +180,99 @@ extern void unload_SceneCollector(struct Engine* engine, const char name[]) {
 }
 
 extern void display_SceneCollector(struct Engine* engine, Data* data, const char name[]) {
-    // We may display a waiting screen :) ?
-    Scene* previousScene = engine->sceneCollector->currentScene;
-    engine->sceneCollector->currentScene = engine->sceneCollector->loadingScene;
-    engine->sceneCollector->previousScene = previousScene;
-
-    // Secondly we display the new one
+    // Find the new scene
     Scene* temp = engine->sceneCollector->scenes;
 
     while (temp != NULL) {
         if (strcmp(temp->name, name) == 0) {
-            // Now we do our shit behind the scene
-            // First we clean the previous scene (only if new scene is a Scene and there is a previous one)
-            if (previousScene != NULL && temp->type == SCENE) {
-                previousScene->assets(engine, data, false);
-                previousScene->init(engine, data, false);
-            }
-
-            // If we leave a Overlay, we shouldn't reload the new scene
-            if (!(previousScene != NULL && previousScene->type == OVERLAY)) {
-                temp->assets(engine, data, true);
-                temp->init(engine, data, true);
-            }
-
-            // We hide it
-            engine->sceneCollector->currentScene = temp;
-
-            return;
+            break;
         }
 
         temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        // TODO: Fail err, scene not found
+        exit(EXIT_FAILURE);
+    }
+
+    // Display the loading screen
+    Scene* previousScene = NULL;
+
+    if (engine->sceneCollector->currentOverlay != NULL) { // An overlay is active
+        previousScene = engine->sceneCollector->previousScene;
+        engine->sceneCollector->currentScene = engine->sceneCollector->loadingScene;
+    } else if (engine->sceneCollector->currentScene != NULL) { // A scene is active
+        previousScene = engine->sceneCollector->currentScene;
+        engine->sceneCollector->currentScene = engine->sceneCollector->loadingScene;
+        engine->sceneCollector->previousScene = previousScene;
+    }
+
+    // Currently there is an overlay displayed
+    if (engine->sceneCollector->currentOverlay != NULL) {
+        if (temp->type == OVERLAY) { // Sub overlay
+            if (temp == engine->sceneCollector->previousOverlay) { // Going back
+                engine->sceneCollector->currentOverlay->assets(engine, data, false);
+                engine->sceneCollector->currentOverlay->init(engine, data, false);
+
+                engine->sceneCollector->currentOverlay = temp;
+            } else {
+                temp->assets(engine, data, true);
+                temp->init(engine, data, true);
+
+                engine->sceneCollector->previousOverlay = engine->sceneCollector->currentOverlay;
+                engine->sceneCollector->currentOverlay = temp;
+            }
+            /*
+            engine->sceneCollector->previousOverlay = engine->sceneCollector->currentOverlay;
+            engine->sceneCollector->currentOverlay = temp;
+            */
+        } else if (temp->type == SCENE) { // Leaving overlay
+            engine->sceneCollector->currentOverlay->assets(engine, data, false);
+            engine->sceneCollector->currentOverlay->init(engine, data, false);
+
+            if (engine->sceneCollector->previousOverlay != NULL) {
+                engine->sceneCollector->previousOverlay->assets(engine, data, false);
+                engine->sceneCollector->previousOverlay->init(engine, data, false);
+
+                engine->sceneCollector->previousOverlay = NULL;
+            }
+
+            if(strcmp(previousScene->name, temp->name) != 0) {
+                previousScene->assets(engine, data, false);
+                previousScene->init(engine, data, false);
+
+                temp->assets(engine, data, true);
+                temp->init(engine, data, true);
+            }
+            engine->sceneCollector->currentScene = temp;
+
+            engine->sceneCollector->currentOverlay = NULL;
+        }
+    } else if (engine->sceneCollector->previousScene != NULL) { // Currently there is a scene displayed
+        if (temp->type == SCENE) {
+            engine->sceneCollector->previousScene->assets(engine, data, false);
+            engine->sceneCollector->previousScene->init(engine, data, false);
+
+            temp->assets(engine, data, true);
+            temp->init(engine, data, true);
+
+            engine->sceneCollector->currentScene = temp;
+        } else if (temp->type == OVERLAY) {
+            temp->assets(engine, data, true);
+            temp->init(engine, data, true);
+
+            engine->sceneCollector->currentScene = NULL;
+            engine->sceneCollector->currentOverlay = temp;
+        }
+    } else { // Nothing was displayed
+        if (temp->type == SCENE) {
+            temp->assets(engine, data, true);
+            temp->init(engine, data, true);
+
+            engine->sceneCollector->currentScene = temp;
+        } else if (temp->type == OVERLAY) {
+            // TODO: Error can't start with a OVERLAY
+        }
     }
 }

@@ -159,7 +159,7 @@ extern void ProcessAnimation(MovementValues * move,int t,float speedstat)
     //the direction of the player is based on the direction with the most velocity
     if(move->velocity->y > 0 && move->velocity->y >= move->velocity->x && -move->velocity->y <= move->velocity->x) //DOWN 0
         move->direction=0;
-    else if(move->velocity->y < 0 && move->velocity->y <= move->velocity->x && -move->velocity->y >= move->velocity->x) // UP 1
+    else if(move->velocity->y < 0 && move->velocity->y <= move->velocity->x && -move->velocity->y >= move->velocity->x) // up 1
         move->direction=1;
     else if(move->velocity->x > 0) //RIGHT 2
         move->direction=2;

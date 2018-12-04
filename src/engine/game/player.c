@@ -170,6 +170,9 @@ extern void freePlayer(Player** Isaac) {
     }
 
     freeAll_SlotInventory(&((*Isaac)->inventory));
+
+    free(*Isaac);
+    *Isaac = NULL;
 }
 
 //Change the balance of the wallet, IFF possible (return 1 if done)

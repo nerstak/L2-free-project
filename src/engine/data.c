@@ -9,8 +9,9 @@ static void clean_shop_Data(shop_t** shop);
 static void clean_field_Data(field_t** field);
 static void clean_lobby_Data(lobby_t** lobby);
 static void clean_options_Data(options_t** options);
+static void clean_pauseMenu_Data(pauseMenu_t** pauseMenu);
 
-extern Data* init_Data() {
+        extern Data* init_Data() {
     // Initialization of a SceneCollector pointer
     Data* myData = NULL;
     myData = malloc(1 * sizeof(Data));
@@ -28,6 +29,7 @@ extern Data* init_Data() {
     myData->shop = NULL;
     myData->field = NULL;
     myData->options = NULL;
+    myData->pauseMenu = NULL;
 
     //Loading of the reference
     myData->referenceItems = NULL;
@@ -61,6 +63,9 @@ extern void clean_Data(Data** myData) {
     }
     if((*myData)->options != NULL) {
         clean_options_Data(&(*myData)->options);
+    }
+    if((*myData)->pauseMenu != NULL) {
+        clean_pauseMenu_Data(&(*myData)->pauseMenu);
     }
 
 
@@ -122,4 +127,9 @@ static void clean_lobby_Data(lobby_t** lobby) {
 static void clean_options_Data(options_t** options) {
     free(*options);
     (*options) = NULL;
+}
+
+static void clean_pauseMenu_Data(pauseMenu_t** pauseMenu) {
+    free(*pauseMenu);
+    (*pauseMenu) = NULL;
 }

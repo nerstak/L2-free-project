@@ -6,6 +6,7 @@
 
 
 static Plant* init_Plants(int x,int y);
+static void freePlant(Plant** Plant);
 
 extern field_t* initField(){
      field_t* field = malloc(sizeof(field_t));
@@ -19,6 +20,20 @@ extern field_t* initField(){
      field->plantTopRight = init_Plants(17,2);
 
      return field;
+}
+
+extern void freeField(field_t** field) {
+    if(field) {
+        if(*field) {
+            freePlant(&((*field)->plantBotRight));
+            freePlant(&((*field)->plantBotLeft));
+            freePlant(&((*field)->plantTopRight));
+            freePlant(&((*field)->plantTopLeft));
+
+            free(*field);
+            *field = NULL;
+        }
+    }
 }
 
 
@@ -35,6 +50,15 @@ static Plant* init_Plants(int x,int y){
     temp->x = x;
     temp->y = y;
     return temp;
+}
+
+static void freePlant(Plant** Plant) {
+    if(Plant) {
+        if(*Plant) {
+            free(*Plant);
+            *Plant = NULL;
+        }
+    }
 }
 
 extern Plant* assignPlant(int n, field_t* field) {
