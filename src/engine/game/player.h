@@ -29,13 +29,23 @@ typedef struct MovementValues {
     int step; //animation step
     int direction;
     SDL_Rect * SpriteBox;
+    SDL_Rect * Hitbox;
     int timesince;
 }MovementValues;
+
+typedef struct CombatValues {
+    int step; //animation step
+    int direction;
+    SDL_Rect * SpriteBox;
+    SDL_Rect * WeaponHitbox;
+    int timesince;
+}CombatValues;
 
 
 typedef struct Player {
     int money;
     MovementValues * movement;
+    CombatValues * combat;
     SlotInventory * inventory;
     int size_inventory;
     Weapon * weapons;

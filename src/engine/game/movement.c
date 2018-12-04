@@ -5,49 +5,87 @@
 
 #include "../data.h"
 #include "movement.h"
+#include "combat.h"
 
 extern void MovePlayer(Data* data, Tiles** map)
 {
+    // TODO: convert all my shitty timers to clem's clean ones
     int tick=SDL_GetTicks();
     int timechange=tick - data->Isaac->movement->timesince;     // Timer to get the time since the last frame of movement
     data->Isaac->movement->timesince=tick;
     if(timechange>300)
         timechange=0;
 
-    ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange); //Dampens and caps velocity
-    ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange);
-    CheckObstacle(data, timechange, data->Isaac->stats->current->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
 
-    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->stats->current->speed; //actually changes the character's movement according to the velocity we done got
-    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->stats->current->speed; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
+
+    ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange,12,1); //Dampens and caps velocity
+    ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange,12,1);
+
+    float dampen=1;
+    if(data->Isaac->combat->step!=0)
+    {
+        dampen=0.3;
+    }
+
+    CheckObstacle(data, timechange, data->Isaac->current_stats->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
+
+    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->current_stats->speed*dampen; //actually changes the character's movement according to the velocity we done got
+    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->current_stats->speed*dampen; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
+
+    setPlayerHitbox(data->Isaac->movement);
 
     ProcessAnimation(data->Isaac->movement,timechange,data->Isaac->stats->current->speed);// takes care of the character's animation
 
     SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox); //selects the appropriate section of the spritesheet to display
+
+
+
+    //after this is temp
+    SDL_Rect dummy;
+    dummy.x=960;
+    dummy.y=256;
+    dummy.h=64;
+    dummy.w=64;
+    if(BoxCollision(&dummy,data->Isaac->movement->Hitbox))
+    {
+        printf("\n           DAMAGED\n");
+    }
 }
 
-extern void ProcessVelocity(float* v,int t)
+extern void ProcessVelocity(float* v,int t, int max, float factor)
 {
+    float KillMe=(*v);
     if((*v)>0) // gradually slows down the player so he stops when not pressing the button
     {
-        (*v)-=t*0.06; //this is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
+
+        (*v)-=((t*0.06) *factor); //this is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
+        KillMe=(*v);
         if((*v)<0)
+        {
             (*v)=0;
+        }
+        KillMe=(*v);
     }
 
 
     else if((*v)<0)
     {
-        (*v)+=t*0.06;
+        (*v)+=((t*0.06) *factor);
+        KillMe=(*v);
         if((*v)>0)
+        {
             (*v)=0;
+        }
+        KillMe=(*v);
     }
 
+    KillMe=(*v);
+    if((*v)>max) // Caps velocity
+        (*v)=max;
+    else if((*v)<-max)
+        (*v)=-max;
 
-    if((*v)>12) // Caps velocity
-        (*v)=12;
-    else if((*v)<-12)
-        (*v)=-12;
+    KillMe=(*v);
 }
 
 extern void StopVelocity(MovementValues * move) {
@@ -150,3 +188,19 @@ extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH) {
         data->Isaac->movement->velocity->y = 0;
     }
 }
+
+extern void setPlayerHitbox(MovementValues * move)
+{
+    move->Hitbox->x=move->pos->x;
+    move->Hitbox->y=move->pos->y + 32;
+}
+
+extern void freemovement(MovementValues * move)
+{
+    free(move->Hitbox);
+    free(move->pos);
+    free(move->SpriteBox);
+    free(move->velocity);
+    free(move);
+}
+

@@ -66,5 +66,9 @@ free_project
 # Docs
 docs/
 
+free_project.depend
+
+free_project.layout
+
 # Ignore console output
 stdout.txt

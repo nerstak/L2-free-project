@@ -27,7 +27,31 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->layout = loadSingleLayout("lobby","lobby");
         data->lobby->actualPlant = NULL;
         data->lobby->askAction = 0;
+        data->lobby->askCombat = -1;
         data->lobby->actionProcess = NONE;
+
+        //TEMP because theres no monsters in the lobby but I still need to test this shit
+        data->monsters=malloc(sizeof(MonsterNode));
+        data->monsters->next=NULL;
+        data->monsters->monster=malloc(sizeof(Monster));
+        data->monsters->monster->movement=malloc(sizeof(MovementValues));
+        data->monsters->monster->movement->Hitbox=malloc(sizeof(SDL_Rect));
+        data->monsters->monster->movement->SpriteBox=malloc(sizeof(SDL_Rect));
+        data->monsters->monster->movement->pos=malloc(sizeof(coordinates_entity));
+        data->monsters->monster->movement->velocity=malloc(sizeof(coordinates_entity));
+
+        data->monsters->monster->Speed=1;
+        data->monsters->monster->type=0;
+        data->monsters->monster->movement->pos->x=0;
+        data->monsters->monster->movement->pos->y=0;
+        data->monsters->monster->movement->velocity->x=0;
+        data->monsters->monster->movement->velocity->y=0;
+        data->monsters->monster->movement->SpriteBox->h=64;
+        data->monsters->monster->movement->SpriteBox->w=64;
+        data->monsters->monster->movement->SpriteBox->x=0;
+        data->monsters->monster->movement->SpriteBox->y=0;
+        data->monsters->monster->Health=1;
+
         data->lobby->cursor = 0;
         data->lobby->timerMessage = init_Timer();
 

@@ -1,6 +1,8 @@
 #include "logic.h"
 #include "../../engine/game/movement.h"
+#include "../../engine/game/monsters.h" // remove
 #include "../../engine/game/garden.h"
+#include "../../engine/game/combat.h"
 
 static void processTimer(Engine* engine, Data* data);
 
@@ -11,6 +13,11 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
         }else if (data->lobby->askAction == INVENTORY) {
             data->lobby->actionProcess = INVENTORY;
         }else {
+            if(data->lobby->askCombat!=-1)
+            {
+                ProcessCombat(data,data->lobby->askCombat);
+            }
+            ProcessMonsters(data->Isaac,&(data->monsters));
             MovePlayer(data, data->lobby->layout->map);
         }
     } else {
