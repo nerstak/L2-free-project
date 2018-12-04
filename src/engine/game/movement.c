@@ -27,10 +27,10 @@ extern void MovePlayer(Data* data, Tiles** map)
         dampen=0.3;
     }
 
-    CheckObstacle(data, timechange, data->Isaac->current_stats->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
+    CheckObstacle(data, timechange, data->Isaac->stats->current->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
 
-    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->current_stats->speed*dampen; //actually changes the character's movement according to the velocity we done got
-    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->current_stats->speed*dampen; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
+    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->stats->current->speed*dampen; //actually changes the character's movement according to the velocity we done got
+    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->stats->current->speed*dampen; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
 
     setPlayerHitbox(data->Isaac->movement);
 

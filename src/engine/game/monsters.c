@@ -9,7 +9,7 @@
 //#include "movement.h"
 #include "monsters.h"
 #include "../../utils/math.h"
-
+#include "movement.h"
 
 
 extern void ProcessMonsters(Player * Isaac,MonsterLList * monsters)
@@ -100,7 +100,7 @@ extern void Damage(Monster * mob,Player * Isaac)
 {
     if(BoxCollision(mob->movement->Hitbox,Isaac->movement->Hitbox))
     {
-        Isaac->current_stats->health-=1;
+        Isaac->stats->current->health-=1;
     }
     if(BoxCollision(mob->movement->Hitbox,Isaac->combat->WeaponHitbox))
     {

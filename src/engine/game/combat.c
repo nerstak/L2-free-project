@@ -15,7 +15,7 @@ extern void ProcessCombat(Data * data, int direction)
     }
     int doot=SDL_GetTicks(),times=data->Isaac->combat->timesince;
 
-    CombatAnimation(data->Isaac->combat,(SDL_GetTicks() - data->Isaac->combat->timesince)+1,data->Isaac->current_stats->agility);
+    CombatAnimation(data->Isaac->combat,(SDL_GetTicks() - data->Isaac->combat->timesince)+1,data->Isaac->stats->current->agility);
 
     CombatSprite(data->Isaac->combat);
 
