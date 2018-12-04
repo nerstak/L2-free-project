@@ -42,6 +42,19 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->monsters->monster->movement->pos=malloc(sizeof(coordinates_entity));
         data->monsters->monster->movement->velocity=malloc(sizeof(coordinates_entity));
 
+        data->monsters->monster->Speed=1;
+        data->monsters->monster->type=0;
+        data->monsters->monster->movement->pos->x=0;
+        data->monsters->monster->movement->pos->y=0;
+        data->monsters->monster->movement->velocity->x=0;
+        data->monsters->monster->movement->velocity->y=0;
+        data->monsters->monster->movement->SpriteBox->h=64;
+        data->monsters->monster->movement->SpriteBox->w=64;
+        data->monsters->monster->movement->SpriteBox->x=0;
+        data->monsters->monster->movement->SpriteBox->y=0;
+        data->monsters->monster->Health=1;
+
+
     } else {
         freeSingleLayout(&(data->lobby->layout));
         free(data->lobby);

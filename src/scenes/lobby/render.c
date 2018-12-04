@@ -14,16 +14,26 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     SDL_Surface* FightSprite=NULL;
 
+    SDL_Surface* BadGuy=NULL; // remove
+
     SDL_Rect bgPos;
     SDL_Rect playerPos;
+    SDL_Rect monsterpos;
 
     bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
     FightSprite = get_ImageCollector(myImageCollector, "lobby/scythe")->surface;
+    BadGuy = get_ImageCollector(myImageCollector, "lobby/testmonster")->surface;// remove
 
     bgPos.x = 0;
     bgPos.y = 0;
     playerPos.x=data->Isaac->movement->pos->x;
     playerPos.y=data->Isaac->movement->pos->y;
+
+    if(data->monsters != NULL){
+    monsterpos.x=data->monsters->monster->movement->pos->x; // remove
+    monsterpos.y=data->monsters->monster->movement->pos->y;}
+
+
 
    if(data->lobby->actionProcess == NONE){ // TODO: Duplicate sprite here
         bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
@@ -48,6 +58,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     {
         SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
     }
+
+    if(data->monsters != NULL)
+        SDL_BlitSurface(BadGuy, NULL, lobbySurface, &monsterpos);
 
 
 

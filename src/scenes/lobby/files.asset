@@ -8,3 +8,5 @@ src/resources/gfx/scenes/lobby/Menu2Back.png lobby/menu21
 src/resources/gfx/scenes/lobby/Menu2Selector.png lobby/menu22
 src/resources/gfx/scenes/lobby/Wait.png lobby/wait
 src/gfx/player/sprites_scythe.png lobby/scythe
+src/gfx/player/sprites_scythe.png lobby/scythe
+src/resources/gfx/enemies/mite_placeholder.png lobby/testmonster

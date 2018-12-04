@@ -21,7 +21,7 @@ extern int min(int x, int y) {
     return (x <= y) ? x: y;
 }
 
-extern int sign(float x)
+extern int sign(double x)
 {
     if(x<0)
         return -1;

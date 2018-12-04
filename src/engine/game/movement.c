@@ -16,6 +16,7 @@ extern void MovePlayer(Data* data, Tiles** map)
     if(timechange>300)
         timechange=0;
 
+
     data->Isaac->current_stats->speed=1; //TEMP
 
     ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange,12,1); //Dampens and caps velocity
@@ -54,26 +55,38 @@ extern void MovePlayer(Data* data, Tiles** map)
 
 extern void ProcessVelocity(float* v,int t, int max, float factor)
 {
+    float KillMe=(*v);
     if((*v)>0) // gradually slows down the player so he stops when not pressing the button
     {
-        (*v)-=t*0.06*factor; //this is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
+
+        (*v)-=((t*0.06) *factor); //this is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
+        KillMe=(*v);
         if((*v)<0)
+        {
             (*v)=0;
+        }
+        KillMe=(*v);
     }
 
 
     else if((*v)<0)
     {
-        (*v)+=t*0.06*factor;
+        (*v)+=((t*0.06) *factor);
+        KillMe=(*v);
         if((*v)>0)
+        {
             (*v)=0;
+        }
+        KillMe=(*v);
     }
 
-
+    KillMe=(*v);
     if((*v)>max) // Caps velocity
         (*v)=max;
     else if((*v)<-max)
         (*v)=-max;
+
+    KillMe=(*v);
 }
 
 extern void StopVelocity(MovementValues * move) {
