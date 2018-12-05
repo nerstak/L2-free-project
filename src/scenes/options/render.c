@@ -207,7 +207,9 @@ static void nameKeys(int id, char* name) {
             break;
         }
         default:
-            name[0] = (char) (name[0] - 32);
+            if (name[0] >= 97 && name[0] <= 122) {
+                name[0] = (char) (name[0] - 32);
+            }
 
             break;
     }
