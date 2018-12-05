@@ -91,7 +91,6 @@ extern void ProcessVelocity(float* v,int t, int max, float factor)
 extern void StopVelocity(MovementValues * move) {
     move->velocity->x=0;
     move->velocity->y=0;
-    move->direction=0;
     move->timesince=SDL_GetTicks();
 }
 
