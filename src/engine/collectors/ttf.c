@@ -167,3 +167,20 @@ static Font* isLoaded_FontCollector(FontCollector* myFontCollector, const char n
     // Or we return NULL
     return NULL;
 }
+
+
+extern int getWidth_FontCollector(TTF_Font* font, const char str[]) {
+    int w, h;
+
+    TTF_SizeText(font, str, &w, &h);
+
+    return w;
+}
+
+extern int getHeight_FontCollector(TTF_Font* font, const char str[]) {
+    int w, h;
+
+    TTF_SizeText(font, str, &w, &h);
+
+    return h;
+}
