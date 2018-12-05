@@ -1,6 +1,7 @@
 #include "render.h"
 #include "../../engine/config.h"
 #include "../../window.h"
+#include "logic.h"
 
 static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
 static void nameKeys(int id, char* name);
@@ -19,6 +20,9 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
     SDL_Surface* selection = NULL;
     SDL_Rect selectionPos;
 
+    SDL_Surface* current = NULL;
+    SDL_Rect currentPos;
+
     SDL_Surface* text = NULL;
     SDL_Rect textPos;
 
@@ -27,6 +31,7 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
 
     bg = get_ImageCollector(myImageCollector, "options/main_bg")->surface;
     selection = get_ImageCollector(myImageCollector, "options/selection")->surface;
+    current = get_ImageCollector(myImageCollector, "options/current")->surface;
     if(strcmp(engine->sceneCollector->previousScene->name,"mainMenu") == 0) {
         bgBlur = get_ImageCollector(myImageCollector, "options/mainMenu_blur")->surface;
     } else if (strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
@@ -49,7 +54,6 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
         playerPos.x = data->Isaac->movement->pos->x;
         playerPos.y = data->Isaac->movement->pos->y;
         SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, options, &playerPos);
-
     }
 
     SDL_BlitSurface(bg, NULL, options, &bgPos);
@@ -77,6 +81,28 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
     } else {
         selectionPos.x = 544 + (data->options->nSelected % 2) * 264;
         selectionPos.y = 374 + (data->options->nSelected / 2) * 40;
+    }
+
+    //Current blit
+    for(int i = 0; i < 3; i++) {
+        switch(i) {
+            case 0: {
+                currentPos.x = 585 + 80 * preSelectFPS(engine, data);
+                break;
+            }
+            case 1: {
+                currentPos.x = 585 + 80 * preSelectSound(engine, data, engine->volumeSFX);
+                break;
+            }
+            case 2: {
+                currentPos.x = 585 + 80 * preSelectSound(engine, data, engine->volumeMusic);
+                break;
+            }
+            default:
+                break;
+        }
+        currentPos.y = 230 + 60 * i;
+        SDL_BlitSurface(current, NULL, options, &currentPos);
     }
 
     SDL_BlitSurface(selection, NULL, options, &selectionPos);

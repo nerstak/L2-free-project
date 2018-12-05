@@ -5,8 +5,6 @@
 static void moveCursorOptions(Engine* engine, Data* data);
 
 static void preSelect(Engine* engine, Data* data);
-static void preSelectFPS(Engine* engine, Data* data);
-static void preSelectSound(Engine* engine, Data* data, int actualValue);
 
 static void editValues(Engine* engine, Data* data);
 static void editFPS(Engine* engine, Data* data);
@@ -84,17 +82,17 @@ static void preSelect(Engine* engine, Data* data) {
     switch(data->options->nTypeSelected) {
         case 0: {
             //FPS
-            preSelectFPS(engine,data);
+            data->options->nSelected = preSelectFPS(engine,data);
             break;
         }
         case 1: {
             //SFX
-            preSelectSound(engine,data,engine->volumeSFX);
+            data->options->nSelected = preSelectSound(engine,data,engine->volumeSFX);
             break;
         }
         case 2: {
             //Music
-            preSelectSound(engine,data,engine->volumeMusic);
+            data->options->nSelected = preSelectSound(engine,data,engine->volumeMusic);
             break;
         }
         case 3: {
@@ -108,52 +106,43 @@ static void preSelect(Engine* engine, Data* data) {
     }
 }
 
-static void preSelectFPS(Engine* engine, Data* data) {
+extern int preSelectFPS(Engine* engine, Data* data) {
     switch(getMaxFps_Fps(engine->fps)) {
         case 60: {
-            data->options->nSelected = 0;
-            break;
+            return 0;
         }
         case 120: {
-            data->options->nSelected = 1;
-            break;
+            return 1;
         }
         case 144: {
-            data->options->nSelected = 2;
-            break;
+            return 2;
         }
         default: {
             if(!engine->fps->fpsLimited) {
-                data->options->nSelected = 3;
+                return 3;
             } else {
-                data->options->nSelected = 0;
+                return 0;
             }
-            break;
         }
     }
 }
 
-static void preSelectSound(Engine* engine, Data* data, int actualValue) {
+extern int preSelectSound(Engine* engine, Data* data, int actualValue) {
     switch(actualValue) {
         case 0: {
-            data->options->nSelected = 0;
-            break;
+            return 0;
         }
         case 33: {
-            data->options->nSelected = 1;
-            break;
+            return 1;
         }
         case 66: {
-            data->options->nSelected = 2;
-            break;
+            return 2;
         }
         case 100: {
-            data->options->nSelected = 3;
-            break;
+            return 3;
         }
         default: {
-            data->options->nSelected = 3;
-            break;
+            return 3;
         }
     }
 }

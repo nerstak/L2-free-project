@@ -39,7 +39,6 @@ static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector
         playerPos.x = data->Isaac->movement->pos->x;
         playerPos.y = data->Isaac->movement->pos->y;
         SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, pauseMenu, &playerPos);
-
     }
 
 
