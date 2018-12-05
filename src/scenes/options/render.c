@@ -68,8 +68,8 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
         }
         text = TTF_RenderText_Solid(font1,line,black);
 
-        textPos.x = 554 + (i % 2) * 264;
-        textPos.y = 375 + (i / 2) * 40;
+        textPos.x = (Sint16) (550 + (i % 2) * 264 + ((65 / 2) - (getWidth_FontCollector(font1, line) / 2)));
+        textPos.y = (Sint16) (377 + (i / 2) * 40 + ((27 / 2) - (getHeight_FontCollector(font1, line) / 2)));
 
         SDL_BlitSurface(text, NULL, options, &textPos);
     }
@@ -207,6 +207,8 @@ static void nameKeys(int id, char* name) {
             break;
         }
         default:
+            name[0] = (char) (name[0] - 32);
+
             break;
     }
 }
