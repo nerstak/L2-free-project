@@ -46,8 +46,10 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "dungeon");
         }
-        //TODO: Move this reset
-        //data->lobby->askAction = NONE;
+        // We shall not reset if we switched to another scene, therefore free'd lobby structure
+        if (data->lobby != NULL) {
+            data->lobby->askAction = NONE;
+        }
     }
 }
 
