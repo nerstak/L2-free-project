@@ -8,3 +8,6 @@ src/resources/gfx/scenes/dungeon/ui/dungeon_map-boss.png dungeon/mapBoss
 src/resources/gfx/scenes/dungeon/ui/dungeon_map-goal.png dungeon/mapGoal
 src/resources/gfx/scenes/dungeon/ui/dungeon_map-room.png dungeon/mapRoom
 src/resources/gfx/scenes/dungeon/ui/dungeon_map-room-visited.png dungeon/mapRoomVisited
+src/resources/gfx/scenes/dungeon/ui/dungeon_map-doors.png dungeon/mapDoors
+src/resources/gfx/dungeon/backgrounds/tomato.png dungeon/bgTomato
+src/resources/gfx/dungeon/elements/tomato/doors.png dungeon/tomatoDoors

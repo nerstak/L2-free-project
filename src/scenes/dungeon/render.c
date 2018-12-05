@@ -1,11 +1,120 @@
 #include "render.h"
 #include "../../engine/game/dungeon/dungeon.h"
 #include "../../engine/game/dungeon/roomlist.h"
+#include "constants.h"
+
+static void renderBackground(SDL_Surface* window, Engine* engine, Data* data);
+static void renderDoors(SDL_Surface* window, Engine* engine, Data* data);
+static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction);
 
 static void renderUI(SDL_Surface* window, Engine* engine, Data* data);
 static SDL_Surface* renderLifebar(Engine* engine, Data* data);
 static void renderKeys(SDL_Surface* window, Engine* engine, Data* data);
 static void renderMap(SDL_Surface* window, Engine* engine, Data* data);
+static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_Rect origin, int direction);
+
+static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
+    SDL_Surface* background = get_ImageCollector(engine->imageCollector, "dungeon/bgTomato")->surface;
+
+    SDL_Rect background_Pos;
+    background_Pos.x = BG_OFFSET_X;
+    background_Pos.y = BG_OFFSET_Y;
+
+    SDL_BlitSurface(background, NULL, window, &background_Pos);
+
+    renderDoors(window, engine, data);
+}
+
+static void renderDoors(SDL_Surface* window, Engine* engine, Data* data) {
+    for (int i = 0; i < (int) data->dungeonScene->currentRoom->childrenLength; i += 1) {
+        int direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->children[i]->coord, data->dungeonScene->currentRoom->coord)->code;
+        renderDoor(window, engine, data, direction);
+    }
+
+    if (getParent_Room(data->dungeonScene->currentRoom) != NULL) {
+        int direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->parent->coord, data->dungeonScene->currentRoom->coord)->code;
+        renderDoor(window, engine, data, direction);
+    }
+}
+
+static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction) {
+    SDL_Surface* doors = get_ImageCollector(engine->imageCollector, "dungeon/tomatoDoors")->surface;
+
+    switch (direction) {
+        case NORTH: {
+            SDL_Rect door_Pos;
+            SDL_Rect door_Offset;
+
+            door_Offset.x = 0;
+            door_Offset.y = 0;
+            door_Offset.w = 172;
+            door_Offset.h = 109;
+
+            door_Pos.x = (Sint16) ((window->w / 2) -  door_Offset.w / 2);
+            door_Pos.y = 8;
+
+            SDL_BlitSurface(doors, &door_Offset, window, &door_Pos);
+
+            break;
+        }
+
+        case EAST: {
+            SDL_Rect door_Pos;
+            SDL_Rect door_Offset;
+
+            door_Offset.x = 172;
+            door_Offset.y = 0;
+            door_Offset.w = 109;
+            door_Offset.h = 172;
+
+            door_Pos.x = (Sint16) ((window->w) -  door_Offset.w);
+            door_Pos.y = (Sint16) ((window->h / 2) - door_Offset.h / 2);
+
+            SDL_BlitSurface(doors, &door_Offset, window, &door_Pos);
+
+            break;
+        }
+
+        case SOUTH: {
+            SDL_Rect door_Pos;
+            SDL_Rect door_Offset;
+
+            door_Offset.x = 0;
+            door_Offset.y = 109;
+            door_Offset.w = 172;
+            door_Offset.h = 109;
+
+            door_Pos.x = (Sint16) ((window->w / 2) -  door_Offset.w / 2);
+            door_Pos.y = (Sint16) ((window->h - 8) - door_Offset.h);
+
+            SDL_BlitSurface(doors, &door_Offset, window, &door_Pos);
+
+            break;
+        }
+
+        case WEST: {
+            SDL_Rect door_Pos;
+            SDL_Rect door_Offset;
+
+            door_Offset.x = 281;
+            door_Offset.y = 0;
+            door_Offset.w = 109;
+            door_Offset.h = 172;
+
+            door_Pos.x = (Sint16) (0);
+            door_Pos.y = (Sint16) ((window->h / 2) - door_Offset.h / 2);
+
+            SDL_BlitSurface(doors, &door_Offset, window, &door_Pos);
+
+            break;
+        }
+
+        default: {
+            break;
+        }
+    }
+}
+
 
 static void renderUI(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* uiPlayer = NULL;
@@ -21,17 +130,17 @@ static void renderUI(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* mapBG = get_ImageCollector(engine->imageCollector, "dungeon/mapBg")->surface;
 
     SDL_Rect uiPlayer_Pos;
-    uiPlayer_Pos.x = 21;
-    uiPlayer_Pos.y = 16;
+    uiPlayer_Pos.x = UI_PLAYER_X;
+    uiPlayer_Pos.y = UI_PLAYER_Y;
     SDL_Rect uiLifebarBg_Pos;
-    uiLifebarBg_Pos.x = 92;
-    uiLifebarBg_Pos.y = 20;
+    uiLifebarBg_Pos.x = UI_LIFEBAR_BG_X;
+    uiLifebarBg_Pos.y = UI_LIFEBAR_BG_Y;
     SDL_Rect uiLifebar_Pos;
-    uiLifebar_Pos.x = 95;
-    uiLifebar_Pos.y = 23;
+    uiLifebar_Pos.x = UI_LIFEBAR_X;
+    uiLifebar_Pos.y = UI_LIFEBAR_Y;
     SDL_Rect mapBG_Pos;
-    mapBG_Pos.x = 1096;
-    mapBG_Pos.y = 16;
+    mapBG_Pos.x = UI_MAP_BG_X;
+    mapBG_Pos.y = UI_MAP_BG_Y;
 
     SDL_BlitSurface(uiPlayer, NULL, window, &uiPlayer_Pos);
     SDL_BlitSurface(uiLifebarBg, NULL, window, &uiLifebarBg_Pos);
@@ -44,10 +153,10 @@ static void renderUI(SDL_Surface* window, Engine* engine, Data* data) {
 }
 
 static SDL_Surface* renderLifebar(Engine* engine, Data* data) {
-    SDL_Surface* result = SDL_CreateRGBSurface(SDL_HWSURFACE, 217, 34, 32, 0, 0, 0, 0);
+    SDL_Surface* result = SDL_CreateRGBSurface(SDL_HWSURFACE, UI_LIFEBAR_W, UI_LIFEBAR_H, 32, 0, 0, 0, 0);
 
     float percentLife = (data->Isaac->stats->current->health / data->Isaac->stats->basic->health) * 100;
-    float divPerPercent = (float) 217 / 100;
+    float divPerPercent = (float) UI_LIFEBAR_W / 100;
 
     SDL_Rect upperBg = {0, 0, (Uint16) (percentLife * divPerPercent), 7};
     SDL_Rect middleBg = {0, 7, (Uint16) (percentLife * divPerPercent), 20};
@@ -164,9 +273,16 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
                     SDL_BlitSurface(roomVisited, NULL, window, &pos);
                 }
 
+                SDL_Rect posRoom;
+                posRoom.x = pos.x;
+                posRoom.y = pos.y;
+
                 for (int i = 0; i < (int) temp->data->childrenLength; i += 1) {
                     offsetX = (temp->data->children[i]->coord->x - x);
                     offsetY = (temp->data->children[i]->coord->y - y);
+
+                    int direction = getDirectionTo_Coord(temp->data->children[i]->coord, temp->data->coord)->code;
+                    renderMapDoor(window, engine, data, posRoom, direction);
 
                     if (offsetX < 3 && offsetX > -3 && offsetY < 3 && offsetY > -3) {
                         pos.x = (Sint16) (1116 + 25 * 2 + offsetX * 25);
@@ -183,18 +299,100 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
                         }
                     }
                 }
+
+                if (getParent_Room(temp->data) != NULL) {
+                    int direction = getDirectionTo_Coord(temp->data->parent->coord, temp->data->coord)->code;
+                    renderMapDoor(window, engine, data, posRoom, direction);
+                }
             }
-
-
-            // TODO: Improve here
         }
 
         temp = temp->next;
     }
 }
 
+static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_Rect origin, int direction) {
+    SDL_Surface* doors = get_ImageCollector(engine->imageCollector, "dungeon/mapDoors")->surface;
+
+    switch(direction) {
+        case NORTH: {
+            SDL_Rect door_Pos;
+            SDL_Rect door_Offset;
+
+            door_Offset.x = 2;
+            door_Offset.y = 0;
+            door_Offset.w = 6;
+            door_Offset.h = 2;
+
+            door_Pos.x = (Sint16) ((origin.x + 25 / 2) - (6 / 2));
+            door_Pos.y = (Sint16) (origin.y);
+
+            SDL_BlitSurface(doors, &door_Offset, window, &door_Pos);
+
+            break;
+        }
+
+        case EAST: {
+            SDL_Rect door_Pos;
+            SDL_Rect door_Offset;
+
+            door_Offset.x = 0;
+            door_Offset.y = 0;
+            door_Offset.w = 2;
+            door_Offset.h = 6;
+
+            door_Pos.x = (Sint16) ((origin.x + 25 - 2));
+            door_Pos.y = (Sint16) ((origin.y + 25 / 2) - (6 / 2));
+
+            SDL_BlitSurface(doors, &door_Offset, window, &door_Pos);
+
+            break;
+        }
+
+        case SOUTH: {
+            SDL_Rect door_Pos;
+            SDL_Rect door_Offset;
+
+            door_Offset.x = 2;
+            door_Offset.y = 0;
+            door_Offset.w = 6;
+            door_Offset.h = 2;
+
+            door_Pos.x = (Sint16) ((origin.x + 25 / 2) - (6 / 2));
+            door_Pos.y = (Sint16) (origin.y + 25 - 2);
+
+            SDL_BlitSurface(doors, &door_Offset, window, &door_Pos);
+
+            break;
+        }
+
+        case WEST: {
+            SDL_Rect door_Pos;
+            SDL_Rect door_Offset;
+
+            door_Offset.x = 0;
+            door_Offset.y = 0;
+            door_Offset.w = 2;
+            door_Offset.h = 6;
+
+            door_Pos.x = (Sint16) ((origin.x));
+            door_Pos.y = (Sint16) ((origin.y + 25 / 2) - (6 / 2));
+
+            SDL_BlitSurface(doors, &door_Offset, window, &door_Pos);
+
+            break;
+        }
+
+        default: {
+            break;
+        }
+    }
+}
+
 
 extern void renderScene_Scene_dungeon(SDL_Surface* window, Engine* engine, Data* data) {
+    renderBackground(window, engine, data);
+
     renderUI(window, engine, data);
     renderMap(window, engine, data);
 }
