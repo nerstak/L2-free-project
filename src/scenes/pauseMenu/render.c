@@ -2,9 +2,9 @@
 #include "../../window.h"
 
 
-static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
+static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
 
-static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine) {
     SDL_Surface* pauseMenu = NULL;
     pauseMenu = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
@@ -12,16 +12,35 @@ static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector
     SDL_Surface* bg = NULL;
     SDL_Rect bgPos;
 
+    SDL_Surface* bgBlur = NULL;
+
     SDL_Surface* selection = NULL;
     SDL_Rect selectionPos;
 
+    SDL_Surface* player = NULL;
+    SDL_Rect playerPos;
+
+
     bg = get_ImageCollector(myImageCollector, "pause/bg")->surface;
     selection = get_ImageCollector(myImageCollector, "pause/cursor")->surface;
+    if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
+        bgBlur = get_ImageCollector(myImageCollector, "pause/lobby_blur")->surface;
+        player = get_ImageCollector(myImageCollector, "pause/player_blur")->surface;
+    }
 
 
     //Background blit
     bgPos.x = 0;
     bgPos.y = 0;
+
+    SDL_BlitSurface(bgBlur, NULL, pauseMenu, &bgPos);
+
+    if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
+        playerPos.x = data->Isaac->movement->pos->x;
+        playerPos.y = data->Isaac->movement->pos->y;
+        SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, pauseMenu, &playerPos);
+    }
+
 
     SDL_BlitSurface(bg, NULL, pauseMenu, &bgPos);
 
@@ -37,7 +56,7 @@ static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector
 
 extern void renderScene_Scene_pauseMenu(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* pauseMenuSurface = NULL;
-    pauseMenuSurface = getPauseMenu(engine->imageCollector, engine->fontCollector, data);
+    pauseMenuSurface = getPauseMenu(engine->imageCollector, engine->fontCollector, data, engine);
 
     SDL_Rect pauseMenuSurfacePos;
     pauseMenuSurfacePos.x = 0;

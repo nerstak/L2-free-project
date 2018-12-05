@@ -23,4 +23,7 @@ extern void unload_FontCollector(FontCollector* myFontCollector, const char name
 
 extern Font* get_FontCollector(FontCollector* myFontCollector, const char name[]);
 
+extern int getWidth_FontCollector(TTF_Font* font, const char str[]);
+extern int getHeight_FontCollector(TTF_Font* font, const char str[]);
+
 #endif //FREE_PROJECT_ENGINE_COLLECTORS_TTF_H
