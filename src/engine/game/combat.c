@@ -22,17 +22,6 @@ extern void ProcessCombat(Data * data, int direction)
     SetCombatHitbox(data->Isaac);
 
 
-    //after this is temp
-    SDL_Rect dummy;
-    dummy.x=960;
-    dummy.y=256;
-    dummy.h=64;
-    dummy.w=64;
-    if(BoxCollision(&dummy,data->Isaac->combat->WeaponHitbox))
-    {
-        printf("\n           HIT\n");
-    }
-
 
 }
 

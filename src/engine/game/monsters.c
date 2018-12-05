@@ -14,6 +14,7 @@
 
 extern void ProcessMonsters(Player * Isaac,MonsterLList * monsters)
 {
+
     (*monsters)=KillMonsters(*monsters);
 
 
@@ -40,24 +41,33 @@ extern void MothAI(Monster * moth, Player * Isaac)
     int tick=SDL_GetTicks();
     int timechange=tick - moth->movement->timesince;     // Timer to get the time since the last frame of movement
     moth->movement->timesince=tick;
-    if(timechange>300)
+    if(timechange>300 || timechange<-300)
         timechange=0;
 
     double Xdistance= Isaac->movement->pos->x  - 64 - moth->movement->pos->x;
     double Ydistance= Isaac->movement->pos->y + 32 - moth->movement->pos->y;
 
     //oh shit here we go some fuckin trig
-    double angle=atan(Ydistance / Xdistance);
-    //angle = cos(angle);
+    double angle;
+    if(Xdistance!=0)
+    {
+        angle=atan(Ydistance / Xdistance);
+    }
+    else angle=0;
+
     int xSign=sign(Xdistance);
 
-    moth->movement->velocity->x= 2 * fabs(cos(angle)) * sign(Xdistance) * timechange * 0.06;
-    moth->movement->velocity->y= 2 * fabs(sin(angle)) * sign(Ydistance) * timechange * 0.06;
+    moth->movement->velocity->x+=  fabs(cos(angle)) * sign(Xdistance) * timechange * 0.06;
+    moth->movement->velocity->y+=  fabs(sin(angle)) * sign(Ydistance) * timechange * 0.06;
 
-    //TODO figure out this shit and make it nice and cool
-    //ProcessVelocity(&(moth->movement->velocity->x),timechange,8,1); //Dampens and caps velocity
-    //ProcessVelocity(&(moth->movement->velocity->y),timechange,8,1);
+    if(moth->movement->velocity->x!=0)
+    {
+        angle = atan(moth->movement->velocity->y / moth->movement->velocity->x);
+    }
+    else angle=0;
 
+    ProcessVelocity(&(moth->movement->velocity->x), timechange, (4 * fabs(cos(angle))) ,0); //Dampens and caps velocity
+    ProcessVelocity(&(moth->movement->velocity->y), timechange, (4 * fabs(sin(angle))), 0);
 
     moth->movement->pos->x+=moth->movement->velocity->x * timechange*0.06* moth->Speed; //TODO: make a PosChange function
     moth->movement->pos->y+=moth->movement->velocity->y * timechange*0.06* moth->Speed;
@@ -72,8 +82,9 @@ extern void MothAI(Monster * moth, Player * Isaac)
 
 extern MonsterNode * KillMonsters(MonsterLList monsters)
 {
-    if(monsters==NULL)
+    if(monsters==NULL) {
         return NULL;
+    }
     else if(monsters->monster->Health<=0)
     {
         MonsterLList TempNext=monsters->next;

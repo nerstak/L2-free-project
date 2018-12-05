@@ -44,6 +44,8 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->monsters->monster->type=0;
         data->monsters->monster->movement->pos->x=0;
         data->monsters->monster->movement->pos->y=0;
+        data->monsters->monster->movement->Hitbox->h=64;
+        data->monsters->monster->movement->Hitbox->w=64;
         data->monsters->monster->movement->velocity->x=0;
         data->monsters->monster->movement->velocity->y=0;
         data->monsters->monster->movement->SpriteBox->h=96;

@@ -17,6 +17,13 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             {
                 ProcessCombat(data,data->lobby->askCombat);
             }
+            else
+            {
+                data->Isaac->combat->WeaponHitbox->x=10000; // clean fix
+                data->Isaac->combat->WeaponHitbox->y=10000;
+                data->Isaac->combat->WeaponHitbox->h=0;
+                data->Isaac->combat->WeaponHitbox->w=0;
+            }
             ProcessMonsters(data->Isaac,&(data->monsters));
             MovePlayer(data, data->lobby->layout->map);
         }

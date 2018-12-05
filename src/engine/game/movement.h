@@ -4,7 +4,7 @@
 
 extern void MovePlayer(Data* data, Tiles** map);
 
-extern void ProcessVelocity(float* v,int t, int max, float factor);
+extern void ProcessVelocity(float* v,int t, float max, float factor);
 
 extern void StopVelocity(MovementValues * move);
 

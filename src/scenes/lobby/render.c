@@ -16,13 +16,15 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     SDL_Surface* BadGuy=NULL; // remove
 
+    SDL_Surface* Hibox=NULL;
+
     SDL_Rect bgPos;
     SDL_Rect playerPos;
     SDL_Rect monsterpos;
 
     bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
     FightSprite = get_ImageCollector(myImageCollector, "lobby/scythe")->surface;
-    BadGuy = get_ImageCollector(myImageCollector, "lobby/moth")->surface;// remove
+    BadGuy = get_ImageCollector(myImageCollector, "lobby/testmonster")->surface;// remove
 
     bgPos.x = 0;
     bgPos.y = 0;
@@ -59,8 +61,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
     }
 
-    if(data->monsters != NULL)
+    if(data->monsters != NULL) {
         SDL_BlitSurface(BadGuy, NULL, lobbySurface, &monsterpos);
+    }
 
 
 
@@ -211,6 +214,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_BlitSurface(wait, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
     }
+
+
+    SDL_BlitSurface(Hibox, data->Isaac->combat->WeaponHitbox, lobbySurface, data->Isaac->combat->WeaponHitbox);// remove
     return lobbySurface;
 }
 
@@ -228,3 +234,6 @@ extern void renderScene_Scene_lobby(SDL_Surface* window, Engine* engine, Data* d
 
     SDL_FreeSurface(lobbySurface);
 }
+
+    Hibox= get_ImageCollector(myImageCollector, "lobby/hibox")->surface;
+    BadGuy = get_ImageCollector(myImageCollector, "lobby/moth")->surface;// remove

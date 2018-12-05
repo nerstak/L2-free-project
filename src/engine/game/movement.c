@@ -52,7 +52,7 @@ extern void MovePlayer(Data* data, Tiles** map)
     }
 }
 
-extern void ProcessVelocity(float* v,int t, int max, float factor)
+extern void ProcessVelocity(float* v,int t, float max, float factor)
 {
     float KillMe=(*v);
     if((*v)>0) // gradually slows down the player so he stops when not pressing the button
