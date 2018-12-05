@@ -72,8 +72,8 @@ extern bool isAdjacent_Coord(Coord* myCoord, Coord* other) {
 
 extern Direction* getDirectionTo_Coord(Coord* myCoord, Coord* other) {
     // We compute the distances
-    int dx = abs(myCoord->x - other->x);
-    int dy = abs(myCoord->y - other->y);
+    int dx = myCoord->x - other->x;
+    int dy = myCoord->y - other->y;
 
     if (dx < 0) {
         return init_Direction(1, 1, 0);
