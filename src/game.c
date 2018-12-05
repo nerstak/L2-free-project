@@ -88,6 +88,8 @@ extern void gameLoop(SDL_Surface* window) {
             if (mySceneCollector->currentOverlay != NULL) {
                 // Rendering
                 mySceneCollector->currentOverlay->renderScene(window, myEngine, myData);
+            } else {
+                mySceneCollector->currentScene->renderScene(window, myEngine, myData);
             }
         } else {
             // Event loop
@@ -99,6 +101,8 @@ extern void gameLoop(SDL_Surface* window) {
             if (mySceneCollector->currentScene != NULL) {
                 // Rendering
                 mySceneCollector->currentScene->renderScene(window, myEngine, myData);
+            } else {
+                mySceneCollector->currentOverlay->renderScene(window, myEngine, myData);
             }
         }
 
