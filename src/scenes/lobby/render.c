@@ -92,7 +92,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenuPlant.x = 0 ;
         posMenuPlant.y = 0 ;
 
-        posMenuPlantSelect.x = (Sint16) (188 * (data->lobby->cursor));
+        posMenuPlantSelect.x = (Sint16) (188 * (data->lobby->cursor) - 15);
         posMenuPlantSelect.y = 0 ;
 
         menuPlantSelect = get_ImageCollector(myImageCollector, "lobby/menu22")->surface;

@@ -1,9 +1,9 @@
 #include "render.h"
 #include "../../window.h"
 
-static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
+static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
 
-static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine) {
     SDL_Surface* shop = NULL;
     shop = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
     char dialog[200];
@@ -20,6 +20,8 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     SDL_Surface* layout = NULL;
     SDL_Rect layoutPos;
 
+    SDL_Surface* bgBlur = NULL;
+
     SDL_Surface* dialogInfo = NULL;
     SDL_Rect dialogInfoPos;
 
@@ -34,15 +36,31 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     SDL_Rect itemPos;
     SDL_Rect itemSize;
 
+    SDL_Surface* player = NULL;
+    SDL_Rect playerPos;
+
     layout = get_ImageCollector(myImageCollector, "shop/interface")->surface;
     frame = get_ImageCollector(myImageCollector, "shop/frame")->surface;
     frameSelected = get_ImageCollector(myImageCollector, "shop/frameSelected")->surface;
     confirm = get_ImageCollector(myImageCollector, "shop/confirm")->surface;
     item = get_ImageCollector(myImageCollector, "shop/items")->surface;
+    if (strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
+        bgBlur = get_ImageCollector(myImageCollector, "shop/lobby_blur")->surface;
+        player = get_ImageCollector(myImageCollector, "shop/player_blur")->surface;
+    }
 
     //Layout blit
     layoutPos.x = 0;
     layoutPos.y = 0;
+
+    SDL_BlitSurface(bgBlur, NULL, shop, &layoutPos);
+
+    if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
+        playerPos.x = data->Isaac->movement->pos->x;
+        playerPos.y = data->Isaac->movement->pos->y;
+        SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, shop, &playerPos);
+    }
+
     SDL_BlitSurface(layout, NULL, shop, &layoutPos);
 
     //DialogBox blit
@@ -95,8 +113,8 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
     sprintf(dialog,"%d",data->Isaac->money);
     dialogInfo = TTF_RenderText_Solid(font2, dialog, black);
 
-    dialogInfoPos.x = 600;
-    dialogInfoPos.y = 430;
+    dialogInfoPos.x = (Sint16) (596  + ((87 / 2) - (getWidth_FontCollector(font2, dialog) / 2)));
+    dialogInfoPos.y = (Sint16) (439  + ((45 / 2) - (getWidth_FontCollector(font2, dialog) / 2)));
 
     SDL_BlitSurface(dialogInfo, NULL, shop, &dialogInfoPos);
 
@@ -210,7 +228,7 @@ static SDL_Surface* getShop(ImageCollector* myImageCollector, FontCollector* myF
 
 extern void renderScene_Scene_shop(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* mainShopSurface = NULL;
-    mainShopSurface = getShop(engine->imageCollector, engine->fontCollector, data);
+    mainShopSurface = getShop(engine->imageCollector, engine->fontCollector, data, engine);
 
     SDL_Rect mainShopSurfacePos;
     mainShopSurfacePos.x = 0;

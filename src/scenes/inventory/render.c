@@ -1,9 +1,9 @@
 #include "render.h"
 #include "../../window.h"
 
-static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
+static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
 
-static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine) {
     SDL_Surface* inventory = NULL;
     inventory = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
     char dialog[200];
@@ -19,6 +19,8 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     //Surfaces init
     SDL_Surface* layout = NULL;
     SDL_Rect layoutPos;
+
+    SDL_Surface* bgBlur = NULL;
 
     SDL_Surface* dialogInfo = NULL;
     SDL_Rect dialogInfoPos;
@@ -38,16 +40,32 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     SDL_Rect effectPos;
     SDL_Rect effectSize;
 
+    SDL_Surface* player = NULL;
+    SDL_Rect playerPos;
+
     layout = get_ImageCollector(myImageCollector, "inventory/interface")->surface;
     frame = get_ImageCollector(myImageCollector, "inventory/frame")->surface;
     frameSelected = get_ImageCollector(myImageCollector, "inventory/frameSelected")->surface;
     confirm = get_ImageCollector(myImageCollector, "inventory/confirm")->surface;
     item = get_ImageCollector(myImageCollector, "inventory/items")->surface;
     effect = get_ImageCollector(myImageCollector, "inventory/effects")->surface;
+    if (strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
+        bgBlur = get_ImageCollector(myImageCollector, "inventory/lobby_blur")->surface;
+        player = get_ImageCollector(myImageCollector, "inventory/player_blur")->surface;
+    }
 
     //Layout blit
     layoutPos.x = 0;
     layoutPos.y = 0;
+
+    SDL_BlitSurface(bgBlur, NULL, inventory, &layoutPos);
+
+    if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
+        playerPos.x = data->Isaac->movement->pos->x;
+        playerPos.y = data->Isaac->movement->pos->y;
+        SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, inventory, &playerPos);
+    }
+
     SDL_BlitSurface(layout, NULL, inventory, &layoutPos);
 
     //DialogBox blit
@@ -87,15 +105,19 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
 
     //Money && Dungeons Beaten Blit
     for(int i = 0; i < 2; i++) {
+        int coordX;
         if(i == 0) {
             sprintf(dialog,"%d",data->Isaac->money);
-            dialogInfoPos.x = 880;
+            coordX = 875;
         } else {
             sprintf(dialog,"%d",data->Isaac->gameStats->dungeons);
-            dialogInfoPos.x = 1000;
+            coordX = 965;
         }
-        dialogInfoPos.y = 550;
         dialogInfo = TTF_RenderText_Solid(font2, dialog, black);
+
+        dialogInfoPos.x = (Sint16) (coordX + ((75 / 2) - (getWidth_FontCollector(font2, dialog) / 2)));
+        dialogInfoPos.y = (Sint16) (535 + ((75 / 2) - (getHeight_FontCollector(font2, dialog) / 2)));
+
 
         SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
     }
@@ -185,7 +207,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
 
 extern void renderScene_Scene_inventory(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* mainInventorySurface = NULL;
-    mainInventorySurface = getInventory(engine->imageCollector, engine->fontCollector, data);
+    mainInventorySurface = getInventory(engine->imageCollector, engine->fontCollector, data, engine);
 
     SDL_Rect mainInventorySurfacePos;
     mainInventorySurfacePos.x = 0;
