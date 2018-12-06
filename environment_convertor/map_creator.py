@@ -41,7 +41,7 @@ for filename in enumerate(os.listdir("rooms_png")):
                     correspondance_array[i].append('0')
                     spawn_coord.append(("flying",i,j))
                     mobs+='0'
-                elif color[:3] == (180,0,255): # Mauve stands for monster 1
+                elif color[:3] == (178,0,255): # Mauve stands for monster 1
                     correspondance_array[i].append('1')
                     spawn_coord.append(("ground",i,j))
                     mobs+='1'
