@@ -3,60 +3,74 @@
 
 static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
 
+static void backgroundBlit(Data* data, Engine* engine, ImageCollector* myImageCollector, SDL_Surface* inventory);
+static void dialogBlit(Data* data, SDL_Surface* inventory, TTF_Font* font1);
+static void infosBlit(Data* data, SDL_Surface* inventory, TTF_Font* font2);
+static void effectsBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory);
+static void framesBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory);
+static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory, TTF_Font* font1);
+static void itemsBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory);
+
+
 static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine) {
     SDL_Surface* inventory = NULL;
     inventory = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
-    char dialog[200];
-    SlotInventory* tempItem;
 
     //Font init
     TTF_Font* font1 = NULL;
     font1 = get_FontCollector(myFontCollector, "menu/20")->font;
     TTF_Font* font2 = NULL;
     font2 = get_FontCollector(myFontCollector, "menu/40")->font;
-    SDL_Color black = {0, 0, 0, 0};
 
-    //Surfaces init
+    backgroundBlit(data, engine, myImageCollector, inventory);
+
+    dialogBlit(data,inventory, font1);
+    infosBlit(data, inventory, font2);
+
+    effectsBlit(data, myImageCollector, inventory);
+
+    framesBlit(data,myImageCollector, inventory);
+
+    //Items blit
+    itemsBlit(data, myImageCollector,inventory);
+
+    //Confirmation box blit
+    confirmationBlit(data,myImageCollector,inventory, font1);
+
+    return inventory;
+}
+
+extern void renderScene_Scene_inventory(SDL_Surface* window, Engine* engine, Data* data) {
+    SDL_Surface* mainInventorySurface = NULL;
+    mainInventorySurface = getInventory(engine->imageCollector, engine->fontCollector, data, engine);
+
+    SDL_Rect mainInventorySurfacePos;
+    mainInventorySurfacePos.x = 0;
+    mainInventorySurfacePos.y = 0;
+
+    applySurface_Window(mainInventorySurface, window, mainInventorySurfacePos);
+
+    SDL_FreeSurface(mainInventorySurface);
+}
+
+static void backgroundBlit(Data* data, Engine* engine, ImageCollector* myImageCollector, SDL_Surface* inventory) {
     SDL_Surface* layout = NULL;
     SDL_Rect layoutPos;
 
     SDL_Surface* bgBlur = NULL;
 
-    SDL_Surface* dialogInfo = NULL;
-    SDL_Rect dialogInfoPos;
-
-    SDL_Surface* frame = NULL;
-    SDL_Surface* frameSelected = NULL;
-    SDL_Rect framePos;
-
-    SDL_Surface* confirm = NULL;
-    SDL_Rect confirmPos;
-
-    SDL_Surface* item = NULL;
-    SDL_Rect itemPos;
-    SDL_Rect itemSize;
-
-    SDL_Surface* effect = NULL;
-    SDL_Rect effectPos;
-    SDL_Rect effectSize;
-
     SDL_Surface* player = NULL;
     SDL_Rect playerPos;
+    
+    
+    layoutPos.x = 0;
+    layoutPos.y = 0;
 
     layout = get_ImageCollector(myImageCollector, "inventory/interface")->surface;
-    frame = get_ImageCollector(myImageCollector, "inventory/frame")->surface;
-    frameSelected = get_ImageCollector(myImageCollector, "inventory/frameSelected")->surface;
-    confirm = get_ImageCollector(myImageCollector, "inventory/confirm")->surface;
-    item = get_ImageCollector(myImageCollector, "inventory/items")->surface;
-    effect = get_ImageCollector(myImageCollector, "inventory/effects")->surface;
     if (strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
         bgBlur = get_ImageCollector(myImageCollector, "inventory/lobby_blur")->surface;
         player = get_ImageCollector(myImageCollector, "inventory/player_blur")->surface;
     }
-
-    //Layout blit
-    layoutPos.x = 0;
-    layoutPos.y = 0;
 
     SDL_BlitSurface(bgBlur, NULL, inventory, &layoutPos);
 
@@ -67,8 +81,14 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     }
 
     SDL_BlitSurface(layout, NULL, inventory, &layoutPos);
+}
 
-    //DialogBox blit
+static void dialogBlit(Data* data, SDL_Surface* inventory, TTF_Font* font1) {
+    char dialog[200];
+    SDL_Color almostBlack = {20, 15, 25, 0};
+    SDL_Surface* dialogInfo = NULL;
+    SDL_Rect dialogInfoPos;
+
     if(data->inventory->selected != NULL && !isStarted_Timer(data->inventory->timerMessage)) {
         //Informations of the item
         for(int i = 0; i < 3; i++) {
@@ -86,7 +106,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
                     break;
                 }
             }
-            dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+            dialogInfo = TTF_RenderText_Solid(font1, dialog, almostBlack);
 
             dialogInfoPos.x = 152;
             dialogInfoPos.y = 547 + i * 34;
@@ -95,15 +115,22 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
         }
     } else if(isStarted_Timer(data->inventory->timerMessage)) {
         strcpy(dialog, data->inventory->messageUsed);
-        dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+        dialogInfo = TTF_RenderText_Solid(font1, dialog, almostBlack);
 
         dialogInfoPos.x = 152;
         dialogInfoPos.y = 547;
 
         SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
     }
+    SDL_FreeSurface(dialogInfo);
+}
 
-    //Money && Dungeons Beaten Blit
+static void infosBlit(Data* data, SDL_Surface* inventory, TTF_Font* font2) {
+    char dialog[200];
+    SDL_Color almostBlack = {20, 15, 25, 0};
+    SDL_Surface* dialogInfo = NULL;
+    SDL_Rect dialogInfoPos;
+
     for(int i = 0; i < 2; i++) {
         int coordX;
         if(i == 0) {
@@ -113,7 +140,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
             sprintf(dialog,"%d",data->Isaac->gameStats->dungeons);
             coordX = 965;
         }
-        dialogInfo = TTF_RenderText_Solid(font2, dialog, black);
+        dialogInfo = TTF_RenderText_Solid(font2, dialog, almostBlack);
 
         dialogInfoPos.x = (Sint16) (coordX + ((75 / 2) - (getWidth_FontCollector(font2, dialog) / 2)));
         dialogInfoPos.y = (Sint16) (535 + ((75 / 2) - (getHeight_FontCollector(font2, dialog) / 2)));
@@ -121,8 +148,16 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
 
         SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
     }
+    SDL_FreeSurface(dialogInfo);
+}
 
-    //Effects blit
+static void effectsBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory) {
+    SDL_Surface* effect = NULL;
+    SDL_Rect effectPos;
+    SDL_Rect effectSize;
+
+    effect = get_ImageCollector(myImageCollector, "inventory/effects")->surface;
+
     effectSize.h = 32;
     effectSize.w = 32;
     for(int i = 0; i < 6; i++) {
@@ -135,8 +170,16 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
             SDL_BlitSurface(effect, &effectSize, inventory, &effectPos);
         }
     }
+}
 
-    //Frames blit
+static void framesBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory) {
+    SDL_Surface* frame = NULL;
+    SDL_Surface* frameSelected = NULL;
+    SDL_Rect framePos;
+
+    frame = get_ImageCollector(myImageCollector, "inventory/frame")->surface;
+    frameSelected = get_ImageCollector(myImageCollector, "inventory/frameSelected")->surface;
+
     for(int i = 0; i < data->Isaac->size_inventory; i++) {
         framePos.x = 139 + (i % 4) * 123;
         framePos.y = 121 + (i / 4) * 108;
@@ -146,23 +189,19 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
             SDL_BlitSurface(frame, NULL, inventory, &framePos);
         }
     }
+}
 
-    //Items blit
-    itemSize.h = 64;
-    itemSize.w = 64;
-    tempItem = data->Isaac->inventory;
-    for(int i = 0; i < data->Isaac->size_inventory; i++) {
-        if(tempItem) {
-            itemSize.x = (tempItem->id % 5) * 64;
-            itemSize.y = (tempItem->id / 5) * 64;
-            itemPos.x = 155 + (i % 4) * 123;
-            itemPos.y = 100 + (i / 4) * 108;
-            SDL_BlitSurface(item, &itemSize, inventory, &itemPos);
-            tempItem = tempItem->next;
-        }
-    }
+static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory, TTF_Font* font1) {
+    char dialog[200];
+    SDL_Color almostBlack = {20, 15, 25, 0};
+    SDL_Surface* dialogInfo = NULL;
+    SDL_Rect dialogInfoPos;
 
-    //Confirmation box blit
+    SDL_Surface* confirm = NULL;
+    SDL_Rect confirmPos;
+
+    confirm = get_ImageCollector(myImageCollector, "inventory/confirm")->surface;
+
     if(data->inventory->askDeletion != -1 && data->inventory->selected != NULL) {
         confirmPos.x = 0;
         confirmPos.y = 0;
@@ -194,26 +233,34 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
                     break;
                 }
             }
-            dialogInfo = TTF_RenderText_Solid(font1, dialog, black);
+            dialogInfo = TTF_RenderText_Solid(font1, dialog, almostBlack);
             SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
             TTF_SetFontStyle(font1, TTF_STYLE_NORMAL);
         }
     }
-
     SDL_FreeSurface(dialogInfo);
-
-    return inventory;
 }
 
-extern void renderScene_Scene_inventory(SDL_Surface* window, Engine* engine, Data* data) {
-    SDL_Surface* mainInventorySurface = NULL;
-    mainInventorySurface = getInventory(engine->imageCollector, engine->fontCollector, data, engine);
+static void itemsBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory) {
+    SDL_Surface* item = NULL;
+    SDL_Rect itemPos;
+    SDL_Rect itemSize;
 
-    SDL_Rect mainInventorySurfacePos;
-    mainInventorySurfacePos.x = 0;
-    mainInventorySurfacePos.y = 0;
+    SlotInventory* tempItem;
 
-    applySurface_Window(mainInventorySurface, window, mainInventorySurfacePos);
+    item = get_ImageCollector(myImageCollector, "inventory/items")->surface;
 
-    SDL_FreeSurface(mainInventorySurface);
+    itemSize.h = 64;
+    itemSize.w = 64;
+    tempItem = data->Isaac->inventory;
+    for(int i = 0; i < data->Isaac->size_inventory; i++) {
+        if(tempItem) {
+            itemSize.x = (tempItem->id % 5) * 64;
+            itemSize.y = (tempItem->id / 5) * 64;
+            itemPos.x = 155 + (i % 4) * 123;
+            itemPos.y = 100 + (i / 4) * 108;
+            SDL_BlitSurface(item, &itemSize, inventory, &itemPos);
+            tempItem = tempItem->next;
+        }
+    }
 }
