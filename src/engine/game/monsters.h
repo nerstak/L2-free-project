@@ -26,7 +26,7 @@ typedef MonsterNode * MonsterLList;
 extern void ProcessMonsters(Player * Isaac,MonsterLList * monsters);
 
 extern void MothAI(Monster * moth, Player * Isaac);
-
+extern void MothAnimate(MovementValues * movement,double Xdistance,int time);
 
 extern MonsterLList KillMonsters(MonsterLList monsters);
 extern void freemonster(MonsterLList monster);

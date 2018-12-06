@@ -31,7 +31,7 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
 
                     CASE(SDLK_UNDERSCORE)
                         data->lobby->actionProcess = 10;
-                    BREAK;
+                    BREAK
 
                     CASE(engine->keys->LEFT_ATTACK)
                         if (data->lobby->askCombat == -1) {

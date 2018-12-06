@@ -22,5 +22,11 @@ extern double maxDouble(double x, double y);
  * @return the min value between x and y
  */
 extern int min(int x, int y);
+/**
+ * Return the sign of the double
+ * @param x the value
+ * @return +1 or -1
+ */
+extern int sign(double x);
 
 #endif //FREE_PROJECT_UTILS_MATH_H

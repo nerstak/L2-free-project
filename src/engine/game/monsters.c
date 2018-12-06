@@ -44,8 +44,8 @@ extern void MothAI(Monster * moth, Player * Isaac)
     if(timechange>300 || timechange<-300)
         timechange=0;
 
-    double Xdistance= Isaac->movement->pos->x  - 64 - moth->movement->pos->x;
-    double Ydistance= Isaac->movement->pos->y + 32 - moth->movement->pos->y;
+    double Xdistance= Isaac->movement->pos->x  - 32 - moth->movement->pos->x;
+    double Ydistance= Isaac->movement->pos->y - moth->movement->pos->y;
 
     //oh shit here we go some fuckin trig
     double angle;
@@ -55,28 +55,65 @@ extern void MothAI(Monster * moth, Player * Isaac)
     }
     else angle=0;
 
-    int xSign=sign(Xdistance);
-
-    moth->movement->velocity->x+=  fabs(cos(angle)) * sign(Xdistance) * timechange * 0.06;
-    moth->movement->velocity->y+=  fabs(sin(angle)) * sign(Ydistance) * timechange * 0.06;
-
-    if(moth->movement->velocity->x!=0)
+    float dist=fabs(Xdistance)/fabs(cos(angle)) ;
+    if(dist < 300)
     {
-        angle = atan(moth->movement->velocity->y / moth->movement->velocity->x);
-    }
-    else angle=0;
+        moth->movement->velocity->x += fabs(cos(angle)) * sign(Xdistance) * timechange * 0.06;
+        moth->movement->velocity->y += fabs(sin(angle)) * sign(Ydistance) * timechange * 0.06;
 
-    ProcessVelocity(&(moth->movement->velocity->x), timechange, (4 * fabs(cos(angle))) ,0); //Dampens and caps velocity
-    ProcessVelocity(&(moth->movement->velocity->y), timechange, (4 * fabs(sin(angle))), 0);
+        if (moth->movement->velocity->x != 0) {
+            angle = atan(moth->movement->velocity->y / moth->movement->velocity->x);
+        }
+
+        ProcessVelocity(&(moth->movement->velocity->x), timechange, (4 * fabs(cos(angle))),0); //Dampens and caps velocity
+        ProcessVelocity(&(moth->movement->velocity->y), timechange, (4 * fabs(sin(angle))), 0);
+
+        moth->movement->pos->x+=(rand()%3)-1;
+        moth->movement->pos->y+=(rand()%3)-1;
+
+    }
+    else
+    {
+        ProcessVelocity(&(moth->movement->velocity->x), timechange, (4 * fabs(cos(angle))),1); //Dampens and caps velocity
+        ProcessVelocity(&(moth->movement->velocity->y), timechange, (4 * fabs(sin(angle))), 1);
+    }
+
 
     moth->movement->pos->x+=moth->movement->velocity->x * timechange*0.06* moth->Speed; //TODO: make a PosChange function
     moth->movement->pos->y+=moth->movement->velocity->y * timechange*0.06* moth->Speed;
+
+
 
     moth->movement->Hitbox->x=moth->movement->pos->x+64;
     moth->movement->Hitbox->y=moth->movement->pos->y;
 
 
+    MothAnimate(moth->movement,Xdistance,timechange);
 
+
+
+}
+
+extern void MothAnimate(MovementValues * movement,double Xdistance,int time)
+{
+    if(Xdistance>0)
+    {
+        movement->direction=1;
+    }
+    else
+    {
+        movement->direction=0;
+    }
+    movement->SpriteBox->y=movement->direction*96;
+    if(!movement->velocity->x && !movement->velocity->y)
+    {
+        movement->SpriteBox->x=0;
+    }
+    else
+    {
+        movement->step= (movement->step+time)%200;
+        movement->SpriteBox->x= ((movement->step/100)+1)*128 ;
+    }
 }
 
 
