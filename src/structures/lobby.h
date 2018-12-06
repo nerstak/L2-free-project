@@ -10,6 +10,7 @@ typedef struct lobby_t{
     int askAction;
     int actionProcess;
     int cursor;
+    int tutorial;
     struct Plant* actualPlant;
     Timer* timerMessage;
 }lobby_t;

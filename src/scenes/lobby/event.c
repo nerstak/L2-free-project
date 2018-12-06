@@ -1,4 +1,5 @@
 #include "event.h"
+#include "../../engine/game/tutorial.h"
 #include "../../utils/enhancedSwitch.h"
 
 extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data) {
@@ -60,4 +61,6 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
             data->Isaac->movement->velocity->x+=Vchange;
         }
     }
+
+    processTutorial(data, Vchange);
 }

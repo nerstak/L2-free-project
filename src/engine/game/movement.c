@@ -150,3 +150,30 @@ extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH) {
         data->Isaac->movement->velocity->y = 0;
     }
 }
+
+extern int automaticAskMovement(Data* data, int Vchange, int x_toGO, int y_toGO) {
+    coordinates_entity* posPlayer = data->Isaac->movement->pos;
+    if(posPlayer->y > (y_toGO + 5) || posPlayer->y < (y_toGO - 5) || posPlayer->x > (x_toGO + 25) || posPlayer->x < (x_toGO - 25)) {
+        if(posPlayer->x > (x_toGO + 25) || posPlayer->x < (x_toGO - 25)) {
+            if(posPlayer->x > x_toGO) {
+                data->Isaac->movement->velocity->x -= Vchange;
+            }
+            if(posPlayer->x < x_toGO) {
+                data->Isaac->movement->velocity->x += Vchange;
+            }
+        }
+
+        if(posPlayer->y > (y_toGO + 5) || posPlayer->y < (y_toGO - 5)) {
+            if(posPlayer->y > y_toGO) {
+                data->Isaac->movement->velocity->y -= Vchange;
+            }
+            if(posPlayer->y < y_toGO) {
+                data->Isaac->movement->velocity->y += Vchange;
+            }
+        }
+
+        return 0;
+    } else {
+        return 1;
+    }
+}
