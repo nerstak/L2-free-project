@@ -61,22 +61,22 @@ extern void SetCombatHitbox(Player * Isaac)
 
     switch(Isaac->combat->direction)
     {
-        case 0:
+        case 0: //down
             Isaac->combat->WeaponHitbox->x = (Isaac->movement->pos->x + 64) - (step * 64) ;
 
             Isaac->combat->WeaponHitbox->y = Isaac->movement->pos->y + 96;
             break;
-        case 1:
+        case 1: //up
             Isaac->combat->WeaponHitbox->x = (Isaac->movement->pos->x - 64) + (step * 64) ;
 
             Isaac->combat->WeaponHitbox->y = Isaac->movement->pos->y - 32;
             break;
-        case 2:
+        case 2: //right
             Isaac->combat->WeaponHitbox->x = Isaac->movement->pos->x + 64;
 
             Isaac->combat->WeaponHitbox->y = (Isaac->movement->pos->y - 32) + (step * 64);
             break;
-        case 3:
+        case 3: //left
             Isaac->combat->WeaponHitbox->x = Isaac->movement->pos->x - 64;
 
             Isaac->combat->WeaponHitbox->y = (Isaac->movement->pos->y - 32) + (step * 64);

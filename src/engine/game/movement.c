@@ -54,38 +54,30 @@ extern void MovePlayer(Data* data, Tiles** map)
 
 extern void ProcessVelocity(float* v,int t, float max, float factor)
 {
-    float KillMe=(*v);
     if((*v)>0) // gradually slows down the player so he stops when not pressing the button
     {
 
         (*v)-=((t*0.06) *factor); //this is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
-        KillMe=(*v);
         if((*v)<0)
         {
             (*v)=0;
         }
-        KillMe=(*v);
     }
 
 
     else if((*v)<0)
     {
         (*v)+=((t*0.06) *factor);
-        KillMe=(*v);
         if((*v)>0)
         {
             (*v)=0;
         }
-        KillMe=(*v);
     }
 
-    KillMe=(*v);
     if((*v)>max) // Caps velocity
         (*v)=max;
     else if((*v)<-max)
         (*v)=-max;
-
-    KillMe=(*v);
 }
 
 extern void StopVelocity(MovementValues * move) {

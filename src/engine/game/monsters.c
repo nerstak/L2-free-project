@@ -55,14 +55,14 @@ extern void MothAI(Monster * moth, Player * Isaac)
     }
     else angle=0;
 
-    float dist=fabs(Xdistance)/fabs(cos(angle)) ;
-    if(dist < 300)
+    double dist= fabs(Xdistance) / fabs(cos(angle)) ;
+    if(dist < 400 && !moth->AttackTimer->started)
     {
         moth->movement->velocity->x += fabs(cos(angle)) * sign(Xdistance) * timechange * 0.06;
         moth->movement->velocity->y += fabs(sin(angle)) * sign(Ydistance) * timechange * 0.06;
 
         if (moth->movement->velocity->x != 0) {
-            angle = atan(moth->movement->velocity->y / moth->movement->velocity->x);
+            angle = atanf(moth->movement->velocity->y / moth->movement->velocity->x);
         }
 
         ProcessVelocity(&(moth->movement->velocity->x), timechange, (4 * fabs(cos(angle))),0); //Dampens and caps velocity
@@ -70,6 +70,21 @@ extern void MothAI(Monster * moth, Player * Isaac)
 
         moth->movement->pos->x+=(rand()%3)-1;
         moth->movement->pos->y+=(rand()%3)-1;
+
+    }
+    else if(moth->AttackTimer->started)
+    {
+        if(getTicks_Timer(moth->AttackTimer)>500)
+        {
+            int dood=SDL_GetTicks();
+            stop_Timer(moth->AttackTimer);
+            if (moth->movement->velocity->x != 0) {
+                angle = atanf(moth->movement->velocity->y / moth->movement->velocity->x);
+            }
+        }
+
+        ProcessVelocity(&(moth->movement->velocity->x), timechange, (4 * fabs(cos(angle))),0.05); //Dampens and caps velocity
+        ProcessVelocity(&(moth->movement->velocity->y), timechange, (4 * fabs(sin(angle))), 0.05);
 
     }
     else
@@ -125,7 +140,7 @@ extern MonsterNode * KillMonsters(MonsterLList monsters)
     else if(monsters->monster->Health<=0)
     {
         MonsterLList TempNext=monsters->next;
-
+        //TODO add death cloud
         freemonster(monsters);
 
         return TempNext;
@@ -148,11 +163,34 @@ extern void Damage(Monster * mob,Player * Isaac)
 {
     if(BoxCollision(mob->movement->Hitbox,Isaac->movement->Hitbox))
     {
+        //TODO Isaac immunity
         Isaac->stats->current->health-=1;
     }
-    if(BoxCollision(mob->movement->Hitbox,Isaac->combat->WeaponHitbox))
+    if(BoxCollision(mob->movement->Hitbox,Isaac->combat->WeaponHitbox) && !mob->AttackTimer->started)
     {
         mob->Health-=1; //weapon->damage * Isaac->current_stats->Damage
+        Knockback(mob, Isaac);
+    }
+}
+
+extern void Knockback(Monster * mob,Player * Isaac) {
+    start_Timer(mob->AttackTimer);
+    switch (Isaac->combat->direction)
+    {
+        case 0:
+            mob->movement->velocity->y=5;
+            break;
+        case 1:
+            mob->movement->velocity->y=-5;
+            break;
+        case 2:
+            mob->movement->velocity->x=5;
+            break;
+        case 3:
+            mob->movement->velocity->x=-5;
+            break;
+        default:
+            break;
     }
 
 }

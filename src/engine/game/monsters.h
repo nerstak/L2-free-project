@@ -7,11 +7,10 @@ typedef struct Monster
 {
     MovementValues * movement;
     int type;
-    float MaxHealth;
     float Health;
     float Damage;
     float Speed;
-    int AttackTimer;
+    Timer * AttackTimer;
 }Monster;
 
 typedef struct MonsterNode
@@ -32,4 +31,5 @@ extern MonsterLList KillMonsters(MonsterLList monsters);
 extern void freemonster(MonsterLList monster);
 extern void Damage(Monster * mob,Player * Isaac);
 
+extern void Knockback(Monster * mob,Player * Isaac);
 #endif // MONSTERS_H_INCLUDED
