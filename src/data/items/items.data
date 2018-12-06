@@ -10,7 +10,7 @@
 9: 'Eggplant' 'Normally you shouldn t eat a raw eggplant buuuuut...' 'You feel all kinds of power coursing through you.' PRICE=1000 TYPE=v H=3 D=0.2 S=0.2 A=0.15
 10: 'Basic health potion' 'Heals you up for 20 hit points.' 'Glug glug, you healed 20 hit points.' PRICE=5 TYPE=p H=20 D=0 S=0 A=0
 11: 'Super health potion' 'Heals you up for 100 hit points.' 'Glug glug, you healed 100 hit points!' PRICE=15 TYPE=p H=100 D=0 S=0 A=0
-12: 'Basic speed potion' 'Increases your speed by 10%.' 'Zoop zoop you now possess the fast.' PRICE=1 TYPE=p H=0 D=0 S=0.1 A=0
+12: 'Basic speed potion' 'Increases your speed by 10%.' 'Zoop zoop you now possess the fast.' PRICE=10 TYPE=p H=0 D=0 S=0.1 A=0
 13: 'Truc de Fou' 'Increases your speed by 28% and supports local industry' 'Wow this actually doesn t taste that good.' PRICE=25 TYPE=p H=0 D=0 S=0.28 A=0
 14: 'Basic strength potion' 'Increases your strength by 18%.' 'Gulp gulp you feel your muscles grow.' PRICE=15 TYPE=p H=0 D=0.18 S=0 A=0
 15: 'Super strength potion' 'Increases your strength by 50%.' 'Gulp gulp your muscles are stretching your shirt.' PRICE=30 TYPE=p H=0 D=0.5 S=0 A=0

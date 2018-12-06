@@ -8,7 +8,7 @@ static void dialogBlit(Data* data, SDL_Surface* inventory, TTF_Font* font1);
 static void infosBlit(Data* data, SDL_Surface* inventory, TTF_Font* font2);
 static void effectsBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory);
 static void framesBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory);
-static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory, TTF_Font* font1);
+static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory, TTF_Font* font1, TTF_Font* font2);
 static void itemsBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory);
 
 
@@ -17,15 +17,17 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     inventory = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
     //Font init
-    TTF_Font* font1 = NULL;
-    font1 = get_FontCollector(myFontCollector, "menu/20")->font;
-    TTF_Font* font2 = NULL;
-    font2 = get_FontCollector(myFontCollector, "menu/40")->font;
+    TTF_Font* font20 = NULL;
+    font20 = get_FontCollector(myFontCollector, "menu/20")->font;
+    TTF_Font* font40 = NULL;
+    font40 = get_FontCollector(myFontCollector, "menu/40")->font;
+    TTF_Font* font25 = NULL;
+    font25 = get_FontCollector(myFontCollector, "menu/25")->font;
 
     backgroundBlit(data, engine, myImageCollector, inventory);
 
-    dialogBlit(data,inventory, font1);
-    infosBlit(data, inventory, font2);
+    dialogBlit(data,inventory, font20);
+    infosBlit(data, inventory, font40);
 
     effectsBlit(data, myImageCollector, inventory);
 
@@ -35,7 +37,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     itemsBlit(data, myImageCollector,inventory);
 
     //Confirmation box blit
-    confirmationBlit(data,myImageCollector,inventory, font1);
+    confirmationBlit(data, myImageCollector, inventory, font20, font25);
 
     return inventory;
 }
@@ -191,11 +193,12 @@ static void framesBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface
     }
 }
 
-static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory, TTF_Font* font1) {
+static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface* inventory, TTF_Font* font1, TTF_Font* font2) {
     char dialog[200];
     SDL_Color almostBlack = {20, 15, 25, 0};
     SDL_Surface* dialogInfo = NULL;
     SDL_Rect dialogInfoPos;
+    TTF_Font* currentFont;
 
     SDL_Surface* confirm = NULL;
     SDL_Rect confirmPos;
@@ -209,33 +212,36 @@ static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_S
         for(int i = 0; i < 4; i++) {
             switch (i) {
                 case 0: {
+                    currentFont = font2;
                     sprintf(dialog, "Are you sure you want to delete it?");
-                    dialogInfoPos.x = 515;
+                    dialogInfoPos.x = 460 + ((360 / 2) - (getWidth_FontCollector(currentFont, dialog) / 2));
                     dialogInfoPos.y = 280;
                     break;
                 }
                 case 1: {
+                    currentFont = font1;
                     strcpy(dialog, "Confirm");
                     dialogInfoPos.x = 512;
                     dialogInfoPos.y = 425;
                     if (data->inventory->askDeletion == 1) {
-                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                        TTF_SetFontStyle(currentFont, TTF_STYLE_UNDERLINE);
                     }
                     break;
                 }
                 case 2: {
+                    currentFont = font1;
                     strcpy(dialog, "Cancel");
                     dialogInfoPos.x = 700;
                     dialogInfoPos.y = 425;
                     if (data->inventory->askDeletion == 0) {
-                        TTF_SetFontStyle(font1, TTF_STYLE_UNDERLINE);
+                        TTF_SetFontStyle(currentFont, TTF_STYLE_UNDERLINE);
                     }
                     break;
                 }
             }
-            dialogInfo = TTF_RenderText_Solid(font1, dialog, almostBlack);
+            dialogInfo = TTF_RenderText_Solid(currentFont, dialog, almostBlack);
             SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
-            TTF_SetFontStyle(font1, TTF_STYLE_NORMAL);
+            TTF_SetFontStyle(currentFont, TTF_STYLE_NORMAL);
         }
     }
     SDL_FreeSurface(dialogInfo);
