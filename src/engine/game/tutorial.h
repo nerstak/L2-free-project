@@ -3,6 +3,6 @@
 
 #include "../data.h"
 
-extern void processTutorial(Data* data, int Vchange);
+extern void processTutorial(Data* data, float Vchange);
 
 #endif

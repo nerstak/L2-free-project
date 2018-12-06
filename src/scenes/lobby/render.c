@@ -7,19 +7,29 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     SDL_Surface* lobbySurface = NULL;
     lobbySurface = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
+    //Declaration of surface
 
     SDL_Surface* bg = NULL;
-
     SDL_Surface* PlayerSprite=NULL;
+    SDL_Surface* dialogBox = NULL;
+    SDL_Surface* dialog = NULL;
+
+    char line[150];
 
     SDL_Rect bgPos;
     SDL_Rect playerPos;
+    SDL_Rect dialogBoxPos;
+    SDL_Rect dialogPos;
 
     bgPos.x = 0;
     bgPos.y = 0;
     playerPos.x = data->Isaac->movement->pos->x;
     playerPos.y = data->Isaac->movement->pos->y;
 
+
+
+
+    // Stuff
     if(data->lobby->actionProcess == NONE){
         bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
         PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
@@ -182,6 +192,48 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_BlitSurface(wait, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
     }
+
+
+
+    // Tutorial
+    if(data->lobby->tutorial == 1) {
+        SDL_Color black = {0, 0, 0, 0};
+        TTF_Font* font1 = get_FontCollector(myFontCollector, "menu/25")->font;
+        dialogBox = get_ImageCollector(myImageCollector, "lobby/dialog")->surface;
+
+        dialogBoxPos.x = 135;
+        dialogBoxPos.y = 541;
+        SDL_BlitSurface(dialogBox, NULL, lobbySurface, &dialogBoxPos);
+
+        dialogPos.x = 145;
+        dialogPos.y = 545 - 35;
+
+        for(int i = 0; i < 4; i++) {
+            dialogPos.y += 35;
+            switch(i) {
+                case 0:
+                    strcpy(line, "My old man died 2 days ago... He left me this crappy farm and seed with warning...");
+                    break;
+                case 1:
+                    strcpy(line, "If I sold these, I couldn't even buy a Fornite skin's...");
+                    break;
+                case 2:
+                    strcpy(line, "I should try to see in this cemetery if there's something valuable. Or is it a little garden?");
+                    break;
+                case 3:
+                    strcpy(line, "Maybe should I become a farmer? If I plant my seed and wait long enough, I may become rich!");
+                    break;
+                default:
+                    break;
+            }
+            dialog = TTF_RenderText_Solid(font1, line, black);
+            SDL_BlitSurface(dialog, NULL, lobbySurface, &dialogPos);
+        }
+    }
+
+
+
+
     return lobbySurface;
 }
 
