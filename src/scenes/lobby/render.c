@@ -1,9 +1,10 @@
 #include "render.h"
 #include "../../window.h"
+#include "../../engine/config.h"
 
-static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data);
+static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
 
-static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data) {
+static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine) {
     SDL_Surface* lobbySurface = NULL;
     lobbySurface = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
@@ -196,7 +197,8 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
 
     // Tutorial
-    if(data->lobby->tutorial == 1) {
+    if(data->lobby->tutorial == 1 || data->lobby->tutorial == 3) {
+        char name1[10], name2[10], name3[10], name4[10];
         SDL_Color black = {0, 0, 0, 0};
         TTF_Font* font1 = get_FontCollector(myFontCollector, "menu/25")->font;
         dialogBox = get_ImageCollector(myImageCollector, "lobby/dialog")->surface;
@@ -212,16 +214,43 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
             dialogPos.y += 35;
             switch(i) {
                 case 0:
-                    strcpy(line, "My old man died 2 days ago... He left me this crappy farm and seed with warning...");
+                    if(data->lobby->tutorial == 1) {
+                        strcpy(line, "My old man died 2 days ago... He left me this crappy farm and seed with warning...");
+                    } else {
+                        strcpy(line, "Wow! I can move exactly like in Fornite!");
+                    }
                     break;
                 case 1:
-                    strcpy(line, "If I sold these, I couldn't even buy a Fornite skin's...");
+                    if(data->lobby->tutorial == 1) {
+                        strcpy(line, "If I sold these, I couldn't even buy a Fornite skin's...");
+                    } else {
+                        nameKeys(engine->keys->UP, name1);
+                        nameKeys(engine->keys->DOWN, name2);
+                        nameKeys(engine->keys->LEFT, name3);
+                        nameKeys(engine->keys->RIGHT, name4);
+                        sprintf(line, "I can use %s, %s, %s and %s to go somewhere", name1, name2, name3, name4);
+                    }
                     break;
                 case 2:
-                    strcpy(line, "I should try to see in this cemetery if there's something valuable. Or is it a little garden?");
+                    if(data->lobby->tutorial == 1) {
+                        strcpy(line, "I should try to see in this cemetery if there's something valuable. Or is it a little garden?");
+                    } else {
+                        nameKeys(engine->keys->UP_ATTACK, name1);
+                        nameKeys(engine->keys->DOWN_ATTACK, name2);
+                        nameKeys(engine->keys->LEFT_ATTACK, name3);
+                        nameKeys(engine->keys->RIGHT_ATTACK, name4);
+                        sprintf(line, "But there's also %s, %s, %s and %s to use my tools", name1, name2, name3, name4);
+                    }
                     break;
                 case 3:
-                    strcpy(line, "Maybe should I become a farmer? If I plant my seed and wait long enough, I may become rich!");
+                    if(data->lobby->tutorial == 1) {
+                        strcpy(line, "Maybe should I become a farmer? If I plant my seed and wait long enough, I may become rich!");
+                    } else {
+                        nameKeys(engine->keys->INVENTORY, name1);
+                        nameKeys(engine->keys->DELETE, name2);
+                        nameKeys(engine->keys->SELECT, name3);
+                        sprintf(line, "I can open my bag with %s, and delete and item with %s. And to interact, I have %s.", name1, name2, name3);
+                    }
                     break;
                 default:
                     break;
@@ -241,7 +270,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
 extern void renderScene_Scene_lobby(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* lobbySurface = NULL;
-    lobbySurface = getLobby(engine->imageCollector,engine->fontCollector,data);
+    lobbySurface = getLobby(engine->imageCollector,engine->fontCollector,data, engine);
 
     SDL_Rect lobbySurfacePos;
     lobbySurfacePos.x = 0;

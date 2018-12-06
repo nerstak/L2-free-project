@@ -3,6 +3,11 @@
 
 #include "../data.h"
 
+/**
+ * Process the tutorial
+ * @param data pointer to an Object Data
+ * @param Vchange float of the rate of change
+ */
 extern void processTutorial(Data* data, float Vchange);
 
 #endif

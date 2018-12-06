@@ -4,7 +4,6 @@
 #include "logic.h"
 
 static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
-static void nameKeys(int id, char* name);
 
 static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine) {
     SDL_Surface* options = NULL;
@@ -121,94 +120,4 @@ extern void renderScene_Scene_options(SDL_Surface* window, Engine* engine, Data*
     applySurface_Window(optionsSurface, window, optionsSurfacePos);
 
     SDL_FreeSurface(optionsSurface);
-}
-
-static void nameKeys(int id, char* name) {
-    strcpy(name,SDL_GetKeyName(id));
-    switch(id) {
-        case 8: {
-            strcpy(name,"Bspace");
-            break;
-        }
-        case 127: {
-            strcpy(name, "Del.");
-            break;
-        }
-        case 280: {
-            strcpy(name, "Page D");
-            break;
-        }
-        case 281: {
-            strcpy(name, "Page U");
-            break;
-        }
-        case 300: {
-            strcpy(name, "NumLo");
-            break;
-        }
-        case 301: {
-            strcpy(name, "CapsLo");
-            break;
-        }
-        case 302: {
-            strcpy(name, "ScroLo");
-            break;
-        }
-        case 303: {
-            strcpy(name, "RShift");
-            break;
-        }
-        case 304: {
-            strcpy(name, "LShift");
-            break;
-        }
-        case 305: {
-            strcpy(name, "R ctrl");
-            break;
-        }
-        case 306: {
-            strcpy(name, "L ctrl");
-            break;
-        }
-        case 307: {
-            strcpy(name, "R alt");
-            break;
-        }
-        case 308: {
-            strcpy(name, "L alt");
-            break;
-        }
-        case 309: {
-            strcpy(name, "R meta");
-            break;
-        }
-        case 310: {
-            strcpy(name, "L meta");
-            break;
-        }
-        case 311: {
-            strcpy(name, "L sup");
-            break;
-        }
-        case 312: {
-            strcpy(name, "R sup");
-            break;
-        }
-        case 314: {
-            strcpy(name, "Compo");
-            break;
-        }
-        case 316: {
-            strcpy(name, "Print");
-            break;
-        }
-        case 317: {
-            strcpy(name, "SysReq");
-            break;
-        }
-        default:
-            name[0] = (char) (name[0] - 32);
-
-            break;
-    }
 }

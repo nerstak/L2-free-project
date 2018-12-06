@@ -18,11 +18,20 @@ extern void processTutorial(Data* data, float Vchange) {
                 break;
             }
             case 2: {
-                if (automaticAskMovement(data, Vchange, 1100, 384) == 1) {
-                    data->lobby->tutorial = 0;
+                if (automaticAskMovement(data, Vchange, 1015, 384) == 1) {
+                    data->lobby->tutorial = 3;
+                    copyStats(data->Isaac->stats->current, data->Isaac->stats->basic);
+                    start_Timer(data->lobby->timerMessage);
                 }
                 break;
             }
+            case 3: {
+                if(getTime_Timer(data->lobby->timerMessage) > 12) {
+                    stop_Timer(data->lobby->timerMessage);
+                    data->lobby->tutorial = 0;
+                }
+            }
+
         }
     }
 }
