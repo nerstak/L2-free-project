@@ -15,4 +15,10 @@ angular.module('app.core', ['ui.router'])
 
     .controller('IndexController', [function IndexController() {
         var self = this;
+
+        var video = angular.element(document).find('video')[0];
+
+        video.onended = function() {
+            video.play();
+        };
     }]);
