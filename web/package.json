@@ -1,0 +1,26 @@
+{
+  "name": "free_project",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "gulp build",
+    "test": "eslint ./",
+    "start:development": "gulp",
+    "start:production": "gulp dist"
+  },
+  "devDependencies": {
+    "del": "^3.0.0",
+    "eslint": "^5.9.0",
+    "gulp": "^4.0.0",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-connect": "^5.6.1",
+    "gulp-eslint": "^5.0.0",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-less": "^4.0.1",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rev": "^9.0.0",
+    "gulp-uglify": "^3.0.1",
+    "gulp-usemin": "^0.3.29",
+    "run-sequence": "^2.2.1"
+  }
+}

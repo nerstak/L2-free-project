@@ -1,0 +1,21 @@
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Dependency directories
+node_modules/
+src/libs/
+
+# Compiled files
+src/assets/css/
+
+# Dist build
+dist/
