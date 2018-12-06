@@ -1,15 +1,8 @@
 #include "options.h"
 
 extern void assets_Scene_options(Engine* engine, Data* data, bool loadOrUnload) {
-    Asset* assetsList = getList_Asset("src/scenes/options/files.asset");
-
-    if (loadOrUnload == true) {
-        loadList_ImageCollector(engine->imageCollector, assetsList);
-    } else {
-        unloadList_ImageCollector(engine->imageCollector, assetsList);
-    }
-
-    clean_Asset(&assetsList);
+    char path[] = "src/scenes/options/files.asset";
+    load_Asset(path, loadOrUnload, engine, data);
 }
 
 extern void init_Scene_options(Engine* engine, Data* data, bool loadOrUnload) {

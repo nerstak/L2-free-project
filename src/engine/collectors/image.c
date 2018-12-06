@@ -7,6 +7,7 @@
 
 #include "image.h"
 #include "../asset.h"
+#include "sound.h"
 
 static void add_Image(ImageCollector* myImageCollector, Image* myImage);
 static void remove_Image(ImageCollector* myImageCollector, Image* myImage);
@@ -159,7 +160,10 @@ extern void loadList_ImageCollector(ImageCollector* myImageCollector, Asset* ass
 
     // We go through the list and call the existing function
     while (temp != NULL) {
-        load_ImageCollector(myImageCollector, temp->path, temp->name);
+        if (temp->type == 3) {
+            load_ImageCollector(myImageCollector, temp->path, temp->name);
+        }
+
         temp = temp->next;
     }
 }
@@ -179,7 +183,10 @@ extern void unloadList_ImageCollector(ImageCollector* myImageCollector, Asset* a
 
     // We go through the list and call the existing function
     while (temp != NULL) {
-        unload_ImageCollector(myImageCollector, temp->name);
+        if (temp->type == 3) {
+            unload_ImageCollector(myImageCollector, temp->name);
+        }
+
         temp = temp->next;
     }
 }

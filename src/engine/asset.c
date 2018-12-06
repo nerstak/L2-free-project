@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include "asset.h"
+#include "collectors/sound.h"
+#include "main.h"
 
 extern Asset* getList_Asset(char path[]) {
     // We open our file
@@ -55,6 +57,19 @@ extern Asset* getList_Asset(char path[]) {
         strcpy(temp->path, path);
         strcpy(temp->name, name);
 
+        if (strstr(temp->path, ".wav") != NULL) {
+            if (strstr(temp->path, "resources/sfx") != NULL) {
+                temp->type = SOUND;
+            } else if (strstr(temp->path, "resources/musics") != NULL) {
+                temp->type = MUSIC;
+            } else {
+                printf("Referencing an unknown folder containing an audio file (.wav)");
+                exit(EXIT_FAILURE);
+            }
+        } else {
+            temp->type = 3; // Image
+        }
+
         amount += 1;
     }
 
@@ -77,4 +92,18 @@ extern void clean_Asset(Asset** assetList) {
         free((*assetList));
         (*assetList) = NULL;
     }
+}
+
+extern void load_Asset(char path[], bool loadOrUnload, struct Engine* engine, struct Data* data) {
+    Asset* assetsList = getList_Asset(path);
+
+    if (loadOrUnload == true) {
+        loadList_ImageCollector(engine->imageCollector, assetsList);
+        loadList_SoundCollector(engine->soundCollector, assetsList);
+    } else {
+        unloadList_ImageCollector(engine->imageCollector, assetsList);
+        unloadList_SoundCollector(engine->soundCollector, assetsList);
+    }
+
+    clean_Asset(&assetsList);
 }
