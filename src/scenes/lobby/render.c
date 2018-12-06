@@ -22,7 +22,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
     FightSprite = get_ImageCollector(myImageCollector, "lobby/scythe")->surface;
-    BadGuy = get_ImageCollector(myImageCollector, "lobby/testmonster")->surface;// remove
+    BadGuy = get_ImageCollector(myImageCollector, "lobby/moth")->surface;// remove
 
     bgPos.x = 0;
     bgPos.y = 0;

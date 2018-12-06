@@ -43,7 +43,7 @@ extern void MothAI(Monster * moth, Player * Isaac)
     if(timechange>300)
         timechange=0;
 
-    double Xdistance= Isaac->movement->pos->x  - moth->movement->pos->x;
+    double Xdistance= Isaac->movement->pos->x  - 64 - moth->movement->pos->x;
     double Ydistance= Isaac->movement->pos->y + 32 - moth->movement->pos->y;
 
     //oh shit here we go some fuckin trig
@@ -62,7 +62,7 @@ extern void MothAI(Monster * moth, Player * Isaac)
     moth->movement->pos->x+=moth->movement->velocity->x * timechange*0.06* moth->Speed; //TODO: make a PosChange function
     moth->movement->pos->y+=moth->movement->velocity->y * timechange*0.06* moth->Speed;
 
-    moth->movement->Hitbox->x=moth->movement->pos->x;
+    moth->movement->Hitbox->x=moth->movement->pos->x+64;
     moth->movement->Hitbox->y=moth->movement->pos->y;
 
 
