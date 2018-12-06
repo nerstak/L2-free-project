@@ -20,6 +20,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     playerPos.x = data->Isaac->movement->pos->x;
     playerPos.y = data->Isaac->movement->pos->y;
 
+    SDL_Color black = {0, 0, 0, 0};
+    SDL_Color brown = {55, 25, 17, 0};
+
     if(data->lobby->actionProcess == NONE){
         bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
         PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
@@ -36,8 +39,6 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
 
     if(data->lobby->actionProcess == SLEEP){
-        SDL_Color black = {0, 0, 0, 0};
-
         TTF_Font* font1 = NULL;
         font1 = get_FontCollector(myFontCollector, "menu/90")->font;
 
@@ -54,9 +55,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         }else if (data->lobby->cursor == 1){
             interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
         }
-        menu1x1 = TTF_RenderText_Solid(font1, "Save Game?", black);
-        menu1x2 = TTF_RenderText_Solid(font2, "YES", black);
-        menu1x3 = TTF_RenderText_Solid(font2, "NO", black);
+        menu1x1 = TTF_RenderText_Solid(font1, "Save Game?", brown);
+        menu1x2 = TTF_RenderText_Solid(font2, "YES", brown);
+        menu1x3 = TTF_RenderText_Solid(font2, "NO", brown);
 
         SDL_Rect posMenu1x1;
         SDL_Rect posMenu1x2;
@@ -66,14 +67,14 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenu1xInterface.x = 0;
         posMenu1xInterface.y = 0;
 
-        posMenu1x1.x = posMenu1xInterface.x + 450;
-        posMenu1x1.y = posMenu1xInterface.y + 345;
+        posMenu1x1.x = 450;
+        posMenu1x1.y = 335;
 
-        posMenu1x2.x = posMenu1x1.x-220;
-        posMenu1x2.y = posMenu1x1.y-10;
+        posMenu1x2.x = posMenu1x1.x - 223;
+        posMenu1x2.y = posMenu1x1.y - 10;
 
-        posMenu1x3.x = posMenu1x1.x+550;
-        posMenu1x3.y = posMenu1x1.y-10;
+        posMenu1x3.x = posMenu1x1.x + 548;
+        posMenu1x3.y = posMenu1x1.y - 10;
 
         SDL_BlitSurface(interface, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
@@ -102,18 +103,21 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     }
 
     if(data->lobby->actionProcess == GOTO_DUNGEON ){
-        SDL_Color black = {0, 0, 0, 0};
 
         TTF_Font* font1 = NULL;
         font1 = get_FontCollector(myFontCollector, "menu/65")->font;
 
         TTF_Font* font2 = NULL;
         font2 = get_FontCollector(myFontCollector, "menu/75")->font;
-
         SDL_Surface* interface = NULL;
         SDL_Surface* menu1x1;
         SDL_Surface* menu1x2;
         SDL_Surface* menu1x3;
+
+        SDL_Rect posMenu1x1;
+        SDL_Rect posMenu1x2;
+        SDL_Rect posMenu1x3;
+        SDL_Rect posMenu1xInterface;
 
         if(data->lobby->cursor == 0){
             interface = get_ImageCollector(myImageCollector, "lobby/menu11")->surface;
@@ -121,14 +125,10 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
             interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
         }
 
-        menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", black);
-        menu1x2 = TTF_RenderText_Solid(font2, "YES", black);
-        menu1x3 = TTF_RenderText_Solid(font2, "NO", black);
+        menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", brown);
+        menu1x2 = TTF_RenderText_Solid(font2, "YES", brown);
+        menu1x3 = TTF_RenderText_Solid(font2, "NO", brown);
 
-        SDL_Rect posMenu1x1;
-        SDL_Rect posMenu1x2;
-        SDL_Rect posMenu1x3;
-        SDL_Rect posMenu1xInterface;
 
         posMenu1xInterface.x = 0;
         posMenu1xInterface.y = 0;
@@ -136,11 +136,11 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenu1x1.x =  450;
         posMenu1x1.y =  345;
 
-        posMenu1x2.x = posMenu1x1.x-220;
-        posMenu1x2.y = posMenu1x1.y-10;
+        posMenu1x2.x = posMenu1x1.x - 223;
+        posMenu1x2.y = posMenu1x1.y - 5;
 
-        posMenu1x3.x = posMenu1x1.x+550;
-        posMenu1x3.y = posMenu1x1.y-10;
+        posMenu1x3.x = posMenu1x1.x + 550;
+        posMenu1x3.y = posMenu1x1.y - 5;
 
         SDL_BlitSurface(interface, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
@@ -154,8 +154,6 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
         SDL_Rect posMenu1xInterface;
         SDL_Rect posMenu1x1;
-
-        SDL_Color black = {0, 0, 0, 0};
 
         TTF_Font* font1 = NULL;
         font1 = get_FontCollector(myFontCollector, "menu/90")->font;
