@@ -87,6 +87,8 @@ static void backgroundBlit(Data* data, Engine* engine, ImageCollector* myImageCo
 
 static void dialogBlit(Data* data, SDL_Surface* inventory, TTF_Font* font1) {
     char dialog[200];
+    SDL_Color white = {245, 245, 245, 0};
+    SDL_Color currentColor;
     SDL_Color almostBlack = {20, 15, 25, 0};
     SDL_Surface* dialogInfo = NULL;
     SDL_Rect dialogInfoPos;
@@ -96,22 +98,25 @@ static void dialogBlit(Data* data, SDL_Surface* inventory, TTF_Font* font1) {
         for(int i = 0; i < 3; i++) {
             switch (i) {
                 case 0: {
+                    currentColor = almostBlack;
                     sprintf(dialog, "%s.",data->inventory->selected->name);
                     break;
                 }
                 case 1: {
+                    currentColor = almostBlack;
                     sprintf(dialog, "%s",data->inventory->selected->description);
                     break;
                 }
                 case 2: {
+                    currentColor = white;
                     sprintf(dialog, "This is worth %d$, and I've %d of those.",(int)(data->inventory->selected->price * .8),data->inventory->selected->quantity);
                     break;
                 }
             }
-            dialogInfo = TTF_RenderText_Solid(font1, dialog, almostBlack);
+            dialogInfo = TTF_RenderText_Solid(font1, dialog, currentColor);
 
             dialogInfoPos.x = 152;
-            dialogInfoPos.y = 547 + i * 34;
+            dialogInfoPos.y = 545 + i * 34;
 
             SDL_BlitSurface(dialogInfo, NULL, inventory, &dialogInfoPos);
         }
@@ -209,16 +214,23 @@ static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_S
         confirmPos.x = 0;
         confirmPos.y = 0;
         SDL_BlitSurface(confirm, NULL, inventory, &confirmPos);
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 5; i++) {
             switch (i) {
                 case 0: {
                     currentFont = font2;
-                    sprintf(dialog, "Are you sure you want to delete it?");
+                    sprintf(dialog, "Are you sure you want");
                     dialogInfoPos.x = 460 + ((360 / 2) - (getWidth_FontCollector(currentFont, dialog) / 2));
                     dialogInfoPos.y = 280;
                     break;
                 }
                 case 1: {
+                    currentFont = font2;
+                    strcpy(dialog, "to delete it?");
+                    dialogInfoPos.x = 460 + ((360 / 2) - (getWidth_FontCollector(currentFont, dialog) / 2));
+                    dialogInfoPos.y = 310;
+                    break;
+                }
+                case 2: {
                     currentFont = font1;
                     strcpy(dialog, "Confirm");
                     dialogInfoPos.x = 512;
@@ -228,7 +240,7 @@ static void confirmationBlit(Data* data, ImageCollector* myImageCollector, SDL_S
                     }
                     break;
                 }
-                case 2: {
+                case 3: {
                     currentFont = font1;
                     strcpy(dialog, "Cancel");
                     dialogInfoPos.x = 700;

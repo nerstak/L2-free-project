@@ -10,7 +10,7 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
     int action = data->inventory->askAction;
 
     if(isStarted_Timer(data->inventory->timerMessage)){
-        if(getTime_Timer(data->inventory->timerMessage) > 3) {
+        if(getTime_Timer(data->inventory->timerMessage) > 3 || action != I_NONE) {
             stop_Timer(data->inventory->timerMessage);
             strcpy(data->inventory->messageUsed,"");
         }

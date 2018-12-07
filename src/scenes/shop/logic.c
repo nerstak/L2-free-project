@@ -10,7 +10,8 @@ extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
 
     if(isStarted_Timer(data->shop->timerMessage)){
         if((getTime_Timer(data->shop->timerMessage) > 3 && strcmp(data->shop->messageAction,"Init") != 0)
-        || (getTime_Timer(data->shop->timerMessage) > 10 && strcmp(data->shop->messageAction,"Init") == 0)) {
+        || (getTime_Timer(data->shop->timerMessage) > 10 && strcmp(data->shop->messageAction,"Init") == 0)
+        || action != NONE) {
             stop_Timer(data->shop->timerMessage);
             strcpy(data->shop->messageAction,"");
         }

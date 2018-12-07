@@ -100,6 +100,8 @@ static void infoItemBlit(Data* data, SDL_Surface* shop, TTF_Font* font1) {
     SDL_Surface* dialogInfo = NULL;
     SDL_Rect dialogInfoPos;
     SDL_Color almostBlack = {20, 15, 25, 0};
+    SDL_Color white = {171, 171, 171, 0};
+    SDL_Color currentColor;
     char dialog[200];
 
     for(int i = 0; i < 3; i++) {
@@ -111,12 +113,13 @@ static void infoItemBlit(Data* data, SDL_Surface* shop, TTF_Font* font1) {
                 } else {
                     sprintf(dialog, "This is a %s.",data->shop->selected->name);
                 }
-
+                currentColor = almostBlack;
                 break;
             }
             case 1: {
                 //Second line
                 sprintf(dialog, "%s",data->shop->selected->description);
+                currentColor = almostBlack;
                 break;
             }
             case 2: {
@@ -126,11 +129,12 @@ static void infoItemBlit(Data* data, SDL_Surface* shop, TTF_Font* font1) {
                 } else {
                     sprintf(dialog, "This is worth %d$. Deal?",data->shop->selected->price);
                 }
+                currentColor = white;
                 break;
             }
             default: break;
         }
-        dialogInfo = TTF_RenderText_Solid(font1, dialog, almostBlack);
+        dialogInfo = TTF_RenderText_Solid(font1, dialog, currentColor);
 
         dialogInfoPos.x = 80;
         dialogInfoPos.y = 550 + i * 50;

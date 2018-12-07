@@ -92,8 +92,8 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenuPlant.x = 0 ;
         posMenuPlant.y = 0 ;
 
-        posMenuPlantSelect.x = (Sint16) (188 * (data->lobby->cursor) - 15);
-        posMenuPlantSelect.y = 0 ;
+        posMenuPlantSelect.x = (Sint16) (188 * (data->lobby->cursor) - 14);
+        posMenuPlantSelect.y = 73;
 
         menuPlantSelect = get_ImageCollector(myImageCollector, "lobby/menu22")->surface;
         menuPlant = get_ImageCollector(myImageCollector, "lobby/menu21")->surface;
@@ -137,10 +137,10 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenu1x1.y =  345;
 
         posMenu1x2.x = posMenu1x1.x - 223;
-        posMenu1x2.y = posMenu1x1.y - 5;
+        posMenu1x2.y = posMenu1x1.y - 20;
 
-        posMenu1x3.x = posMenu1x1.x + 550;
-        posMenu1x3.y = posMenu1x1.y - 5;
+        posMenu1x3.x = posMenu1x1.x + 548;
+        posMenu1x3.y = posMenu1x1.y - 20;
 
         SDL_BlitSurface(interface, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
