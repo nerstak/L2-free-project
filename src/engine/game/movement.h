@@ -16,4 +16,6 @@ extern void SpriteSelection(MovementValues * move, SDL_Rect * box);
 
 extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH);
 
+extern int automaticAskMovement(Data* data, float Vchange, int x_toGO, int y_toGO);
+
 #endif // FREE_PROJECT_ENGINE_GAME_MOVEMENT_H

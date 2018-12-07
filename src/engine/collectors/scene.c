@@ -223,10 +223,6 @@ extern void display_SceneCollector(struct Engine* engine, Data* data, const char
                 engine->sceneCollector->previousOverlay = engine->sceneCollector->currentOverlay;
                 engine->sceneCollector->currentOverlay = temp;
             }
-            /*
-            engine->sceneCollector->previousOverlay = engine->sceneCollector->currentOverlay;
-            engine->sceneCollector->currentOverlay = temp;
-            */
         } else if (temp->type == SCENE) { // Leaving overlay
             engine->sceneCollector->currentOverlay->assets(engine, data, false);
             engine->sceneCollector->currentOverlay->init(engine, data, false);
