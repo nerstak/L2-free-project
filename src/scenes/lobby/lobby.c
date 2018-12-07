@@ -23,6 +23,18 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->actionProcess = NONE;
         data->lobby->cursor = 0;
         data->lobby->timerMessage = init_Timer();
+        if(data->Isaac->day == 0) {
+            // Display introduction & tutorial
+            alterSpeed(data->Isaac, (float) (- data->Isaac->stats->basic->speed * 0.3), 'c');
+            data->lobby->tutorial = 1;
+            start_Timer(data->lobby->timerMessage);
+        } else {
+            data->lobby->tutorial = 0;
+        }
+
+
+        data->Isaac->movement->pos->x = 50;
+        data->Isaac->movement->pos->y = 384;
 
     } else {
         freeSingleLayout(&(data->lobby->layout));
