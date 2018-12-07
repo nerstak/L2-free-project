@@ -4,3 +4,5 @@ src/resources/gfx/scenes/interface/frame_selected.png inventory/frameSelected
 src/resources/gfx/scenes/interface/confirm_layout.png inventory/confirm
 src/resources/gfx/scenes/interface/item_spritesheet.png inventory/items
 src/resources/gfx/scenes/interface/effect_spritesheet.png inventory/effects
+src/resources/gfx/scenes/lobby/lobby_bg_flou.png inventory/lobby_blur
+src/resources/gfx/player/sprites_hero_flou.png inventory/player_blur
