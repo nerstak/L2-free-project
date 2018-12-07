@@ -67,14 +67,14 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenu1xInterface.x = 0;
         posMenu1xInterface.y = 0;
 
-        posMenu1x1.x = 450;
+        posMenu1x1.x = 425;
         posMenu1x1.y = 335;
 
-        posMenu1x2.x = posMenu1x1.x - 223;
-        posMenu1x2.y = posMenu1x1.y - 10;
+        posMenu1x2.x = posMenu1x1.x - 221;
+        posMenu1x2.y = posMenu1x1.y - 18;
 
-        posMenu1x3.x = posMenu1x1.x + 548;
-        posMenu1x3.y = posMenu1x1.y - 10;
+        posMenu1x3.x = posMenu1x1.x + 550;
+        posMenu1x3.y = posMenu1x1.y - 18;
 
         SDL_BlitSurface(interface, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
@@ -125,7 +125,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
             interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
         }
 
-        menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", brown);
+        menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", brown); // Fucking relative layout @nerstak
         menu1x2 = TTF_RenderText_Solid(font2, "YES", brown);
         menu1x3 = TTF_RenderText_Solid(font2, "NO", brown);
 
@@ -133,14 +133,14 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenu1xInterface.x = 0;
         posMenu1xInterface.y = 0;
 
-        posMenu1x1.x =  450;
-        posMenu1x1.y =  345;
+        posMenu1x1.x = 425;
+        posMenu1x1.y = 335;
 
-        posMenu1x2.x = posMenu1x1.x - 223;
-        posMenu1x2.y = posMenu1x1.y - 20;
+        posMenu1x2.x = posMenu1x1.x - 221;
+        posMenu1x2.y = posMenu1x1.y - 18;
 
-        posMenu1x3.x = posMenu1x1.x + 548;
-        posMenu1x3.y = posMenu1x1.y - 20;
+        posMenu1x3.x = posMenu1x1.x + 550;
+        posMenu1x3.y = posMenu1x1.y - 18;
 
         SDL_BlitSurface(interface, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
