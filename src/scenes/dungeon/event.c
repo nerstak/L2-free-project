@@ -31,12 +31,12 @@ extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* da
                     }
 
                     case SDLK_KP_PLUS: {
-                        alterHealth(data->Isaac, 1.5, 'c');
+                        alterHealth_Player(data->Isaac, 1.5, 'c');
                         break;
                     }
 
                     case SDLK_KP_MINUS: {
-                        alterHealth(data->Isaac, (float) -1.5, 'c');
+                        alterHealth_Player(data->Isaac, (float) -1.5, 'c');
                         break;
                     }
 

@@ -165,7 +165,7 @@ static int processPlanting(Data* data) {
         data->lobby->actualPlant->idVegetable = plant->id;
         plant->quantity--;
         if(plant->quantity <= 0) {
-            remove_SlotInventory(&(data->Isaac->inventory),plant->id,&(data->Isaac->size_inventory));
+            remove_SlotInventory(&(data->Isaac->inventory),plant->id,&(data->Isaac->sizeInventory));
         }
         return 1;
     }

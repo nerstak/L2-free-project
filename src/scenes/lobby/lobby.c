@@ -30,40 +30,34 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->askCombat = -1;
         data->lobby->actionProcess = NONE;
 
-        //TEMP because theres no monsters in the lobby but I still need to test this shit
-        data->monsters=malloc(sizeof(MonsterNode));
-        data->monsters->next=NULL;
-        data->monsters->monster=malloc(sizeof(Monster));
-        data->monsters->monster->movement=malloc(sizeof(MovementValues));
-        data->monsters->monster->movement->Hitbox=malloc(sizeof(SDL_Rect));
-        data->monsters->monster->movement->SpriteBox=malloc(sizeof(SDL_Rect));
-        data->monsters->monster->movement->pos=malloc(sizeof(coordinates_entity));
-        data->monsters->monster->movement->velocity=malloc(sizeof(coordinates_entity));
+        // TEMP because theres no monsters in the lobby but I still need to test this shit
+        data->entities = initList_Entity();
+        data->entities->data = init_Entity(MOTH);
 
+        data->entities->data->movement->animationStep = 0;
+        data->entities->data->speed = 1;
+        data->entities->data->type = 0;
+        data->entities->data->movement->position->x = 0;
+        data->entities->data->movement->position->y = 0;
+        data->entities->data->movement->velocity->x = 0;
+        data->entities->data->movement->velocity->y = 0;
+        data->entities->data->movement->spriteBox->h = 96;
+        data->entities->data->movement->spriteBox->w = 128;
+        data->entities->data->movement->hitBox->h = 96;
+        data->entities->data->movement->hitBox->w = 32;
+        data->entities->data->movement->spriteBox->x = 0;
+        data->entities->data->movement->spriteBox->y = 0;
+        data->entities->data->health = 5;
+        data->entities->data->movement->timeSince = init_Timer();
 
-        data->monsters->monster->movement->step=0;
-        data->monsters->monster->Speed=1;
-        data->monsters->monster->type=0;
-        data->monsters->monster->movement->pos->x=0;
-        data->monsters->monster->movement->pos->y=0;
-        data->monsters->monster->movement->velocity->x=0;
-        data->monsters->monster->movement->velocity->y=0;
-        data->monsters->monster->movement->SpriteBox->h=96;
-        data->monsters->monster->movement->SpriteBox->w=128;
-        data->monsters->monster->movement->Hitbox->h=96;
-        data->monsters->monster->movement->Hitbox->w=32;
-        data->monsters->monster->movement->SpriteBox->x=0;
-        data->monsters->monster->movement->SpriteBox->y=0;
-        data->monsters->monster->Health=5;
-        data->monsters->monster->movement->timesince=init_Timer();
-
-        data->monsters->monster->AttackTimer=init_Timer();
+        data->entities->data->attackTimer=init_Timer();
 
         data->lobby->cursor = 0;
         data->lobby->timerMessage = init_Timer();
 
     } else {
         freeSingle_Layout(&(data->lobby->layout));
+        cleanList_Entity(&(data->entities));
         free(data->lobby);
         data->lobby = NULL;
     }

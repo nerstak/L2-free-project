@@ -7,132 +7,195 @@
 #include "movement.h"
 #include "combat.h"
 
-extern void MovePlayer(Data* data, Tiles** map)
-{
-    int timechange=lap_Timer(data->Isaac->movement->timesince);     // Timer to get the time since the last frame of movement
-    if(timechange>300)
-        timechange=0;
+extern Coordinate* init_Coordinate() {
+    Coordinate* result = NULL;
+    result = malloc(1 * sizeof(Coordinate));
 
+    if (result == NULL) {
+        // TODO: ERROR
+        exit(EXIT_FAILURE);
+    }
 
+    result->x = 0;
+    result->y = 0;
+}
 
-    ProcessVelocity(&(data->Isaac->movement->velocity->x),timechange,12,1); //Dampens and caps velocity
-    ProcessVelocity(&(data->Isaac->movement->velocity->y),timechange,12,1);
+extern void clean_Coordinate(Coordinate** p) {
+    if ((*p) != NULL) {
+        free((*p));
+        (*p) = NULL;
+    }
+}
+
+extern MovementValues* init_Movement() {
+    MovementValues* result = NULL;
+    result = malloc(1 * sizeof(MovementValues));
+
+    if (result == NULL) {
+        // TODO: Error
+        exit(EXIT_FAILURE);
+    }
+
+    result->position = init_Coordinate();
+    result->velocity = init_Coordinate();
+
+    result->spriteBox = NULL;
+    result->hitBox = NULL;
+
+    result->spriteBox = malloc(1 * sizeof(SDL_Rect));
+    result->hitBox = malloc(1 * sizeof(SDL_Rect));
+
+    if (result->spriteBox == NULL || result->hitBox == NULL) {
+        // TODO: Error
+        exit(EXIT_FAILURE);
+    }
+
+    result->timeSince = init_Timer();
+
+    return result;
+}
+
+extern void clean_Movement(MovementValues** p) {
+    if ((*p) != NULL) {
+        clean_Coordinate(&((*p)->position));
+        clean_Coordinate(&((*p)->velocity));
+
+        free((*p)->spriteBox);
+        free((*p)->hitBox);
+        clean_Timer(&((*p)->timeSince));
+
+        free((*p));
+        (*p) = NULL;
+    }
+}
+
+extern void movePlayer_Movement(Data* data, Tiles** map) {
+    // Timer to get the time since the last frame of movement
+    int timeChange = lap_Timer(data->Isaac->movement->timeSince);
+    if(timeChange > 300) {
+        timeChange = 0;
+    }
+
+    // Dampens and caps velocity
+    processVelocity_Movement(&(data->Isaac->movement->velocity->x), timeChange, 12, 1);
+    processVelocity_Movement(&(data->Isaac->movement->velocity->y), timeChange, 12, 1);
 
     float dampen=1;
-    if(data->Isaac->combat->step!=0)
-    {
+    if(data->Isaac->combat->animationStep != 0) {
         dampen=0.3;
     }
 
-    CheckObstacle(data, timechange, data->Isaac->stats->current->speed, map); //Checks for obstacles on the map and adjusts velocity accordingly
+    // Checks for obstacles on the map and adjusts velocity accordingly
+    checkObstacle_Movement(data, timeChange, data->Isaac->stats->current->speed, map);
 
-    data->Isaac->movement->pos->x += (data->Isaac->movement->velocity->x)*timechange*0.03*data->Isaac->stats->current->speed*dampen; //actually changes the character's movement according to the velocity we done got
-    data->Isaac->movement->pos->y += (data->Isaac->movement->velocity->y)*timechange*0.03*data->Isaac->stats->current->speed*dampen; //timechange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
+    //actually changes the character's movement according to the velocity we done got
+    data->Isaac->movement->position->x += (data->Isaac->movement->velocity->x) * timeChange * 0.03 * data->Isaac->stats->current->speed * dampen;
+    // timeChange*0.03 is equal to 0.5 at 60fps which, since max V is 12,means it moves 6 pixels a frame at 60 fps
+    data->Isaac->movement->position->y += (data->Isaac->movement->velocity->y) * timeChange * 0.03 * data->Isaac->stats->current->speed * dampen;
 
-    setPlayerHitbox(data->Isaac->movement);
+    setPlayerHitBox_Movement(data->Isaac->movement);
 
-    ProcessAnimation(data->Isaac->movement,timechange,data->Isaac->stats->current->speed);// takes care of the character's animation
+    // takes care of the character's animation
+    processAnimation_Movement(data->Isaac->movement, timeChange, data->Isaac->stats->current->speed);
 
-    SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox); //selects the appropriate section of the spritesheet to display
+    //selects the appropriate section of the spriteSheet to display
+    spriteSelection_Movement(data->Isaac->movement, data->Isaac->movement->spriteBox);
 
-    cap_Timer(data->Isaac->invulframes,1000);
-
+    cap_Timer(data->Isaac->invulnerabilityTimer, 1000);
 }
 
-extern void ProcessVelocity(float* v,int t, float max, float factor)
-{
-    if((*v)>0) // gradually slows down the player so he stops when not pressing the button
-    {
+extern void processVelocity_Movement(float* v, int t, float max, float factor) {
+    // Gradually slows down the player so he stops when not pressing the button
+    if((*v) > 0) {
+        // This is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
+        (*v) -= ((t * 0.06) * factor);
 
-        (*v)-=((t*0.06) *factor); //this is equal to 1 at 60 fps. This allows the acceleration to be equal to the deceleration
-        if((*v)<0)
-        {
-            (*v)=0;
+        if((*v) < 0) {
+            (*v) = 0;
+        }
+    } else if((*v) < 0) {
+        (*v) += ((t * 0.06) * factor);
+
+        if((*v) > 0) {
+            (*v) = 0;
         }
     }
 
-
-    else if((*v)<0)
-    {
-        (*v)+=((t*0.06) *factor);
-        if((*v)>0)
-        {
-            (*v)=0;
-        }
+    // Caps velocity
+    if((*v) > max) {
+        (*v) = max;
+    } else if((*v) < (-max)) {
+        (*v) = (-max);
     }
-
-    if((*v)>max) // Caps velocity
-        (*v)=max;
-    else if((*v)<-max)
-        (*v)=-max;
 }
 
-extern void StopVelocity(MovementValues * move) {
+extern void stopVelocity_Movement(MovementValues* move) {
     move->velocity->x=0;
     move->velocity->y=0;
-    lap_Timer(move->timesince);
+    lap_Timer(move->timeSince);
 }
 
 
-extern void CheckObstacle(Data* data, int t, float speedstat, Tiles** map)
-{
-    float Xpos = data->Isaac->movement->pos->x; //X and Y coordinates of the top left of the player
-    float Ypos = data->Isaac->movement->pos->y;
+extern void checkObstacle_Movement(Data* data, int t, float speedStat, Tiles** map) {
+    // X and Y coordinates of the top left of the player
+    float xPos = data->Isaac->movement->position->x;
+    float yPos = data->Isaac->movement->position->y;
 
-    float  Vx = (data->Isaac->movement->velocity->x) * t * 0.03 * speedstat; // this is the total change in position due to velocity
-    float  Vy = (data->Isaac->movement->velocity->y) * t * 0.03 * speedstat;
+    // this is the total change in position due to velocity
+    float  Vx = (data->Isaac->movement->velocity->x) * t * (float) 0.03 * speedStat;
+    float  Vy = (data->Isaac->movement->velocity->y) * t * (float) 0.03 * speedStat;
 
-    int top = (Ypos + 85) / 64; //these 4 are the top bottom left and right values for the walls of the hitbox
-    int bot = (Ypos + 120) / 64;
-    int left = (Xpos + 10) / 64;
-    int right = (Xpos + 54) / 64;
+    // these 4 are the top bottom left and right values for the walls of the hitBox
+    int top = (int) ((yPos + 85) / 64);
+    int bot = (int) ((yPos + 120) / 64);
+    int left = (int) ((xPos + 10) / 64);
+    int right = (int) ((xPos + 54) / 64);
 
-    int RightHit = (Vx + Xpos + 54) / 64; //these are the layout-relative-coordinates of each side of the hitbox after they have moved from velocity
-    int LeftHit = (Vx + Xpos + 10) / 64;
-    int TopHit = (Vy + Ypos + 85) / 64;
-    int BotHit = (Vy + Ypos + 120) / 64;
+    // these are the layout-relative-coordinates of each side of the hitBox after they have moved from velocity
+    int rightHit = (Vx + xPos + 54) / 64;
+    int leftHit = (Vx + xPos + 10) / 64;
+    int topHit = (Vy + yPos + 85) / 64;
+    int botHit = (Vy + yPos + 120) / 64;
 
-    checkBound(data, 1280, 704, 0, 0);
+    checkBound_Movement(data, 1280, 704, 0, 0);
 
-    Vx=(data->Isaac->movement->velocity->x);
-    Vy=(data->Isaac->movement->velocity->y);
+    Vx = (data->Isaac->movement->velocity->x);
+    Vy = (data->Isaac->movement->velocity->y);
 
-    if(Vx!=0 || Vy!=0)
-    {
-        //If one of the player's four corners is inside a wall after moving on an axis, it cancels movement.
-        if(map[top][LeftHit].type=='W' || map[top][RightHit].type=='W' || map[bot][LeftHit].type=='W' || map[bot][RightHit].type=='W')
-            data->Isaac->movement->velocity->x=0;
-        if(map[TopHit][left].type=='W' || map[BotHit][left].type=='W' || map[TopHit][right].type=='W' || map[BotHit][right].type=='W')
-            data->Isaac->movement->velocity->y=0;
-    }
+    if(Vx != 0 || Vy != 0) {
+        // If one of the player's four corners is inside a wall after moving on an axis, it cancels movement.
+        if(map[top][leftHit].type=='W' || map[top][rightHit].type=='W' || map[bot][leftHit].type=='W' || map[bot][rightHit].type=='W') {
+            data->Isaac->movement->velocity->x = 0;
+        }
 
-
-    Vx=(data->Isaac->movement->velocity->x);
-    Vy=(data->Isaac->movement->velocity->y);
-
-    if(Vx!=0 && Vy!=0)
-    {
-        //if the player moves towards a corner at a perfect angle, there wont be anything to block movement iin both cardinal directions and we should hence check diagonals.
-        if(map[TopHit][LeftHit].type=='W' || map[TopHit][RightHit].type=='W' || map[BotHit][LeftHit].type=='W' || map[BotHit][RightHit].type=='W')
-        {
-                //printf(" YEEEEEEEEEEEEEEEEET");
-                data->Isaac->movement->velocity->x=0;
-                data->Isaac->movement->velocity->y=0;
+        if(map[topHit][left].type=='W' || map[botHit][left].type=='W' || map[topHit][right].type=='W' || map[botHit][right].type=='W') {
+            data->Isaac->movement->velocity->y = 0;
         }
     }
 
+    Vx = (data->Isaac->movement->velocity->x);
+    Vy = (data->Isaac->movement->velocity->y);
+
+    if(Vx != 0 && Vy != 0) {
+        // If the player moves towards a corner at a perfect angle, there wont be anything to block movement in both cardinal directions and we should hence check diagonals.
+        if(map[topHit][leftHit].type=='W' || map[topHit][rightHit].type=='W' || map[botHit][leftHit].type=='W' || map[botHit][rightHit].type=='W') {
+            data->Isaac->movement->velocity->x=0;
+            data->Isaac->movement->velocity->y=0;
+        }
+    }
 }
 
-extern void ProcessAnimation(MovementValues * move,int t,float speedstat)
+extern void processAnimation_Movement(MovementValues* move, int t, float speedStat)
 {
-    if(move->velocity->x || move->velocity->y )
-    {
-        int steppo=move->step+(10*speedstat*t*0.06);
-        move->step=steppo%440; //bases how much you advance in the animation on time change
+    if(move->velocity->x || move->velocity->y) {
+        int stepPos = (int) (move->animationStep + (10 * speedStat * t * (float) 0.06));
+        // Bases how much you advance in the animation on time change
+        move->animationStep = stepPos % 440;
     }
-    else
-        move->step=0; //resets animation when player stops moving
-
+    else {
+        // Resets animation when player stops moving
+        move->animationStep = 0;
+    }
 
     //the direction of the player is based on the direction with the most velocity
     if(move->velocity->y > 0 && move->velocity->y >= move->velocity->x && -move->velocity->y <= move->velocity->x) //DOWN 0
@@ -147,40 +210,34 @@ extern void ProcessAnimation(MovementValues * move,int t,float speedstat)
 
 }
 
-extern void SpriteSelection(MovementValues * move, SDL_Rect * box)
-{
-    box->x=(move->step/55)*64; // 0 1 2 3 based on where we are in the animation times the width of a single sprite
-    box->y=move->direction*128; // 0 1 2 3 based on direction times the width of a single sprite
-//    box->h=128;
-//    box->w=64;
+extern void spriteSelection_Movement(MovementValues* move, SDL_Rect* box) {
+    // 0 1 2 3 based on where we are in the animation times the width of a single sprite
+    box->x = (Sint16) ((move->animationStep / 55) * 64);
+    // 0 1 2 3 based on direction times the width of a single sprite
+    box->y = (Sint16) (move->direction * 128);
+    // box->h=128;
+    // box->w=64;
 }
 
-extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH) {
+extern void checkBound_Movement(Data* data, int w, int h, int deltaW, int deltaH) {
     float Vx = data->Isaac->movement->velocity->x;
     float Vy = data->Isaac->movement->velocity->y;
-    float Xpos = data->Isaac->movement->pos->x;
-    float Ypos = data->Isaac->movement->pos->y;
-    if((Xpos + Vx) < deltaW || (Xpos + Vx) > (w - data->Isaac->movement->SpriteBox->w + deltaW)) {
+    float xPos = data->Isaac->movement->position->x;
+    float yPos = data->Isaac->movement->position->y;
+
+    if((xPos + Vx) < deltaW || (xPos + Vx) > (w - data->Isaac->movement->spriteBox->w + deltaW)) {
         data->Isaac->movement->velocity->x = 0;
     }
-    if((Ypos + Vy + 128) < (deltaH) || (Ypos + Vy) >(h - data->Isaac->movement->SpriteBox->h + deltaH)) {
+
+    if((yPos + Vy + 128) < (deltaH) || (yPos + Vy) > (h - data->Isaac->movement->spriteBox->h + deltaH)) {
         data->Isaac->movement->velocity->y = 0;
     }
 }
 
-extern void setPlayerHitbox(MovementValues * move)
+extern void setPlayerHitBox_Movement(MovementValues* move)
 {
-    move->Hitbox->x=move->pos->x;
-    move->Hitbox->y=move->pos->y + 32;
-}
-
-extern void freemovement(MovementValues * move)
-{
-    free(move->Hitbox);
-    free(move->pos);
-    free(move->SpriteBox);
-    free(move->velocity);
-    free(move);
+    move->hitBox->x = (Sint16) (move->position->x);
+    move->hitBox->y = (Sint16) (move->position->y + 32);
 }
 
 

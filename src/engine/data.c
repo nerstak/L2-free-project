@@ -73,7 +73,7 @@ extern void clean_Data(Data** myData) {
         freeReference(&((*myData)->referenceItems));
     }
     if((*myData)->Isaac != NULL) {
-        freePlayer(&((*myData)->Isaac));
+        free_Player(&((*myData)->Isaac));
     }
 
     free(*myData);

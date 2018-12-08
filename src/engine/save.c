@@ -33,9 +33,9 @@ extern int initGame(char* saveName, Data* data) {
         data->referenceItems = loadReferenceItems();
 
         //Loading player
-        data->Isaac = initPlayer();
+        data->Isaac = init_Player();
 
-        strcpy(data->Isaac->save_name,saveName);
+        strcpy(data->Isaac->saveName,saveName);
 
         loadPlayer(data);
         data->field = initField();
@@ -72,7 +72,7 @@ extern void writeSave(Data* data) {
     char temp[50];
 
     //We create or reset the save file
-    sprintf(temp,"saves/%s",data->Isaac->save_name);
+    sprintf(temp,"saves/%s",data->Isaac->saveName);
     saveFile = fopen(temp, "w+");
     if(saveFile == NULL) {
         printf("Error while creating or opening file during saving.\n");
@@ -95,11 +95,11 @@ extern void readSave(Data* data) {
     char temp[50];
 
     //Chose the right file to open
-    if(strcmp(data->Isaac->save_name,"") == 0) {
+    if(strcmp(data->Isaac->saveName,"") == 0) {
         saveFile = fopen("src/data/player/basic.save","r");
-        strcpy(data->Isaac->save_name,"save1.save");
+        strcpy(data->Isaac->saveName,"save1.save");
     } else {
-        sprintf(temp,"saves/%s",data->Isaac->save_name);
+        sprintf(temp,"saves/%s",data->Isaac->saveName);
         saveFile = fopen(temp, "r");
     }
 
@@ -132,7 +132,7 @@ static void loadPlayer(Data* data) {
 
 
 static void writePlayer(FILE* saveFile,Player* Isaac) {
-    fprintf(saveFile,"%s\nDAY=%d\nMONEY=%d\n",Isaac->save_name,++(Isaac->day),Isaac->money);
+    fprintf(saveFile,"%s\nDAY=%d\nMONEY=%d\n",Isaac->saveName,++(Isaac->day),Isaac->money);
 }
 
 static void writeGameStats(FILE* saveFile, Player* Isaac) {
@@ -182,10 +182,10 @@ static void readGameStats(FILE* saveFile, Data* data) {
 static void readStats(FILE* saveFile, Data* data) {
     fscanf(saveFile,"STATS: H=%f D=%f S=%f A=%f\n",&(data->Isaac->stats->basic->health),&(data->Isaac->stats->basic->damage),&(data->Isaac->stats->basic->speed),&(data->Isaac->stats->basic->agility));
     //Checking that the value are not to high
-    alterDamage(data->Isaac,0,'b');
-    alterSpeed(data->Isaac,0,'b');
-    alterAgility(data->Isaac,0,'b');
-    alterHealth(data->Isaac,0,'b');
+    alterDamage_Player(data->Isaac, 0, 'b');
+    alterSpeed_Player(data->Isaac, 0, 'b');
+    alterAgility_Player(data->Isaac, 0, 'b');
+    alterHealth_Player(data->Isaac, 0, 'b');
 
     copyStats(data->Isaac->stats->current,data->Isaac->stats->basic);
 }
@@ -210,7 +210,7 @@ static void readInventory(FILE* saveFile, Data* data) {
     while(fscanf(saveFile,"ID=%d QUANT=%d\n",&(id),&(quantity)) != EOF && i < 16) {
         add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
     }
-    data->Isaac->size_inventory = i;
+    data->Isaac->sizeInventory = i;
 
     reverseInventory(&(data->Isaac->inventory));
 }

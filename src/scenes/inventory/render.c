@@ -115,7 +115,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     }
 
     //Frames blit
-    for(int i = 0; i < data->Isaac->size_inventory; i++) {
+    for(int i = 0; i < data->Isaac->sizeInventory; i++) {
         framePos.x = 139 + (i % 4) * 123;
         framePos.y = 121 + (i / 4) * 108;
         if(i == data->inventory->nSelected) {
@@ -129,7 +129,7 @@ static SDL_Surface* getInventory(ImageCollector* myImageCollector, FontCollector
     itemSize.h = 64;
     itemSize.w = 64;
     tempItem = data->Isaac->inventory;
-    for(int i = 0; i < data->Isaac->size_inventory; i++) {
+    for(int i = 0; i < data->Isaac->sizeInventory; i++) {
         if(tempItem) {
             itemSize.x = (tempItem->id % 5) * 64;
             itemSize.y = (tempItem->id / 5) * 64;

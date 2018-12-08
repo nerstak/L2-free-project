@@ -1,23 +1,37 @@
 #ifndef FREE_PROJECT_ENGINE_GAME_MOVEMENT_H
 #define FREE_PROJECT_ENGINE_GAME_MOVEMENT_H
 
+typedef struct Coordinate {
+    float x;
+    float y;
+} Coordinate;
 
-extern void MovePlayer(Data* data, Tiles** map);
+typedef struct MovementValues {
+    Coordinate* position;
+    Coordinate* velocity;
+    int animationStep;
+    int direction;
+    SDL_Rect* spriteBox;
+    SDL_Rect* hitBox;
+    Timer* timeSince;
+} MovementValues;
 
-extern void ProcessVelocity(float* v,int t, float max, float factor);
+struct Data;
+struct Tiles;
 
-extern void StopVelocity(MovementValues * move);
+extern Coordinate* init_Coordinate();
+extern void clean_Coordinate(Coordinate** p);
 
-extern void CheckObstacle(Data* data, int t, float speedstat, Tiles** map);
+extern MovementValues* init_Movement();
+extern void clean_Movement(MovementValues** p);
 
-extern void ProcessAnimation(MovementValues * move,int t,float speedstat);
-
-extern void SpriteSelection(MovementValues * move, SDL_Rect * box);
-
-extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH);
-
-extern void setPlayerHitbox(MovementValues * move);
-
-extern void freemovement(MovementValues * move);
+extern void movePlayer_Movement(struct Data* data, struct Tiles** map);
+extern void processVelocity_Movement(float* v, int t, float max, float factor);
+extern void stopVelocity_Movement(MovementValues* move);
+extern void checkObstacle_Movement(struct Data* data, int t, float speedStat, struct Tiles** map);
+extern void processAnimation_Movement(MovementValues* move, int t, float speedStat);
+extern void spriteSelection_Movement(MovementValues* move, SDL_Rect* box);
+extern void checkBound_Movement(struct Data* data, int w, int h, int deltaW, int deltaH);
+extern void setPlayerHitBox_Movement(MovementValues* move);
 
 #endif // FREE_PROJECT_ENGINE_GAME_MOVEMENT_H

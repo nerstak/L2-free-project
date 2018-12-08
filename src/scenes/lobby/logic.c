@@ -1,6 +1,5 @@
 #include "logic.h"
 #include "../../engine/game/movement.h"
-#include "../../engine/game/monsters.h" // remove
 #include "../../engine/game/garden.h"
 #include "../../engine/game/combat.h"
 
@@ -19,16 +18,17 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             }
             else
             {
-                data->Isaac->combat->WeaponHitbox->x=10000; // clean fix
-                data->Isaac->combat->WeaponHitbox->y=10000;
-                data->Isaac->combat->WeaponHitbox->h=0;
-                data->Isaac->combat->WeaponHitbox->w=0;
+                data->Isaac->combat->weaponHitBox->x=10000; // clean fix
+                data->Isaac->combat->weaponHitBox->y=10000;
+                data->Isaac->combat->weaponHitBox->h=0;
+                data->Isaac->combat->weaponHitBox->w=0;
             }
-            ProcessMonsters(data->Isaac,&(data->monsters));
-            MovePlayer(data, data->lobby->layout->map);
+
+            process_Entity(&(data->entities), data);
+            movePlayer_Movement(data, data->lobby->layout->map);
         }
     } else {
-        StopVelocity(data->Isaac->movement);
+        stopVelocity_Movement(data->Isaac->movement);
 
         if(data->lobby->actionProcess == SLEEP){
             processSleep(data);

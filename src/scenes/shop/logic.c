@@ -144,7 +144,7 @@ static void buy_item(Data * data, SlotInventory * itemBuying, int number) {
     char nameItem[25];
     for(int i = 0; i < number; i++) {
         //If it is possible to buy
-        if(alterMoney(data->Isaac, - itemBuying->price) == 1) {
+        if(alterMoney_Player(data->Isaac, -(itemBuying->price)) == 1) {
             ++j;
             strcpy(nameItem, itemBuying->name);
             current_item = search_SlotInventory(data->Isaac->inventory, itemBuying->id);
@@ -155,7 +155,7 @@ static void buy_item(Data * data, SlotInventory * itemBuying, int number) {
                 //If the player is buying a new item, we create it inside its inventory
                 add_SlotInventory(&(data->Isaac->inventory),
                                   create_SlotInventory(itemBuying->id,1,data->referenceItems),
-                                  &(data->Isaac->size_inventory));
+                                  &(data->Isaac->sizeInventory));
             }
         }
     }
@@ -170,7 +170,7 @@ static void sell_item(Data * data, SlotInventory * itemSelling, int number) {
     char nameItem[25];
     for(i = 0; i < number; i++) {
         strcpy(nameItem, itemSelling->name);
-        alterMoney(data->Isaac, (int) (itemSelling->price * .8));
+        alterMoney_Player(data->Isaac, (int) (itemSelling->price * .8));
         (itemSelling->quantity)--;
         //Checking if the item has to be removed from the inventory
         if(itemSelling->quantity <= 0) {
@@ -185,7 +185,7 @@ static void sell_item(Data * data, SlotInventory * itemSelling, int number) {
                 data->shop->nSelected = 0;
             }
             //Finally removing the item
-            remove_SlotInventory(&(data->Isaac->inventory), itemSelling->id, &(data->Isaac->size_inventory));
+            remove_SlotInventory(&(data->Isaac->inventory), itemSelling->id, &(data->Isaac->sizeInventory));
             freeOne_SlotInventory(&itemSelling);
 
             if(data->Isaac->inventory == NULL) {

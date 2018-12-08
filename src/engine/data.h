@@ -11,7 +11,7 @@
 #include "game/player.h"
 #include "game/inventory.h"
 #include "game/plants.h"
-#include "game/monsters.h"
+#include "game/entities/main.h"
 
 
 typedef struct Data {
@@ -26,7 +26,7 @@ typedef struct Data {
     struct dungeonScene_t* dungeonScene;
     struct Player* Isaac;
     int stop;
-    MonsterLList monsters; //TEMP because theres no monsters in the lobby but I still need to test this shit
+    EntityList* entities; //TEMP because theres no monsters in the lobby but I still need to test this shit
 } Data;
 
 extern Data* init_Data();

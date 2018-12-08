@@ -110,8 +110,8 @@ extern int checkTilesPlayer_Layout(Player* player, Layout* layout, char type, in
                                    int* tileX, int* tileY) {
     int columns = layout->columns;
     int lines = layout->lines;
-    float posX = player->movement->pos->x;
-    float posY = player->movement->pos->y;
+    float posX = player->movement->position->x;
+    float posY = player->movement->position->y;
     int tempX, tempY;
 
     for(int i = -1; i <= 1; i++) {

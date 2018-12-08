@@ -2,15 +2,16 @@
 #include "../../utils/enhancedSwitch.h"
 
 extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data) {
-    float Vchange=2*getTicks_Timer(data->Isaac->movement->timesince)*0.06;
-    if(Vchange>300)
+    float Vchange = 2 * getTicks_Timer(data->Isaac->movement->timeSince) * (float) 0.06;
+    if(Vchange>300) {
         Vchange=0;
+    }
 
-    if(data->Isaac->combat->step>450)
+    if(data->Isaac->combat->animationStep>450)
     {
-        data->Isaac->combat->step=0;
+        data->Isaac->combat->animationStep=0;
         data->Isaac->movement->direction=data->lobby->askCombat;
-        stop_Timer(data->Isaac->combat->timesince);
+        stop_Timer(data->Isaac->combat->timeSince);
         data->lobby->askCombat = -1;
     }
 

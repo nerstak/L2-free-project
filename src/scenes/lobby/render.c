@@ -30,12 +30,12 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     bgPos.x = 0;
     bgPos.y = 0;
-    playerPos.x=data->Isaac->movement->pos->x;
-    playerPos.y=data->Isaac->movement->pos->y;
+    playerPos.x = (Sint16) data->Isaac->movement->position->x;
+    playerPos.y = (Sint16) data->Isaac->movement->position->y;
 
-    if(data->monsters != NULL){
-    monsterpos.x=data->monsters->monster->movement->pos->x; // remove
-    monsterpos.y=data->monsters->monster->movement->pos->y;}
+    if(data->entities != NULL){
+    monsterpos.x = (Sint16) data->entities->data->movement->position->x; // remove
+    monsterpos.y = (Sint16) data->entities->data->movement->position->y;}
 
 
 
@@ -53,9 +53,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     bool invisible=false;
 
-    if(data->Isaac->invulframes->started)
+    if(data->Isaac->invulnerabilityTimer->started)
     {
-        if((getTicks_Timer(data->Isaac->invulframes)%100)<50)
+        if((getTicks_Timer(data->Isaac->invulnerabilityTimer)%100)<50)
         {
             invisible=true;
         }
@@ -67,14 +67,14 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
             playerPos.y -= 32;
             playerPos.x -= 64;
 
-            SDL_BlitSurface(FightSprite, data->Isaac->combat->SpriteBox, lobbySurface, &playerPos);
+            SDL_BlitSurface(FightSprite, data->Isaac->combat->spriteBox, lobbySurface, &playerPos);
         } else {
-            SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+            SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
         }
     }
 
-    if (data->monsters != NULL) {
-        SDL_BlitSurface(BadGuy, data->monsters->monster->movement->SpriteBox, lobbySurface, &monsterpos);
+    if (data->entities != NULL) {
+        SDL_BlitSurface(BadGuy, data->entities->data->movement->spriteBox, lobbySurface, &monsterpos);
     }
 
 
@@ -109,14 +109,14 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenu1xInterface.x = 0;
         posMenu1xInterface.y = 0;
 
-        posMenu1x1.x = posMenu1xInterface.x + 450;
-        posMenu1x1.y = posMenu1xInterface.y + 345;
+        posMenu1x1.x = (Sint16) (posMenu1xInterface.x + 450);
+        posMenu1x1.y = (Sint16) (posMenu1xInterface.y + 345);
 
-        posMenu1x2.x = posMenu1x1.x-220;
-        posMenu1x2.y = posMenu1x1.y-10;
+        posMenu1x2.x = (Sint16) (posMenu1x1.x - 220);
+        posMenu1x2.y = (Sint16) (posMenu1x1.y - 10);
 
-        posMenu1x3.x = posMenu1x1.x+550;
-        posMenu1x3.y = posMenu1x1.y-10;
+        posMenu1x3.x = (Sint16) (posMenu1x1.x + 550);
+        posMenu1x3.y = (Sint16) (posMenu1x1.y - 10);
 
         SDL_BlitSurface(interface, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);

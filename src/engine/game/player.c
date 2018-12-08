@@ -3,13 +3,86 @@
 
 #include "player.h"
 
-extern Player* initPlayer() {
+extern Weapon* init_Weapon() {
+    Weapon* result = NULL;
+    result = malloc(4 * sizeof(Weapon));
+
+    if (result == NULL) {
+        //TODO: Error
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < 4; i += 1) {
+        result[i].damage = 0;
+        result[i].agility = 0;
+
+        result[i].name[0] = 0;
+        result[i].description[0] = 0;
+    }
+
+    return result;
+}
+
+extern void clean_Weapon(Weapon** p) {
+    if ((*p) != NULL) {
+        free((*p));
+        (*p) = NULL;
+    }
+}
+
+extern CombatValues* init_Combat() {
+    CombatValues* result = NULL;
+    result = malloc(1 * sizeof(CombatValues));
+
+    if (result == NULL) {
+        //TODO: Error
+        exit(EXIT_FAILURE);
+    }
+
+    result->animationStep = 0;
+    result->direction = 0;
+
+    result->spriteBox = malloc(1 * sizeof(SDL_Rect));
+    result->weaponHitBox = malloc(1 * sizeof(SDL_Rect));
+
+    if (result->spriteBox == NULL || result->weaponHitBox == NULL) {
+        // TODO: Error
+        exit(EXIT_FAILURE);
+    }
+
+    result->timeSince = init_Timer();
+
+    return result;
+}
+
+extern void clean_Combat(CombatValues** p) {
+    if ((*p) != NULL) {
+        free((*p)->spriteBox);
+        free((*p)->weaponHitBox);
+        clean_Timer(&((*p)->timeSince));
+
+        free((*p));
+        (*p) = NULL;
+    }
+}
+
+
+extern Player* init_Player() {
     Player* Isaac = malloc(sizeof(Player));
     if(!Isaac) {
         printf("Fail to init player.");
         exit(EXIT_FAILURE);
     }
+
+    // Initialize all pointers to NULL (either way it's junk memory)
+    Isaac->stats = NULL;
+    Isaac->weapons = NULL;
+    Isaac->gameStats = NULL;
+    Isaac->invulnerabilityTimer = NULL;
+    Isaac->movement = NULL;
+    Isaac->combat = NULL;
     Isaac->inventory = NULL;
+
 
     //Initialisation of stats
     Isaac->stats = malloc(sizeof(generalStats));
@@ -17,17 +90,25 @@ extern Player* initPlayer() {
         printf("Fail to init general stats of the player.");
         exit(EXIT_FAILURE);
     }
-    
+
+
+    // Initialize all pointers to NULL (either way it's junk memory)
+    Isaac->stats->current = NULL;
+    Isaac->stats->basic = NULL;
+    Isaac->stats->max = NULL;
+    Isaac->stats->potionsUsed = NULL;
+
     Isaac->stats->current = malloc(sizeof(stats_entity));
     Isaac->stats->basic = malloc(sizeof(stats_entity));
     Isaac->stats->max = malloc(sizeof(stats_entity));
-    Isaac->stats->potionsUsed = calloc(6,sizeof(int));
+    Isaac->stats->potionsUsed = calloc(6, sizeof(int));
+
     if(!Isaac->stats->max || !Isaac->stats->basic || !Isaac->stats->current || !Isaac->stats->potionsUsed) {
         printf("Fail to init stats of the player.");
         exit(EXIT_FAILURE);
     }
 
-    Isaac->weapons = malloc(sizeof(Weapon )* 4);
+    Isaac->weapons = init_Weapon();
     if(!Isaac->weapons) {
         printf("Fail to init Player weapons'.");
         exit(EXIT_FAILURE);
@@ -39,121 +120,55 @@ extern Player* initPlayer() {
         exit(EXIT_FAILURE);
     }
 
-    Isaac->invulframes= init_Timer();
-    if(!Isaac->invulframes) {
+    Isaac->invulnerabilityTimer = init_Timer();
+    if(!Isaac->invulnerabilityTimer) {
         printf("Fail to init Invulnity frames'.");
         exit(EXIT_FAILURE);
     }
 
     //Initialisation of coordinates and movement
     //Those coordinates will have to correspond to the one of the lobby
-    Isaac->movement = malloc(sizeof(MovementValues));
+    Isaac->movement = init_Movement();
     if(!Isaac->movement) {
         printf("Fail to init movement of player.");
         exit(EXIT_FAILURE);
     }
 
-    Isaac->movement->pos = malloc(sizeof(coordinates_entity));
-    if(!Isaac->movement->pos) {
-        printf("Fail to init pos of player.");
-        exit(EXIT_FAILURE);
-    }
-    Isaac->movement->pos->x = 640;
-    Isaac->movement->pos->y = 400;
+    Isaac->movement->position->x = 640;
+    Isaac->movement->position->y = 400;
 
-    Isaac->movement->velocity = malloc(sizeof(coordinates_entity));
-    if(!Isaac->movement->velocity) {
-        printf("Fail to init velocity of player.");
-        exit(EXIT_FAILURE);
-    }
     Isaac->movement->velocity->x = 0;
     Isaac->movement->velocity->y = 0;
 
-    Isaac->movement->SpriteBox = malloc(sizeof(SDL_Rect));
-    if(!Isaac->movement->SpriteBox) {
-        printf("Fail to init SpriteBox of player.");
-        exit(EXIT_FAILURE);
-    }
-    Isaac->movement->SpriteBox->x = 0;
-    Isaac->movement->SpriteBox->y = 0;
-    Isaac->movement->SpriteBox->h = 128;
-    Isaac->movement->SpriteBox->w = 64;
+    Isaac->movement->spriteBox->x = 0;
+    Isaac->movement->spriteBox->y = 0;
+    Isaac->movement->spriteBox->h = 128;
+    Isaac->movement->spriteBox->w = 64;
 
-    Isaac->movement->Hitbox = malloc(sizeof(SDL_Rect));
-    if(!Isaac->movement->Hitbox) {
-        printf("Fail to init HitBox of player.");
-        exit(EXIT_FAILURE);
-    }
+    Isaac->movement->hitBox->h = 64;
+    Isaac->movement->hitBox->w = 64;
 
-    Isaac->movement->Hitbox->h = 64;
-    Isaac->movement->Hitbox->w = 64;
-
-    Isaac->movement->timesince=init_Timer();
-    if(!Isaac->movement->timesince) {
-        printf("Fail to init movement timer of player.");
-        exit(EXIT_FAILURE);
-    }
-
-    Isaac->movement->step = 0;
+    Isaac->movement->animationStep = 0;
     Isaac->movement->direction = 0;
 
-
-    Isaac->combat=malloc(sizeof(CombatValues));
-    if(!Isaac->combat) {
-        printf("Fail to init combat of player.");
-        exit(EXIT_FAILURE);
-    }
-
-
-    Isaac->combat->SpriteBox=malloc(sizeof(SDL_Rect));
-    if(!Isaac->combat) {
-        printf("Fail to init combat SpriteBox of player.");
-        exit(EXIT_FAILURE);
-    }
-
-    Isaac->combat->WeaponHitbox=malloc(sizeof(SDL_Rect));
-    if(!Isaac->combat) {
-        printf("Fail to init combat WeaponHitBox of player.");
-        exit(EXIT_FAILURE);
-    }
-
-    Isaac->combat->timesince=init_Timer();
-    if(!Isaac->combat->timesince){
-        printf("Fail to init combat timer of player.");
-        exit(EXIT_FAILURE);
-    }
-
+    Isaac->combat = init_Combat();
     Isaac->combat->direction=-1;
-    Isaac->combat->step=0;
-
+    Isaac->combat->animationStep=0;
 
     return Isaac;
 }
 
-extern void freePlayer(Player** Isaac) {
+extern void free_Player(Player** Isaac) {
     if((*Isaac)->movement) {
-        if((*Isaac)->movement->SpriteBox) {
-            free((*Isaac)->movement->SpriteBox);
-            (*Isaac)->movement->SpriteBox = NULL;
-        }
-
-        if((*Isaac)->movement->velocity) {
-            free((*Isaac)->movement->velocity);
-            (*Isaac)->movement->velocity = NULL;
-        }
-
-        if((*Isaac)->movement->pos) {
-            free((*Isaac)->movement->pos);
-            (*Isaac)->movement->pos = NULL;
-        }
-
-        free((*Isaac)->movement);
-        (*Isaac)->movement = NULL;
+        clean_Movement(&((*Isaac)->movement));
     }
 
     if((*Isaac)->weapons) {
-        free((*Isaac)->weapons);
-        (*Isaac)->weapons = NULL;
+        clean_Weapon(&((*Isaac)->weapons));
+    }
+
+    if ((*Isaac)->combat) {
+        clean_Combat(&((*Isaac)->combat));
     }
 
     if((*Isaac)->stats) {
@@ -195,7 +210,7 @@ extern void freePlayer(Player** Isaac) {
 }
 
 //Change the balance of the wallet, IFF possible (return 1 if done)
-extern int alterMoney(Player* Isaac, int alterMoney) {
+extern int alterMoney_Player(Player* Isaac, int alterMoney) {
     if (Isaac->money + alterMoney >= 0 && Isaac->money + alterMoney <= 15000) {
         Isaac->money = Isaac->money + alterMoney;
         return 1;
@@ -204,7 +219,7 @@ extern int alterMoney(Player* Isaac, int alterMoney) {
 }
 
 //Change the health of the Player. 'b' for definitif, 'c' for temp
-extern void alterHealth(Player* Isaac, float alterHealth, char type) {
+extern void alterHealth_Player(Player* Isaac, float alterHealth, char type) {
     switch(type) {
         case 'c': {
             Isaac->stats->current->health = (alterHealth + Isaac->stats->current->health);
@@ -233,7 +248,7 @@ extern void alterHealth(Player* Isaac, float alterHealth, char type) {
 }
 
 //Change the speed of the Player. 'b' for definitif, 'c' for temp
-extern void alterSpeed(Player* Isaac, float alterSpeed, char type) {
+extern void alterSpeed_Player(Player* Isaac, float alterSpeed, char type) {
     switch(type) {
         case 'c': {
             Isaac->stats->current->speed = (alterSpeed + Isaac->stats->current->speed);
@@ -262,7 +277,7 @@ extern void alterSpeed(Player* Isaac, float alterSpeed, char type) {
 }
 
 //Change the agility of the Player. 'b' for definitif, 'c' for temp
-extern void alterAgility(Player* Isaac, float alterAgility, char type) {
+extern void alterAgility_Player(Player* Isaac, float alterAgility, char type) {
     switch(type) {
         case 'c': {
             Isaac->stats->current->agility = (alterAgility + Isaac->stats->current->agility);
@@ -290,7 +305,7 @@ extern void alterAgility(Player* Isaac, float alterAgility, char type) {
 }
 
 //Change the damage of the Player. 'b' for definitif, 'c' for temp
-extern void alterDamage(Player* Isaac, float alterDamage, char type) {
+extern void alterDamage_Player(Player* Isaac, float alterDamage, char type) {
     switch(type) {
         case 'c': {
             Isaac->stats->current->damage = (alterDamage + Isaac->stats->current->damage);
