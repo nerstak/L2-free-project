@@ -6,6 +6,8 @@
 typedef struct dungeonScene_t {
     Dungeon* dungeon;
     Room* currentRoom;
+    char** layoutsPath;
+    size_t layoutsLength;
     int moveTo;
 } dungeonScene_t;
 

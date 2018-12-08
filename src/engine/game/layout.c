@@ -15,7 +15,7 @@ extern Layout* loadSingle_Layout(char* environment, char* name) {
         sprintf(path,"src/data/lobby/%s.map",name);
     }
     else if(strcmp(environment,"dungeons") == 0) {
-        //TODO: Add dungeons
+        sprintf(path, "src/data/dungeons/%s", name);
     }
 
     file = fopen(path,"r");

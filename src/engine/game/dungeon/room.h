@@ -6,6 +6,7 @@
 #include "condition.h"
 #include "utils/coord.h"
 #include "edge.h"
+#include "../layout.h"
 
 typedef struct Room {
     // Generation related
@@ -21,6 +22,7 @@ typedef struct Room {
     // Gameplay related
     bool visited;
     bool cleaned;
+    Layout* layout;
 } Room;
 
 /**

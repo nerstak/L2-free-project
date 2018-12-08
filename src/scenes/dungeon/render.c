@@ -22,6 +22,40 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
     SDL_BlitSurface(background, NULL, window, &background_Pos);
 
+    for (int i = 0; i < data->dungeonScene->currentRoom->layout->lines; i += 1) {
+        for (int j = 0; j < data->dungeonScene->currentRoom->layout->columns; j += 1) {
+            Tiles temp = data->dungeonScene->currentRoom->layout->map[i][j];
+
+            SDL_Surface* toBlit = NULL;
+            SDL_Rect toBlit_Pos;
+            toBlit_Pos.x = (Sint16) (j * 64);
+            toBlit_Pos.y = (Sint16) (8 + i * 64);
+
+            switch(temp.type) {
+                case 'B': {
+                    toBlit = get_ImageCollector(engine->imageCollector, "dungeon/tomatoObstacle")->surface;
+                    break;
+                }
+
+                case 'J': {
+                    toBlit = get_ImageCollector(engine->imageCollector, "dungeon/tomatoSlow")->surface;
+                    break;
+                }
+
+                case 'H': {
+                    toBlit = get_ImageCollector(engine->imageCollector, "dungeon/tomatoHole")->surface;
+                    break;
+                }
+
+                default: {
+                    break;
+                }
+            }
+
+            SDL_BlitSurface(toBlit, NULL, window, &toBlit_Pos);
+        }
+    }
+
     renderDoors(window, engine, data);
 }
 
