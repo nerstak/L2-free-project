@@ -31,7 +31,7 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
     AudioElement* previous = p->audioElements;
 
     // Is the element we want to remove the first one ?
-    if (e->music != NULL) {
+    if (e->music != NULL && temp->music != NULL) {
         if (strcmp(temp->music->name, e->music->name) == 0) {
             // We rewrite the head of our list
             p->audioElements = temp->next;
@@ -62,7 +62,7 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
 
             p->size -= 1;
         }
-    } else if (e->sound != NULL) {
+    } else if (e->sound != NULL && temp->sound != NULL) {
         if (strcmp(temp->sound->name, e->sound->name) == 0) {
             // We rewrite the head of our list
             p->audioElements = temp->next;
@@ -298,4 +298,28 @@ extern AudioElement* get_SoundCollector(SoundCollector* p, const char name[]) {
     exit(EXIT_FAILURE);
 
     return NULL;
+}
+
+extern int playMusic(SoundCollector* p, const char name[]) {
+    AudioElement* current = get_SoundCollector(p, name);
+    if(Mix_PlayingMusic() == 0) {
+        stopMusic();
+    }
+    if(Mix_FadeInMusic(current->music->src, -1, 2000) != -1) {
+        return 1;
+    }
+    return 0;
+}
+
+extern int playEffect(SoundCollector* p, const char name[]) {
+    AudioElement* current = get_SoundCollector(p, name);
+
+    if(Mix_PlayChannel(-1, current->sound->src, 0) != -1) {
+        return 1;
+    }
+    return 0;
+}
+
+extern int stopMusic() {
+    return Mix_FadeOutMusic(50);
 }
