@@ -15,6 +15,8 @@ typedef struct Entity {
 
     MovementValues* movement;
     Timer* attackTimer;
+
+    struct DamageIndicatorQueue* damageIndicatorQueue;
 } Entity;
 
 typedef struct EntityList {
@@ -22,12 +24,38 @@ typedef struct EntityList {
     struct EntityList* next;
 } EntityList;
 
+typedef struct DamageIndicator {
+    float amount;
+
+    SDL_Rect* position;
+    Timer* timer;
+} DamageIndicator;
+
+typedef struct DamageIndicatorQueueNode {
+    struct DamageIndicator* data;
+    struct DamageIndicatorQueueNode* next;
+} DamageIndicatorQueueNode;
+
+typedef struct DamageIndicatorQueue {
+    DamageIndicatorQueueNode* front;
+    DamageIndicatorQueueNode* rear;
+} DamageIndicatorQueue;
+
 struct Data;
 
 extern Entity* init_Entity(int type);
 extern EntityList* initList_Entity();
 extern void clean_Entity(Entity** p);
 extern void cleanList_Entity(EntityList** p);
+
+extern DamageIndicator* init_DamageIndicator();
+extern DamageIndicatorQueue* initQueue_DamageIndicator();
+extern void clean_DamageIndicator(DamageIndicator** p);
+extern void cleanQueue_DamageIndicator(DamageIndicatorQueue** p);
+extern void enQueue_DamageIndictator(DamageIndicatorQueue* q, DamageIndicator* p);
+extern DamageIndicatorQueueNode* deQueue_DamageIndicator(DamageIndicatorQueue* q);
+extern void popQueue_DamageIndicator(DamageIndicatorQueue* q);
+extern bool isEmptyQueue_DamageIndicator(DamageIndicatorQueue* q);
 
 extern void process_Entity(EntityList** list, struct Data* data);
 extern EntityList* killList_Entity(EntityList* list);
