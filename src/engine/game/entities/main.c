@@ -6,11 +6,10 @@
 #include "../combat.h"
 
 extern Entity* init_Entity(int type) {
-    Entity* result = NULL;
+    Entity* result;
     result = malloc(1 * sizeof(Entity));
 
     if (result == NULL) {
-        // TODO: Error
         exit(EXIT_FAILURE);
     }
 
@@ -53,11 +52,10 @@ extern Entity* init_Entity(int type) {
 }
 
 extern EntityList* initList_Entity() {
-    EntityList* result = NULL;
+    EntityList* result;
     result = malloc(1 * sizeof(EntityList));
 
     if (result == NULL) {
-        // TODO: Error
         exit(EXIT_FAILURE);
     }
 

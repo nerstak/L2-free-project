@@ -7,11 +7,10 @@
 #include "../movement.h"
 
 extern E_Moth* init_EMoth() {
-    E_Moth* result = NULL;
+    E_Moth* result;
     result = malloc(1 * sizeof(E_Moth));
 
     if (result == NULL) {
-        // TODO: Error
         exit(EXIT_FAILURE);
     }
 
@@ -33,7 +32,7 @@ extern void ai_EMoth(Entity* e, Data* data) {
 
     // Timer to get the time since the last frame of movement
     int timeChange = lap_Timer(e->movement->timeSince);
-    if(timeChange > 300 || timeChange<-300) { // TODO: ?
+    if(timeChange > 300 || timeChange<-300) {
         timeChange = 0;
     }
 

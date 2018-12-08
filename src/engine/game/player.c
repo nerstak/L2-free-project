@@ -4,11 +4,10 @@
 #include "player.h"
 
 extern Weapon* init_Weapon() {
-    Weapon* result = NULL;
+    Weapon* result;
     result = malloc(4 * sizeof(Weapon));
 
     if (result == NULL) {
-        //TODO: Error
         exit(EXIT_FAILURE);
     }
 
@@ -31,11 +30,10 @@ extern void clean_Weapon(Weapon** p) {
 }
 
 extern CombatValues* init_Combat() {
-    CombatValues* result = NULL;
+    CombatValues* result;
     result = malloc(1 * sizeof(CombatValues));
 
     if (result == NULL) {
-        //TODO: Error
         exit(EXIT_FAILURE);
     }
 
@@ -46,7 +44,6 @@ extern CombatValues* init_Combat() {
     result->weaponHitBox = malloc(1 * sizeof(SDL_Rect));
 
     if (result->spriteBox == NULL || result->weaponHitBox == NULL) {
-        // TODO: Error
         exit(EXIT_FAILURE);
     }
 
