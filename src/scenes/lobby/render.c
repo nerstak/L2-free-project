@@ -51,22 +51,31 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
     SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
 
-    if(data->lobby->askCombat!=-1)
-    {
-        playerPos.y-=32;
-        playerPos.x-=64;
+    bool invisible=false;
 
-        SDL_BlitSurface(FightSprite, data->Isaac->combat->SpriteBox, lobbySurface, &playerPos);
-    }
-    else
+    if(data->Isaac->invulframes->started)
     {
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+        if((getTicks_Timer(data->Isaac->invulframes)%100)<50)
+        {
+            invisible=true;
+        }
     }
 
-    if(data->monsters != NULL) {
+    if(!invisible)
+    {
+        if (data->lobby->askCombat != -1) {
+            playerPos.y -= 32;
+            playerPos.x -= 64;
+
+            SDL_BlitSurface(FightSprite, data->Isaac->combat->SpriteBox, lobbySurface, &playerPos);
+        } else {
+            SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+        }
+    }
+
+    if (data->monsters != NULL) {
         SDL_BlitSurface(BadGuy, data->monsters->monster->movement->SpriteBox, lobbySurface, &monsterpos);
     }
-
 
 
     if(data->lobby->actionProcess == SLEEP){
@@ -218,7 +227,8 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     }
 
 
-    SDL_BlitSurface(Hibox, data->Isaac->combat->WeaponHitbox, lobbySurface, data->Isaac->combat->WeaponHitbox);// remove
+
+    //SDL_BlitSurface(Hibox, &hisprite, lobbySurface, &hibpos);// remove
     return lobbySurface;
 }
 

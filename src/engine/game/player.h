@@ -2,6 +2,7 @@
 #define FREE_PROJECT_ENGINE_GAME_PLAYER_H
 
 #include "inventory.h"
+#include "../timer.h"
 #include <SDL/SDL.h>
 
 typedef struct coordinates_entity {
@@ -30,7 +31,7 @@ typedef struct MovementValues {
     int direction;
     SDL_Rect * SpriteBox;
     SDL_Rect * Hitbox;
-    int timesince;
+    Timer * timesince;
 }MovementValues;
 
 typedef struct CombatValues {
@@ -38,7 +39,7 @@ typedef struct CombatValues {
     int direction;
     SDL_Rect * SpriteBox;
     SDL_Rect * WeaponHitbox;
-    int timesince;
+    Timer * timesince;
 }CombatValues;
 
 
@@ -50,6 +51,7 @@ typedef struct Player {
     int size_inventory;
     Weapon * weapons;
     struct GameStats* gameStats;
+    Timer * invulframes;
     generalStats* stats;
     char save_name[20];
     int day;

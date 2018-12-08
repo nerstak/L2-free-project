@@ -11,11 +11,10 @@ extern void ProcessCombat(Data * data, int direction)
     data->Isaac->combat->direction=direction;
     if(data->Isaac->combat->step==0)
     {
-        data->Isaac->combat->timesince=SDL_GetTicks();     // Timer to get the time since the last frame of movement
+        start_Timer(data->Isaac->combat->timesince);     // Timer to get the time since the last frame of movement
     }
-    int doot=SDL_GetTicks(),times=data->Isaac->combat->timesince;
 
-    CombatAnimation(data->Isaac->combat,(SDL_GetTicks() - data->Isaac->combat->timesince)+1,data->Isaac->stats->current->agility);
+    CombatAnimation(data->Isaac->combat,getTicks_Timer(data->Isaac->combat->timesince)+1,data->Isaac->stats->current->agility);
 
     CombatSprite(data->Isaac->combat);
 

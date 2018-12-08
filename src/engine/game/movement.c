@@ -9,10 +9,7 @@
 
 extern void MovePlayer(Data* data, Tiles** map)
 {
-    // TODO: convert all my shitty timers to clem's clean ones
-    int tick=SDL_GetTicks();
-    int timechange=tick - data->Isaac->movement->timesince;     // Timer to get the time since the last frame of movement
-    data->Isaac->movement->timesince=tick;
+    int timechange=lap_Timer(data->Isaac->movement->timesince);     // Timer to get the time since the last frame of movement
     if(timechange>300)
         timechange=0;
 
@@ -38,18 +35,8 @@ extern void MovePlayer(Data* data, Tiles** map)
 
     SpriteSelection(data->Isaac->movement, data->Isaac->movement->SpriteBox); //selects the appropriate section of the spritesheet to display
 
+    cap_Timer(data->Isaac->invulframes,1000);
 
-
-    //after this is temp
-    SDL_Rect dummy;
-    dummy.x=960;
-    dummy.y=256;
-    dummy.h=64;
-    dummy.w=64;
-    if(BoxCollision(&dummy,data->Isaac->movement->Hitbox))
-    {
-        printf("\n           DAMAGED\n");
-    }
 }
 
 extern void ProcessVelocity(float* v,int t, float max, float factor)
@@ -83,7 +70,7 @@ extern void ProcessVelocity(float* v,int t, float max, float factor)
 extern void StopVelocity(MovementValues * move) {
     move->velocity->x=0;
     move->velocity->y=0;
-    move->timesince=SDL_GetTicks();
+    lap_Timer(move->timesince);
 }
 
 
@@ -157,6 +144,7 @@ extern void ProcessAnimation(MovementValues * move,int t,float speedstat)
     else if(move->velocity->x < 0) //LEFT 3
         move->direction=3;
 
+
 }
 
 extern void SpriteSelection(MovementValues * move, SDL_Rect * box)
@@ -194,4 +182,5 @@ extern void freemovement(MovementValues * move)
     free(move->velocity);
     free(move);
 }
+
 

@@ -29,7 +29,7 @@ extern void MothAnimate(MovementValues * movement,double Xdistance,int time);
 
 extern MonsterLList KillMonsters(MonsterLList monsters);
 extern void freemonster(MonsterLList monster);
-extern void Damage(Monster * mob,Player * Isaac);
 
-extern void Knockback(Monster * mob,Player * Isaac);
+extern void Knockback(coordinates_entity* velocity,Timer * timer, int direction, int Xdistance, int Ydistance);
+extern void Damage(Monster * mob,Player * Isaac,int Xdistance,int Ydistance);
 #endif // MONSTERS_H_INCLUDED

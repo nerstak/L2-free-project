@@ -39,6 +39,12 @@ extern Player* initPlayer() {
         exit(EXIT_FAILURE);
     }
 
+    Isaac->invulframes= init_Timer();
+    if(!Isaac->invulframes) {
+        printf("Fail to init Invulnity frames'.");
+        exit(EXIT_FAILURE);
+    }
+
     //Initialisation of coordinates and movement
     //Those coordinates will have to correspond to the one of the lobby
     Isaac->movement = malloc(sizeof(MovementValues));
@@ -82,8 +88,15 @@ extern Player* initPlayer() {
     Isaac->movement->Hitbox->h = 64;
     Isaac->movement->Hitbox->w = 64;
 
+    Isaac->movement->timesince=init_Timer();
+    if(!Isaac->movement->timesince) {
+        printf("Fail to init movement timer of player.");
+        exit(EXIT_FAILURE);
+    }
+
     Isaac->movement->step = 0;
     Isaac->movement->direction = 0;
+
 
     Isaac->combat=malloc(sizeof(CombatValues));
     if(!Isaac->combat) {
@@ -101,6 +114,12 @@ extern Player* initPlayer() {
     Isaac->combat->WeaponHitbox=malloc(sizeof(SDL_Rect));
     if(!Isaac->combat) {
         printf("Fail to init combat WeaponHitBox of player.");
+        exit(EXIT_FAILURE);
+    }
+
+    Isaac->combat->timesince=init_Timer();
+    if(!Isaac->combat->timesince){
+        printf("Fail to init combat timer of player.");
         exit(EXIT_FAILURE);
     }
 

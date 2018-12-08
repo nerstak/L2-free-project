@@ -26,7 +26,6 @@ extern void ProcessMonsters(Player * Isaac,MonsterLList * monsters)
         {
             case 0: //moth
                 MothAI(cur->monster,Isaac);
-                Damage(cur->monster,Isaac);
                 break;
             default:
                 break;
@@ -37,10 +36,7 @@ extern void ProcessMonsters(Player * Isaac,MonsterLList * monsters)
 
 extern void MothAI(Monster * moth, Player * Isaac)
 {
-    // TODO: convert all my shitty timers to clem's clean ones
-    int tick=SDL_GetTicks();
-    int timechange=tick - moth->movement->timesince;     // Timer to get the time since the last frame of movement
-    moth->movement->timesince=tick;
+    int timechange=lap_Timer(moth->movement->timesince);     // Timer to get the time since the last frame of movement
     if(timechange>300 || timechange<-300)
         timechange=0;
 
@@ -74,13 +70,10 @@ extern void MothAI(Monster * moth, Player * Isaac)
     }
     else if(moth->AttackTimer->started)
     {
-        if(getTicks_Timer(moth->AttackTimer)>500)
-        {
-            int dood=SDL_GetTicks();
-            stop_Timer(moth->AttackTimer);
-            if (moth->movement->velocity->x != 0) {
-                angle = atanf(moth->movement->velocity->y / moth->movement->velocity->x);
-            }
+        cap_Timer(moth->AttackTimer,500);
+
+        if (moth->movement->velocity->x != 0) {
+            angle = atanf(moth->movement->velocity->y / moth->movement->velocity->x);
         }
 
         ProcessVelocity(&(moth->movement->velocity->x), timechange, (4 * fabs(cos(angle))),0.05); //Dampens and caps velocity
@@ -99,13 +92,13 @@ extern void MothAI(Monster * moth, Player * Isaac)
 
 
 
-    moth->movement->Hitbox->x=moth->movement->pos->x+64;
+    moth->movement->Hitbox->x=moth->movement->pos->x+48;
     moth->movement->Hitbox->y=moth->movement->pos->y;
 
 
     MothAnimate(moth->movement,Xdistance,timechange);
 
-
+    Damage(moth,Isaac,Xdistance,Ydistance);
 
 }
 
@@ -159,38 +152,53 @@ extern void freemonster(MonsterLList  Node)
     free(Node);
 }
 
-extern void Damage(Monster * mob,Player * Isaac)
+extern void Damage(Monster * mob,Player * Isaac,int Xdistance,int Ydistance)
 {
     if(BoxCollision(mob->movement->Hitbox,Isaac->movement->Hitbox))
     {
-        //TODO Isaac immunity
-        Isaac->stats->current->health-=1;
+        Knockback(mob->movement->velocity,NULL,-1,Xdistance,Ydistance);
+        if(Isaac->invulframes->started==false)
+        {
+            start_Timer(Isaac->invulframes);
+            alterHealth(Isaac,mob->Damage,'c');
+        }
     }
     if(BoxCollision(mob->movement->Hitbox,Isaac->combat->WeaponHitbox) && !mob->AttackTimer->started)
     {
         mob->Health-=1; //weapon->damage * Isaac->current_stats->Damage
-        Knockback(mob, Isaac);
+        Knockback(mob->movement->velocity,mob->AttackTimer,Isaac->combat->direction,0,0);
     }
 }
 
-extern void Knockback(Monster * mob,Player * Isaac) {
-    start_Timer(mob->AttackTimer);
-    switch (Isaac->combat->direction)
+extern void Knockback(coordinates_entity* velocity,Timer * timer, int direction, int Xdistance, int Ydistance) {
+    if(timer!=NULL) {
+        start_Timer(timer);
+    }
+    if(direction==-1)
     {
-        case 0:
-            mob->movement->velocity->y=5;
-            break;
-        case 1:
-            mob->movement->velocity->y=-5;
-            break;
-        case 2:
-            mob->movement->velocity->x=5;
-            break;
-        case 3:
-            mob->movement->velocity->x=-5;
-            break;
-        default:
-            break;
+        velocity->x=-Xdistance*10;
+        velocity->y=-Ydistance*10 ;
     }
-
+    else
+    {
+        switch (direction)
+        {
+            case 0:
+                velocity->y=10;
+                break;
+            case 1:
+                velocity->y=-10;
+                break;
+            case 2:
+                velocity->x=10;
+                break;
+            case 3:
+                velocity->x=-10;
+                break;
+            default:
+                break;
+        }
+    }
 }
+
+
