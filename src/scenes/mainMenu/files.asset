@@ -4,4 +4,3 @@ src/resources/gfx/scenes/mainMenu/main_cursorDouble.png menu/main_cursorDouble
 src/resources/musics/mainMenu_Theme.wav menu/main_theme
 src/resources/sfx/UI/move_button.wav menu/move_button
 src/resources/sfx/UI/confirm_button.wav menu/confirm_button
-src/resources/sfx/UI/load_game.wav menu/load_game

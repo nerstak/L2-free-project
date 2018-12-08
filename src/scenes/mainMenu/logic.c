@@ -31,14 +31,14 @@ static void enterMainMenu(Data* data, Engine* engine) {
         case 0:
             //New game
             if(initGame("", data)) {
-                playEffect(engine->soundCollector, "menu/load_game");
+                playEffect(engine->soundCollector, "loading/load_game");
                 display_SceneCollector(engine,data,"lobby");
             }
             break;
         case 1:
             //Load game
             if(initGame("save1.save", data)) {
-                playEffect(engine->soundCollector, "menu/load_game");
+                playEffect(engine->soundCollector, "loading/load_game");
                 display_SceneCollector(engine,data,"lobby");
             }
             break;

@@ -75,8 +75,10 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
         } else {
             // We find the position of the element we want to remove
             while (temp != NULL && strcmp(temp->sound->name, e->sound->name) != 0) {
-                previous = temp;
-                temp = temp->next;
+                do {
+                    previous = temp;
+                    temp = temp->next;
+                }while(temp->sound == NULL);
             }
 
             if (temp == NULL) {
@@ -321,5 +323,5 @@ extern int playEffect(SoundCollector* p, const char name[]) {
 }
 
 extern int stopMusic() {
-    return Mix_FadeOutMusic(50);
+    return Mix_FadeOutMusic(0);
 }

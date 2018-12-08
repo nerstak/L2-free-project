@@ -4,3 +4,6 @@ src/resources/gfx/scenes/options/current.png options/current
 src/resources/gfx/scenes/mainMenu/main_bg_blur.png options/mainMenu_blur
 src/resources/gfx/scenes/lobby/lobby_bg_flou.png options/lobby_blur
 src/resources/gfx/player/sprites_hero_flou.png options/player_blur
+src/resources/sfx/UI/move_button.wav options/move_button
+src/resources/sfx/UI/confirm_button.wav options/confirm_button
+src/resources/sfx/UI/confirm2_button.wav options/confirm2_button
