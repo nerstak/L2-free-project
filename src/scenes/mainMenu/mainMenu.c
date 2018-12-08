@@ -28,9 +28,9 @@ extern void init_Scene_mainMenu(Engine* engine, Data* data, bool loadOrUnload) {
             freeReference(&(data->referenceItems));
         }
 
-
-
+        playMusic(engine->soundCollector, "menu/main_theme");
     } else {
+        stopMusic();
         free(data->mainMenu);
         data->mainMenu = NULL;
     }
