@@ -1,9 +1,9 @@
 #include "logic.h"
 
-static void moveShopSelector(Data* data);
-static void buy_item(Data* data, SlotInventory * itemBuying, int number);
-static void sell_item(Data* data, SlotInventory * itemSelling, int number);
-static void moveConfirmCursor(Data* data);
+static void moveShopSelector(Engine* engine,Data* data);
+static void buy_item(Engine* engine, Data* data, SlotInventory* itemBuying, int number);
+static void sell_item(Engine* engine, Data* data, SlotInventory* itemSelling, int number);
+static void moveConfirmCursor(Engine* engine,Data* data);
 
 extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
     int action = data->shop->askAction;
@@ -18,22 +18,23 @@ extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
     }
 
     if(data->shop->askTransaction != -1 || action == I_ENTER) {
-        moveConfirmCursor(data);
+        moveConfirmCursor(engine, data);
         data->shop->askAction = I_NONE;
     } else if(action != I_NONE && action != I_LEAVE) {
         //Moving
-        moveShopSelector(data);
+        moveShopSelector(engine, data);
         data->shop->askAction = I_NONE;
     } else if (action == I_LEAVE) {
         data->shop->askAction = I_NONE;
+        playEffect(engine->soundCollector, "loading/leave_menu");
         display_SceneCollector(engine, data, "lobby");
     }
 
 }
 
 //Cursor displacement (right: 1; left: -1; down: 10; up: -10)
-static void moveShopSelector(Data* data) {
-    int pos_to_go = 0, tempPos = 0;
+static void moveShopSelector(Engine* engine,Data* data) {
+    int pos_to_go = 0, tempPos = 0, moved = 0;
     SlotInventory* tempSlot = NULL;
     switch(data->shop->askAction) {
         case 1: {
@@ -60,11 +61,14 @@ static void moveShopSelector(Data* data) {
                         data->shop->selected = tempSlot;
                         data->shop->nSelected = tempPos;
                     }
+
+                    moved = 1;
                 }
             } else {
                 if (data->shop->selected->next != NULL) {
                     data->shop->selected = data->shop->selected->next;
                     (data->shop->nSelected)++;
+                    moved = 1;
                 }
             }
                 break;
@@ -91,11 +95,13 @@ static void moveShopSelector(Data* data) {
                         data->shop->selected = tempSlot;
                         data->shop->nSelected = tempPos;
                     }
+                    moved = 1;
                 }
             } else {
                 if (data->shop->selected->prev != NULL) {
                     data->shop->selected = data->shop->selected->prev;
                     (data->shop->nSelected)--;
+                    moved = 1;
                 }
             }
             break;
@@ -107,14 +113,17 @@ static void moveShopSelector(Data* data) {
                 while (data->shop->selected->prev != NULL && data->shop->nSelected != pos_to_go) {
                     data->shop->selected = data->shop->selected->prev;
                     (data->shop->nSelected)--;
+                    moved = 1;
                 }
             } else {
-                if(data->shop->nSelected < 16) {
+                if(data->shop->nSelected < 16 && data->shop->nSelected != 0) {
                     data->shop->selected = data->Isaac->inventory;
                     data->shop->nSelected = 0;
-                } else {
+                    moved = 1;
+                } else if (data->shop->nSelected >= 16 && data->shop->nSelected != 16){
                     data->shop->selected = data->shop->shop_inv;
                     data->shop->nSelected = 16;
+                    moved = 1;
                 }
 
             }
@@ -132,15 +141,19 @@ static void moveShopSelector(Data* data) {
             while (data->shop->selected->next != NULL && data->shop->nSelected != pos_to_go) {
                 data->shop->selected = data->shop->selected->next;
                 (data->shop->nSelected)++;
+                moved = 1;
             }
             break;
         }
         default:
             break;
     }
+    if(moved == 1) {
+        playEffect(engine->soundCollector, "shop/move_button");
+    }
 }
 
-static void buy_item(Data * data, SlotInventory * itemBuying, int number) {
+static void buy_item(Engine* engine, Data* data, SlotInventory* itemBuying, int number) {
     SlotInventory * current_item;
     int j = 0;
     char nameItem[25];
@@ -164,10 +177,13 @@ static void buy_item(Data * data, SlotInventory * itemBuying, int number) {
     if(j != 0) {
         sprintf(data->shop->messageAction, "You bought %d %s!", j, nameItem);
         start_Timer(data->shop->timerMessage);
+        playEffect(engine->soundCollector, "shop/transaction");
+    } else {
+        playEffect(engine->soundCollector, "shop/confirm_button");
     }
 }
 
-static void sell_item(Data * data, SlotInventory * itemSelling, int number) {
+static void sell_item(Engine* engine, Data* data, SlotInventory* itemSelling, int number) {
     int i;
     char nameItem[25];
     for(i = 0; i < number; i++) {
@@ -199,11 +215,15 @@ static void sell_item(Data * data, SlotInventory * itemSelling, int number) {
     if(i != 0) {
         sprintf(data->shop->messageAction, "You sold %d %s!", i, nameItem);
         start_Timer(data->shop->timerMessage);
+        playEffect(engine->soundCollector, "shop/transaction");
+    } else {
+        playEffect(engine->soundCollector, "shop/confirm_button");
     }
 }
 
 // -1: Idle to start process; 0: Button CANCEL; 1: Button CONFIRM
-static void moveConfirmCursor(Data* data) {
+static void moveConfirmCursor(Engine* engine, Data* data) {
+    int moved = 0;
     if(data->shop->selected) {
         switch(data->shop->askTransaction) {
             case -1: {
@@ -215,28 +235,33 @@ static void moveConfirmCursor(Data* data) {
                 //Button 'CANCEL'
                 if(data->shop->askAction == -1) {
                     data->shop->askTransaction = 1;
+                    moved = 1;
                 }else if(data->shop->askAction == -10){
+                    moved = 1;
                     data->shop->askTransaction = 2;
                 }else if(data->shop->askAction == 5) {
                     data->shop->askTransaction = -1;
                     data->shop->itemsInTransaction = 0;
+                    playEffect(engine->soundCollector, "shop/confirm_button");
                 }
                 break;
             }
             case 1: {
                 //Button 'CONFIRM'
                 if(data->shop->askAction == 1) {
+                    moved = 1;
                     data->shop->askTransaction = 0;
                 }else if(data->shop->askAction == -10) {
+                    moved = 1;
                     data->shop->askTransaction = 2;
                 }else if(data->shop->askAction == 5) {
                     //Action
                     if(data->shop->nSelected >= 16) {
                         //Buying
-                        buy_item(data,data->shop->selected,data->shop->itemsInTransaction);
+                        buy_item(engine, data, data->shop->selected, data->shop->itemsInTransaction);
                     } else {
                         //Selling
-                        sell_item(data,data->shop->selected,data->shop->itemsInTransaction);
+                        sell_item(engine, data, data->shop->selected, data->shop->itemsInTransaction);
                     }
                     data->shop->askTransaction = -1;
                     data->shop->itemsInTransaction = 0;
@@ -247,14 +272,20 @@ static void moveConfirmCursor(Data* data) {
                 //Select number of item
                 if(data->shop->askAction == 1 && data->shop->itemsInTransaction < data->shop->selected->quantity) {
                     (data->shop->itemsInTransaction)++;
+                    moved = 1;
                 } else if (data->shop->askAction == -1 && data->shop->itemsInTransaction > 0) {
                     (data->shop->itemsInTransaction)--;
+                    moved = 1;
                 } else if (data->shop->askAction == 10) {
+                    moved = 1;
                     data->shop->askTransaction = 1;
                 }
                 break;
             }
             default: break;
         }
+    }
+    if(moved == 1) {
+        playEffect(engine->soundCollector, "shop/move_button");
     }
 }

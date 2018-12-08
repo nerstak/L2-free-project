@@ -5,3 +5,6 @@ src/resources/gfx/scenes/interface/confirm_layout.png shop/confirm
 src/resources/gfx/scenes/interface/item_spritesheet.png shop/items
 src/resources/gfx/scenes/lobby/lobby_bg_flou.png shop/lobby_blur
 src/resources/gfx/player/sprites_hero_flou.png shop/player_blur
+src/resources/sfx/UI/move_button.wav shop/move_button
+src/resources/sfx/UI/confirm_button.wav shop/confirm_button
+src/resources/sfx/UI/transaction.wav shop/transaction
