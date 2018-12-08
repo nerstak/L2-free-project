@@ -168,10 +168,10 @@ extern void SpriteSelection(MovementValues * move, SDL_Rect * box)
 }
 
 extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH) {
-    int Vx = data->Isaac->movement->velocity->x;
-    int Vy = data->Isaac->movement->velocity->y;
-    int Xpos = data->Isaac->movement->pos->x;
-    int Ypos = data->Isaac->movement->pos->y;
+    float Vx = data->Isaac->movement->velocity->x;
+    float Vy = data->Isaac->movement->velocity->y;
+    float Xpos = data->Isaac->movement->pos->x;
+    float Ypos = data->Isaac->movement->pos->y;
     if((Xpos + Vx) < deltaW || (Xpos + Vx) > (w - data->Isaac->movement->SpriteBox->w + deltaW)) {
         data->Isaac->movement->velocity->x = 0;
     }
