@@ -48,11 +48,11 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
     bgPos.y = 0;
 
     SDL_BlitSurface(bgBlur, NULL, options, &bgPos);
-    plantsBlit(options, data, myImageCollector, 'b');
 
     if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
         playerPos.x = data->Isaac->movement->pos->x;
         playerPos.y = data->Isaac->movement->pos->y;
+        plantsBlit(options, data, myImageCollector, 'b');
         SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, options, &playerPos);
     }
 
