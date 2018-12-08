@@ -21,6 +21,8 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
         data->shop->size_shop = 0;
 
         data->shop->timerMessage = init_Timer();
+        start_Timer(data->shop->timerMessage);
+        strcpy(data->shop->messageAction, "Init");
 
         data->shop->shop_inv = init_ShopInventory(data->referenceItems, &(data->shop->size_shop));
 
