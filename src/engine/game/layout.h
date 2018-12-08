@@ -7,11 +7,10 @@ typedef struct Tiles{
     char type;
 }Tiles;
 
-
 typedef struct Coords {
     int x;
     int y;
-    char* type;
+    char type[25];
 }Coords;
 
 typedef struct Layout{
@@ -29,13 +28,13 @@ typedef struct Layout{
  * @param name String of the specific room (no need for lobby)
  * @return Pointer of Layout Object
  */
-extern Layout* loadSingleLayout(char* environment, char* name);
+extern Layout* loadSingle_Layout(char* environment, char* name);
 
 /**
  * Free a Layout Object
  * @param room Double pointer of Layout Object
  */
-extern void freeSingleLayout(Layout** room);
+extern void freeSingle_Layout(Layout** room);
 
 /**
  * Check if the player is within the radius of a specific tile
@@ -49,13 +48,13 @@ extern void freeSingleLayout(Layout** room);
  * @param tileY Pointer of int keeping the Y-coordinate of the tile if found and pointer not to NULL
  * @return Int (0: tile not found; 1 tile found)
  */
-extern int checkTilesPlayer(Player* player,
-        Layout* layout,
-        char type,
-        int radius,
-        int deltaW,
-        int deltaH,
-        int* tileX,
-        int* tileY);
+extern int checkTilesPlayer_Layout(Player* player,
+                                   Layout* layout,
+                                   char type,
+                                   int radius,
+                                   int deltaW,
+                                   int deltaH,
+                                   int* tileX,
+                                   int* tileY);
 
 #endif //FREE_PROJECT_ENGINE_GAME_LAYOUT_H

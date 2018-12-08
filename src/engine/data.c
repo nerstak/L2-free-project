@@ -120,7 +120,7 @@ static void clean_lobby_Data(lobby_t** lobby) {
     }
 
     if((*lobby)->layout != NULL) {
-        freeSingleLayout(&((*lobby)->layout));
+        freeSingle_Layout(&((*lobby)->layout));
     }
 }
 

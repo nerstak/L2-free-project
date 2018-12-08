@@ -24,7 +24,7 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
             exit(EXIT_FAILURE);
         }
 
-        data->lobby->layout = loadSingleLayout("lobby","lobby");
+        data->lobby->layout = loadSingle_Layout("lobby", "lobby");
         data->lobby->actualPlant = NULL;
         data->lobby->askAction = 0;
         data->lobby->askCombat = -1;
@@ -64,7 +64,7 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->timerMessage = init_Timer();
 
     } else {
-        freeSingleLayout(&(data->lobby->layout));
+        freeSingle_Layout(&(data->lobby->layout));
         free(data->lobby);
         data->lobby = NULL;
     }

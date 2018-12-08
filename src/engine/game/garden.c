@@ -35,17 +35,17 @@ extern void doAction_Garden(Data* data) {
 }
 
 extern int checkAction_Garden(Data* data) {
-    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'M', 48, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'M', 48, 0, 0, NULL, NULL)) {
         //Case for home
         return 1;
     }
 
-    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, NULL, NULL)) {
         //Case for plant spot
         return 2;
     }
 
-    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'S', 48, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'S', 48, 0, 0, NULL, NULL)) {
         //Case for shop
         return 3;
     }
@@ -75,7 +75,7 @@ extern void processGarden(Data* data) {
 
 static void findPlant(Data* data) {
     int coordX, coordY;
-    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
+    if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
         if (coordX == 15 ) {
             if (coordY == 5) {
                 data->lobby->actualPlant = data->field->plantBotLeft;
