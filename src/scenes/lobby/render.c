@@ -110,6 +110,8 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     SDL_Surface* BadGuy=NULL; // remove
 
+    SDL_Surface* DeadGuy=NULL;
+
     SDL_Surface* Hibox=NULL;
 
     SDL_Rect bgPos;
@@ -121,6 +123,7 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     Hibox= get_ImageCollector(engine->imageCollector, "lobby/hibox")->surface;
     BadGuy = get_ImageCollector(engine->imageCollector, "lobby/moth")->surface;// remove
+    DeadGuy= get_ImageCollector(engine->imageCollector, "lobby/smoke")->surface;// remove
 
     bgPos.x = 0;
     bgPos.y = 0;
@@ -129,10 +132,15 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     if(data->entities != NULL){
         monsterpos.x = (Sint16) data->entities->data->movement->position->x; // remove
-        monsterpos.y = (Sint16) data->entities->data->movement->position->y;
-    }
+        monsterpos.y = (Sint16) data->entities->data->movement->position->y;}
 
-    if(data->lobby->actionProcess == NONE){ // TODO: Duplicate sprite here
+    if(data->dyingEntities != NULL){
+        monsterpos.x = (Sint16) data->dyingEntities->data->movement->position->x; // remove
+        monsterpos.y = (Sint16) data->dyingEntities->data->movement->position->y;}
+
+
+
+   if(data->lobby->actionProcess == NONE){
         bg = get_ImageCollector(engine->imageCollector, "lobby/bg")->surface;
         PlayerSprite = get_ImageCollector(engine->imageCollector, "lobby/player")->surface;
 
@@ -175,6 +183,26 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
             damageIndicator = damageIndicator->next;
         }
     }
+
+    if (data->dyingEntities !=NULL){
+        if(data->dyingEntities->data->movement->animationStep<400){
+            SDL_BlitSurface(BadGuy, data->dyingEntities->data->movement->spriteBox, lobbySurface, &monsterpos);
+        }
+        SDL_Rect cloudpos,cloudsprite;
+        cloudpos.x= (data->dyingEntities->data->movement->hitBox->x+(data->dyingEntities->data->movement->hitBox->w/2))-96;
+        cloudpos.y= (data->dyingEntities->data->movement->hitBox->y+(data->dyingEntities->data->movement->hitBox->h/2))-96;
+
+
+        int step=(data->dyingEntities->data->movement->animationStep/50);
+        if(step>3 && step<16){step=3;}
+        if(step>15){step=19-step;}
+        cloudsprite.x= step * 192;
+        cloudsprite.y=0;
+        cloudsprite.h=192;
+        cloudsprite.w=192;
+        SDL_BlitSurface(DeadGuy, &cloudsprite, lobbySurface, &cloudpos);
+    }
+
 
     if(data->lobby->actionProcess == SLEEP){
         SDL_Color black = {0, 0, 0, 0};

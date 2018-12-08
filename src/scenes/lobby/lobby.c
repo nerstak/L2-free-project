@@ -31,8 +31,11 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->actionProcess = NONE;
 
         // TEMP because theres no monsters in the lobby but I still need to test this shit
-        data->entities = initList_Entity();
-        data->entities->data = init_Entity(MOTH);
+
+        data->entities = NULL;
+        append_EntityNode(init_EntityNode(MOTH),&data->entities);
+
+        data->dyingEntities=NULL;
 
         data->entities->data->movement->animationStep = 0;
         data->entities->data->speed = 1;
@@ -48,6 +51,8 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->entities->data->movement->spriteBox->x = 0;
         data->entities->data->movement->spriteBox->y = 0;
         data->entities->data->health = 5;
+
+
         data->entities->data->movement->timeSince = init_Timer();
 
         data->entities->data->attackTimer=init_Timer();

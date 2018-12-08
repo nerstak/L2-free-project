@@ -5,11 +5,14 @@
 #include "../movement.h"
 #include "../combat.h"
 
-extern Entity* init_Entity(int type) {
-    Entity* result  = NULL;
+extern EntityList* init_EntityNode(int type) {
+    EntityList * node=NULL;
+    node=malloc(sizeof(EntityList));
+
+    Entity* result=NULL;
     result = malloc(1 * sizeof(Entity));
 
-    if (result == NULL) {
+    if (result == NULL || node==NULL) {
         exit(EXIT_FAILURE);
     }
 
@@ -38,21 +41,31 @@ extern Entity* init_Entity(int type) {
             result->movement->hitBox->w=32;
             result->movement->spriteBox->x=0;
             result->movement->spriteBox->y=0;
+            result->attackTimer=init_Timer();
 
             break;
         }
 
         default: {
+            free(node);
             free(result);
             return NULL;
 
             break;
         }
     }
-
-    return result;
+    node->data=result;
+    node->next=NULL;
+    return node;
 }
 
+extern void append_EntityNode(EntityList * node , EntityList ** dest)
+{
+    node->next=(*dest);
+    (*dest)=node;
+}
+
+/* this just creates a list with an empty element and is bad
 extern EntityList* initList_Entity() {
     EntityList* result = NULL;
     result = malloc(1 * sizeof(EntityList));
@@ -66,6 +79,7 @@ extern EntityList* initList_Entity() {
 
     return result;
 }
+*/
 
 extern void clean_Entity(Entity** p) {
     if ((*p) != NULL) {
@@ -217,7 +231,8 @@ extern bool isEmptyQueue_DamageIndicator(DamageIndicatorQueue* q) {
 
 extern void process_Entity(EntityList** list, struct Data* data) {
     // We kill (aka free) all dead monsters
-    (*list) = killList_Entity((*list));
+    (*list) = killList_Entity((*list),&(data->dyingEntities));
+    process_Dying(&(data->dyingEntities),data);
 
     // We go through the whole list of monsters and apply actions depending of the type of monsters
     EntityList* temp = (*list);
@@ -253,23 +268,51 @@ extern void process_Entity(EntityList** list, struct Data* data) {
     }
 }
 
-extern EntityList* killList_Entity(EntityList* list) {
+
+extern void process_Dying(EntityList** list, struct Data* data)
+{
+    (*list) = cloudList_Entity((*list));
+
+    EntityList* temp = (*list);
+
+    while(temp) {
+        temp->data->movement->animationStep+=lap_Timer(temp->data->movement->timeSince);
+        temp = temp->next;
+    }
+}
+
+extern EntityList* killList_Entity(EntityList* list, EntityList** dying) {
     if (list == NULL) {
         return NULL;
     } else if (list->data->health <= 0) {
         EntityList* temp = list->next;
-
+        list->data->movement->animationStep=0;
+        append_EntityNode(list,dying);
         return temp;
     }
 
-    list->next = killList_Entity(list->next);
+    list->next = killList_Entity(list->next,dying);
+
+    return list;
+}
+
+extern EntityList* cloudList_Entity(EntityList* list){
+    if (list == NULL) {
+        return NULL;
+    } else if (list->data->movement->animationStep >= 1000) {
+        EntityList* temp = list->next;
+        //free
+        return temp;
+    }
+
+    list->next = cloudList_Entity(list->next);
 
     return list;
 }
 
 extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
     if (BoxCollision(e->movement->hitBox, data->Isaac->movement->hitBox)) {
-        knockBack_Entity(e, data, -1, x, y);
+        knockBack_Entity(e, data, -1, x, y,NULL);
 
         if (data->Isaac->invulnerabilityTimer->started == false) {
             start_Timer(data->Isaac->invulnerabilityTimer);
@@ -279,22 +322,20 @@ extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
 
     if (BoxCollision(e->movement->hitBox, data->Isaac->combat->weaponHitBox) && !e->attackTimer->started) {
         e->health -= 1;
-
+        knockBack_Entity(e, data, data->Isaac->combat->direction, 0, 0,e->attackTimer);
         DamageIndicator* damageIndicator = init_DamageIndicator();
         damageIndicator->amount = 1;
         damageIndicator->position->x = (Sint16) (e->movement->position->x + (e->movement->spriteBox->w / 2));
         damageIndicator->position->y = (Sint16) (e->movement->position->y - 10);
         start_Timer(damageIndicator->timer);
         enQueue_DamageIndictator(e->damageIndicatorQueue, damageIndicator);
-
-        knockBack_Entity(e, data, data->Isaac->combat->direction, 0, 0);
     }
 }
 
-extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x, int y) {
+extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x, int y,Timer * timer) {
 
-    if (e->attackTimer != NULL) {
-        start_Timer(e->attackTimer);
+    if (timer != NULL) {
+        start_Timer(timer);
     }
 
     if (direction == -1) {

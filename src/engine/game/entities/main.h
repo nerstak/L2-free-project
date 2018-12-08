@@ -43,8 +43,9 @@ typedef struct DamageIndicatorQueue {
 
 struct Data;
 
-extern Entity* init_Entity(int type);
-extern EntityList* initList_Entity();
+extern EntityList* init_EntityNode(int type);
+extern void append_EntityNode(EntityList * node , EntityList ** dest);
+//extern EntityList* initList_Entity();
 extern void clean_Entity(Entity** p);
 extern void cleanList_Entity(EntityList** p);
 
@@ -58,8 +59,11 @@ extern void popQueue_DamageIndicator(DamageIndicatorQueue* q);
 extern bool isEmptyQueue_DamageIndicator(DamageIndicatorQueue* q);
 
 extern void process_Entity(EntityList** list, struct Data* data);
-extern EntityList* killList_Entity(EntityList* list);
+extern EntityList* killList_Entity(EntityList* list, EntityList** Dying);
 extern void damage_Entity(Entity* e, struct Data* data, double x, double y);
-extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x, int y);
+extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x, int y,Timer *timer);
+
+extern void process_Dying(EntityList** list, struct Data* data);
+extern EntityList* cloudList_Entity(EntityList* list);
 
 #endif //FREE_PROJECT_ENGINE_GAME_ENTITIES_MAIN_H

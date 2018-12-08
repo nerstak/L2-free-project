@@ -26,7 +26,9 @@ typedef struct Data {
     struct dungeonScene_t* dungeonScene;
     struct Player* Isaac;
     int stop;
+
     EntityList* entities; //TEMP because theres no monsters in the lobby but I still need to test this shit
+    EntityList* dyingEntities;
 } Data;
 
 extern Data* init_Data();
