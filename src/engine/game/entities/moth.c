@@ -7,7 +7,7 @@
 #include "../movement.h"
 
 extern E_Moth* init_EMoth() {
-    E_Moth* result;
+    E_Moth* result = NULL;
     result = malloc(1 * sizeof(E_Moth));
 
     if (result == NULL) {

@@ -8,7 +8,7 @@
 #include "combat.h"
 
 extern Coordinate* init_Coordinate() {
-    Coordinate* result;
+    Coordinate* result = NULL;
     result = malloc(1 * sizeof(Coordinate));
 
     if (result == NULL) {
@@ -17,6 +17,8 @@ extern Coordinate* init_Coordinate() {
 
     result->x = 0;
     result->y = 0;
+
+    return result;
 }
 
 extern void clean_Coordinate(Coordinate** p) {
@@ -27,7 +29,7 @@ extern void clean_Coordinate(Coordinate** p) {
 }
 
 extern MovementValues* init_Movement() {
-    MovementValues* result;
+    MovementValues* result = NULL;
     result = malloc(1 * sizeof(MovementValues));
 
     if (result == NULL) {
@@ -37,8 +39,8 @@ extern MovementValues* init_Movement() {
     result->position = init_Coordinate();
     result->velocity = init_Coordinate();
 
-    result->spriteBox;
-    result->hitBox;
+    result->spriteBox = NULL;
+    result->hitBox = NULL;
 
     result->spriteBox = malloc(1 * sizeof(SDL_Rect));
     result->hitBox = malloc(1 * sizeof(SDL_Rect));

@@ -4,7 +4,7 @@
 #include "player.h"
 
 extern Weapon* init_Weapon() {
-    Weapon* result;
+    Weapon* result = NULL;
     result = malloc(4 * sizeof(Weapon));
 
     if (result == NULL) {
@@ -30,7 +30,7 @@ extern void clean_Weapon(Weapon** p) {
 }
 
 extern CombatValues* init_Combat() {
-    CombatValues* result;
+    CombatValues* result = NULL;
     result = malloc(1 * sizeof(CombatValues));
 
     if (result == NULL) {

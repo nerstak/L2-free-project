@@ -6,7 +6,7 @@
 #include "../combat.h"
 
 extern Entity* init_Entity(int type) {
-    Entity* result;
+    Entity* result  = NULL;
     result = malloc(1 * sizeof(Entity));
 
     if (result == NULL) {
@@ -52,7 +52,7 @@ extern Entity* init_Entity(int type) {
 }
 
 extern EntityList* initList_Entity() {
-    EntityList* result;
+    EntityList* result = NULL;
     result = malloc(1 * sizeof(EntityList));
 
     if (result == NULL) {
