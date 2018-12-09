@@ -6,6 +6,14 @@ extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* da
         Vchange=0;
     }
 
+    if(data->Isaac->combat->animationStep>450)
+    {
+        data->Isaac->combat->animationStep=0;
+        data->Isaac->movement->direction=data->lobby->askCombat;
+        stop_Timer(data->Isaac->combat->timeSince);
+        data->lobby->askCombat = -1;
+    }
+
     Uint8 *keystate = SDL_GetKeyState(NULL);
 
     if (SDL_PollEvent(&event)) {

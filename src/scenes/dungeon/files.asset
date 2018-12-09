@@ -16,3 +16,4 @@ src/resources/gfx/dungeon/elements/tomato/obstacle.png dungeon/tomatoObstacle
 src/resources/gfx/dungeon/elements/tomato/slow.png dungeon/tomatoSlow
 src/resources/gfx/player/sprites_hero.png dungeon/player
 src/resources/gfx/player/sprites_scythe.png dungeon/scythe
+src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox

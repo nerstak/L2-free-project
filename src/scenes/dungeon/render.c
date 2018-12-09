@@ -87,8 +87,34 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
             SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, window, &playerPos);
         //}
     }
+    SDL_Surface * Hibox= get_ImageCollector(engine->imageCollector, "dungeon/hibox")->surface;
 
 
+
+    /* see door hitboxes for debugging
+    SDL_BlitSurface(Hibox,data->Isaac->movement->hitBox , window, data->Isaac->movement->hitBox);
+
+    SDL_Rect doorup,doordown,doorright,doorleft;
+    doorup.h=12;
+    doorup.w=20;
+    doorup.x=630;
+    doorup.y=0;
+
+    doordown=doorup;
+    doordown.y=608;
+
+    doorleft.x=45;
+    doorleft.y=342;
+    doorleft.h=20;
+    doorleft.w=10;
+
+    doorright=doorleft;
+    doorright.x=1224;
+
+    SDL_BlitSurface(Hibox,&doordown , window, &doordown);
+    SDL_BlitSurface(Hibox,&doorup , window, &doorup);
+    SDL_BlitSurface(Hibox,&doorleft , window, &doorleft);
+    SDL_BlitSurface(Hibox,&doorright , window, &doorright);*/
 }
 
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data) {
