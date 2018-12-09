@@ -44,8 +44,10 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
         } else {
             // We find the position of the element we want to remove
             while (temp != NULL && strcmp(temp->music->name, e->music->name) != 0) {
-                previous = temp;
-                temp = temp->next;
+                do {
+                    previous = temp;
+                    temp = temp->next;
+                } while(temp && temp->music == NULL);
             }
 
             if (temp == NULL) {
@@ -78,7 +80,7 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
                 do {
                     previous = temp;
                     temp = temp->next;
-                }while(temp && temp->sound == NULL);
+                } while(temp && temp->sound == NULL);
             }
 
             if (temp == NULL) {
