@@ -31,12 +31,8 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                         data->lobby->askAction = SELECT;
                     BREAK
 
-                    CASE(SDLK_UNDERSCORE)
-                        data->lobby->actionProcess = 10;
-                    BREAK
-
                     CASE(engine->keys->LEFT_ATTACK)
-                        if (data->lobby->askCombat == -1) {
+                        if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
                             data->lobby->askCombat = 3;
                         }
 
@@ -44,7 +40,7 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                     BREAK
 
                     CASE(engine->keys->RIGHT_ATTACK)
-                        if (data->lobby->askCombat == -1) {
+                        if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
                             data->lobby->askCombat = 2;
                         }
 
@@ -52,13 +48,13 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                     BREAK
 
                     CASE(engine->keys->UP_ATTACK)
-                        if (data->lobby->askCombat == -1) {
+                        if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
                             data->lobby->askCombat = 1;
                         }
                     BREAK
 
                     CASE(engine->keys->DOWN_ATTACK)
-                        if (data->lobby->askCombat == -1) {
+                        if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
                             data->lobby->askCombat = 0;
                         }
                     BREAK

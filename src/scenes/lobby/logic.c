@@ -48,11 +48,9 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "inventory");
         }else if(data->lobby->actionProcess == GOTO_DUNGEON){
-            menuSelectionDungeon_Garden(data);
-        } else if (data->lobby->actionProcess == 10) {
-            data->lobby->actionProcess = NONE;
-            display_SceneCollector(engine, data, "dungeon");
+            menuSelectionDungeon_Garden(engine, data);
         }
+
         // We shall not reset if we switched to another scene, therefore free'd lobby structure
         if (data->lobby != NULL) {
             data->lobby->askAction = NONE;

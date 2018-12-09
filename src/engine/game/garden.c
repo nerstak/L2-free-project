@@ -116,20 +116,23 @@ static void processField_Garden(Data* data) {
     }
 }
 
-extern void menuSelectionDungeon_Garden(Data* data) {
+extern void menuSelectionDungeon_Garden(Engine* engine, Data* data) {
     if (data->lobby->askAction == LEFT && data->lobby->cursor == 1) {
         data->lobby->cursor = 0;
     } else if (data->lobby->askAction == RIGHT && data->lobby->cursor == 0) {
         data->lobby->cursor = 1;
     }
     else if (data->lobby->askAction == SELECT) {
-        if(data->lobby->cursor == 1) {
-            data->lobby->actionProcess = NONE;
+        data->lobby->actionProcess = NONE;
+        if(data->lobby->cursor == 1 || data->Isaac->gameStats->dungeonDay == 1) {
             data->lobby->cursor = 0;
+            data->lobby->actualPlant = NULL;
         } else if (data->lobby->cursor == 0) {
-            //TODO: Call dungeon
+            data->field->currentPlant = data->lobby->actualPlant;
+            data->Isaac->gameStats->dungeonDay = 1;
+            data->lobby->cursor = 0;
+            display_SceneCollector(engine, data, "dungeon");
         }
-
     }
 }
 

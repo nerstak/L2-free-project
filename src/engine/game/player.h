@@ -10,6 +10,7 @@ typedef struct GameStats {
     int death;
     int dungeons;
     int kills;
+    int dungeonDay;
 } GameStats;
 
 typedef struct Weapon {

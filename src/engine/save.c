@@ -86,6 +86,8 @@ extern void writeSave(Data* data) {
     writeGarden(saveFile, data->field);
     writeInventory(saveFile, data->Isaac);
 
+    data->Isaac->gameStats->dungeonDay = 0;
+
     fclose(saveFile);
 }
 
@@ -173,6 +175,7 @@ static void writeInventory(FILE* saveFile, Player* Isaac) {
 
 static void readPlayer(FILE* saveFile, Data* data, char* fileName) {
     fscanf(saveFile,"%s\nDAY=%d\nMONEY=%d\n",fileName,&(data->Isaac->day),&(data->Isaac->money));
+    data->Isaac->gameStats->dungeonDay = 0;
 }
 
 static void readGameStats(FILE* saveFile, Data* data) {
