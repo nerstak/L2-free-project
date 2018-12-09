@@ -339,6 +339,7 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* goal = get_ImageCollector(engine->imageCollector, "dungeon/mapGoal")->surface;
     SDL_Surface* room = get_ImageCollector(engine->imageCollector, "dungeon/mapRoom")->surface;
     SDL_Surface* roomVisited = get_ImageCollector(engine->imageCollector, "dungeon/mapRoomVisited")->surface;
+    SDL_Surface* roomCurrent = get_ImageCollector(engine->imageCollector, "dungeon/mapRoomCurrent")->surface;
 
     int x = data->dungeonScene->currentRoom->coord->x;
     int y = data->dungeonScene->currentRoom->coord->y;
@@ -363,6 +364,10 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
                     SDL_BlitSurface(goal, NULL, window, &pos);
                 } else {
                     SDL_BlitSurface(roomVisited, NULL, window, &pos);
+                }
+
+                if (offsetX == 0 && offsetY == 0) {
+                    SDL_BlitSurface(roomCurrent, NULL, window, &pos);
                 }
 
                 SDL_Rect posRoom;
