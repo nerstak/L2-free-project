@@ -146,7 +146,7 @@ extern void checkBound(Data* data, int w, int h, int deltaW, int deltaH) {
     if((Xpos + Vx) < deltaW || (Xpos + Vx) > (w - data->Isaac->movement->SpriteBox->w + deltaW)) {
         data->Isaac->movement->velocity->x = 0;
     }
-    if((Ypos + Vy + 128) < (deltaH) || (Ypos + Vy) >(h - data->Isaac->movement->SpriteBox->h + deltaH)) {
+    if((Ypos + Vy + data->Isaac->movement->SpriteBox->h) < (deltaH) || (Ypos + Vy) >(h - data->Isaac->movement->SpriteBox->h + deltaH)) {
         data->Isaac->movement->velocity->y = 0;
     }
 }

@@ -8,6 +8,8 @@ src/resources/gfx/scenes/lobby/Menu2Back.png lobby/menu21
 src/resources/gfx/scenes/lobby/Menu2Selector.png lobby/menu22
 src/resources/gfx/scenes/lobby/Wait.png lobby/wait
 src/resources/gfx/scenes/lobby/dialog.png lobby/dialog
+src/resources/gfx/scenes/lobby/plants_spritesheet.png lobby/plants
+src/resources/gfx/scenes/lobby/plants_spritesheet_blur.png lobby/plants_blur
 src/resources/musics/lobby_Theme.wav lobby/main_theme
 src/resources/sfx/UI/move_button.wav lobby/move_button
 src/resources/sfx/UI/confirm_button.wav lobby/confirm_button

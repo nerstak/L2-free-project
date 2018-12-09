@@ -3,6 +3,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_mixer.h>
+#include <SDL/SDL_image.h>
 
 #include "game.h"
 
@@ -26,7 +27,11 @@ extern void init_Window() {
     }
 
     // Apply settings to our window
-    SDL_WM_SetCaption("free_project v0.0.1 Super Alpha", NULL);
+    SDL_WM_SetCaption("Stardew of Isaac - Alpha Release 1.0", NULL);
+
+    // Apply icon to our game
+    SDL_Surface* icon = IMG_Load("src/resources/gfx/icon.png");
+    SDL_WM_SetIcon(icon, NULL);
 
     // Launch our game
     gameLoop(window);
