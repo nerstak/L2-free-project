@@ -79,6 +79,7 @@ static void backgroundBlit(Data* data, Engine* engine, ImageCollector* myImageCo
     if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
         playerPos.x = data->Isaac->movement->pos->x;
         playerPos.y = data->Isaac->movement->pos->y;
+        plantsBlit(inventory, data, myImageCollector, 'b');
         SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, inventory, &playerPos);
     }
 

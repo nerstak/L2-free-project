@@ -1,6 +1,7 @@
 #include "render.h"
 #include "../../window.h"
 #include "../../engine/config.h"
+#include "../../engine/game/plants.h"
 
 static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
 
@@ -35,12 +36,14 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
+        plantsBlit(lobbySurface, data, myImageCollector, 'c');
         SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
     }else{
         bg = get_ImageCollector(myImageCollector, "lobby/bg_flou")->surface;
         PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player_flou")->surface;
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
+        plantsBlit(lobbySurface, data, myImageCollector, 'b');
         SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
     }
 
@@ -274,3 +277,4 @@ extern void renderScene_Scene_lobby(SDL_Surface* window, Engine* engine, Data* d
 
     SDL_FreeSurface(lobbySurface);
 }
+

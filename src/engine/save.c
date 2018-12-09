@@ -200,8 +200,6 @@ static void readGarden(FILE* saveFile, Data* data) {
     for(int i = 0; i < 4; i++) {
         Plant* tempPlant = assignPlant(i, data->field);
         fscanf(saveFile,"PLANT: %d %d\n",&(tempPlant->idVegetable),&(tempPlant->dayLeft));
-        tempPlant->x = 15 + (i % 2) * 2;
-        tempPlant->y = 2 + (i / 2) * 2;
     }
 }
 
