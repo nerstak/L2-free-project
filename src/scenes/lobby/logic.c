@@ -17,11 +17,11 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
         StopVelocity(data->Isaac->movement);
 
         if(data->lobby->actionProcess == SLEEP){
-            processSleep(data);
+            processSleep(engine, data);
         }else if(data->lobby->actionProcess == GARDEN){
             processGarden(data);
         }else if(data->lobby->actionProcess == PLANT){
-            menuSelectionPlanting_Garden(data);
+            menuSelectionPlanting_Garden(engine, data);
         }else if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH) {
             processTimer(data);
         }else if(data->lobby->actionProcess == SHOP) {
@@ -34,7 +34,7 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "inventory");
         }else if(data->lobby->actionProcess == GOTO_DUNGEON){
-            menuSelectionDungeon_Garden(data);
+            menuSelectionDungeon_Garden(engine, data);
         }
         //TODO: Move this reset
         data->lobby->askAction = NONE;

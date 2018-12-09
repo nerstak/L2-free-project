@@ -31,6 +31,7 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
             data->inventory->askAction = I_NONE;
         } else if(action == I_LEAVE) {
             data->inventory->askAction = I_NONE;
+            playEffect(engine->soundCollector, "loading/leave_menu");
             display_SceneCollector(engine, data, engine->sceneCollector->previousScene->name);
         }
     }

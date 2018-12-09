@@ -36,6 +36,7 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->Isaac->movement->pos->x = 50;
         data->Isaac->movement->pos->y = 384;
 
+        playMusic(engine->soundCollector, "lobby/main_theme");
     } else {
         freeSingleLayout(&(data->lobby->layout));
         free(data->lobby);

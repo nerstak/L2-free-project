@@ -2,6 +2,8 @@
 #define FREE_PROJECT_ENGINE_GAME_MOVEMENT_H
 
 
+#include "../main.h"
+
 extern void MovePlayer(Data* data, Tiles** map);
 
 extern void ProcessVelocity(float* v,int t);

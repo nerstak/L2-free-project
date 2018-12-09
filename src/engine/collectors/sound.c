@@ -78,7 +78,7 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
                 do {
                     previous = temp;
                     temp = temp->next;
-                }while(temp->sound == NULL);
+                }while(temp && temp->sound == NULL);
             }
 
             if (temp == NULL) {
