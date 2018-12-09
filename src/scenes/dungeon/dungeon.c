@@ -25,11 +25,17 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         data->dungeonScene = malloc(1 * sizeof(dungeonScene_t));
 
         DungeonGenerator* dg = init_DungeonGenerator(time(NULL));
-        generate_DungeonGenerator(dg);
-        data->dungeonScene->dungeon = dg->dungeon; // TODO: Should check that dungeon return smth
+
+        do {
+            generate_DungeonGenerator(dg);
+        } while(dg->dungeon == NULL || findStart_Dungeon(dg->dungeon) == NULL);
+
+        data->dungeonScene->dungeon = dg->dungeon;
         data->dungeonScene->currentRoom = findStart_Dungeon(dg->dungeon);
         data->dungeonScene->currentRoom->visited = true;
+
         clean_DungeonGenerator(&(dg));
+
         data->dungeonScene->moveTo = -1;
 
         loadDungeonsMap(engine, data);
@@ -39,6 +45,7 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         free(&(data->dungeonScene));
         data->dungeonScene = NULL;
     }
+    
     data->Isaac->movement->position->x=608;
     data->Isaac->movement->position->y=128;
 }
