@@ -1,4 +1,5 @@
 #include "event.h"
+#include "../../utils/enhancedSwitch.h"
 
 extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* data) {
     float Vchange = 2 * getTicks_Timer(data->Isaac->movement->timeSince) * (float) 0.06;
@@ -19,46 +20,13 @@ extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* da
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_KEYDOWN: {
-                switch (event.key.keysym.sym) {
-                    case SDLK_ESCAPE: {
+                // Key pressed
+                int input = event.key.keysym.sym;
+                SWITCH(input)
+                    CASE(SDLK_ESCAPE)
                         data->stop = 0;
-                        break;
-                    }
-
-                    case SDLK_UP: {
-                        data->dungeonScene->moveTo = 0;
-                        break;
-                    }
-
-                    case SDLK_RIGHT: {
-                        data->dungeonScene->moveTo = 1;
-                        break;
-                    }
-
-                    case SDLK_DOWN: {
-                        data->dungeonScene->moveTo = 2;
-                        break;
-                    }
-
-                    case SDLK_LEFT: {
-                        data->dungeonScene->moveTo = 3;
-                        break;
-                    }
-
-                    case SDLK_KP_PLUS: {
-                        alterHealth_Player(data->Isaac, 1.5, 'c');
-                        break;
-                    }
-
-                    case SDLK_KP_MINUS: {
-                        alterHealth_Player(data->Isaac, (float) -1.5, 'c');
-                        break;
-                    }
-
-                    default: {
-                        break;
-                    }
-                }
+                    BREAK
+                ENDSWITCH
 
                 break;
             }
