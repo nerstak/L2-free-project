@@ -80,12 +80,15 @@ extern void movePlayer_Movement(Data* data, Tiles** map) {
     processVelocity_Movement(&(data->Isaac->movement->velocity->y), timeChange, 12, 1);
 
     float dampen=1;
+
+
+    // Checks for obstacles on the map and adjusts velocity accordingly
+    checkObstacle_Movement(data, timeChange, data->Isaac->stats->current->speed, map,&dampen);
+
+
     if(data->Isaac->combat->animationStep != 0) {
         dampen=0.3;
     }
-
-    // Checks for obstacles on the map and adjusts velocity accordingly
-    checkObstacle_Movement(data, timeChange, data->Isaac->stats->current->speed, map);
 
     //actually changes the character's movement according to the velocity we done got
     data->Isaac->movement->position->x += (data->Isaac->movement->velocity->x) * timeChange * 0.03 * data->Isaac->stats->current->speed * dampen;
@@ -134,8 +137,16 @@ extern void stopVelocity_Movement(MovementValues* move) {
     lap_Timer(move->timeSince);
 }
 
+extern void Tiletype(char tile, char* result)
+{
+    if(tile=='W'){*result='W';}
+    if(tile=='B'){*result='B';}
+    if(tile=='H'){*result='H';}
+    if(tile=='J' && *result=='X'){*result='J';}
+}
 
-extern void checkObstacle_Movement(Data* data, int t, float speedStat, Tiles** map) {
+
+extern void checkObstacle_Movement(Data* data, int t, float speedStat, Tiles** map,float* dampen) {
     // X and Y coordinates of the top left of the player
     float xPos = data->Isaac->movement->position->x;
     float yPos = data->Isaac->movement->position->y;
@@ -161,25 +172,60 @@ extern void checkObstacle_Movement(Data* data, int t, float speedStat, Tiles** m
     Vx = (data->Isaac->movement->velocity->x);
     Vy = (data->Isaac->movement->velocity->y);
 
+    char destType= 'X';
+
     if(Vx != 0 || Vy != 0) {
         // If one of the player's four corners is inside a wall after moving on an axis, it cancels movement.
-        if(map[top][leftHit].type=='W' || map[top][rightHit].type=='W' || map[bot][leftHit].type=='W' || map[bot][rightHit].type=='W') {
-            data->Isaac->movement->velocity->x = 0;
+
+        Tiletype(map[top][leftHit].type,&destType);
+        Tiletype(map[top][rightHit].type,&destType);
+        Tiletype(map[bot][leftHit].type,&destType);
+        Tiletype(map[bot][rightHit].type,&destType);
+
+        if(destType != 'X') {
+            if(destType=='J')
+                *dampen = 0.5;
+            else
+                data->Isaac->movement->velocity->x = 0;
         }
 
-        if(map[topHit][left].type=='W' || map[botHit][left].type=='W' || map[topHit][right].type=='W' || map[botHit][right].type=='W') {
-            data->Isaac->movement->velocity->y = 0;
+        destType= 'X';
+
+        Tiletype(map[topHit][left].type,&destType);
+        Tiletype(map[botHit][left].type,&destType);
+        Tiletype(map[topHit][right].type,&destType);
+        Tiletype(map[botHit][right].type,&destType);
+
+        if(destType != 'X') {
+            if(destType=='J')
+                *dampen = 0.5;
+            else
+                data->Isaac->movement->velocity->y = 0;
         }
     }
 
     Vx = (data->Isaac->movement->velocity->x);
     Vy = (data->Isaac->movement->velocity->y);
 
+    destType= 'X';
+
     if(Vx != 0 && Vy != 0) {
+
+        Tiletype(map[topHit][leftHit].type,&destType);
+        Tiletype(map[topHit][rightHit].type,&destType);
+        Tiletype(map[botHit][leftHit].type,&destType);
+        Tiletype(map[botHit][rightHit].type,&destType);
         // If the player moves towards a corner at a perfect angle, there wont be anything to block movement in both cardinal directions and we should hence check diagonals.
-        if(map[topHit][leftHit].type=='W' || map[topHit][rightHit].type=='W' || map[botHit][leftHit].type=='W' || map[botHit][rightHit].type=='W') {
-            data->Isaac->movement->velocity->x=0;
-            data->Isaac->movement->velocity->y=0;
+        if(destType != 'X') {
+            if(destType != 'X') {
+                if(destType=='J') {
+                    *dampen = 0.5;
+                } else{
+                    data->Isaac->movement->velocity->x = 0;
+                    data->Isaac->movement->velocity->y = 0;
+                }
+            }
+
         }
     }
 }

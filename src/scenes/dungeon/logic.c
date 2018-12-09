@@ -62,4 +62,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
         data->dungeonScene->moveTo = -1;
     }
+
+
+    movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
+
 }

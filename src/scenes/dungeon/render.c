@@ -57,6 +57,38 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
     }
 
     renderDoors(window, engine, data);
+
+    SDL_Surface* PlayerSprite=NULL;
+    SDL_Rect playerPos;
+
+    playerPos.x=data->Isaac->movement->position->x;
+    playerPos.y=data->Isaac->movement->position->y;
+
+    PlayerSprite = get_ImageCollector(engine->imageCollector, "dungeon/player")->surface;
+
+    bool invisible=false;
+
+    if(data->Isaac->invulnerabilityTimer->started)
+    {
+        if((getTicks_Timer(data->Isaac->invulnerabilityTimer)%100)<50)
+        {
+            invisible=true;
+        }
+    }
+
+    if(!invisible)
+    {
+        /*if (data->lobby->askCombat != -1) {
+            playerPos.y -= 32;
+            playerPos.x -= 64;
+
+            SDL_BlitSurface(FightSprite, data->Isaac->combat->spriteBox, lobbySurface, &playerPos);
+        } else {*/
+            SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, window, &playerPos);
+        //}
+    }
+
+
 }
 
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data) {

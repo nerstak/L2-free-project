@@ -28,10 +28,12 @@ extern void clean_Movement(MovementValues** p);
 extern void movePlayer_Movement(struct Data* data, struct Tiles** map);
 extern void processVelocity_Movement(float* v, int t, float max, float factor);
 extern void stopVelocity_Movement(MovementValues* move);
-extern void checkObstacle_Movement(struct Data* data, int t, float speedStat, struct Tiles** map);
+extern void checkObstacle_Movement(struct Data* data, int t, float speedStat, struct Tiles** map,float* dampen);
 extern void processAnimation_Movement(MovementValues* move, int t, float speedStat);
 extern void spriteSelection_Movement(MovementValues* move, SDL_Rect* box);
 extern void checkBound_Movement(struct Data* data, int w, int h, int deltaW, int deltaH);
 extern void setPlayerHitBox_Movement(MovementValues* move);
+
+extern void Tiletype(char tile, char* result);
 
 #endif // FREE_PROJECT_ENGINE_GAME_MOVEMENT_H
