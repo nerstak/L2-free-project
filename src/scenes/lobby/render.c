@@ -201,6 +201,12 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         cloudsprite.h=192;
         cloudsprite.w=192;
         SDL_BlitSurface(DeadGuy, &cloudsprite, lobbySurface, &cloudpos);
+
+        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->dyingEntities->data->damageIndicatorQueue);
+        while (damageIndicator != NULL) {
+            renderDamageAmountIndicator(engine, data, lobbySurface, *damageIndicator->data->position, damageIndicator->data->amount);
+            damageIndicator = damageIndicator->next;
+        }
     }
 
 

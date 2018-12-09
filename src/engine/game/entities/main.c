@@ -139,6 +139,8 @@ extern DamageIndicatorQueue* initQueue_DamageIndicator() {
 
     result->front = NULL;
     result->rear = NULL;
+
+    return result;
 }
 
 extern void clean_DamageIndicator(DamageIndicator** p) {
@@ -277,6 +279,21 @@ extern void process_Dying(EntityList** list, struct Data* data)
 
     while(temp) {
         temp->data->movement->animationStep+=lap_Timer(temp->data->movement->timeSince);
+
+        // Clear the expired DamageIndicator
+        DamageIndicatorQueueNode* tempNode = deQueue_DamageIndicator(temp->data->damageIndicatorQueue);
+        while (tempNode != NULL) {
+            DamageIndicatorQueueNode* next = tempNode->next;
+
+            if (getTime_Timer(tempNode->data->timer) > 0.25) {
+                popQueue_DamageIndicator(temp->data->damageIndicatorQueue);
+            } else {
+                break;
+            }
+
+            tempNode = next;
+        }
+
         temp = temp->next;
     }
 }

@@ -28,8 +28,6 @@ extern void clean_EMoth(E_Moth** p) {
 
 
 extern void ai_EMoth(Entity* e, Data* data) {
-    E_Moth* eMoth = (E_Moth*) e->entity;
-
     // Timer to get the time since the last frame of movement
     int timeChange = lap_Timer(e->movement->timeSince);
     if(timeChange > 300 || timeChange<-300) {
