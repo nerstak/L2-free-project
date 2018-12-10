@@ -9,6 +9,7 @@ typedef struct dungeonScene_t {
     char** layoutsPath;
     size_t layoutsLength;
     int moveTo;
+    int askCombat;
 } dungeonScene_t;
 
 #endif //FREE_PROJECT_STRUCTURES_DUNGEONSCENE_H

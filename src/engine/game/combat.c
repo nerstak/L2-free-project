@@ -6,19 +6,27 @@
 #include "../data.h"
 #include "combat.h"
 
-extern void ProcessCombat(Data * data, int direction)
+extern void ProcessCombat(Data * data, int *direction)
 {
-    data->Isaac->combat->direction=direction;
-    if(data->Isaac->combat->animationStep==0)
-    {
-        start_Timer(data->Isaac->combat->timeSince);     // Timer to get the time since the last frame of movement
+    if(*direction!=-2) {
+        data->Isaac->combat->direction = *direction;
+        if (data->Isaac->combat->animationStep == 0) {
+            start_Timer(data->Isaac->combat->timeSince);     // Timer to get the time since the last frame of movement
+        }
+
+        CombatAnimation(data->Isaac->combat, getTicks_Timer(data->Isaac->combat->timeSince) + 1,
+                        data->Isaac->stats->current->agility);
+
+        CombatSprite(data->Isaac->combat);
+
+        SetCombatHitbox(data->Isaac);
     }
-
-    CombatAnimation(data->Isaac->combat,getTicks_Timer(data->Isaac->combat->timeSince)+1,data->Isaac->stats->current->agility);
-
-    CombatSprite(data->Isaac->combat);
-
-    SetCombatHitbox(data->Isaac);
+    else
+    {
+        *direction=-1;
+        stop_Timer(data->Isaac->combat->timeSince);
+        data->Isaac->combat->animationStep = 0;
+    }
 
 
 

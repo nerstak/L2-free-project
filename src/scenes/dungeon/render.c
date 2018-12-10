@@ -59,12 +59,16 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
     renderDoors(window, engine, data);
 
     SDL_Surface* PlayerSprite=NULL;
+    SDL_Surface* FightSprite=NULL;
+
+
     SDL_Rect playerPos;
 
     playerPos.x=data->Isaac->movement->position->x;
     playerPos.y=data->Isaac->movement->position->y;
 
     PlayerSprite = get_ImageCollector(engine->imageCollector, "dungeon/player")->surface;
+    FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;
 
     bool invisible=false;
 
@@ -78,20 +82,21 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
     if(!invisible)
     {
-        /*if (data->lobby->askCombat != -1) {
+        if (data->dungeonScene->askCombat != -1) {
             playerPos.y -= 32;
             playerPos.x -= 64;
 
-            SDL_BlitSurface(FightSprite, data->Isaac->combat->spriteBox, lobbySurface, &playerPos);
-        } else {*/
+            SDL_BlitSurface(FightSprite, data->Isaac->combat->spriteBox, window, &playerPos);
+        } else {
             SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, window, &playerPos);
-        //}
+        }
     }
-    SDL_Surface * Hibox= get_ImageCollector(engine->imageCollector, "dungeon/hibox")->surface;
+
 
 
 
     /* see door hitboxes for debugging
+    SDL_Surface * Hibox= get_ImageCollector(engine->imageCollector, "dungeon/hibox")->surface;
     SDL_BlitSurface(Hibox,data->Isaac->movement->hitBox , window, data->Isaac->movement->hitBox);
 
     SDL_Rect doorup,doordown,doorright,doorleft;

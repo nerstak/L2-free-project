@@ -10,9 +10,9 @@ extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* da
     if(data->Isaac->combat->animationStep>450)
     {
         data->Isaac->combat->animationStep=0;
-        data->Isaac->movement->direction=data->lobby->askCombat;
+        data->Isaac->movement->direction=data->dungeonScene->askCombat;
         stop_Timer(data->Isaac->combat->timeSince);
-        data->lobby->askCombat = -1;
+        data->dungeonScene->askCombat = -1;
     }
 
     Uint8 *keystate = SDL_GetKeyState(NULL);
@@ -26,7 +26,31 @@ extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* da
                     CASE(SDLK_ESCAPE)
                         data->stop = 0;
                     BREAK
-                ENDSWITCH
+
+                    CASE(engine->keys->LEFT_ATTACK)
+                        if (data->dungeonScene->askCombat == -1) {
+                            data->dungeonScene->askCombat=3;
+                        }
+                    BREAK
+
+                    CASE(engine->keys->RIGHT_ATTACK)
+                        if (data->dungeonScene->askCombat == -1) {
+                            data->dungeonScene->askCombat = 2;
+                        }
+                    BREAK
+
+                    CASE(engine->keys->UP_ATTACK)
+                        if (data->dungeonScene->askCombat == -1) {
+                            data->dungeonScene->askCombat = 1;
+                        }
+                    BREAK
+
+                    CASE(engine->keys->DOWN_ATTACK)
+                        if (data->dungeonScene->askCombat == -1) {
+                            data->dungeonScene->askCombat = 0;
+                        }
+                    BREAK
+                    ENDSWITCH
 
                 break;
             }

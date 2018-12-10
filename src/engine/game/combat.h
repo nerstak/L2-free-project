@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "../data.h"
 
-extern void ProcessCombat(Data * data, int direction);
+extern void ProcessCombat(Data * data, int * direction);
 
 extern void CombatAnimation(CombatValues * combat,int time,int agility);
 

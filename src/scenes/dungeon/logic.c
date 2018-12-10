@@ -92,7 +92,20 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
     }
 
 
+
+    if(data->dungeonScene->askCombat!=-1)
+    {
+        ProcessCombat(data,&(data->dungeonScene->askCombat));
+    }
+    else
+    {
+        data->Isaac->combat->weaponHitBox->x=10000; // clean fix
+        data->Isaac->combat->weaponHitBox->y=10000;
+        data->Isaac->combat->weaponHitBox->h=0;
+        data->Isaac->combat->weaponHitBox->w=0;
+    }
     movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
+
 
     SDL_Rect door;
 

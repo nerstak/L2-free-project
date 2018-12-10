@@ -14,7 +14,7 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
         }else {
             if(data->lobby->askCombat!=-1)
             {
-                ProcessCombat(data,data->lobby->askCombat);
+                ProcessCombat(data,&(data->lobby->askCombat));
             }
             else
             {

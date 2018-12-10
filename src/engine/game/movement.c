@@ -87,7 +87,7 @@ extern void movePlayer_Movement(Data* data, Tiles** map) {
 
 
     if(data->Isaac->combat->animationStep != 0) {
-        dampen=0.3;
+        dampen*=0.3;
     }
 
     //actually changes the character's movement according to the velocity we done got

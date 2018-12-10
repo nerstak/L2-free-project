@@ -38,6 +38,11 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->dungeonScene->moveTo = -1;
 
+        data->Isaac->movement->position->x=608;
+        data->Isaac->movement->position->y=128;
+        data->Isaac->movement->direction=0;
+        data->dungeonScene->askCombat=-2;
+
         loadDungeonsMap(engine, data);
     } else {
         // TODO: Improve that part
@@ -45,9 +50,6 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         free(&(data->dungeonScene));
         data->dungeonScene = NULL;
     }
-    
-    data->Isaac->movement->position->x=608;
-    data->Isaac->movement->position->y=128;
 }
 
 
