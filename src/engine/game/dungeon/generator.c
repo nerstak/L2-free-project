@@ -203,7 +203,7 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
 
         Direction* d = chooseFreeEdge(p, parentRoom);
         Coord* coords = nextInDirection_Coord(parentRoom->coord, d);
-        Room* room = init_Room(coords, parentRoom, NULL, condition);
+        Room* room = init_Room(coords, parentRoom, NULL, initCopy_Condition(condition));
 
 
         if (get_TreeMap(p->dungeon->rooms, room->coord) != NULL) {
