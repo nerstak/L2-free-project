@@ -36,4 +36,6 @@ extern void setPlayerHitBox_Movement(MovementValues* move);
 
 extern void Tiletype(char tile, char* result);
 
+extern int automaticAskMovement(Data* data, float Vchange, int x_toGO, int y_toGO);
+
 #endif // FREE_PROJECT_ENGINE_GAME_MOVEMENT_H

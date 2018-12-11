@@ -19,7 +19,6 @@
 #include "scenes/inventory/inventory.h"
 #include "scenes/shop/shop.h"
 #include "scenes/dungeon/dungeon.h"
-#include "scenes/test/test.h"
 
 #include "engine/config.h"
 
@@ -70,7 +69,6 @@ extern void gameLoop(SDL_Surface* window) {
     load_SceneCollector(myEngine, myData, "shop", OVERLAY, &assets_Scene_shop, &init_Scene_shop, &renderScene_Scene_shop, &logicProcess_Scene_shop, &eventProcess_Scene_shop);
     load_SceneCollector(myEngine, myData, "inventory", OVERLAY, &assets_Scene_inventory, &init_Scene_inventory, &renderScene_Scene_inventory, &logicProcess_Scene_inventory, &eventProcess_Scene_inventory);
     load_SceneCollector(myEngine, myData, "dungeon", SCENE, &assets_Scene_dungeon, &init_Scene_dungeon, &renderScene_Scene_dungeon, &logicProcess_Scene_dungeon, &eventProcess_Scene_dungeon);
-    load_SceneCollector(myEngine, myData, "test", SCENE, &assets_Scene_test, &init_Scene_test, &renderScene_Scene_test, &logicProcess_Scene_test, &eventProcess_Scene_test);
     load_SceneCollector(myEngine, myData, "options", OVERLAY, &assets_Scene_options, &init_Scene_options, &renderScene_Scene_options, &logicProcess_Scene_options, &eventProcess_Scene_options);
     load_SceneCollector(myEngine, myData, "pauseMenu", OVERLAY, &assets_Scene_pauseMenu, &init_Scene_pauseMenu, &renderScene_Scene_pauseMenu, &logicProcess_Scene_pauseMenu, &eventProcess_Scene_pauseMenu);
 
@@ -90,6 +88,8 @@ extern void gameLoop(SDL_Surface* window) {
             if (mySceneCollector->currentOverlay != NULL) {
                 // Rendering
                 mySceneCollector->currentOverlay->renderScene(window, myEngine, myData);
+            } else {
+                mySceneCollector->currentScene->renderScene(window, myEngine, myData);
             }
         } else {
             // Event loop
@@ -101,6 +101,8 @@ extern void gameLoop(SDL_Surface* window) {
             if (mySceneCollector->currentScene != NULL) {
                 // Rendering
                 mySceneCollector->currentScene->renderScene(window, myEngine, myData);
+            } else {
+                mySceneCollector->currentOverlay->renderScene(window, myEngine, myData);
             }
         }
 

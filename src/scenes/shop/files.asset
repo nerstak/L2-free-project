@@ -3,3 +3,5 @@ src/resources/gfx/scenes/interface/frame.png shop/frame
 src/resources/gfx/scenes/interface/frame_selected.png shop/frameSelected
 src/resources/gfx/scenes/interface/confirm_layout.png shop/confirm
 src/resources/gfx/scenes/interface/item_spritesheet.png shop/items
+src/resources/gfx/scenes/lobby/lobby_bg_flou.png shop/lobby_blur
+src/resources/gfx/player/sprites_hero_flou.png shop/player_blur

@@ -224,7 +224,10 @@ extern void loadList_SoundCollector(SoundCollector* p, Asset* assetsList) {
 
     // We go through the list and call the exisiting function
     while (temp != NULL) {
-        load_SoundCollector(p, temp->path, temp->name, temp->type);
+        if (temp->type == SOUND || temp->type == MUSIC) {
+            load_SoundCollector(p, temp->path, temp->name, temp->type);
+        }
+
         temp = temp->next;
     }
 }
@@ -268,7 +271,10 @@ extern void unloadList_SoundCollector(SoundCollector* p, Asset* assetsList) {
 
     // We go through the list and call the existing function
     while (temp != NULL) {
-        unload_SoundCollector(p, temp->name, temp->type);
+        if (temp->type == SOUND || temp->type == MUSIC) {
+            unload_SoundCollector(p, temp->name, temp->type);
+        }
+
         temp = temp->next;
     }
 }

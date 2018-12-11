@@ -11,6 +11,7 @@ typedef struct lobby_t{
     int askCombat;
     int actionProcess;
     int cursor;
+    int tutorial;
     struct Plant* actualPlant;
     Timer* timerMessage;
 }lobby_t;

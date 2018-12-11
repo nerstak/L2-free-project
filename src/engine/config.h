@@ -38,4 +38,11 @@ extern int findKeyID(referenceKey* keys, int id);
  */
 extern void alterKeyID(referenceKey* keys, int id, int newKey);
 
+/**
+ * Display the correct name of keys
+ * @param id int of the key
+ * @param name string receiving the name
+ */
+extern void nameKeys(int id, char* name);
+
 #endif

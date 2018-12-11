@@ -1,15 +1,8 @@
 #include "shop.h"
 
 extern void assets_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
-    Asset* assetsList = getList_Asset("src/scenes/shop/files.asset");
-
-    if (loadOrUnload == true) {
-        loadList_ImageCollector(engine->imageCollector, assetsList);
-    } else {
-        unloadList_ImageCollector(engine->imageCollector, assetsList);
-    }
-
-    clean_Asset(&assetsList);
+    char path[] = "src/scenes/shop/files.asset";
+    load_Asset(path, loadOrUnload, engine, data);
 }
 
 extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
@@ -28,6 +21,8 @@ extern void init_Scene_shop(Engine* engine, Data* data, bool loadOrUnload) {
         data->shop->size_shop = 0;
 
         data->shop->timerMessage = init_Timer();
+        start_Timer(data->shop->timerMessage);
+        strcpy(data->shop->messageAction, "Init");
 
         data->shop->shop_inv = init_ShopInventory(data->referenceItems, &(data->shop->size_shop));
 

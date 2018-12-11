@@ -2,15 +2,8 @@
 #include "pauseMenu.h"
 
 extern void assets_Scene_pauseMenu(Engine* engine, Data* data, bool loadOrUnload) {
-    Asset* assetsList = getList_Asset("src/scenes/pauseMenu/files.asset");
-
-    if (loadOrUnload == true) {
-        loadList_ImageCollector(engine->imageCollector, assetsList);
-    } else {
-        unloadList_ImageCollector(engine->imageCollector, assetsList);
-    }
-
-    clean_Asset(&assetsList);
+    char path[] = "src/scenes/pauseMenu/files.asset";
+    load_Asset(path, loadOrUnload, engine, data);
 }
 
 extern void init_Scene_pauseMenu(Engine* engine, Data* data, bool loadOrUnload) {
