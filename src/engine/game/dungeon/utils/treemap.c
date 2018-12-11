@@ -38,7 +38,9 @@ extern void clean_TreeMap(TreeMap** tree) {
         if (temp->link[0] == NULL) {
             save = temp->link[1];
 
-            clean_Room(&(save->value));
+            if (save != NULL) {
+                clean_Room(&(save->value));
+            }
 
             free(temp);
         } else {
