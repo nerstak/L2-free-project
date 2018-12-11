@@ -17,15 +17,17 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
             exit(EXIT_FAILURE);
         }
 
-        data->lobby->layout = loadSingleLayout("lobby","lobby");
+        data->lobby->layout = loadSingle_Layout("lobby", "lobby");
         data->lobby->actualPlant = NULL;
         data->lobby->askAction = 0;
+        data->lobby->askCombat = -1;
         data->lobby->actionProcess = NONE;
+
         data->lobby->cursor = 0;
         data->lobby->timerMessage = init_Timer();
         if(data->Isaac->day == 0) {
             // Display introduction & tutorial
-            alterSpeed(data->Isaac, (float) (- data->Isaac->stats->basic->speed * 0.3), 'c');
+            alterSpeed_Player(data->Isaac, (float) (- data->Isaac->stats->basic->speed * 0.3), 'c');
             data->lobby->tutorial = 1;
             start_Timer(data->lobby->timerMessage);
         } else {
@@ -33,11 +35,12 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         }
 
 
-        data->Isaac->movement->pos->x = 50;
-        data->Isaac->movement->pos->y = 384;
+        data->Isaac->movement->position->x = 50;
+        data->Isaac->movement->position->y = 384;
 
     } else {
-        freeSingleLayout(&(data->lobby->layout));
+        freeSingle_Layout(&(data->lobby->layout));
+        cleanList_Entity(&(data->entities));
         free(data->lobby);
         data->lobby = NULL;
     }

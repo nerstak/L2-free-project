@@ -35,17 +35,17 @@ extern void doAction_Garden(Data* data) {
 }
 
 extern int checkAction_Garden(Data* data) {
-    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'M', 48, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'M', 48, 0, 0, NULL, NULL)) {
         //Case for home
         return 1;
     }
 
-    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, NULL, NULL)) {
         //Case for plant spot
         return 2;
     }
 
-    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'S', 48, 0, 0, NULL, NULL)) {
+    if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'S', 48, 0, 0, NULL, NULL)) {
         //Case for shop
         return 3;
     }
@@ -75,7 +75,7 @@ extern void processGarden(Data* data) {
 
 static void findPlant(Data* data) {
     int coordX, coordY;
-    if (checkTilesPlayer(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
+    if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
         if (coordX == 15 ) {
             if (coordY == 5) {
                 data->lobby->actualPlant = data->field->plantBotLeft;
@@ -116,20 +116,23 @@ static void processField_Garden(Data* data) {
     }
 }
 
-extern void menuSelectionDungeon_Garden(Data* data) {
+extern void menuSelectionDungeon_Garden(Engine* engine, Data* data) {
     if (data->lobby->askAction == LEFT && data->lobby->cursor == 1) {
         data->lobby->cursor = 0;
     } else if (data->lobby->askAction == RIGHT && data->lobby->cursor == 0) {
         data->lobby->cursor = 1;
     }
     else if (data->lobby->askAction == SELECT) {
-        if(data->lobby->cursor == 1) {
-            data->lobby->actionProcess = NONE;
+        data->lobby->actionProcess = NONE;
+        if(data->lobby->cursor == 1 || data->Isaac->gameStats->dungeonDay == 1) {
             data->lobby->cursor = 0;
+            data->lobby->actualPlant = NULL;
         } else if (data->lobby->cursor == 0) {
-            //TODO: Call dungeon
+            data->field->currentPlant = data->lobby->actualPlant;
+            data->Isaac->gameStats->dungeonDay = 1;
+            data->lobby->cursor = 0;
+            display_SceneCollector(engine, data, "dungeon");
         }
-
     }
 }
 
@@ -165,7 +168,7 @@ static int processPlanting(Data* data) {
         data->lobby->actualPlant->idVegetable = plant->id;
         plant->quantity--;
         if(plant->quantity <= 0) {
-            remove_SlotInventory(&(data->Isaac->inventory),plant->id,&(data->Isaac->size_inventory));
+            remove_SlotInventory(&(data->Isaac->inventory),plant->id,&(data->Isaac->sizeInventory));
         }
         return 1;
     }

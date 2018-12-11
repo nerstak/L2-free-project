@@ -2,8 +2,6 @@
 
 #include "../../utils/enhancedSwitch.h"
 
-
-
 extern void eventProcess_Scene_options(SDL_Event event, Engine* engine, Data* data) {
     if(SDL_PollEvent(&event)) {
         switch (event.type) {

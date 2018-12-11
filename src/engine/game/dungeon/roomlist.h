@@ -37,7 +37,7 @@ extern void clean_KeyLevelRoomMapping(KeyLevelRoomMapping** p);
  * @param keylevel a keylevel, an integer
  * @return a double pointer on a RoomList object
  */
-extern RoomList** getRooms(KeyLevelRoomMapping* p, int keylevel);
+extern RoomList** getRooms_KeyLevelRoomMapping(KeyLevelRoomMapping* p, int keylevel);
 /**
  * Add a Room to a given KeyLevelRoomMapping at a given keylevel
  * @param p        a KeyLevelRoomMapping object

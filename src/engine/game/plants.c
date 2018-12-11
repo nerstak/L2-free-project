@@ -20,6 +20,8 @@ extern field_t* initField(){
      field->plantTopLeft = init_Plants(15,2);
      field->plantTopRight = init_Plants(17,2);
 
+     field->currentPlant = NULL;
+
      return field;
 }
 
@@ -30,6 +32,8 @@ extern void freeField(field_t** field) {
             freePlant(&((*field)->plantBotLeft));
             freePlant(&((*field)->plantTopRight));
             freePlant(&((*field)->plantTopLeft));
+
+            (*field)->currentPlant = NULL;
 
             free(*field);
             *field = NULL;
@@ -113,6 +117,34 @@ extern void plantsBlit(SDL_Surface* lobbySurface, Data* data, ImageCollector* my
 
                 SDL_BlitSurface(plant, &plantSize, lobbySurface, &plantPos);
             }
+        }
+    }
+}
+
+extern void removePlant(int n, field_t* field) {
+    if(field != NULL) {
+        switch(n) {
+            case 0: {
+                field->plantTopLeft->idVegetable = -1;
+                field->currentPlant = NULL;
+                break;
+            }
+            case 1: {
+                field->plantTopRight->idVegetable = -1;
+                field->currentPlant = NULL;
+                break;
+            }
+            case 2: {
+                field->plantBotLeft->idVegetable = -1;
+                field->currentPlant = NULL;
+                break;
+            }
+            case 3: {
+                field->plantBotRight->idVegetable = -1;
+                field->currentPlant = NULL;
+                break;
+            }
+            default: break;
         }
     }
 }

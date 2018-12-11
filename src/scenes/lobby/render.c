@@ -1,11 +1,14 @@
+#include <math.h>
+
 #include "render.h"
+
 #include "../../window.h"
 #include "../../engine/config.h"
 #include "../../engine/game/plants.h"
 
-static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine);
+static SDL_Surface* getLobby(Engine* engine, Data* data);
 
-static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* myFontCollector, Data* data, Engine* engine) {
+static SDL_Surface* getLobby(Engine* engine, Data* data) {
     SDL_Surface* lobbySurface = NULL;
     lobbySurface = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
@@ -16,6 +19,10 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     SDL_Surface* dialogBox = NULL;
     SDL_Surface* dialog = NULL;
 
+    SDL_Surface* FightSprite=NULL;
+
+    SDL_Surface* Hibox=NULL;
+
     char line[150];
 
     SDL_Rect bgPos;
@@ -23,37 +30,66 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     SDL_Rect dialogBoxPos;
     SDL_Rect dialogPos;
 
+    bg = get_ImageCollector(engine->imageCollector, "lobby/bg")->surface;
+    FightSprite = get_ImageCollector(engine->imageCollector, "lobby/scythe")->surface;
+
+    Hibox= get_ImageCollector(engine->imageCollector, "lobby/hibox")->surface;
+
     bgPos.x = 0;
     bgPos.y = 0;
-    playerPos.x = data->Isaac->movement->pos->x;
-    playerPos.y = data->Isaac->movement->pos->y;
+    playerPos.x = (Sint16) data->Isaac->movement->position->x;
+    playerPos.y = (Sint16) data->Isaac->movement->position->y;
 
     SDL_Color black = {0, 0, 0, 0};
     SDL_Color brown = {55, 25, 17, 0};
 
     if(data->lobby->actionProcess == NONE){
-        bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
-        PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
+        bg = get_ImageCollector(engine->imageCollector, "lobby/bg")->surface;
+        PlayerSprite = get_ImageCollector(engine->imageCollector, "lobby/player")->surface;
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-        plantsBlit(lobbySurface, data, myImageCollector, 'c');
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+        plantsBlit(lobbySurface, data, engine->imageCollector, 'c');
+        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
     }else{
-        bg = get_ImageCollector(myImageCollector, "lobby/bg_flou")->surface;
-        PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player_flou")->surface;
+        bg = get_ImageCollector(engine->imageCollector, "lobby/bg_flou")->surface;
+        PlayerSprite = get_ImageCollector(engine->imageCollector, "lobby/player_flou")->surface;
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-        plantsBlit(lobbySurface, data, myImageCollector, 'b');
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+        plantsBlit(lobbySurface, data, engine->imageCollector, 'b');
+        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
+    }
+
+    SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
+
+    bool invisible=false;
+
+    if(data->Isaac->invulnerabilityTimer->started)
+    {
+        if((getTicks_Timer(data->Isaac->invulnerabilityTimer)%100)<50)
+        {
+            invisible=true;
+        }
+    }
+
+    if(!invisible)
+    {
+        if (data->lobby->askCombat != -1) {
+            playerPos.y -= 32;
+            playerPos.x -= 64;
+
+            SDL_BlitSurface(FightSprite, data->Isaac->combat->spriteBox, lobbySurface, &playerPos);
+        } else {
+            SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
+        }
     }
 
 
     if(data->lobby->actionProcess == SLEEP){
         TTF_Font* font1 = NULL;
-        font1 = get_FontCollector(myFontCollector, "menu/90")->font;
+        font1 = get_FontCollector(engine->fontCollector, "menu/90")->font;
 
         TTF_Font* font2 = NULL;
-        font2 = get_FontCollector(myFontCollector, "menu/75")->font;
+        font2 = get_FontCollector(engine->fontCollector, "menu/75")->font;
 
         SDL_Surface* interface = NULL;
         SDL_Surface* menu1x1;
@@ -61,9 +97,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_Surface* menu1x3;
 
         if(data->lobby->cursor == 0){
-            interface = get_ImageCollector(myImageCollector, "lobby/menu11")->surface;
+            interface = get_ImageCollector(engine->imageCollector, "lobby/menu11")->surface;
         }else if (data->lobby->cursor == 1){
-            interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
+            interface = get_ImageCollector(engine->imageCollector, "lobby/menu12")->surface;
         }
         menu1x1 = TTF_RenderText_Solid(font1, "Save Game?", brown);
         menu1x2 = TTF_RenderText_Solid(font2, "YES", brown);
@@ -105,8 +141,8 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         posMenuPlantSelect.x = (Sint16) (188 * (data->lobby->cursor) - 14);
         posMenuPlantSelect.y = 73;
 
-        menuPlantSelect = get_ImageCollector(myImageCollector, "lobby/menu22")->surface;
-        menuPlant = get_ImageCollector(myImageCollector, "lobby/menu21")->surface;
+        menuPlantSelect = get_ImageCollector(engine->imageCollector, "lobby/menu22")->surface;
+        menuPlant = get_ImageCollector(engine->imageCollector, "lobby/menu21")->surface;
 
         SDL_BlitSurface(menuPlant, NULL, lobbySurface, &posMenuPlant);
         SDL_BlitSurface(menuPlantSelect, NULL, lobbySurface, &posMenuPlantSelect);
@@ -115,10 +151,11 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     if(data->lobby->actionProcess == GOTO_DUNGEON ){
 
         TTF_Font* font1 = NULL;
-        font1 = get_FontCollector(myFontCollector, "menu/65")->font;
+        font1 = get_FontCollector(engine->fontCollector, "menu/65")->font;
 
         TTF_Font* font2 = NULL;
-        font2 = get_FontCollector(myFontCollector, "menu/75")->font;
+        font2 = get_FontCollector(engine->fontCollector, "menu/75")->font;
+
         SDL_Surface* interface = NULL;
         SDL_Surface* menu1x1;
         SDL_Surface* menu1x2;
@@ -130,9 +167,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_Rect posMenu1xInterface;
 
         if(data->lobby->cursor == 0){
-            interface = get_ImageCollector(myImageCollector, "lobby/menu11")->surface;
+            interface = get_ImageCollector(engine->imageCollector, "lobby/menu11")->surface;
         }else if (data->lobby->cursor == 1){
-            interface = get_ImageCollector(myImageCollector, "lobby/menu12")->surface;
+            interface = get_ImageCollector(engine->imageCollector, "lobby/menu12")->surface;
         }
 
         menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", brown); // Fucking relative layout @nerstak
@@ -166,9 +203,9 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
         SDL_Rect posMenu1x1;
 
         TTF_Font* font1 = NULL;
-        font1 = get_FontCollector(myFontCollector, "menu/90")->font;
+        font1 = get_FontCollector(engine->fontCollector, "menu/90")->font;
 
-        wait = get_ImageCollector(myImageCollector, "lobby/wait")->surface;
+        wait = get_ImageCollector(engine->imageCollector, "lobby/wait")->surface;
 
         if(data->lobby->actionProcess == WAIT){
             menu1x1 = TTF_RenderText_Solid(font1, "Wait Dude !", black);
@@ -197,8 +234,8 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
     if(data->lobby->tutorial == 1 || data->lobby->tutorial == 3) {
         char name1[10], name2[10], name3[10], name4[10];
         SDL_Color black = {0, 0, 0, 0};
-        TTF_Font* font1 = get_FontCollector(myFontCollector, "menu/25")->font;
-        dialogBox = get_ImageCollector(myImageCollector, "lobby/dialog")->surface;
+        TTF_Font* font1 = get_FontCollector(engine->fontCollector, "menu/25")->font;
+        dialogBox = get_ImageCollector(engine->fontCollector, "lobby/dialog")->surface;
 
         dialogBoxPos.x = 135;
         dialogBoxPos.y = 541;
@@ -267,7 +304,7 @@ static SDL_Surface* getLobby(ImageCollector* myImageCollector, FontCollector* my
 
 extern void renderScene_Scene_lobby(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* lobbySurface = NULL;
-    lobbySurface = getLobby(engine->imageCollector,engine->fontCollector,data, engine);
+    lobbySurface = getLobby(engine, data);
 
     SDL_Rect lobbySurfacePos;
     lobbySurfacePos.x = 0;

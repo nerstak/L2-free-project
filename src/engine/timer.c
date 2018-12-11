@@ -97,3 +97,23 @@ extern float getTime_Timer(Timer* myTimer) {
     // Return time that passed since the init of the timer in secondss
     return (float) getTicks_Timer(myTimer) / 1000;
 }
+
+
+extern void cap_Timer(Timer * mytimer,int time){
+    if(mytimer->started)
+    {
+        if(getTicks_Timer(mytimer)>time)
+        {
+            stop_Timer(mytimer);
+        }
+    }
+}
+
+extern int lap_Timer(Timer * mytimer)
+{
+    int timeVal=getTicks_Timer(mytimer);
+    stop_Timer(mytimer);
+    start_Timer(mytimer);
+    return timeVal;
+}
+
