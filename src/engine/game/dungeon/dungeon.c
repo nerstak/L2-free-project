@@ -155,12 +155,13 @@ extern bool areRoomsLinked_Dungeon(Room* r1, Room* r2) {
 
 extern Room* findStart_Dungeon(Dungeon* p) {
     KeyLevelRoomMapping* rooms = getRooms_Dungeon(p);
-    RoomList* temp = *getRooms(rooms, 0);
+    RoomList* temp = *getRooms_KeyLevelRoomMapping(rooms, 0);
 
     while (temp != NULL) {
         if (isStart_Room(temp->data)) {
+            Room* result = temp->data;
             clean_KeyLevelRoomMapping(&(rooms));
-            return temp->data;
+            return result;
         }
 
         temp = temp->next;
@@ -171,12 +172,13 @@ extern Room* findStart_Dungeon(Dungeon* p) {
 
 extern Room* findBoss_Dungeon(Dungeon* p) {
     KeyLevelRoomMapping* rooms = getRooms_Dungeon(p);
-    RoomList* temp = *getRooms(rooms, 0);
+    RoomList* temp = *getRooms_KeyLevelRoomMapping(rooms, 0);
 
     while (temp != NULL) {
         if (isBoss_Room(temp->data)) {
+            Room* result = temp->data;
             clean_KeyLevelRoomMapping(&(rooms));
-            return temp->data;
+            return result;
         }
 
         temp = temp->next;
@@ -187,12 +189,13 @@ extern Room* findBoss_Dungeon(Dungeon* p) {
 
 extern Room* findGoal_Dungeon(Dungeon* p) {
     KeyLevelRoomMapping* rooms = getRooms_Dungeon(p);
-    RoomList* temp = *getRooms(rooms, 0);
+    RoomList* temp = *getRooms_KeyLevelRoomMapping(rooms, 0);
 
     while (temp != NULL) {
         if (isGoal_Room(temp->data)) {
+            Room* result = temp->data;
             clean_KeyLevelRoomMapping(&(rooms));
-            return temp->data;
+            return result;
         }
 
         temp = temp->next;

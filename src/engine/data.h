@@ -4,12 +4,15 @@
 #include "../structures/mainMenu.h"
 #include "../structures/shop.h"
 #include "../structures/lobby.h"
+#include "../structures/dungeonScene.h"
 #include "../structures/inventory.h"
 #include "../structures/options.h"
 #include "../structures/pauseMenu.h"
 #include "game/player.h"
 #include "game/inventory.h"
 #include "game/plants.h"
+#include "game/entities/main.h"
+
 
 typedef struct Data {
     struct referenceTable* referenceItems;
@@ -20,8 +23,12 @@ typedef struct Data {
     struct pauseMenu_t* pauseMenu;
     struct shop_t* shop;
     struct field_t* field;
+    struct dungeonScene_t* dungeonScene;
     struct Player* Isaac;
     int stop;
+
+    EntityList* entities; //TEMP because theres no monsters in the lobby but I still need to test this shit
+    EntityList* dyingEntities;
 } Data;
 
 extern Data* init_Data();

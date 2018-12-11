@@ -15,6 +15,7 @@ typedef struct field_t{
     struct Plant * plantTopLeft;
     struct Plant * plantBotRight;
     struct Plant * plantBotLeft;
+    struct Plant* currentPlant;
 }field_t;
 
 /**
@@ -38,5 +39,12 @@ extern void freeField(field_t** field);
 extern Plant* assignPlant(int n, field_t* field);
 
 extern void plantsBlit(SDL_Surface* lobbySurface, struct Data* data, ImageCollector* myImageCollector, char type);
+
+/**
+ * Clean a plant and the currentPlant
+ * @param n int corresponding to the number of the plant
+ * @param field Pointer to field
+ */
+extern void removePlant(int n, field_t* field);
 
 #endif // FREE_PROJECT_ENGINE_GAME_PLANTS_H

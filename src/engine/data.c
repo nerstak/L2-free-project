@@ -11,7 +11,7 @@ static void clean_lobby_Data(lobby_t** lobby);
 static void clean_options_Data(options_t** options);
 static void clean_pauseMenu_Data(pauseMenu_t** pauseMenu);
 
-        extern Data* init_Data() {
+extern Data* init_Data() {
     // Initialization of a SceneCollector pointer
     Data* myData = NULL;
     myData = malloc(1 * sizeof(Data));
@@ -30,6 +30,8 @@ static void clean_pauseMenu_Data(pauseMenu_t** pauseMenu);
     myData->field = NULL;
     myData->options = NULL;
     myData->pauseMenu = NULL;
+    myData->entities = NULL;
+    myData->dyingEntities = NULL;
 
     //Loading of the reference
     myData->referenceItems = NULL;
@@ -73,7 +75,7 @@ extern void clean_Data(Data** myData) {
         freeReference(&((*myData)->referenceItems));
     }
     if((*myData)->Isaac != NULL) {
-        freePlayer(&((*myData)->Isaac));
+        free_Player(&((*myData)->Isaac));
     }
 
     free(*myData);
@@ -86,13 +88,20 @@ static void clean_mainMenu_Data(mainMenu_t** mainMenu) {
 }
 
 static void clean_inventory_Data(inventory_t** inventory) {
-    clean_Timer(&((*inventory)->timerMessage));
+    if((*inventory)->timerMessage != NULL) {
+        clean_Timer(&((*inventory)->timerMessage));
+    }
+
     (*inventory)->selected = NULL;
     free(*inventory);
     (*inventory) = NULL;
 }
 
 static void clean_shop_Data(shop_t** shop) {
+    if((*shop)->timerMessage != NULL) {
+        clean_Timer(&((*shop)->timerMessage));
+    }
+
     freeAll_SlotInventory(&((*shop)->shop_inv));
     (*shop)->selected = NULL;
     free(*shop);
@@ -100,27 +109,18 @@ static void clean_shop_Data(shop_t** shop) {
 }
 
 static void clean_field_Data(field_t** field) {
-    free((*field)->plantBotLeft);
-    (*field)->plantBotLeft = NULL;
-
-    free((*field)->plantBotRight);
-    (*field)->plantBotRight = NULL;
-
-    free((*field)->plantTopLeft);
-    (*field)->plantTopLeft = NULL;
-
-    free((*field)->plantTopRight);
-    (*field)->plantTopLeft = NULL;
+    freeField(field);
 }
 
 static void clean_lobby_Data(lobby_t** lobby) {
-    if((*lobby)->actualPlant != NULL) {
-        //TODO: UPDATE THE CLEANING
-        //clean_field_Data(&((*lobby)->actualPlant));
+    (*lobby)->actualPlant = NULL;
+
+    if((*lobby)->timerMessage != NULL) {
+        clean_Timer(&((*lobby)->timerMessage));
     }
 
     if((*lobby)->layout != NULL) {
-        freeSingleLayout(&((*lobby)->layout));
+        freeSingle_Layout(&((*lobby)->layout));
     }
 }
 
