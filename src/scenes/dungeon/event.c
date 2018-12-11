@@ -24,7 +24,7 @@ extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* da
                 int input = event.key.keysym.sym;
                 SWITCH(input)
                     CASE(SDLK_ESCAPE)
-                        data->stop = 0;
+                        data->dungeonScene->actionProcess = PAUSE;
                     BREAK
 
                     CASE(engine->keys->LEFT_ATTACK)
