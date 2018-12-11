@@ -30,6 +30,8 @@ extern Data* init_Data() {
     myData->field = NULL;
     myData->options = NULL;
     myData->pauseMenu = NULL;
+    myData->entities = NULL;
+    myData->dyingEntities = NULL;
 
     //Loading of the reference
     myData->referenceItems = NULL;

@@ -4,98 +4,7 @@
 
 #include "../../window.h"
 
-static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount);
-
 static SDL_Surface* getLobby(Engine* engine, Data* data);
-
-static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount) {
-    SDL_Surface* damageSpritesheet = get_ImageCollector(engine->imageCollector, "lobby/damageAmount")->surface;
-
-    int array[10];
-
-    for (int i = 0; i < 10; i += 1) {
-        array[i] = 27;
-    }
-
-    double left;
-    double right = modf(amount, &left);
-
-    int integer = (int) left;
-    int decimal = (int) (right * 10);
-
-    int i = 7;
-
-    while (integer != 0) {
-        array[i] = integer % 10;
-        i -= 1;
-
-        if (i == -1) {
-            break;
-        }
-
-        integer /= 10;
-    }
-
-    if (decimal > 0) {
-        array[8] = 25;
-        array[9] = decimal;
-    } else {
-        array[8] = 30;
-        array[9] = 30;
-    }
-
-    for (i = 0; i < 10; i += 1) {
-        switch(array[i]) {
-            case 27: {
-                break;
-            }
-
-            case 30: {
-                break;
-            }
-
-            case 25: {
-                SDL_Rect spriteOffset;
-                spriteOffset.w = 8;
-                spriteOffset.h = 16;
-                spriteOffset.x = 162;
-                spriteOffset.y = 0;
-
-                SDL_BlitSurface(damageSpritesheet, &spriteOffset, window, &offset);
-
-                offset.x += spriteOffset.w;
-
-                break;
-            }
-
-            case 1: {
-                SDL_Rect spriteOffset;
-                spriteOffset.w = 9;
-                spriteOffset.h = 16;
-                spriteOffset.x = 0;
-                spriteOffset.y = 0;
-
-                SDL_BlitSurface(damageSpritesheet, &spriteOffset, window, &offset);
-
-                offset.x += spriteOffset.w;
-
-                break;
-            }
-
-            default: {
-                SDL_Rect spriteOffset;
-                spriteOffset.w = 17;
-                spriteOffset.h = 16;
-                spriteOffset.x = (Sint16) (9 + 17 * (array[i] - 2));
-                spriteOffset.y = 0;
-
-                SDL_BlitSurface(damageSpritesheet, &spriteOffset, window, &offset);
-
-                offset.x += spriteOffset.w;
-            }
-        }
-    }
-}
 
 static SDL_Surface* getLobby(Engine* engine, Data* data) {
     SDL_Surface* lobbySurface = NULL;
@@ -108,35 +17,20 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     SDL_Surface* FightSprite=NULL;
 
-    SDL_Surface* BadGuy=NULL; // remove
-
-    SDL_Surface* DeadGuy=NULL;
-
     SDL_Surface* Hibox=NULL;
 
     SDL_Rect bgPos;
     SDL_Rect playerPos;
-    SDL_Rect monsterpos;
 
     bg = get_ImageCollector(engine->imageCollector, "lobby/bg")->surface;
     FightSprite = get_ImageCollector(engine->imageCollector, "lobby/scythe")->surface;
 
     Hibox= get_ImageCollector(engine->imageCollector, "lobby/hibox")->surface;
-    BadGuy = get_ImageCollector(engine->imageCollector, "lobby/moth")->surface;// remove
-    DeadGuy= get_ImageCollector(engine->imageCollector, "lobby/smoke")->surface;// remove
 
     bgPos.x = 0;
     bgPos.y = 0;
     playerPos.x = (Sint16) data->Isaac->movement->position->x;
     playerPos.y = (Sint16) data->Isaac->movement->position->y;
-
-    if(data->entities != NULL){
-        monsterpos.x = (Sint16) data->entities->data->movement->position->x; // remove
-        monsterpos.y = (Sint16) data->entities->data->movement->position->y;}
-
-    if(data->dyingEntities != NULL){
-        monsterpos.x = (Sint16) data->dyingEntities->data->movement->position->x; // remove
-        monsterpos.y = (Sint16) data->dyingEntities->data->movement->position->y;}
 
 
 
@@ -171,41 +65,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
             SDL_BlitSurface(FightSprite, data->Isaac->combat->spriteBox, lobbySurface, &playerPos);
         } else {
             SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
-        }
-    }
-
-    if (data->entities != NULL) {
-        SDL_BlitSurface(BadGuy, data->entities->data->movement->spriteBox, lobbySurface, &monsterpos);
-
-        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->entities->data->damageIndicatorQueue);
-        while (damageIndicator != NULL) {
-            renderDamageAmountIndicator(engine, data, lobbySurface, *damageIndicator->data->position, damageIndicator->data->amount);
-            damageIndicator = damageIndicator->next;
-        }
-    }
-
-    if (data->dyingEntities !=NULL){
-        if(data->dyingEntities->data->movement->animationStep<400){
-            SDL_BlitSurface(BadGuy, data->dyingEntities->data->movement->spriteBox, lobbySurface, &monsterpos);
-        }
-        SDL_Rect cloudpos,cloudsprite;
-        cloudpos.x= (data->dyingEntities->data->movement->hitBox->x+(data->dyingEntities->data->movement->hitBox->w/2))-96;
-        cloudpos.y= (data->dyingEntities->data->movement->hitBox->y+(data->dyingEntities->data->movement->hitBox->h/2))-96;
-
-
-        int step=(data->dyingEntities->data->movement->animationStep/50);
-        if(step>3 && step<16){step=3;}
-        if(step>15){step=19-step;}
-        cloudsprite.x= step * 192;
-        cloudsprite.y=0;
-        cloudsprite.h=192;
-        cloudsprite.w=192;
-        SDL_BlitSurface(DeadGuy, &cloudsprite, lobbySurface, &cloudpos);
-
-        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->dyingEntities->data->damageIndicatorQueue);
-        while (damageIndicator != NULL) {
-            renderDamageAmountIndicator(engine, data, lobbySurface, *damageIndicator->data->position, damageIndicator->data->amount);
-            damageIndicator = damageIndicator->next;
         }
     }
 

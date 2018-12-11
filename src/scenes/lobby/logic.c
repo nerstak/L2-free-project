@@ -24,7 +24,6 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
                 data->Isaac->combat->weaponHitBox->w=0;
             }
 
-            process_Entity(&(data->entities), data);
             movePlayer_Movement(data, data->lobby->layout->map);
         }
     } else {

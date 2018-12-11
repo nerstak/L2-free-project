@@ -39,11 +39,13 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         data->dungeonScene->moveTo = -1;
 
         data->Isaac->movement->position->x=608;
-        data->Isaac->movement->position->y=128;
+        data->Isaac->movement->position->y=6;
         data->Isaac->movement->direction=0;
         data->dungeonScene->askCombat=-2;
 
         loadDungeonsMap(engine, data);
+
+        append_EntityNode(init_EntityNode(MOTH),&(data->entities));
     } else {
         // TODO: Improve that part
         clean_Dungeon(&(data->dungeonScene->dungeon));

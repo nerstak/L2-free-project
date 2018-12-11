@@ -56,8 +56,8 @@ extern void ai_EMoth(Entity* e, Data* data) {
         processVelocity_Movement(&(e->movement->velocity->x), timeChange, (4 * fabs(cos(angle))), 0); //Dampens and caps velocity
         processVelocity_Movement(&(e->movement->velocity->y), timeChange, (4 * fabs(sin(angle))), 0);
 
-        e->movement->position->x += (rand()%3) - 1;
-        e->movement->position->y += (rand()%3) - 1;
+        e->movement->position->x += ((rand()%3) - 1) * (timeChange*0.12);
+        e->movement->position->y += ((rand()%3) - 1) * (timeChange*0.12);
 
     } else if(e->attackTimer->started) {
         cap_Timer(e->attackTimer,500);

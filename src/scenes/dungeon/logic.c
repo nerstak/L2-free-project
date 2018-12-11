@@ -70,7 +70,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 if(moveToNewRoom(engine, data, newCoord))
                 {
                     data->Isaac->movement->position->x=608;
-                    data->Isaac->movement->position->y=10;
+                    data->Isaac->movement->position->y=6;
                 }
 
                 break;
@@ -90,9 +90,6 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
         data->dungeonScene->moveTo = -1;
     }
-
-
-
     if(data->dungeonScene->askCombat!=-1)
     {
         ProcessCombat(data,&(data->dungeonScene->askCombat));
@@ -104,8 +101,9 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         data->Isaac->combat->weaponHitBox->h=0;
         data->Isaac->combat->weaponHitBox->w=0;
     }
-    movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
 
+    process_Entity(&(data->entities), data);
+    movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
 
     SDL_Rect door;
 
@@ -126,5 +124,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
     door.x=1224;
     enterdoor(&door,data->Isaac->movement->hitBox,data->dungeonScene,1); //RIGHT
+
+
 }
 

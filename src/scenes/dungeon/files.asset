@@ -10,6 +10,7 @@ src/resources/gfx/scenes/dungeon/ui/dungeon_map-room.png dungeon/mapRoom
 src/resources/gfx/scenes/dungeon/ui/dungeon_map-room-visited.png dungeon/mapRoomVisited
 src/resources/gfx/scenes/dungeon/ui/dungeon_map-room-current.png dungeon/mapRoomCurrent
 src/resources/gfx/scenes/dungeon/ui/dungeon_map-doors.png dungeon/mapDoors
+src/resources/gfx/scenes/dungeon/ui/damageAmount.png dungeon/damageAmount
 src/resources/gfx/dungeon/backgrounds/tomato.png dungeon/bgTomato
 src/resources/gfx/dungeon/elements/tomato/doors.png dungeon/tomatoDoors
 src/resources/gfx/dungeon/elements/tomato/hole.png dungeon/tomatoHole
@@ -17,4 +18,6 @@ src/resources/gfx/dungeon/elements/tomato/obstacle.png dungeon/tomatoObstacle
 src/resources/gfx/dungeon/elements/tomato/slow.png dungeon/tomatoSlow
 src/resources/gfx/player/sprites_hero.png dungeon/player
 src/resources/gfx/player/sprites_scythe.png dungeon/scythe
+src/resources/gfx/enemies/moth.png dungeon/moth
+src/resources/gfx/enemies/smoke.png dungeon/smoke
 src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox
