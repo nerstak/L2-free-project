@@ -4,10 +4,9 @@
 #include "layout.h"
 #include "player.h"
 
-extern Layout* loadSingleLayout(char* environment, char* name) {
+extern Layout* loadSingle_Layout(char* environment, char* name) {
     FILE* file;
     char path[50], line[60];
-    Coords* coords;
     Layout* room;
     char* temp;
 
@@ -16,7 +15,7 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
         sprintf(path,"src/data/lobby/%s.map",name);
     }
     else if(strcmp(environment,"dungeons") == 0) {
-        //TODO: Add dungeons
+        sprintf(path, "src/data/dungeons/%s", name);
     }
 
     file = fopen(path,"r");
@@ -36,7 +35,7 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
     //Reading name and size
     fscanf(file, "%24[^,],\n", room->name);
     temp = room->name;
-    room->name = realloc(room->name,strlen(room->name)+1);
+    room->name = realloc(room->name, (strlen(room->name)+1) * sizeof(char));
     if(room->name == NULL) {
         free(temp);
         return NULL;
@@ -59,19 +58,15 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
     strcpy(room->setMobs,"");
     fscanf(file, "SET_MOB=%15[^,],\n", room->setMobs);
     temp = room->setMobs;
-    room->setMobs = realloc(room->setMobs,strlen(room->setMobs)+1);
+    room->setMobs = realloc(room->setMobs, (strlen(room->setMobs)+1) * sizeof(char));
     if(room->setMobs == NULL) {
         free(temp);
         return NULL;
     }
 
-    room->Spawnable = calloc(sizeof(Coords),1);
-    for(int unsigned i = 0; i < strlen(room->setMobs)-1; i++) {
-        coords = realloc(room->Spawnable, i+1);
-        if(room->Spawnable == NULL) {
-            free(coords);
-        }
-        fscanf(file, "SPAWN %14[^:]: %d-%d,\n", room->Spawnable[i].type, &(room->Spawnable[i].x), &(room->Spawnable[i].y));
+    room->Spawnable = calloc(strlen(room->setMobs) - 1, sizeof(Coords));
+    for(int unsigned i = 0; i < strlen(room->setMobs) - 1; i++) {
+        fscanf(file, "SPAWN %14[^:]: %d-%d\n", room->Spawnable[i].type, &(room->Spawnable[i].x), &(room->Spawnable[i].y));
     }
 
     //Reading metadata of the map
@@ -89,7 +84,7 @@ extern Layout* loadSingleLayout(char* environment, char* name) {
     return room;
 }
 
-extern void freeSingleLayout(Layout** room) {
+extern void freeSingle_Layout(Layout** room) {
     //Free spawnable list
     free((*room)->Spawnable);
     (*room)->Spawnable = NULL;
@@ -111,11 +106,12 @@ extern void freeSingleLayout(Layout** room) {
     *room = NULL;
 }
 
-extern int checkTilesPlayer(Player* player, Layout* layout, char type, int radius, int deltaW, int deltaH, int* tileX, int* tileY) {
+extern int checkTilesPlayer_Layout(Player* player, Layout* layout, char type, int radius, int deltaW, int deltaH,
+                                   int* tileX, int* tileY) {
     int columns = layout->columns;
     int lines = layout->lines;
-    float posX = player->movement->pos->x;
-    float posY = player->movement->pos->y;
+    float posX = player->movement->position->x;
+    float posY = player->movement->position->y;
     int tempX, tempY;
 
     for(int i = -1; i <= 1; i++) {

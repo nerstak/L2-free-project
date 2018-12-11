@@ -20,7 +20,7 @@ extern void init_Scene_mainMenu(Engine* engine, Data* data, bool loadOrUnload) {
         data->mainMenu->askAction = 0;
 
         if(data->Isaac) {
-            freePlayer(&(data->Isaac));
+            free_Player(&(data->Isaac));
         }
         if(data->field) {
             freeField(&(data->field));

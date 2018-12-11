@@ -34,11 +34,12 @@ static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector
     bgPos.y = 0;
 
     SDL_BlitSurface(bgBlur, NULL, pauseMenu, &bgPos);
+    plantsBlit(pauseMenu, data, myImageCollector, 'b');
 
     if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
-        playerPos.x = data->Isaac->movement->pos->x;
-        playerPos.y = data->Isaac->movement->pos->y;
-        SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, pauseMenu, &playerPos);
+        playerPos.x = data->Isaac->movement->position->x;
+        playerPos.y = data->Isaac->movement->position->y;
+        SDL_BlitSurface(player, data->Isaac->movement->spriteBox, pauseMenu, &playerPos);
     }
 
 

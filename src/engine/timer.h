@@ -26,4 +26,7 @@ extern bool isPaused_Timer(Timer* myTimer);
 
 extern float getTime_Timer(Timer* myTimer);
 
+extern void cap_Timer(Timer * mytimer,int time);
+
+extern int lap_Timer(Timer * mytimer);
 #endif //FREE_PROJECT_ENGINE_TIMER_H

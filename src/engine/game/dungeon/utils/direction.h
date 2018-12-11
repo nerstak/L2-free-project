@@ -12,6 +12,9 @@
  * 4 Direction possible
  */
 
+// Reverted because of how our graph work
+typedef enum direction {NORTH = 2, EAST = 3, SOUTH = 0, WEST = 1} direction;
+
 typedef struct Direction {
     int code;
     int x;

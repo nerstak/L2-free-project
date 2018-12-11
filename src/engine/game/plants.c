@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "plants.h"
+#include "../collectors/image.h"
 #include "../data.h"
 
 
@@ -19,6 +20,8 @@ extern field_t* initField(){
      field->plantTopLeft = init_Plants(15,2);
      field->plantTopRight = init_Plants(17,2);
 
+     field->currentPlant = NULL;
+
      return field;
 }
 
@@ -29,6 +32,8 @@ extern void freeField(field_t** field) {
             freePlant(&((*field)->plantBotLeft));
             freePlant(&((*field)->plantTopRight));
             freePlant(&((*field)->plantTopLeft));
+
+            (*field)->currentPlant = NULL;
 
             free(*field);
             *field = NULL;
@@ -80,6 +85,66 @@ extern Plant* assignPlant(int n, field_t* field) {
         }
         default: {
             return NULL;
+        }
+    }
+}
+
+extern void plantsBlit(SDL_Surface* lobbySurface, Data* data, ImageCollector* myImageCollector, char type) {
+    SDL_Surface* plant = NULL;
+    SDL_Rect plantPos;
+    SDL_Rect plantSize;
+    Plant* currentPlant = NULL;
+
+    if(type == 'b') {
+        plant = get_ImageCollector(myImageCollector,"lobby/plants_blur")->surface;
+    } else {
+        plant = get_ImageCollector(myImageCollector,"lobby/plants")->surface;
+    }
+
+
+    plantSize.h = 64;
+    plantSize.w = 64;
+
+    for(int i = 0; i < 4; i++) {
+        currentPlant = assignPlant(i, data->field);
+        if(currentPlant) {
+            if(currentPlant->idVegetable != -1) {
+                plantSize.x = currentPlant->idVegetable * 64;
+                plantSize.y = (currentPlant->dayLeft)==0?64:0;
+
+                plantPos.x = currentPlant->x * 64;
+                plantPos.y = currentPlant->y * 64;
+
+                SDL_BlitSurface(plant, &plantSize, lobbySurface, &plantPos);
+            }
+        }
+    }
+}
+
+extern void removePlant(int n, field_t* field) {
+    if(field != NULL) {
+        switch(n) {
+            case 0: {
+                field->plantTopLeft->idVegetable = -1;
+                field->currentPlant = NULL;
+                break;
+            }
+            case 1: {
+                field->plantTopRight->idVegetable = -1;
+                field->currentPlant = NULL;
+                break;
+            }
+            case 2: {
+                field->plantBotLeft->idVegetable = -1;
+                field->currentPlant = NULL;
+                break;
+            }
+            case 3: {
+                field->plantBotRight->idVegetable = -1;
+                field->currentPlant = NULL;
+                break;
+            }
+            default: break;
         }
     }
 }

@@ -54,7 +54,12 @@ extern DungeonGenerator* init_DungeonGenerator(int seed) {
 }
 
 extern void clean_DungeonGenerator(DungeonGenerator** p) {
-
+    if ((*p) != NULL) {
+        // First we free the memory
+        free(*(p));
+        // We set the pointer to NULL by security
+        *(p) = NULL;
+    }
 }
 
 static Direction* chooseFreeEdge(DungeonGenerator* g, Room* room) {
@@ -217,7 +222,7 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
     KeyLevelRoomMapping* possibleGoalRooms = init_KeyLevelRoomMapping(1);
     possibleGoalRooms->length = 1;
     KeyLevelRoomMapping* rooms = getRooms_Dungeon(p->dungeon);
-    RoomList* temp = *getRooms(rooms, 0);
+    RoomList* temp = *getRooms_KeyLevelRoomMapping(rooms, 0);
 
     while (temp != NULL) {
         if (temp->data->childrenLength > 0 ||
@@ -256,7 +261,7 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
 
 static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
     KeyLevelRoomMapping* rooms = getRooms_Dungeon(p->dungeon);
-    RoomList* temp = *getRooms(rooms, 0);
+    RoomList* temp = *getRooms_KeyLevelRoomMapping(rooms, 0);
 
     while (temp != NULL) {
         if (isGoal_Room(temp->data) || isBoss_Room(temp->data)) {
@@ -335,7 +340,7 @@ static void computeIntensity_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomM
     for (int level = 0; level < keyCount_KeyLevelRoomMapping(levels); level += 1) {
         double intensity = nextLevelBaseIntensity * (1.0 - INTENSITY_EASE_OFF);
 
-        RoomList* temp = *getRooms(levels, level);
+        RoomList* temp = *getRooms_KeyLevelRoomMapping(levels, level);
 
         while (temp != NULL) {
             if (getParent_Room(temp->data) == NULL ||
@@ -360,7 +365,7 @@ static void placeKeys_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping*
 
         bool placedKey = false;
 
-        RoomList* temp = *getRooms(levels, level);
+        RoomList* temp = *getRooms_KeyLevelRoomMapping(levels, level);
 
         while (temp != NULL) {
             if (getItem_Room(temp->data) == NULL) {
