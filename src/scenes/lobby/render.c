@@ -44,23 +44,19 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
     SDL_Color brown = {55, 25, 17, 0};
 
     if(data->lobby->actionProcess == NONE){
-        bg = get_ImageCollector(myImageCollector, "lobby/bg")->surface;
-        PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player")->surface;
+        bg = get_ImageCollector(engine->imageCollector, "lobby/bg")->surface;
+        PlayerSprite = get_ImageCollector(engine->imageCollector, "lobby/player")->surface;
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-        plantsBlit(lobbySurface, data, myImageCollector, 'c');
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
+        plantsBlit(lobbySurface, data, engine->imageCollector, 'c');
+        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
     }else{
-        bg = get_ImageCollector(myImageCollector, "lobby/bg_flou")->surface;
-        PlayerSprite = get_ImageCollector(myImageCollector, "lobby/player_flou")->surface;
-
-        SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-        plantsBlit(lobbySurface, data, myImageCollector, 'b');
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->SpriteBox, lobbySurface, &playerPos);
-    }
-    else{
         bg = get_ImageCollector(engine->imageCollector, "lobby/bg_flou")->surface;
         PlayerSprite = get_ImageCollector(engine->imageCollector, "lobby/player_flou")->surface;
+
+        SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
+        plantsBlit(lobbySurface, data, engine->imageCollector, 'b');
+        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
     }
 
     SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
@@ -238,8 +234,8 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
     if(data->lobby->tutorial == 1 || data->lobby->tutorial == 3) {
         char name1[10], name2[10], name3[10], name4[10];
         SDL_Color black = {0, 0, 0, 0};
-        TTF_Font* font1 = get_FontCollector(myFontCollector, "menu/25")->font;
-        dialogBox = get_ImageCollector(myImageCollector, "lobby/dialog")->surface;
+        TTF_Font* font1 = get_FontCollector(engine->fontCollector, "menu/25")->font;
+        dialogBox = get_ImageCollector(engine->fontCollector, "lobby/dialog")->surface;
 
         dialogBoxPos.x = 135;
         dialogBoxPos.y = 541;

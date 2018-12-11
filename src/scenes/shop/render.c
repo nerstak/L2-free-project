@@ -78,9 +78,9 @@ static void backgroundBlit(Data* data, Engine* engine, ImageCollector* myImageCo
     plantsBlit(shop, data, myImageCollector, 'b');
 
     if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
-        playerPos.x = data->Isaac->movement->pos->x;
-        playerPos.y = data->Isaac->movement->pos->y;
-        SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, shop, &playerPos);
+        playerPos.x = data->Isaac->movement->position->x;
+        playerPos.y = data->Isaac->movement->position->y;
+        SDL_BlitSurface(player, data->Isaac->movement->spriteBox, shop, &playerPos);
     }
 
     SDL_BlitSurface(layout, NULL, shop, &layoutPos);
@@ -287,7 +287,7 @@ static void framesBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface
     frameSelected = get_ImageCollector(myImageCollector, "shop/frameSelected")->surface;
 
     //Frames inventory blit
-    for(int i = 0; i < data->Isaac->size_inventory; i++) {
+    for(int i = 0; i < data->Isaac->sizeInventory; i++) {
         framePos.x = 47 + (i % 4) * 123;
         framePos.y = 118 + (i / 4) * 108;
         if(i == data->shop->nSelected) {
@@ -322,7 +322,7 @@ static void itemsBlit(Data* data, ImageCollector* myImageCollector, SDL_Surface*
     itemSize.h = 64;
     itemSize.w = 64;
     tempItem = data->Isaac->inventory;
-    for(int i = 0; i < data->Isaac->size_inventory; i++) {
+    for(int i = 0; i < data->Isaac->sizeInventory; i++) {
         if(tempItem) {
             itemSize.x = (tempItem->id % 5) * 64;
             itemSize.y = (tempItem->id / 5) * 64;

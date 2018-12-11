@@ -42,18 +42,17 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
     font1 = get_FontCollector(myFontCollector, "menu/20")->font;
     SDL_Color black = {0, 0, 0, 0};
 
-
     //Background blit
     bgPos.x = 0;
     bgPos.y = 0;
 
+    SDL_BlitSurface(bgBlur, NULL, options, &bgPos);
+
     if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
-        SDL_BlitSurface(bgBlur, NULL, options, &bgPos);
-        
-        playerPos.x = data->Isaac->movement->pos->x;
-        playerPos.y = data->Isaac->movement->pos->y;
+        playerPos.x = data->Isaac->movement->position->x;
+        playerPos.y = data->Isaac->movement->position->y;
         plantsBlit(options, data, myImageCollector, 'b');
-        SDL_BlitSurface(player, data->Isaac->movement->SpriteBox, options, &playerPos);
+        SDL_BlitSurface(player, data->Isaac->movement->spriteBox, options, &playerPos);
     }
 
     SDL_BlitSurface(bg, NULL, options, &bgPos);

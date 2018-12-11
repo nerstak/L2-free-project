@@ -22,6 +22,7 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
             switch (event.type) {
                 case SDL_KEYDOWN: {
                     int input = event.key.keysym.sym;
+
                     if(data->lobby->tutorial == 0) {
                         // Key pressed
                         SWITCH(input)
@@ -29,47 +30,48 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                                 data->lobby->askAction = INVENTORY;
                             BREAK
 
-                    CASE(engine->keys->SELECT)
-                        data->lobby->askAction = SELECT;
-                    BREAK
+                            CASE(engine->keys->SELECT)
+                                data->lobby->askAction = SELECT;
+                            BREAK
 
-                    CASE(engine->keys->LEFT_ATTACK)
-                        if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
-                            data->lobby->askCombat = 3;
-                        }
+                            CASE(engine->keys->LEFT_ATTACK)
+                                if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
+                                    data->lobby->askCombat = 3;
+                                }
 
-                        data->lobby->askAction = LEFT;
-                    BREAK
+                                data->lobby->askAction = LEFT;
+                            BREAK
 
-                    CASE(engine->keys->RIGHT_ATTACK)
-                        if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
-                            data->lobby->askCombat = 2;
-                        }
+                            CASE(engine->keys->RIGHT_ATTACK)
+                                if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
+                                    data->lobby->askCombat = 2;
+                                }
 
-                        data->lobby->askAction = RIGHT;
-                    BREAK
+                                data->lobby->askAction = RIGHT;
+                            BREAK
 
-                    CASE(engine->keys->UP_ATTACK)
-                        if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
-                            data->lobby->askCombat = 1;
-                        }
-                    BREAK
+                            CASE(engine->keys->UP_ATTACK)
+                                if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
+                                    data->lobby->askCombat = 1;
+                                }
+                            BREAK
 
-                    CASE(engine->keys->DOWN_ATTACK)
-                        if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
-                            data->lobby->askCombat = 0;
-                        }
-                    BREAK
+                            CASE(engine->keys->DOWN_ATTACK)
+                                if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
+                                    data->lobby->askCombat = 0;
+                                }
+                            BREAK
 
-                    CASE(SDLK_ESCAPE)
-                        data->lobby->actionProcess = PAUSE;
-                    BREAK
-                    ENDSWITCH
+                            CASE(SDLK_ESCAPE)
+                                data->lobby->actionProcess = PAUSE;
+                            BREAK
+                        ENDSWITCH
                     }
                     
                     if (SDLK_ESCAPE == input) {
                         data->lobby->actionProcess = PAUSE;
                     }
+
                     break;
                 }
                 case SDL_QUIT: {
@@ -98,5 +100,4 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
         }
 
         processTutorial(data, Vchange);
-
 }

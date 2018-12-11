@@ -27,7 +27,7 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         data->lobby->timerMessage = init_Timer();
         if(data->Isaac->day == 0) {
             // Display introduction & tutorial
-            alterSpeed(data->Isaac, (float) (- data->Isaac->stats->basic->speed * 0.3), 'c');
+            alterSpeed_Player(data->Isaac, (float) (- data->Isaac->stats->basic->speed * 0.3), 'c');
             data->lobby->tutorial = 1;
             start_Timer(data->lobby->timerMessage);
         } else {
@@ -35,8 +35,8 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         }
 
 
-        data->Isaac->movement->pos->x = 50;
-        data->Isaac->movement->pos->y = 384;
+        data->Isaac->movement->position->x = 50;
+        data->Isaac->movement->position->y = 384;
 
     } else {
         freeSingle_Layout(&(data->lobby->layout));

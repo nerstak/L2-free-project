@@ -273,13 +273,13 @@ extern void checkBound_Movement(Data* data, int w, int h, int deltaW, int deltaH
     if((xPos + Vx) < deltaW || (xPos + Vx) > (w - data->Isaac->movement->spriteBox->w + deltaW)) {
         data->Isaac->movement->velocity->x = 0;
     }
-    if((Ypos + Vy + data->Isaac->movement->SpriteBox->h) < (deltaH) || (Ypos + Vy) >(h - data->Isaac->movement->SpriteBox->h + deltaH)) {
+    if((yPos + Vy + data->Isaac->movement->spriteBox->h) < (deltaH) || (yPos + Vy) >(h - data->Isaac->movement->spriteBox->h + deltaH)) {
         data->Isaac->movement->velocity->y = 0;
     }
 }
 
 extern int automaticAskMovement(Data* data, float Vchange, int x_toGO, int y_toGO) {
-    coordinates_entity* posPlayer = data->Isaac->movement->pos;
+    Coordinate* posPlayer = data->Isaac->movement->position;
     if(posPlayer->y > (y_toGO + 5) || posPlayer->y < (y_toGO - 5) || posPlayer->x > (x_toGO + 25) || posPlayer->x < (x_toGO - 25)) {
         if(posPlayer->x > (x_toGO + 25) || posPlayer->x < (x_toGO - 25)) {
             if(posPlayer->x > x_toGO) {
