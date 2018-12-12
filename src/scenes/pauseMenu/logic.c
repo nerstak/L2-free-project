@@ -9,14 +9,14 @@ extern void logicProcess_Scene_pauseMenu(Engine* engine, Data* data) {
         data->pauseMenu->askAction = 0;
     }else{
         if(data->pauseMenu->position == 0 || data->pauseMenu->backGame == 1) {
-            playEffect(engine->soundCollector, "loading/leave_menu");
+            playEffect(engine->soundCollector, "loading/leave_menu",0 );
             display_SceneCollector(engine, data, engine->sceneCollector->previousScene->name);
         } else if (data->pauseMenu->position == 1) {
             data->pauseMenu->askAction = 0;
-            playEffect(engine->soundCollector, "pause/confirm_button");
+            playEffect(engine->soundCollector, "pause/confirm_button",0);
             display_SceneCollector(engine, data, "options");
         } else if (data->pauseMenu->position == 2) {
-            playEffect(engine->soundCollector, "loading/leave_menu");
+            playEffect(engine->soundCollector, "loading/leave_menu",0);
             display_SceneCollector(engine, data, "mainMenu");
         }
     }
@@ -27,14 +27,14 @@ static void moveCursor(Engine* engine, Data* data) {
         case -10: {
             if(data->pauseMenu->position != 0) {
                 data->pauseMenu->position--;
-                playEffect(engine->soundCollector, "pause/move_button");
+                playEffect(engine->soundCollector, "pause/move_button",0);
             }
             break;
         }
         case 10: {
             if(data->pauseMenu->position != 2) {
                 data->pauseMenu->position++;
-                playEffect(engine->soundCollector, "pause/move_button");
+                playEffect(engine->soundCollector, "pause/move_button",0);
             }
             break;
         }

@@ -310,3 +310,4 @@ extern void setPlayerHitBox_Movement(MovementValues* move)
     move->hitBox->x = (Sint16) (move->position->x);
     move->hitBox->y = (Sint16) (move->position->y + 32);
 }
+

@@ -3,12 +3,13 @@
 
 #include <stdbool.h>
 #include "../data.h"
+#include "../main.h"
 
-extern void ProcessCombat(Data * data, int * direction);
+extern void ProcessCombat(Engine* engine, Data* data, int* direction);
 
 extern void CombatAnimation(CombatValues * combat,int time,int agility);
 
-extern void CombatSprite(CombatValues * combat);
+extern void CombatSprite(CombatValues* combat, Engine* engine);
 
 extern void SetCombatHitbox(Player * Isaac);
 

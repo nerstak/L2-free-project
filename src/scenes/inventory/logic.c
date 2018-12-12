@@ -31,7 +31,7 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
             data->inventory->askAction = I_NONE;
         } else if(action == I_LEAVE) {
             data->inventory->askAction = I_NONE;
-            playEffect(engine->soundCollector, "loading/leave_menu");
+            playEffect(engine->soundCollector, "loading/leave_menu", 0);
             display_SceneCollector(engine, data, engine->sceneCollector->previousScene->name);
         }
     }
@@ -93,7 +93,7 @@ static void moveInventorySelector(Engine* engine, Data* data) {
         }
     }
     if(moved == 1) {
-        playEffect(engine->soundCollector, "inventory/move_button");
+        playEffect(engine->soundCollector, "inventory/move_button", 0);
     }
 }
 
@@ -138,7 +138,7 @@ static void applyEffect(Engine* engine, Data* data) {
     int use = 0;
     switch(current->type) {
         case 'p': {
-            playEffect(engine->soundCollector, "inventory/drink");
+            playEffect(engine->soundCollector, "player/drink", 0);
             if(current->id - 12 >= 0 && current->id - 12 < 6) {
                 if(data->Isaac->stats->potionsUsed[current->id - 12] == 0) {
                     use = 1;
@@ -160,7 +160,7 @@ static void applyEffect(Engine* engine, Data* data) {
             break;
         }
         case 'v': {
-            playEffect(engine->soundCollector, "inventory/eat");
+            playEffect(engine->soundCollector, "player/eat", 0);
             alterHealth_Player(data->Isaac, current->characteristics->health * data->Isaac->stats->basic->health, 'b');
             alterAgility_Player(data->Isaac, current->characteristics->agility * data->Isaac->stats->basic->agility,
                                 'b');
@@ -189,7 +189,7 @@ static void moveDeleteCursor(Engine* engine, Data* data) {
                     data->inventory->askDeletion = 1;
                     moved = 1;
                 } else if(data->inventory->askAction == I_ENTER) {
-                    playEffect(engine->soundCollector, "inventory/confirm_button");
+                    playEffect(engine->soundCollector, "inventory/confirm_button", 0);
                     data->inventory->askDeletion = -1;
                 }
                 break;
@@ -200,7 +200,7 @@ static void moveDeleteCursor(Engine* engine, Data* data) {
                     data->inventory->askDeletion = 0;
                     moved = 1;
                 } else if(data->inventory->askAction == I_ENTER) {
-                    playEffect(engine->soundCollector, "inventory/confirm2_button");
+                    playEffect(engine->soundCollector, "inventory/confirm2_button", 0);
                     data->inventory->askDeletion = 2;
                 }
                 break;
@@ -214,6 +214,6 @@ static void moveDeleteCursor(Engine* engine, Data* data) {
         }
     }
     if(moved == 1) {
-        playEffect(engine->soundCollector, "inventory/move_button");
+        playEffect(engine->soundCollector, "inventory/move_button", 0);
     }
 }

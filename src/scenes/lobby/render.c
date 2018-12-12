@@ -49,17 +49,13 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
         plantsBlit(lobbySurface, data, engine->imageCollector, 'c');
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
     }else{
         bg = get_ImageCollector(engine->imageCollector, "lobby/bg_flou")->surface;
         PlayerSprite = get_ImageCollector(engine->imageCollector, "lobby/player_flou")->surface;
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
         plantsBlit(lobbySurface, data, engine->imageCollector, 'b');
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
     }
-
-    SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
 
     bool invisible=false;
 
@@ -235,7 +231,7 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         char name1[10], name2[10], name3[10], name4[10];
         SDL_Color black = {0, 0, 0, 0};
         TTF_Font* font1 = get_FontCollector(engine->fontCollector, "menu/25")->font;
-        dialogBox = get_ImageCollector(engine->fontCollector, "lobby/dialog")->surface;
+        dialogBox = get_ImageCollector(engine->imageCollector, "lobby/dialog")->surface;
 
         dialogBoxPos.x = 135;
         dialogBoxPos.y = 541;

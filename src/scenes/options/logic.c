@@ -20,7 +20,7 @@ extern void logicProcess_Scene_options(Engine* engine, Data* data) {
         alterKey(engine, data);
     }else if(data->options->askAction == O_LEAVE) {
         writeConfig(engine);
-        playEffect(engine->soundCollector, "loading/leave_menu");
+        playEffect(engine->soundCollector, "loading/leave_menu", 0);
         if(engine->sceneCollector->previousOverlay == NULL) {
             display_SceneCollector(engine, data, engine->sceneCollector->previousScene->name);
         }else {
@@ -77,7 +77,7 @@ static void moveCursorOptions(Engine* engine, Data* data) {
         case O_ENTER: {
             if(data->options->nTypeSelected == 3) {
                 data->options->isKeyChanging = 1;
-                playEffect(engine->soundCollector, "options/confirm_button");
+                playEffect(engine->soundCollector, "options/confirm_button", 0);
             }
             break;
         }
@@ -86,7 +86,7 @@ static void moveCursorOptions(Engine* engine, Data* data) {
     }
     data->options->askAction = O_NONE;
     if(moved == 1) {
-        playEffect(engine->soundCollector, "options/move_button");
+        playEffect(engine->soundCollector, "options/move_button", 0);
     }
 }
 
@@ -235,7 +235,7 @@ static void alterKey(Engine* engine, Data* data) {
         alterKeyID(engine->keys, data->options->nSelected, data->options->newKey);
         data->options->newKey = -1;
         data->options->isKeyChanging = 0;
-        playEffect(engine->soundCollector, "options/confirm2_button");
+        playEffect(engine->soundCollector, "options/confirm2_button", 0);
     }
     data->options->askAction = O_NONE;
 }

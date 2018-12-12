@@ -92,7 +92,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
     }
     if(data->dungeonScene->askCombat!=-1)
     {
-        ProcessCombat(data,&(data->dungeonScene->askCombat));
+        ProcessCombat(engine, data, &(data->dungeonScene->askCombat));
     }
     else
     {

@@ -9,5 +9,5 @@ src/resources/gfx/player/sprites_hero_flou.png inventory/player_blur
 src/resources/sfx/UI/move_button.wav inventory/move_button
 src/resources/sfx/UI/confirm_button.wav inventory/confirm_button
 src/resources/sfx/UI/confirm2_button.wav inventory/confirm2_button
-src/resources/sfx/player/eat.wav inventory/eat
-src/resources/sfx/player/drink.wav inventory/drink
+src/resources/sfx/player/eat.wav player/eat
+src/resources/sfx/player/drink.wav player/drink

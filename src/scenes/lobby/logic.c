@@ -4,6 +4,7 @@
 #include "../../engine/game/combat.h"
 
 static void processTimer(Engine* engine, Data* data);
+static void playStep(Engine* engine, Player* player);
 
 extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
     if(data->lobby->actionProcess == NONE){
@@ -14,7 +15,7 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
         }else {
             if(data->lobby->askCombat!=-1)
             {
-                ProcessCombat(data,&(data->lobby->askCombat));
+                ProcessCombat(engine, data, &(data->lobby->askCombat));
             }
             else
             {
@@ -25,6 +26,7 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             }
 
             movePlayer_Movement(data, data->lobby->layout->map);
+            playStep(engine, data->Isaac);
         }
     } else {
         stopVelocity_Movement(data->Isaac->movement);
@@ -68,4 +70,17 @@ static void processTimer(Engine* engine, Data* data) {
             }
         }
     }
+}
+
+static void playStep(Engine* engine, Player* player) {
+    if((player->movement->velocity->x > 10 || player->movement->velocity->x < -10 || player->movement->velocity->y > 10 || player->movement->velocity->y < -10) && player->movement->stepChannel == -1 && player->combat->animationStep == 0) {
+        player->movement->stepChannel = playEffect(engine->soundCollector, "player/step_grass_run", -1);
+    }
+    if((!player->movement->velocity->x && !player->movement->velocity->y && player->movement->stepChannel != -1) || player->combat->animationStep != 0) {
+        if(player->movement->stepChannel >= 0) {
+            stopEffect(player->movement->stepChannel);
+        }
+        player->movement->stepChannel = -1;
+    }
+    printf("%f %f\n",player->movement->velocity->x, player->movement->velocity->y);
 }

@@ -26,7 +26,7 @@ extern void logicProcess_Scene_shop(Engine* engine, Data* data) {
         data->shop->askAction = I_NONE;
     } else if (action == I_LEAVE) {
         data->shop->askAction = I_NONE;
-        playEffect(engine->soundCollector, "loading/leave_menu");
+        playEffect(engine->soundCollector, "loading/leave_menu",0);
         display_SceneCollector(engine, data, "lobby");
     }
 
@@ -149,7 +149,7 @@ static void moveShopSelector(Engine* engine,Data* data) {
             break;
     }
     if(moved == 1) {
-        playEffect(engine->soundCollector, "shop/move_button");
+        playEffect(engine->soundCollector, "shop/move_button",0);
     }
 }
 
@@ -177,9 +177,9 @@ static void buy_item(Engine* engine, Data* data, SlotInventory* itemBuying, int 
     if(j != 0) {
         sprintf(data->shop->messageAction, "You bought %d %s!", j, nameItem);
         start_Timer(data->shop->timerMessage);
-        playEffect(engine->soundCollector, "shop/transaction");
+        playEffect(engine->soundCollector, "shop/transaction",0);
     } else {
-        playEffect(engine->soundCollector, "shop/confirm_button");
+        playEffect(engine->soundCollector, "shop/confirm_button",0);
     }
 }
 
@@ -215,9 +215,9 @@ static void sell_item(Engine* engine, Data* data, SlotInventory* itemSelling, in
     if(i != 0) {
         sprintf(data->shop->messageAction, "You sold %d %s!", i, nameItem);
         start_Timer(data->shop->timerMessage);
-        playEffect(engine->soundCollector, "shop/transaction");
+        playEffect(engine->soundCollector, "shop/transaction",0);
     } else {
-        playEffect(engine->soundCollector, "shop/confirm_button");
+        playEffect(engine->soundCollector, "shop/confirm_button",0);
     }
 }
 
@@ -242,7 +242,7 @@ static void moveConfirmCursor(Engine* engine, Data* data) {
                 }else if(data->shop->askAction == 5) {
                     data->shop->askTransaction = -1;
                     data->shop->itemsInTransaction = 0;
-                    playEffect(engine->soundCollector, "shop/confirm_button");
+                    playEffect(engine->soundCollector, "shop/confirm_button",0);
                 }
                 break;
             }
@@ -286,6 +286,6 @@ static void moveConfirmCursor(Engine* engine, Data* data) {
         }
     }
     if(moved == 1) {
-        playEffect(engine->soundCollector, "shop/move_button");
+        playEffect(engine->soundCollector, "shop/move_button",0);
     }
 }

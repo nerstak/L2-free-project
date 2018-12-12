@@ -16,4 +16,6 @@ src/resources/musics/lobby_Theme.wav lobby/main_theme
 src/resources/sfx/UI/move_button.wav lobby/move_button
 src/resources/sfx/UI/confirm_button.wav lobby/confirm_button
 src/resources/sfx/UI/new_day.wav lobby/new_day
-src/resources/sfx/player/plant.wav lobby/plant
+src/resources/sfx/player/plant.wav player/plant
+src/resources/sfx/player/woosh.wav player/woosh
+src/resources/sfx/player/step_grass_run.wav player/step_grass_run

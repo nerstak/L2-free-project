@@ -40,6 +40,7 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
 
         playMusic(engine->soundCollector, "lobby/main_theme");
     } else {
+        stopMusic();
         freeSingle_Layout(&(data->lobby->layout));
         cleanList_Entity(&(data->entities));
         free(data->lobby);

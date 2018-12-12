@@ -4,20 +4,22 @@
 #include <SDL/SDL.h>
 
 #include "../data.h"
+#include "../main.h"
 #include "combat.h"
 
-extern void ProcessCombat(Data * data, int *direction)
+extern void ProcessCombat(Engine* engine, Data* data, int* direction)
 {
     if(*direction!=-2) {
         data->Isaac->combat->direction = *direction;
         if (data->Isaac->combat->animationStep == 0) {
             start_Timer(data->Isaac->combat->timeSince);     // Timer to get the time since the last frame of movement
+            playEffect(engine->soundCollector, "player/woosh", 0);
         }
 
         CombatAnimation(data->Isaac->combat, getTicks_Timer(data->Isaac->combat->timeSince) + 1,
-                        data->Isaac->stats->current->agility);
+                        (int) data->Isaac->stats->current->agility);
 
-        CombatSprite(data->Isaac->combat);
+        CombatSprite(data->Isaac->combat, engine);
 
         SetCombatHitbox(data->Isaac);
     }
@@ -39,7 +41,7 @@ extern void CombatAnimation(CombatValues * combat,int time,int agility)
 }
 
 
-extern void CombatSprite(CombatValues * combat)
+extern void CombatSprite(CombatValues* combat, Engine* engine)
 {
     int xSelect,ySelect;
     ySelect=combat->direction;

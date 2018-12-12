@@ -315,15 +315,16 @@ extern int playMusic(SoundCollector* p, const char name[]) {
     return 0;
 }
 
-extern int playEffect(SoundCollector* p, const char name[]) {
+extern int playEffect(SoundCollector* p, const char name[], int nbTimes) {
     AudioElement* current = get_SoundCollector(p, name);
 
-    if(Mix_PlayChannel(-1, current->sound->src, 0) != -1) {
-        return 1;
-    }
-    return 0;
+    return Mix_PlayChannel(-1, current->sound->src, nbTimes);
 }
 
 extern int stopMusic() {
     return Mix_FadeOutMusic(0);
+}
+
+extern int stopEffect(int channel) {
+    return Mix_FadeOutChannel(channel, 0);
 }
