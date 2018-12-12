@@ -26,6 +26,8 @@ static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector
     if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
         bgBlur = get_ImageCollector(myImageCollector, "pause/lobby_blur")->surface;
         player = get_ImageCollector(myImageCollector, "pause/player_blur")->surface;
+    } else if (strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
+        bgBlur = data->dungeonScene->pauseBg;
     }
 
 
@@ -35,14 +37,17 @@ static SDL_Surface* getPauseMenu(ImageCollector* myImageCollector, FontCollector
 
     SDL_BlitSurface(bgBlur, NULL, pauseMenu, &bgPos);
 
-    if(strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
+    if (strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
         plantsBlit(pauseMenu, data, myImageCollector, 'b');
 
         playerPos.x = data->Isaac->movement->position->x;
         playerPos.y = data->Isaac->movement->position->y;
         SDL_BlitSurface(player, data->Isaac->movement->spriteBox, pauseMenu, &playerPos);
-    }
+    } else if (strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
+        SDL_Surface* overlay = get_ImageCollector(engine->imageCollector, "pause/overlay")->surface;
 
+        SDL_BlitSurface(overlay, NULL, pauseMenu, &bgPos);
+    }
 
     SDL_BlitSurface(bg, NULL, pauseMenu, &bgPos);
 

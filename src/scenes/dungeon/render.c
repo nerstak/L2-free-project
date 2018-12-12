@@ -684,4 +684,6 @@ extern void renderScene_Scene_dungeon(SDL_Surface* window, Engine* engine, Data*
 
     renderUI(window, engine, data);
     renderMap(window, engine, data);
+
+    SDL_BlitSurface(window, NULL, data->dungeonScene->pauseBg, NULL);
 }

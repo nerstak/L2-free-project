@@ -1,6 +1,7 @@
 src/resources/gfx/scenes/options/options.png options/main_bg
 src/resources/gfx/scenes/options/selection.png options/selection
 src/resources/gfx/scenes/options/current.png options/current
+src/resources/gfx/scenes/pauseMenu/overlay.png pause/overlay
 src/resources/gfx/scenes/mainMenu/main_bg_blur.png options/mainMenu_blur
 src/resources/gfx/scenes/lobby/lobby_bg_flou.png options/lobby_blur
 src/resources/gfx/player/sprites_hero_flou.png options/player_blur
