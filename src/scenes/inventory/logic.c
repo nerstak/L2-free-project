@@ -150,20 +150,16 @@ static void applyEffect(Engine* engine, Data* data) {
             if(use == 1) {
                 //The health potions give back a certain amount of health, not depending of the player stat
                 alterHealth_Player(data->Isaac, current->characteristics->health, 'c');
-                alterAgility_Player(data->Isaac,
-                                    current->characteristics->agility * data->Isaac->stats->current->agility, 'c');
-                alterSpeed_Player(data->Isaac, current->characteristics->speed * data->Isaac->stats->current->speed,
-                                  'c');
-                alterDamage_Player(data->Isaac, current->characteristics->damage * data->Isaac->stats->current->damage,
-                                   'c');
+                alterAgility_Player(data->Isaac, current->characteristics->agility * data->Isaac->stats->current->agility, 'c');
+                alterSpeed_Player(data->Isaac, current->characteristics->speed * data->Isaac->stats->current->speed, 'c');
+                alterDamage_Player(data->Isaac, current->characteristics->damage * data->Isaac->stats->current->damage, 'c');
             }
             break;
         }
         case 'v': {
             playEffect(engine->soundCollector, "player/eat", 0);
             alterHealth_Player(data->Isaac, current->characteristics->health * data->Isaac->stats->basic->health, 'b');
-            alterAgility_Player(data->Isaac, current->characteristics->agility * data->Isaac->stats->basic->agility,
-                                'b');
+            alterAgility_Player(data->Isaac, current->characteristics->agility * data->Isaac->stats->basic->agility,'b');
             alterSpeed_Player(data->Isaac, current->characteristics->speed * data->Isaac->stats->basic->speed, 'b');
             alterDamage_Player(data->Isaac, current->characteristics->damage * data->Isaac->stats->basic->damage, 'b');
             break;

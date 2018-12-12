@@ -26,6 +26,7 @@ extern void clean_Weapon(Weapon** p);
 typedef struct CombatValues {
     int animationStep;
     int direction;
+    int damageJustTaken;
     SDL_Rect* spriteBox;
     SDL_Rect* weaponHitBox;
     Timer* timeSince;

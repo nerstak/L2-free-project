@@ -24,7 +24,7 @@ extern EntityList* init_EntityNode(int type) {
             result->entity = init_EMoth();
 
             result->health = 5;
-            result->damage = 0;
+            result->damage = 1;
             result->speed = 1;
 
             result->movement = init_Movement();
@@ -330,10 +330,12 @@ extern EntityList* cloudList_Entity(EntityList* list){
 extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
     if (BoxCollision(e->movement->hitBox, data->Isaac->movement->hitBox)) {
         knockBack_Entity(e, data, -1, x, y,NULL);
+        data->Isaac->combat->damageJustTaken = 0;
 
         if (data->Isaac->invulnerabilityTimer->started == false) {
             start_Timer(data->Isaac->invulnerabilityTimer);
-            alterHealth_Player(data->Isaac, e->damage, 'c');
+            alterHealth_Player(data->Isaac, - e->damage, 'c');
+            data->Isaac->combat->damageJustTaken = 1;
         }
     }
 

@@ -152,6 +152,7 @@ extern Player* init_Player() {
     Isaac->combat = init_Combat();
     Isaac->combat->direction=-1;
     Isaac->combat->animationStep=0;
+    Isaac->combat->damageJustTaken = 0;
 
     return Isaac;
 }
@@ -239,6 +240,7 @@ extern void alterHealth_Player(Player* Isaac, float alterHealth, char type) {
             if (Isaac->stats->basic->health <= 0) {
                 Isaac->stats->basic->health = 0;
             }
+            Isaac->stats->current->health = Isaac->stats->basic->health;
             break;
         }
         default: break;
@@ -268,6 +270,7 @@ extern void alterSpeed_Player(Player* Isaac, float alterSpeed, char type) {
             if (Isaac->stats->basic->speed <= 0) {
                 Isaac->stats->basic->speed = 0;
             }
+            Isaac->stats->current->speed = Isaac->stats->basic->speed;
             break;
         }
         default: break;
@@ -297,6 +300,8 @@ extern void alterAgility_Player(Player* Isaac, float alterAgility, char type) {
             if (Isaac->stats->basic->agility <= 0) {
                 Isaac->stats->basic->agility = 0;
             }
+            Isaac->stats->current->agility = Isaac->stats->basic->agility;
+            break;
         }
         default: break;
     }
@@ -325,6 +330,8 @@ extern void alterDamage_Player(Player* Isaac, float alterDamage, char type) {
             if (Isaac->stats->basic->damage <= 0) {
                 Isaac->stats->basic->damage = 0;
             }
+            Isaac->stats->current->damage = Isaac->stats->basic->damage;
+            break;
         }
         default: break;
     }

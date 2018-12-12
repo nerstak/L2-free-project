@@ -15,7 +15,6 @@ extern E_Moth* init_EMoth() {
     }
 
     // Default value
-
     return result;
 }
 

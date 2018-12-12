@@ -24,3 +24,4 @@ src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox
 src/resources/sfx/player/woosh.wav player/woosh
 src/resources/musics/dungeon_Theme.wav dungeon/main_theme
 src/resources/sfx/player/step_dungeon_run.wav player/step_dungeon_run
+src/resources/sfx/player/pain.wav player/pain

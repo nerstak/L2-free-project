@@ -4,6 +4,7 @@
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord);
 static void playStep(Engine* engine, Player* player);
+static void playDamage(Engine* engine, Player* player);
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
     TreeMapNode* node = NULL;
@@ -106,6 +107,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
     process_Entity(&(data->entities), data);
     movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
     playStep(engine, data->Isaac);
+    playDamage(engine, data->Isaac);
+
 
     SDL_Rect door;
 
@@ -137,5 +140,12 @@ static void playStep(Engine* engine, Player* player) {
             stopEffect(player->movement->stepChannel);
         }
         player->movement->stepChannel = -1;
+    }
+}
+
+static void playDamage(Engine* engine, Player* player) {
+    if(player->combat->damageJustTaken == 1) {
+        playEffect(engine->soundCollector, "player/pain",0);
+        player->combat->damageJustTaken = 0;
     }
 }
