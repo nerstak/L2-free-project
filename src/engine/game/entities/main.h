@@ -3,7 +3,7 @@
 
 #include "../player.h"
 
-typedef enum EntityType { MOTH = 0 } EntityType;
+typedef enum EntityType { MOTH = 0 , WORM = 1 } EntityType;
 
 typedef struct Entity {
     int type;
@@ -15,6 +15,7 @@ typedef struct Entity {
 
     MovementValues* movement;
     Timer* attackTimer;
+    Timer* shootTimer;
 
     struct DamageIndicatorQueue* damageIndicatorQueue;
 } Entity;

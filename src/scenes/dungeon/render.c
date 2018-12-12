@@ -62,14 +62,17 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
     SDL_Surface* BadGuy=NULL;
     SDL_Rect monsterpos;
 
-    BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/moth")->surface;
+
 
     while(current)
     {
         switch(current->data->type)
         {
-            case 0:
+            case MOTH:
                 BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/moth")->surface;
+                break;
+            case WORM:
+                BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/worm")->surface;
                 break;
             default:
                 break;

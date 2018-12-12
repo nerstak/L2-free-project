@@ -2,6 +2,8 @@
 
 #include "main.h"
 #include "moth.h"
+#include "worm.h"
+
 #include "../movement.h"
 #include "../combat.h"
 
@@ -42,10 +44,41 @@ extern EntityList* init_EntityNode(int type) {
             result->movement->spriteBox->x=0;
             result->movement->spriteBox->y=0;
             result->attackTimer=init_Timer();
+            result->shootTimer=init_Timer();
 
             break;
         }
+        case WORM: {
+            result->type = WORM;
+            result->entity = init_EWorm();
 
+            result->health = 2;
+            result->damage = 1;
+            result->speed = 0;
+
+            result->movement = init_Movement();
+
+            result->movement->spriteBox->y=0;
+
+            result->movement->animationStep=0;
+            result->type=1;
+            result->movement->position->x=608;
+            result->movement->position->y=350;
+            result->movement->velocity->x=0;
+            result->movement->velocity->y=0;
+            result->movement->spriteBox->h=112;
+            result->movement->spriteBox->w=96;
+            result->movement->hitBox->x=result->movement->position->x;
+            result->movement->hitBox->y=result->movement->position->y+32;
+            result->movement->hitBox->h=64;
+            result->movement->hitBox->w=80;
+            result->movement->spriteBox->x=0;
+            result->movement->spriteBox->y=0;
+            result->attackTimer=init_Timer();
+            result->shootTimer=init_Timer();
+
+            break;
+        }
         default: {
             free(node);
             free(result);
@@ -243,6 +276,11 @@ extern void process_Entity(EntityList** list, struct Data* data) {
         switch(temp->data->type) {
             case MOTH: {
                 ai_EMoth(temp->data, data);
+
+                break;
+            }
+            case WORM: {
+                ai_EWorm(temp->data, data);
 
                 break;
             }
