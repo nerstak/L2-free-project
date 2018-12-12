@@ -75,6 +75,7 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
                 BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/worm")->surface;
                 break;
             default:
+                printf("Something is wrong here\n");
                 break;
         }
         monsterpos.x = (Sint16) current->data->movement->position->x; // remove
@@ -323,68 +324,76 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
     int offset;
 
     if (direction == NORTH || direction == SOUTH) {
-        switch(symbol) {
-            case 0: {
-                offset = 0;
+        if (data->dungeonScene->currentRoom->cleaned == false) {
+            switch(symbol) {
+                case 0: {
+                    offset = 0;
 
-                break;
+                    break;
+                }
+
+                case 1: {
+                    offset = 256;
+
+                    break;
+                }
+
+                case 2: {
+                    offset = 128;
+
+                    break;
+                }
+
+                case 3: {
+                    offset = 192;
+
+                    break;
+                }
+
+                default: {
+                    offset = 0;
+
+                    break;
+                }
             }
-
-            case 1: {
-                offset = 256;
-
-                break;
-            }
-
-            case 2: {
-                offset = 128;
-
-                break;
-            }
-
-            case 3: {
-                offset = 192;
-
-                break;
-            }
-
-            default: {
-                offset = 0;
-
-                break;
-            }
+        } else {
+            offset = 64;
         }
     } else if (direction == EAST || direction == WEST) {
-        switch(symbol) {
-            case 0: {
-                offset = 6;
+        if (data->dungeonScene->currentRoom->cleaned == false) {
+            switch(symbol) {
+                case 0: {
+                    offset = 6;
 
-                break;
+                    break;
+                }
+
+                case 1: {
+                    offset = 198;
+
+                    break;
+                }
+
+                case 2: {
+                    offset = 134;
+
+                    break;
+                }
+
+                case 3: {
+                    offset = 262;
+
+                    break;
+                }
+
+                default: {
+                    offset = 6;
+
+                    break;
+                }
             }
-
-            case 1: {
-                offset = 198;
-
-                break;
-            }
-
-            case 2: {
-                offset = 134;
-
-                break;
-            }
-
-            case 3: {
-                offset = 262;
-
-                break;
-            }
-
-            default: {
-                offset = 6;
-
-                break;
-            }
+        } else {
+            offset = 70;
         }
     }
 
