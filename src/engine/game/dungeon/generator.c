@@ -19,8 +19,8 @@ static int MAX_RETRIES = 20;
 static double INTENSITY_GROWTH_JITTER = 0.1;
 static double INTENSITY_EASE_OFF = 0.2;
 
-static int maxSpaces = 15;
-static int maxKeys = 3;
+static int maxSpaces = 20;
+static int maxKeys = 5; // Whatever no time to redo the algo again it works.
 
 static Direction* chooseFreeEdge(DungeonGenerator* g, Room* room);
 
@@ -185,7 +185,7 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
 
         if (amountRooms_KeyLevelRoomMapping(levels, keylevel) >= roomsPerLock
             && keylevel < maxKeys) {
-            latestKey = init_Symbol(keylevel += 1);
+            latestKey = init_Symbol(keylevel++); // https://stackoverflow.com/questions/12988140/what-is-the-difference-between-and-1-operators
             condition = initAndSymbol_Condition(condition, latestKey);
             doLock = true;
         }
@@ -204,7 +204,6 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
         Direction* d = chooseFreeEdge(p, parentRoom);
         Coord* coords = nextInDirection_Coord(parentRoom->coord, d);
         Room* room = init_Room(coords, parentRoom, NULL, initCopy_Condition(condition));
-
 
         if (get_TreeMap(p->dungeon->rooms, room->coord) != NULL) {
             THROW;

@@ -191,8 +191,6 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
     SDL_BlitSurface(background, NULL, window, &background_Pos);
 
-
-
     for (int i = 0; i < data->dungeonScene->currentRoom->layout->lines; i += 1) {
         for (int j = 0; j < data->dungeonScene->currentRoom->layout->columns; j += 1) {
             Tiles temp = data->dungeonScene->currentRoom->layout->map[i][j];
@@ -237,11 +235,8 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Rect playerPos;
     SDL_Rect monsterpos;
 
-
-
     PlayerSprite = get_ImageCollector(engine->imageCollector, "dungeon/player")->surface;
     FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;
-
 
     playerPos.x=data->Isaac->movement->position->x;
     playerPos.y=data->Isaac->movement->position->y;
@@ -310,7 +305,8 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data) {
     for (int i = 0; i < (int) data->dungeonScene->currentRoom->childrenLength; i += 1) {
         int direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->children[i]->coord, data->dungeonScene->currentRoom->coord)->code;
-        int symbol = getKeyLevel_Condition(data->dungeonScene->currentRoom->children[i]->preCondition);
+        int symbol = getKeyLevel_Condition(getPrecondition_Room(data->dungeonScene->currentRoom->children[i])) - 1;
+
         renderDoor(window, engine, data, direction, symbol);
     }
 
@@ -326,7 +322,7 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
     int offset;
 
     if (direction == NORTH || direction == SOUTH) {
-        if (data->dungeonScene->currentRoom->cleaned == false) {
+        if (data->dungeonScene->currentRoom->cleaned == false || symbol > data->dungeonScene->keyValue) {
             switch(symbol) {
                 case 0: {
                     offset = 0;
@@ -362,7 +358,7 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
             offset = 64;
         }
     } else if (direction == EAST || direction == WEST) {
-        if (data->dungeonScene->currentRoom->cleaned == false) {
+        if (data->dungeonScene->currentRoom->cleaned == false || symbol > data->dungeonScene->keyValue) {
             switch(symbol) {
                 case 0: {
                     offset = 6;
@@ -394,7 +390,7 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
                     break;
                 }
             }
-        } else {
+        } else if (data->dungeonScene->keyValue >= symbol) {
             offset = 70;
         }
     }
@@ -550,7 +546,7 @@ static void renderKeys(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* keys = get_ImageCollector(engine->imageCollector, "dungeon/uiKeys")->surface;
     int amount = 0;
 
-    if (true) { // TODO: Key1 condition
+    if (data->dungeonScene->keyValue > 0) {
         SDL_Rect offset;
         offset.x = 329;
         offset.y = 29;
@@ -566,7 +562,7 @@ static void renderKeys(SDL_Surface* window, Engine* engine, Data* data) {
         amount += 1;
     }
 
-    if (true) { // TODO: Key2 condition
+    if (data->dungeonScene->keyValue > 1) {
         SDL_Rect offset;
         offset.x = 329 + 14 * amount +  46 * amount;
         offset.y = 29;
@@ -582,7 +578,7 @@ static void renderKeys(SDL_Surface* window, Engine* engine, Data* data) {
         amount += 1;
     }
 
-    if (true) { // TODO: Key3 condition
+    if (data->dungeonScene->keyValue > 2) {
         SDL_Rect offset;
         offset.x = 329 + 14 * amount +  46 * amount;
         offset.y = 29;

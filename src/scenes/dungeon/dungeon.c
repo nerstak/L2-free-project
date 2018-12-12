@@ -45,6 +45,8 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->dungeonScene->actionProcess = NONE;
 
+        data->dungeonScene->keyValue = 0;
+
         data->dungeonScene->pauseBg = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
         loadDungeonsMap(engine, data);

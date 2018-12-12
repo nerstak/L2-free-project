@@ -26,6 +26,11 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
         }
 
         if (found == true) {
+            // Do i need a key ?
+            if (getPrecondition_Room(newRoom)->keyLevel - 1 > data->dungeonScene->keyValue) {
+                return false;
+            }
+
             // We move to the room
             newRoom->visited = true;
             data->dungeonScene->currentRoom = newRoom;
@@ -34,7 +39,6 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
             if (newRoom->cleaned == false) {
                 for (int i = 0; i < newRoom->layout->lines; i += 1) {
                     for (int j = 0; j < newRoom->layout->columns; j += 1) {
-                        printf("%c", newRoom->layout->map[i][j].type);
                         if (newRoom->layout->map[i][j].type == '0' || newRoom->layout->map[i][j].type == '1' || newRoom->layout->map[i][j].type == '2' || newRoom->layout->map[i][j].type == '3') {
                             switch(newRoom->layout->map[i][j].type) {
                                 case '0': {
@@ -71,7 +75,6 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                             }
                         }
                     }
-                    printf("\n");
                 }
             }
 
@@ -151,6 +154,10 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
 
         if (data->entities == NULL && data->dungeonScene->currentRoom->cleaned == false) {
+            if (getItem_Room(data->dungeonScene->currentRoom) != NULL && getItem_Room(data->dungeonScene->currentRoom)->value > -1) {
+                data->dungeonScene->keyValue = getItem_Room(data->dungeonScene->currentRoom)->value;
+            }
+
             data->dungeonScene->currentRoom->cleaned = true;
         }
 

@@ -11,6 +11,7 @@ typedef struct dungeonScene_t {
     int moveTo;
     int askCombat;
     int actionProcess;
+    int keyValue;
 
     SDL_Surface* pauseBg;
 } dungeonScene_t;
