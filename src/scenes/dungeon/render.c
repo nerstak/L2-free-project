@@ -531,7 +531,10 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
     int x = data->dungeonScene->currentRoom->coord->x;
     int y = data->dungeonScene->currentRoom->coord->y;
 
-    RoomList* temp = (*getRooms_KeyLevelRoomMapping(getRooms_Dungeon(data->dungeonScene->dungeon), 0));
+    KeyLevelRoomMapping* level = getRooms_Dungeon(data->dungeonScene->dungeon);
+    RoomList* rooms = (*getRooms_KeyLevelRoomMapping(level, 0));
+
+    RoomList* temp = rooms;
 
     while (temp != NULL) {
         int offsetX = (temp->data->coord->x - x);
@@ -593,6 +596,8 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
 
         temp = temp->next;
     }
+
+    clean_KeyLevelRoomMapping(&(level));
 }
 
 static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_Rect origin, int direction) {
