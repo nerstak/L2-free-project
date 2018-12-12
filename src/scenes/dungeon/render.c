@@ -6,7 +6,7 @@
 
 static void renderBackground(SDL_Surface* window, Engine* engine, Data* data);
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data);
-static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction);
+static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction, int symbol);
 
 static void renderUI(SDL_Surface* window, Engine* engine, Data* data);
 static SDL_Surface* renderLifebar(Engine* engine, Data* data);
@@ -307,27 +307,96 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data) {
     for (int i = 0; i < (int) data->dungeonScene->currentRoom->childrenLength; i += 1) {
         int direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->children[i]->coord, data->dungeonScene->currentRoom->coord)->code;
-        renderDoor(window, engine, data, direction);
+        int symbol = getKeyLevel_Condition(data->dungeonScene->currentRoom->children[i]->preCondition);
+        renderDoor(window, engine, data, direction, symbol);
     }
 
     if (getParent_Room(data->dungeonScene->currentRoom) != NULL) {
         int direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->parent->coord, data->dungeonScene->currentRoom->coord)->code;
-        renderDoor(window, engine, data, direction);
+        renderDoor(window, engine, data, direction, 0);
     }
 }
 
-static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction) {
+static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction, int symbol) {
     SDL_Surface* doors = get_ImageCollector(engine->imageCollector, "dungeon/tomatoDoors")->surface;
+
+    int offset;
+
+    if (direction == NORTH || direction == SOUTH) {
+        switch(symbol) {
+            case 0: {
+                offset = 0;
+
+                break;
+            }
+
+            case 1: {
+                offset = 256;
+
+                break;
+            }
+
+            case 2: {
+                offset = 128;
+
+                break;
+            }
+
+            case 3: {
+                offset = 192;
+
+                break;
+            }
+
+            default: {
+                offset = 0;
+
+                break;
+            }
+        }
+    } else if (direction == EAST || direction == WEST) {
+        switch(symbol) {
+            case 0: {
+                offset = 6;
+
+                break;
+            }
+
+            case 1: {
+                offset = 198;
+
+                break;
+            }
+
+            case 2: {
+                offset = 134;
+
+                break;
+            }
+
+            case 3: {
+                offset = 262;
+
+                break;
+            }
+
+            default: {
+                offset = 6;
+
+                break;
+            }
+        }
+    }
 
     switch (direction) {
         case NORTH: {
             SDL_Rect door_Pos;
             SDL_Rect door_Offset;
 
-            door_Offset.x = 0;
-            door_Offset.y = 0;
-            door_Offset.w = 172;
-            door_Offset.h = 109;
+            door_Offset.x = 64;
+            door_Offset.y = (Sint16) offset;
+            door_Offset.w = 110;
+            door_Offset.h = 64;
 
             door_Pos.x = (Sint16) ((window->w / 2) -  door_Offset.w / 2);
             door_Pos.y = 8;
@@ -341,10 +410,10 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
             SDL_Rect door_Pos;
             SDL_Rect door_Offset;
 
-            door_Offset.x = 172;
-            door_Offset.y = 0;
-            door_Offset.w = 109;
-            door_Offset.h = 172;
+            door_Offset.x = 0;
+            door_Offset.y = (Sint16) offset;
+            door_Offset.w = 64;
+            door_Offset.h = 52;
 
             door_Pos.x = (Sint16) ((window->w) -  door_Offset.w);
             door_Pos.y = (Sint16) ((window->h / 2) - door_Offset.h / 2);
@@ -358,10 +427,10 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
             SDL_Rect door_Pos;
             SDL_Rect door_Offset;
 
-            door_Offset.x = 0;
-            door_Offset.y = 109;
-            door_Offset.w = 172;
-            door_Offset.h = 109;
+            door_Offset.x = 238;
+            door_Offset.y = (Sint16) offset;
+            door_Offset.w = 110;
+            door_Offset.h = 64;
 
             door_Pos.x = (Sint16) ((window->w / 2) -  door_Offset.w / 2);
             door_Pos.y = (Sint16) ((window->h - 8) - door_Offset.h);
@@ -375,10 +444,10 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
             SDL_Rect door_Pos;
             SDL_Rect door_Offset;
 
-            door_Offset.x = 281;
-            door_Offset.y = 0;
-            door_Offset.w = 109;
-            door_Offset.h = 172;
+            door_Offset.x = 174;
+            door_Offset.y = (Sint16) offset;
+            door_Offset.w = 64;
+            door_Offset.h = 52;
 
             door_Pos.x = (Sint16) (0);
             door_Pos.y = (Sint16) ((window->h / 2) - door_Offset.h / 2);
