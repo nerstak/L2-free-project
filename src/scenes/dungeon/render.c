@@ -16,6 +16,77 @@ static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_R
 
 static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount);
 
+static void renderEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data);
+
+static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data);
+
+static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data)
+{
+    EntityList* current=entity;
+    SDL_Surface* DeadGuy=NULL;
+    SDL_Rect cloudpos;
+    DeadGuy= get_ImageCollector(engine->imageCollector, "dungeon/smoke")->surface;// remove
+
+    while(current)
+    {
+        SDL_Rect cloudpos,cloudsprite;
+        cloudpos.x= (current->data->movement->hitBox->x+(current->data->movement->hitBox->w/2))-96;
+        cloudpos.y= (current->data->movement->hitBox->y+(current->data->movement->hitBox->h/2))-96;
+
+
+        int step=(current->data->movement->animationStep/50);
+        if(step>3 && step<16){step=3;}
+        if(step>15){step=19-step;}
+        cloudsprite.x=step * 192;
+        cloudsprite.y=0;
+        cloudsprite.h=192;
+        cloudsprite.w=192;
+        SDL_BlitSurface(DeadGuy, &cloudsprite, window, &cloudpos);
+
+        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->dyingEntities->data->damageIndicatorQueue);
+        while (damageIndicator != NULL) {
+            renderDamageAmountIndicator(engine, data,window, *damageIndicator->data->position, damageIndicator->data->amount);
+            damageIndicator = damageIndicator->next;
+        }
+
+
+        current=current->next;
+    }
+
+}
+
+
+static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engine,Data* data)
+{
+    EntityList* current=entity;
+    SDL_Surface* BadGuy=NULL;
+    SDL_Rect monsterpos;
+
+    BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/moth")->surface;
+
+    while(current)
+    {
+        switch(current->data->type)
+        {
+            case 0:
+                BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/moth")->surface;
+                break;
+            default:
+                break;
+        }
+        monsterpos.x = (Sint16) current->data->movement->position->x; // remove
+        monsterpos.y = (Sint16) current->data->movement->position->y;
+        SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
+
+        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(current->data->damageIndicatorQueue);
+        while (damageIndicator != NULL) {
+            renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
+            damageIndicator = damageIndicator->next;
+        }
+        current=current->next;
+    }
+}
+
 static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount) {
     SDL_Surface* damageSpritesheet = get_ImageCollector(engine->imageCollector, "dungeon/damageAmount")->surface;
 
@@ -114,6 +185,8 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
     SDL_BlitSurface(background, NULL, window, &background_Pos);
 
+
+
     for (int i = 0; i < data->dungeonScene->currentRoom->layout->lines; i += 1) {
         for (int j = 0; j < data->dungeonScene->currentRoom->layout->columns; j += 1) {
             Tiles temp = data->dungeonScene->currentRoom->layout->map[i][j];
@@ -162,56 +235,19 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
     PlayerSprite = get_ImageCollector(engine->imageCollector, "dungeon/player")->surface;
     FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;
-    BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/moth")->surface;// remove
-    DeadGuy= get_ImageCollector(engine->imageCollector, "dungeon/smoke")->surface;// remove
 
 
     playerPos.x=data->Isaac->movement->position->x;
     playerPos.y=data->Isaac->movement->position->y;
-    if(data->entities != NULL){
-        monsterpos.x = (Sint16) data->entities->data->movement->position->x; // remove
-        monsterpos.y = (Sint16) data->entities->data->movement->position->y;}
 
-    if(data->dyingEntities != NULL){
-        monsterpos.x = (Sint16) data->dyingEntities->data->movement->position->x; // remove
-        monsterpos.y = (Sint16) data->dyingEntities->data->movement->position->y;}
+
+    renderCloudEntities(data->dyingEntities,window,engine,data);
+    
+    renderEntities(data->entities,window,engine,data);
 
 
 
-    if (data->entities != NULL) {
-        SDL_BlitSurface(BadGuy, data->entities->data->movement->spriteBox, window, &monsterpos);
 
-        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->entities->data->damageIndicatorQueue);
-        while (damageIndicator != NULL) {
-            renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
-            damageIndicator = damageIndicator->next;
-        }
-    }
-
-    if (data->dyingEntities !=NULL){
-        if(data->dyingEntities->data->movement->animationStep<400){
-            SDL_BlitSurface(BadGuy, data->dyingEntities->data->movement->spriteBox, window, &monsterpos);
-        }
-        SDL_Rect cloudpos,cloudsprite;
-        cloudpos.x= (data->dyingEntities->data->movement->hitBox->x+(data->dyingEntities->data->movement->hitBox->w/2))-96;
-        cloudpos.y= (data->dyingEntities->data->movement->hitBox->y+(data->dyingEntities->data->movement->hitBox->h/2))-96;
-
-
-        int step=(data->dyingEntities->data->movement->animationStep/50);
-        if(step>3 && step<16){step=3;}
-        if(step>15){step=19-step;}
-        cloudsprite.x= step * 192;
-        cloudsprite.y=0;
-        cloudsprite.h=192;
-        cloudsprite.w=192;
-        SDL_BlitSurface(DeadGuy, &cloudsprite, window, &cloudpos);
-
-        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->dyingEntities->data->damageIndicatorQueue);
-        while (damageIndicator != NULL) {
-            renderDamageAmountIndicator(engine, data,window, *damageIndicator->data->position, damageIndicator->data->amount);
-            damageIndicator = damageIndicator->next;
-        }
-    }
 
     bool invisible=false;
 

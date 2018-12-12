@@ -48,6 +48,9 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         loadDungeonsMap(engine, data);
 
         append_EntityNode(init_EntityNode(MOTH),&(data->entities));
+        data->entities->data->movement->position->x=1000;
+        data->entities->data->movement->position->y=500;
+        append_EntityNode(init_EntityNode(MOTH),&(data->entities));
     } else {
         // TODO: Improve that part
         clean_Dungeon(&(data->dungeonScene->dungeon));
