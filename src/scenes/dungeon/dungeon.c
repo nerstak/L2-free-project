@@ -39,8 +39,10 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         loadDungeonsMap(engine, data);
 
         append_EntityNode(init_EntityNode(MOTH),&(data->entities));
+        playMusic(engine->soundCollector, "dungeon/main_theme");
     } else {
         // TODO: Improve that part
+        stopMusic();
         clean_Dungeon(&(data->dungeonScene->dungeon));
         free(&(data->dungeonScene));
         data->dungeonScene = NULL;

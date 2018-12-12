@@ -22,3 +22,5 @@ src/resources/gfx/enemies/moth.png dungeon/moth
 src/resources/gfx/enemies/smoke.png dungeon/smoke
 src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox
 src/resources/sfx/player/woosh.wav player/woosh
+src/resources/musics/dungeon_Theme.wav dungeon/main_theme
+src/resources/sfx/player/step_dungeon_run.wav player/step_dungeon_run

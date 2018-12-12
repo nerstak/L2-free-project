@@ -82,5 +82,4 @@ static void playStep(Engine* engine, Player* player) {
         }
         player->movement->stepChannel = -1;
     }
-    printf("%f %f\n",player->movement->velocity->x, player->movement->velocity->y);
 }
