@@ -45,6 +45,8 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->dungeonScene->actionProcess = NONE;
 
+        data->dungeonScene->pauseBg = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
+
         loadDungeonsMap(engine, data);
 
         append_EntityNode(init_EntityNode(MOTH),&(data->entities));
@@ -137,8 +139,12 @@ static void loadDungeonsMap(Engine* engine, Data* data) {
     tempRoom = rooms;
 
     while (tempRoom != NULL) {
-        size_t layoutId = rand() % data->dungeonScene->layoutsLength;
-        tempRoom->data->layout = loadSingle_Layout("dungeons", data->dungeonScene->layoutsPath[layoutId]);
+        if (isStart_Room(tempRoom->data) || isBoss_Room(tempRoom->data) || isGoal_Room(tempRoom->data)) {
+            tempRoom->data->layout = loadSingle_Layout("dungeons", data->dungeonScene->layoutsPath[0]);
+        } else {
+            size_t layoutId = rand() % data->dungeonScene->layoutsLength;
+            tempRoom->data->layout = loadSingle_Layout("dungeons", data->dungeonScene->layoutsPath[layoutId]);
+        }
 
         tempRoom = tempRoom->next;
     }
