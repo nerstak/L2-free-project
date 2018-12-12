@@ -3,6 +3,7 @@
 #include "main.h"
 #include "moth.h"
 #include "worm.h"
+#include "projectile.h"
 
 #include "../movement.h"
 #include "../combat.h"
@@ -32,7 +33,6 @@ extern EntityList* init_EntityNode(int type) {
             result->movement = init_Movement();
 
             result->movement->animationStep=0;
-            result->type=0;
             result->movement->position->x=0;
             result->movement->position->y=0;
             result->movement->velocity->x=0;
@@ -58,10 +58,8 @@ extern EntityList* init_EntityNode(int type) {
 
             result->movement = init_Movement();
 
-            result->movement->spriteBox->y=0;
 
             result->movement->animationStep=0;
-            result->type=1;
             result->movement->position->x=608;
             result->movement->position->y=350;
             result->movement->velocity->x=0;
@@ -78,6 +76,38 @@ extern EntityList* init_EntityNode(int type) {
             result->shootTimer=init_Timer();
 
             break;
+        }
+        case PROJECTILE:
+        {
+            result->type = PROJECTILE;
+            result->entity = init_EProjectile();
+
+            result->health = 1;
+            result->damage = 0;
+            result->speed = 0;
+
+            result->movement = init_Movement();
+
+            result->movement->spriteBox->x=0;
+            result->movement->spriteBox->y=0;
+            result->movement->spriteBox->h=16;
+            result->movement->spriteBox->w=16;
+
+
+            result->movement->animationStep=0;
+            result->movement->position->x=0;
+            result->movement->position->y=0;
+
+            result->movement->velocity->x=0;
+            result->movement->velocity->y=0;
+
+            result->movement->hitBox->x=0;
+            result->movement->hitBox->y=0;
+            result->movement->hitBox->h=16;
+            result->movement->hitBox->w=16;
+
+            result->attackTimer=init_Timer();
+            result->shootTimer=init_Timer();
         }
         default: {
             free(node);

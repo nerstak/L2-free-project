@@ -3,7 +3,7 @@
 
 #include "../player.h"
 
-typedef enum EntityType { MOTH = 0 , WORM = 1 } EntityType;
+typedef enum EntityType { MOTH = 0 , WORM = 1 , PROJECTILE = 5} EntityType;
 
 typedef struct Entity {
     int type;
