@@ -126,9 +126,13 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         door.x=1224;
         enterdoor(&door,data->Isaac->movement->hitBox,data->dungeonScene,1); //RIGHT
     } else {
+        //TODO: We have to pause every timer of the dungeon
         if (data->dungeonScene->actionProcess == PAUSE) {
             data->dungeonScene->actionProcess = NONE;
             display_SceneCollector(engine, data, "pauseMenu");
+        } else if (data->dungeonScene->actionProcess == INVENTORY) {
+            data->dungeonScene->actionProcess = NONE;
+            display_SceneCollector(engine, data, "inventory");
         }
     }
 }

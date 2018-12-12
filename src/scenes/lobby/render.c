@@ -57,8 +57,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         plantsBlit(lobbySurface, data, engine->imageCollector, 'b');
     }
 
-    SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
-
     bool invisible=false;
 
     if(data->Isaac->invulnerabilityTimer->started)

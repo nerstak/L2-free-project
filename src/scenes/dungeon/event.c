@@ -27,6 +27,10 @@ extern void eventProcess_Scene_dungeon(SDL_Event event, Engine* engine, Data* da
                         data->dungeonScene->actionProcess = PAUSE;
                     BREAK
 
+                    CASE(engine->keys->INVENTORY)
+                        data->dungeonScene->actionProcess = INVENTORY;
+                    BREAK
+
                     CASE(engine->keys->LEFT_ATTACK)
                         if (data->dungeonScene->askCombat == -1) {
                             data->dungeonScene->askCombat=3;
