@@ -20,6 +20,8 @@ static void renderEntities(EntityList* entity,SDL_Surface* window, Engine* engin
 
 static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data);
 
+static void displayDeathScreen(SDL_Surface* window, Engine* engine, Data* data);
+
 static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data)
 {
     EntityList* current=entity;
@@ -756,12 +758,51 @@ static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_R
     }
 }
 
+static void displayDeathScreen(SDL_Surface* window, Engine* engine, Data* data) {
+    if(!isPlayerAlive(data->Isaac)) {
+        char line[80];
+        SDL_Color colorUsed = {255, 255, 255, 0};
+        TTF_Font* font1 = get_FontCollector(engine->fontCollector, "menu/50")->font;
+
+        SDL_Surface* dialogBox = get_ImageCollector(engine->imageCollector, "dungeon/dialog")->surface;
+        SDL_Surface* dialogInfo;
+        SDL_Rect dialogBoxPos;
+        SDL_Rect dialogPos;
+
+        dialogBoxPos.x = 145;
+        dialogBoxPos.y = 278;
+        SDL_BlitSurface(dialogBox, NULL, window, &dialogBoxPos);
+
+
+        for(int i = 0; i < 2; i++) {
+            switch(i) {
+                case 0: {
+                    strcpy(line, "You died... You'll do better next time.");
+                    dialogPos.x = (Sint16) (145 + ((1010 / 2) - (getWidth_FontCollector(font1, line) / 2)));
+                    dialogPos.y = (Sint16) 290;
+                    break;
+                }
+                case 1: {
+                    strcpy(line, "Press ESC to restart.");
+                    dialogPos.x = (Sint16) (145 + ((1010 / 2) - (getWidth_FontCollector(font1, line) / 2)));
+                    dialogPos.y = (Sint16) 360;
+                    break;
+                }
+            }
+            dialogInfo = TTF_RenderText_Solid(font1, line, colorUsed);
+            SDL_BlitSurface(dialogInfo, NULL, window, &dialogPos);
+        }
+    }
+}
+
 
 extern void renderScene_Scene_dungeon(SDL_Surface* window, Engine* engine, Data* data) {
     renderBackground(window, engine, data);
 
     renderUI(window, engine, data);
     renderMap(window, engine, data);
+
+    displayDeathScreen(window, engine, data);
 
     SDL_BlitSurface(window, NULL, data->dungeonScene->pauseBg, NULL);
 }

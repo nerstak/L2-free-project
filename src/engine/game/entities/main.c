@@ -27,7 +27,7 @@ extern EntityList* init_EntityNode(int type) {
             result->entity = init_EMoth();
 
             result->health = 5;
-            result->damage = 0;
+            result->damage = 1;
             result->speed = 1;
 
             result->movement = init_Movement();
@@ -401,7 +401,7 @@ extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
 
         if (data->Isaac->invulnerabilityTimer->started == false) {
             start_Timer(data->Isaac->invulnerabilityTimer);
-            alterHealth_Player(data->Isaac, e->damage, 'c');
+            alterHealth_Player(data->Isaac, - e->damage, 'c');
         }
     }
 

@@ -99,4 +99,10 @@ extern void alterAgility_Player(Player* Isaac, float alterAgility, char type);
  */
 extern void alterDamage_Player(Player* Isaac, float alterDamage, char type);
 
+/**
+ * Check if the player has more than 0 Health Point
+ * @param Isaac a pointer to a Player Object
+ * @return an int (0: dead; 1: alive)
+ */
+extern int isPlayerAlive(Player* Isaac);
 #endif // FREE_PROJECT_ENGINE_GAME_PLAYER_H

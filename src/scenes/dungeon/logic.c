@@ -1,9 +1,11 @@
 #include "logic.h"
 #include "../../engine/game/combat.h"
+#include "../../engine/save.h"
 
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord);
 static void enterDoor(Engine* engine, Data* data, SDL_Rect* door, SDL_Rect* player, dungeonScene_t* room, int direction);
+static void processDeath(Engine* engine, Data* data);
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
     TreeMapNode* node = NULL;
@@ -86,7 +88,7 @@ static void enterDoor(Engine* engine, Data* data, SDL_Rect* door, SDL_Rect* play
 }
 
 extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
-    if (data->dungeonScene->actionProcess == NONE) {
+    if (data->dungeonScene->actionProcess == NONE && isPlayerAlive(data->Isaac)) {
         if (data->dungeonScene->moveTo != -1) {
             switch (data->dungeonScene->moveTo) {
                 case 0: {
@@ -171,7 +173,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
         door.x=1224;
         enterDoor(engine, data, &door, data->Isaac->movement->hitBox, data->dungeonScene, 1); //RIGHT
-    } else {
+    } else if (isPlayerAlive(data->Isaac)) {
         //TODO: We have to pause every timer of the dungeon
         if (data->dungeonScene->actionProcess == PAUSE) {
             data->dungeonScene->actionProcess = NONE;
@@ -180,6 +182,28 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
             data->dungeonScene->actionProcess = NONE;
             display_SceneCollector(engine, data, "inventory");
         }
+    } else {
+        processDeath(engine, data);
     }
 }
 
+static void processDeath(Engine* engine, Data* data) {
+    stop_Timer(data->Isaac->invulnerabilityTimer);
+    data->dungeonScene->askCombat = -1;
+    if(data->dungeonScene->actionProcess == PAUSE) {
+        //We free Player and field
+        if(data->Isaac) {
+            free_Player(&(data->Isaac));
+        }
+        if(data->field) {
+            freeField(&(data->field));
+        }
+
+        //We reload the save
+        if(initGame("save1.save", data)) {
+            display_SceneCollector(engine,data,"lobby");
+        } else {
+            display_SceneCollector(engine,data, "mainMenu");
+        }
+    }
+}

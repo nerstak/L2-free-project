@@ -328,3 +328,10 @@ extern void alterDamage_Player(Player* Isaac, float alterDamage, char type) {
         default: break;
     }
 }
+
+extern int isPlayerAlive(Player* Isaac) {
+    if(Isaac->stats->current->health <= 0) {
+        return 0;
+    }
+    return 1;
+}
