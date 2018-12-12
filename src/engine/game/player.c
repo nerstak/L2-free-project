@@ -335,3 +335,12 @@ extern int isPlayerAlive(Player* Isaac) {
     }
     return 1;
 }
+
+extern void resetStats(Player* Isaac) {
+    resetUsedPotions(Isaac->stats);
+
+    Isaac->stats->current->agility = Isaac->stats->basic->agility;
+    Isaac->stats->current->damage = Isaac->stats->basic->damage;
+    Isaac->stats->current->health = Isaac->stats->basic->health;
+    Isaac->stats->current->speed = Isaac->stats->basic->speed;
+}

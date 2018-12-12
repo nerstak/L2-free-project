@@ -87,6 +87,7 @@ extern void writeSave(Data* data) {
     writeInventory(saveFile, data->Isaac);
 
     data->Isaac->gameStats->dungeonDay = 0;
+    resetStats(data->Isaac);
 
     fclose(saveFile);
 }
