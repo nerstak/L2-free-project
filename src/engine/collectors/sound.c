@@ -31,72 +31,57 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
     AudioElement* previous = p->audioElements;
 
     // Is the element we want to remove the first one ?
-    if (e->music != NULL && temp->music != NULL) {
-        if (strcmp(temp->music->name, e->music->name) == 0) {
-            // We rewrite the head of our list
-            p->audioElements = temp->next;
-            p->size -= 1;
+    if (e->music != NULL && temp->music != NULL && strcmp(temp->music->name, e->music->name) == 0) {
+        // We rewrite the head of our list
+        p->audioElements = temp->next;
+        p->size -= 1;
 
-            // Don't forget to free the music and the memory :D
-            Mix_FreeMusic(temp->music->src);
-            free(temp->music);
-            free(temp);
-        } else {
-            // We find the position of the element we want to remove
-            while (temp != NULL && strcmp(temp->music->name, e->music->name) != 0) {
-                do {
-                    previous = temp;
-                    temp = temp->next;
-                } while(temp && temp->music == NULL);
+        // Don't forget to free the music and the memory :D
+        Mix_FreeMusic(temp->music->src);
+        free(temp->music);
+        free(temp);
+    } else if (e->sound != NULL && temp->sound != NULL && strcmp(temp->sound->name, e->sound->name) == 0) {
+        // We rewrite the head of our list
+        p->audioElements = temp->next;
+        p->size -= 1;
+
+        // Don't forget to free the sound and the memory :D
+        Mix_FreeChunk(temp->sound->src);
+        free(temp->sound);
+        free(temp);
+    } else {
+        // We find the position of the element we want to remove
+        while (temp != NULL) {
+            if (temp->music != NULL && e->music != NULL && strcmp(temp->music->name, e->music->name) == 0) {
+                break;
+            } else if (temp->sound != NULL && e->sound != NULL && strcmp(temp->sound->name, e->sound->name) == 0) {
+                break;
             }
 
-            if (temp == NULL) {
-                return;
-            }
-
-            // Relink our list
-            previous->next = temp->next;
-
-            // Don't forget to free the surface and the memory :D
-            Mix_FreeMusic(temp->music->src);
-            free(temp->music);
-            free(temp);
-
-            p->size -= 1;
+            previous = temp;
+            temp = temp->next;
         }
-    } else if (e->sound != NULL && temp->sound != NULL) {
-        if (strcmp(temp->sound->name, e->sound->name) == 0) {
-            // We rewrite the head of our list
-            p->audioElements = temp->next;
-            p->size -= 1;
 
-            // Don't forget to free the sound and the memory :D
-            Mix_FreeChunk(temp->sound->src);
-            free(temp->sound);
-            free(temp);
-        } else {
-            // We find the position of the element we want to remove
-            while (temp != NULL && strcmp(temp->sound->name, e->sound->name) != 0) {
-                do {
-                    previous = temp;
-                    temp = temp->next;
-                } while(temp && temp->sound == NULL);
-            }
+        if (temp == NULL) {
+            return;
+        }
 
-            if (temp == NULL) {
-                return;
-            }
+        // Relink our list
+        previous->next = temp->next;
 
-            // Relink our list
-            previous->next = temp->next;
-
+        if (temp->sound != NULL) {
             // Don't forget to free the surface and the memory :D
             Mix_FreeChunk(temp->sound->src);
             free(temp->sound);
-            free(temp);
-
-            p->size -= 1;
+        } else if (temp->music != NULL) {
+            // Don't forget to free the surface and the memory :D
+            Mix_FreeMusic(temp->music->src);
+            free(temp->music);
         }
+
+        free(temp);
+
+        p->size -= 1;
     }
 }
 
