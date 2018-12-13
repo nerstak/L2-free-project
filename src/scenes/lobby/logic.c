@@ -46,7 +46,14 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             display_SceneCollector(engine, data, "shop");
         }else if(data->lobby->actionProcess == PAUSE) {
             data->lobby->actionProcess = NONE;
-            display_SceneCollector(engine, data, "pauseMenu");
+            data->lobby->cursor = 0;
+            if(data->lobby->tutorial != 0) {
+                data->lobby->tutorial = 0;
+                copyStats(data->Isaac->stats->current, data->Isaac->stats->basic);
+                stop_Timer(data->lobby->timerMessage);
+            } else {
+                display_SceneCollector(engine, data, "pauseMenu");
+            }
         } else if(data->lobby->actionProcess == INVENTORY) {
             data->lobby->actionProcess = NONE;
             display_SceneCollector(engine, data, "inventory");

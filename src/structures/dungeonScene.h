@@ -10,6 +10,10 @@ typedef struct dungeonScene_t {
     size_t layoutsLength;
     int moveTo;
     int askCombat;
+    int actionProcess;
+    int keyValue;
+
+    SDL_Surface* pauseBg;
 } dungeonScene_t;
 
 #endif //FREE_PROJECT_STRUCTURES_DUNGEONSCENE_H

@@ -11,3 +11,4 @@ src/resources/sfx/UI/confirm_button.wav inventory/confirm_button
 src/resources/sfx/UI/confirm2_button.wav inventory/confirm2_button
 src/resources/sfx/player/eat.wav player/eat
 src/resources/sfx/player/drink.wav player/drink
+src/resources/gfx/scenes/pauseMenu/overlay.png inventory/overlay

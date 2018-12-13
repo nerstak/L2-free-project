@@ -19,9 +19,12 @@ src/resources/gfx/dungeon/elements/tomato/slow.png dungeon/tomatoSlow
 src/resources/gfx/player/sprites_hero.png dungeon/player
 src/resources/gfx/player/sprites_scythe.png dungeon/scythe
 src/resources/gfx/enemies/moth.png dungeon/moth
+src/resources/gfx/enemies/worm.png dungeon/worm
+src/resources/gfx/enemies/wormshot.png dungeon/wormshot
 src/resources/gfx/enemies/smoke.png dungeon/smoke
 src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox
 src/resources/sfx/player/woosh.wav player/woosh
 src/resources/musics/dungeon_Theme.wav dungeon/main_theme
 src/resources/sfx/player/step_dungeon_run.wav player/step_dungeon_run
 src/resources/sfx/player/pain.wav player/pain
+src/resources/gfx/scenes/dungeon/ui/dialog.png dungeon/dialog

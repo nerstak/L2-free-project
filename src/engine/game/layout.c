@@ -75,10 +75,10 @@ extern Layout* loadSingle_Layout(char* environment, char* name) {
     {
         for(int j = 0; j < room->columns; j++) {
             room->map[i][j].type = line[j];
-            printf("%c",room->map[i][j].type);
+            //printf("%c",room->map[i][j].type);
         }
         i++;
-        printf("\n");
+        //printf("\n");
     }
     fclose(file);
     return room;

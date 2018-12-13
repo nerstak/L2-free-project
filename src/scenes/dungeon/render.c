@@ -6,7 +6,7 @@
 
 static void renderBackground(SDL_Surface* window, Engine* engine, Data* data);
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data);
-static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction);
+static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction, int symbol);
 
 static void renderUI(SDL_Surface* window, Engine* engine, Data* data);
 static SDL_Surface* renderLifebar(Engine* engine, Data* data);
@@ -15,6 +15,93 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data);
 static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_Rect origin, int direction);
 
 static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount);
+
+static void renderEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data);
+
+static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data);
+
+static void displayDeathScreen(SDL_Surface* window, Engine* engine, Data* data);
+
+static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data)
+{
+    EntityList* current=entity;
+    SDL_Surface* DeadGuy=NULL;
+    SDL_Rect cloudpos;
+    DeadGuy= get_ImageCollector(engine->imageCollector, "dungeon/smoke")->surface;// remove
+
+    while(current)
+    {
+        SDL_Rect cloudpos,cloudsprite;
+        cloudpos.x= (current->data->movement->hitBox->x+(current->data->movement->hitBox->w/2))-96;
+        cloudpos.y= (current->data->movement->hitBox->y+(current->data->movement->hitBox->h/2))-96;
+
+
+        int step=(current->data->movement->animationStep/50);
+        if(step>3 && step<16){step=3;}
+        if(step>15){step=19-step;}
+        cloudsprite.x=step * 192;
+        cloudsprite.y=0;
+        cloudsprite.h=192;
+        cloudsprite.w=192;
+        SDL_BlitSurface(DeadGuy, &cloudsprite, window, &cloudpos);
+
+        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->dyingEntities->data->damageIndicatorQueue);
+        while (damageIndicator != NULL) {
+            renderDamageAmountIndicator(engine, data,window, *damageIndicator->data->position, damageIndicator->data->amount);
+            damageIndicator = damageIndicator->next;
+        }
+
+
+        current=current->next;
+    }
+
+}
+
+
+static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engine,Data* data)
+{
+    EntityList* current=entity;
+    SDL_Surface* BadGuy=NULL;
+    SDL_Rect monsterpos;
+
+
+
+    while(current)
+    {
+        switch(current->data->type)
+        {
+            case MOTH:
+                BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/moth")->surface;
+                break;
+            case WORM:
+                BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/worm")->surface;
+                break;
+            case PROJECTILE:
+                switch(current->data->movement->direction)
+                {
+                    case 1:
+                        BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/wormshot")->surface;
+                        break;
+                    default:
+                        break;
+                }
+                BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/wormshot")->surface;
+            default:
+                printf("Something is wrong here\n");
+                break;
+        }
+        monsterpos.x = (Sint16) current->data->movement->position->x; // remove
+        monsterpos.y = (Sint16) current->data->movement->position->y;
+        SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
+
+        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(current->data->damageIndicatorQueue);
+        while (damageIndicator != NULL) {
+            renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
+            damageIndicator = damageIndicator->next;
+        }
+        current=current->next;
+    }
+}
 
 static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount) {
     SDL_Surface* damageSpritesheet = get_ImageCollector(engine->imageCollector, "dungeon/damageAmount")->surface;
@@ -158,60 +245,20 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Rect playerPos;
     SDL_Rect monsterpos;
 
-
-
     PlayerSprite = get_ImageCollector(engine->imageCollector, "dungeon/player")->surface;
     FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;
-    BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/moth")->surface;// remove
-    DeadGuy= get_ImageCollector(engine->imageCollector, "dungeon/smoke")->surface;// remove
-
 
     playerPos.x=data->Isaac->movement->position->x;
     playerPos.y=data->Isaac->movement->position->y;
-    if(data->entities != NULL){
-        monsterpos.x = (Sint16) data->entities->data->movement->position->x; // remove
-        monsterpos.y = (Sint16) data->entities->data->movement->position->y;}
 
-    if(data->dyingEntities != NULL){
-        monsterpos.x = (Sint16) data->dyingEntities->data->movement->position->x; // remove
-        monsterpos.y = (Sint16) data->dyingEntities->data->movement->position->y;}
+
+    renderCloudEntities(data->dyingEntities,window,engine,data);
+    
+    renderEntities(data->entities,window,engine,data);
 
 
 
-    if (data->entities != NULL) {
-        SDL_BlitSurface(BadGuy, data->entities->data->movement->spriteBox, window, &monsterpos);
 
-        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->entities->data->damageIndicatorQueue);
-        while (damageIndicator != NULL) {
-            renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
-            damageIndicator = damageIndicator->next;
-        }
-    }
-
-    if (data->dyingEntities !=NULL){
-        if(data->dyingEntities->data->movement->animationStep<400){
-            SDL_BlitSurface(BadGuy, data->dyingEntities->data->movement->spriteBox, window, &monsterpos);
-        }
-        SDL_Rect cloudpos,cloudsprite;
-        cloudpos.x= (data->dyingEntities->data->movement->hitBox->x+(data->dyingEntities->data->movement->hitBox->w/2))-96;
-        cloudpos.y= (data->dyingEntities->data->movement->hitBox->y+(data->dyingEntities->data->movement->hitBox->h/2))-96;
-
-
-        int step=(data->dyingEntities->data->movement->animationStep/50);
-        if(step>3 && step<16){step=3;}
-        if(step>15){step=19-step;}
-        cloudsprite.x= step * 192;
-        cloudsprite.y=0;
-        cloudsprite.h=192;
-        cloudsprite.w=192;
-        SDL_BlitSurface(DeadGuy, &cloudsprite, window, &cloudpos);
-
-        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->dyingEntities->data->damageIndicatorQueue);
-        while (damageIndicator != NULL) {
-            renderDamageAmountIndicator(engine, data,window, *damageIndicator->data->position, damageIndicator->data->amount);
-            damageIndicator = damageIndicator->next;
-        }
-    }
 
     bool invisible=false;
 
@@ -268,27 +315,105 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data) {
     for (int i = 0; i < (int) data->dungeonScene->currentRoom->childrenLength; i += 1) {
         int direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->children[i]->coord, data->dungeonScene->currentRoom->coord)->code;
-        renderDoor(window, engine, data, direction);
+        int symbol = getKeyLevel_Condition(getPrecondition_Room(data->dungeonScene->currentRoom->children[i])) - 1;
+
+        renderDoor(window, engine, data, direction, symbol);
     }
 
     if (getParent_Room(data->dungeonScene->currentRoom) != NULL) {
         int direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->parent->coord, data->dungeonScene->currentRoom->coord)->code;
-        renderDoor(window, engine, data, direction);
+        renderDoor(window, engine, data, direction, 0);
     }
 }
 
-static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction) {
+static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction, int symbol) {
     SDL_Surface* doors = get_ImageCollector(engine->imageCollector, "dungeon/tomatoDoors")->surface;
+
+    int offset;
+
+    if (direction == NORTH || direction == SOUTH) {
+        if (data->dungeonScene->currentRoom->cleaned == false || symbol > data->dungeonScene->keyValue) {
+            switch(symbol) {
+                case 0: {
+                    offset = 0;
+
+                    break;
+                }
+
+                case 1: {
+                    offset = 256;
+
+                    break;
+                }
+
+                case 2: {
+                    offset = 128;
+
+                    break;
+                }
+
+                case 3: {
+                    offset = 192;
+
+                    break;
+                }
+
+                default: {
+                    offset = 0;
+
+                    break;
+                }
+            }
+        } else {
+            offset = 64;
+        }
+    } else if (direction == EAST || direction == WEST) {
+        if (data->dungeonScene->currentRoom->cleaned == false || symbol > data->dungeonScene->keyValue) {
+            switch(symbol) {
+                case 0: {
+                    offset = 6;
+
+                    break;
+                }
+
+                case 1: {
+                    offset = 198;
+
+                    break;
+                }
+
+                case 2: {
+                    offset = 134;
+
+                    break;
+                }
+
+                case 3: {
+                    offset = 262;
+
+                    break;
+                }
+
+                default: {
+                    offset = 6;
+
+                    break;
+                }
+            }
+        } else if (data->dungeonScene->keyValue >= symbol) {
+            offset = 70;
+        }
+    }
 
     switch (direction) {
         case NORTH: {
             SDL_Rect door_Pos;
             SDL_Rect door_Offset;
 
-            door_Offset.x = 0;
-            door_Offset.y = 0;
-            door_Offset.w = 172;
-            door_Offset.h = 109;
+            door_Offset.x = 64;
+            door_Offset.y = (Sint16) offset;
+            door_Offset.w = 110;
+            door_Offset.h = 64;
 
             door_Pos.x = (Sint16) ((window->w / 2) -  door_Offset.w / 2);
             door_Pos.y = 8;
@@ -302,10 +427,10 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
             SDL_Rect door_Pos;
             SDL_Rect door_Offset;
 
-            door_Offset.x = 172;
-            door_Offset.y = 0;
-            door_Offset.w = 109;
-            door_Offset.h = 172;
+            door_Offset.x = 0;
+            door_Offset.y = (Sint16) offset;
+            door_Offset.w = 64;
+            door_Offset.h = 52;
 
             door_Pos.x = (Sint16) ((window->w) -  door_Offset.w);
             door_Pos.y = (Sint16) ((window->h / 2) - door_Offset.h / 2);
@@ -319,10 +444,10 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
             SDL_Rect door_Pos;
             SDL_Rect door_Offset;
 
-            door_Offset.x = 0;
-            door_Offset.y = 109;
-            door_Offset.w = 172;
-            door_Offset.h = 109;
+            door_Offset.x = 238;
+            door_Offset.y = (Sint16) offset;
+            door_Offset.w = 110;
+            door_Offset.h = 64;
 
             door_Pos.x = (Sint16) ((window->w / 2) -  door_Offset.w / 2);
             door_Pos.y = (Sint16) ((window->h - 8) - door_Offset.h);
@@ -336,10 +461,10 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
             SDL_Rect door_Pos;
             SDL_Rect door_Offset;
 
-            door_Offset.x = 281;
-            door_Offset.y = 0;
-            door_Offset.w = 109;
-            door_Offset.h = 172;
+            door_Offset.x = 174;
+            door_Offset.y = (Sint16) offset;
+            door_Offset.w = 64;
+            door_Offset.h = 52;
 
             door_Pos.x = (Sint16) (0);
             door_Pos.y = (Sint16) ((window->h / 2) - door_Offset.h / 2);
@@ -431,7 +556,7 @@ static void renderKeys(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Surface* keys = get_ImageCollector(engine->imageCollector, "dungeon/uiKeys")->surface;
     int amount = 0;
 
-    if (true) { // TODO: Key1 condition
+    if (data->dungeonScene->keyValue > 0) {
         SDL_Rect offset;
         offset.x = 329;
         offset.y = 29;
@@ -447,7 +572,7 @@ static void renderKeys(SDL_Surface* window, Engine* engine, Data* data) {
         amount += 1;
     }
 
-    if (true) { // TODO: Key2 condition
+    if (data->dungeonScene->keyValue > 1) {
         SDL_Rect offset;
         offset.x = 329 + 14 * amount +  46 * amount;
         offset.y = 29;
@@ -463,7 +588,7 @@ static void renderKeys(SDL_Surface* window, Engine* engine, Data* data) {
         amount += 1;
     }
 
-    if (true) { // TODO: Key3 condition
+    if (data->dungeonScene->keyValue > 2) {
         SDL_Rect offset;
         offset.x = 329 + 14 * amount +  46 * amount;
         offset.y = 29;
@@ -492,7 +617,10 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
     int x = data->dungeonScene->currentRoom->coord->x;
     int y = data->dungeonScene->currentRoom->coord->y;
 
-    RoomList* temp = (*getRooms_KeyLevelRoomMapping(getRooms_Dungeon(data->dungeonScene->dungeon), 0));
+    KeyLevelRoomMapping* level = getRooms_Dungeon(data->dungeonScene->dungeon);
+    RoomList* rooms = (*getRooms_KeyLevelRoomMapping(level, 0));
+
+    RoomList* temp = rooms;
 
     while (temp != NULL) {
         int offsetX = (temp->data->coord->x - x);
@@ -554,6 +682,8 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
 
         temp = temp->next;
     }
+
+    clean_KeyLevelRoomMapping(&(level));
 }
 
 static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_Rect origin, int direction) {
@@ -634,10 +764,51 @@ static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_R
     }
 }
 
+static void displayDeathScreen(SDL_Surface* window, Engine* engine, Data* data) {
+    if(!isPlayerAlive(data->Isaac)) {
+        char line[80];
+        SDL_Color colorUsed = {255, 255, 255, 0};
+        TTF_Font* font1 = get_FontCollector(engine->fontCollector, "menu/50")->font;
+
+        SDL_Surface* dialogBox = get_ImageCollector(engine->imageCollector, "dungeon/dialog")->surface;
+        SDL_Surface* dialogInfo;
+        SDL_Rect dialogBoxPos;
+        SDL_Rect dialogPos;
+
+        dialogBoxPos.x = 145;
+        dialogBoxPos.y = 278;
+        SDL_BlitSurface(dialogBox, NULL, window, &dialogBoxPos);
+
+
+        for(int i = 0; i < 2; i++) {
+            switch(i) {
+                case 0: {
+                    strcpy(line, "You died... You'll do better next time.");
+                    dialogPos.x = (Sint16) (145 + ((1010 / 2) - (getWidth_FontCollector(font1, line) / 2)));
+                    dialogPos.y = (Sint16) 290;
+                    break;
+                }
+                case 1: {
+                    strcpy(line, "Press ESC to restart.");
+                    dialogPos.x = (Sint16) (145 + ((1010 / 2) - (getWidth_FontCollector(font1, line) / 2)));
+                    dialogPos.y = (Sint16) 360;
+                    break;
+                }
+            }
+            dialogInfo = TTF_RenderText_Solid(font1, line, colorUsed);
+            SDL_BlitSurface(dialogInfo, NULL, window, &dialogPos);
+        }
+    }
+}
+
 
 extern void renderScene_Scene_dungeon(SDL_Surface* window, Engine* engine, Data* data) {
     renderBackground(window, engine, data);
 
     renderUI(window, engine, data);
     renderMap(window, engine, data);
+
+    displayDeathScreen(window, engine, data);
+
+    SDL_BlitSurface(window, NULL, data->dungeonScene->pauseBg, NULL);
 }

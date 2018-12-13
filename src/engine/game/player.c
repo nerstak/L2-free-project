@@ -336,3 +336,19 @@ extern void alterDamage_Player(Player* Isaac, float alterDamage, char type) {
         default: break;
     }
 }
+
+extern int isPlayerAlive(Player* Isaac) {
+    if(Isaac->stats->current->health <= 0) {
+        return 0;
+    }
+    return 1;
+}
+
+extern void resetStats(Player* Isaac) {
+    resetUsedPotions(Isaac->stats);
+
+    Isaac->stats->current->agility = Isaac->stats->basic->agility;
+    Isaac->stats->current->damage = Isaac->stats->basic->damage;
+    Isaac->stats->current->health = Isaac->stats->basic->health;
+    Isaac->stats->current->speed = Isaac->stats->basic->speed;
+}
