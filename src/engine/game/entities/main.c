@@ -67,9 +67,7 @@ extern EntityList* init_EntityNode(int type) {
             result->movement->velocity->y=0;
             result->movement->spriteBox->h=112;
             result->movement->spriteBox->w=96;
-            result->movement->hitBox->x=result->movement->position->x;
-            result->movement->hitBox->y=result->movement->position->y+32;
-            result->movement->hitBox->h=64;
+            result->movement->hitBox->h=112;
             result->movement->hitBox->w=80;
             result->movement->spriteBox->x=0;
             result->movement->spriteBox->y=0;
