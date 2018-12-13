@@ -24,8 +24,11 @@ src/resources/gfx/enemies/wormshot.png dungeon/wormshot
 src/resources/gfx/enemies/smoke.png dungeon/smoke
 src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox
 src/resources/sfx/player/woosh.wav player/woosh
+src/resources/sfx/UI/victory.wav dungeon/victory
 src/resources/musics/dungeon_Theme.wav dungeon/main_theme
 src/resources/musics/boss_Theme.wav dungeon/boss_theme
+src/resources/musics/death_Theme.wav dungeon/death_theme
 src/resources/sfx/player/step_dungeon_run.wav player/step_dungeon_run
 src/resources/sfx/player/pain.wav player/pain
+src/resources/sfx/player/death.wav player/death
 src/resources/gfx/scenes/dungeon/ui/dialog.png dungeon/dialog

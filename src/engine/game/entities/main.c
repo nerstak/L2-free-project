@@ -74,6 +74,7 @@ extern EntityList* init_EntityNode(int type) {
             result->movement->spriteBox->x=0;
             result->movement->spriteBox->y=0;
             result->attackTimer=init_Timer();
+            start_Timer(result->attackTimer);
             result->shootTimer=init_Timer();
 
             break;
@@ -108,6 +109,7 @@ extern EntityList* init_EntityNode(int type) {
             result->movement->hitBox->w=16;
 
             result->attackTimer=init_Timer();
+            start_Timer(result->attackTimer);
             result->shootTimer=init_Timer();
             break;
         }

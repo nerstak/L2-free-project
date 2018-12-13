@@ -64,9 +64,6 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                                     e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
                                     e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
 
-                                    e->data->movement->hitBox->x = (Sint16) (e->data->movement->position->x);
-                                    e->data->movement->hitBox->y = (Sint16) (e->data->movement->position->y + 32);
-
                                     append_EntityNode(e, &(data->entities));
 
                                     break;
@@ -169,7 +166,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
         process_Entity(&(data->entities), data);
         movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
-        //playStep(engine, data->Isaac);
+        playStep(engine, data->Isaac);
         playDamage(engine, data->Isaac);
 
 
@@ -178,6 +175,12 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 data->dungeonScene->keyValue = getItem_Room(data->dungeonScene->currentRoom)->value;
             }
             data->dungeonScene->currentRoom->cleaned = true;
+            if (isBoss_Room(data->dungeonScene->currentRoom) && data->dungeonScene->bossJustDefeated == 1) {
+                data->dungeonScene->bossJustDefeated = 0;
+                stopMusic();
+                playEffect(engine->soundCollector, "dungeon/victory", 0);
+                playMusic(engine->soundCollector, "dungeon/main_theme");
+            }
         }
 
         SDL_Rect door;
@@ -215,15 +218,17 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 }
 
 static void playStep(Engine* engine, Player* player) {
+    printf("StepChannel before: %d ", player->movement->stepChannel);
     if((player->movement->velocity->x > 10 || player->movement->velocity->x < -10 || player->movement->velocity->y > 10 || player->movement->velocity->y < -10) && player->movement->stepChannel == -1 && player->combat->animationStep == 0) {
         player->movement->stepChannel = playEffect(engine->soundCollector, "player/step_dungeon_run", -1);
     }
-    if((!player->movement->velocity->x && !player->movement->velocity->y && player->movement->stepChannel != -1) || player->combat->animationStep != 0) {
+    if((!player->movement->velocity->x && !player->movement->velocity->y) || player->combat->animationStep != 0) {
         if(player->movement->stepChannel >= 0) {
             stopEffect(player->movement->stepChannel);
         }
         player->movement->stepChannel = -1;
     }
+    printf("Vx: %f Vy: %f StepChannel: %d\n",player->movement->velocity->x,player->movement->velocity->y,player->movement->stepChannel);
 }
 
 static void playDamage(Engine* engine, Player* player) {
@@ -234,7 +239,11 @@ static void playDamage(Engine* engine, Player* player) {
 }
 
 static void processDeath(Engine* engine, Data* data) {
-    stop_Timer(data->Isaac->invulnerabilityTimer);
+    if(isStarted_Timer(data->Isaac->invulnerabilityTimer)) {
+        playMusic(engine->soundCollector, "dungeon/death_theme");
+        playEffect(engine->soundCollector, "player/death", 0);
+        stop_Timer(data->Isaac->invulnerabilityTimer);
+    }
     data->dungeonScene->askCombat = -1;
     if(data->dungeonScene->actionProcess == PAUSE) {
         //We free Player and field

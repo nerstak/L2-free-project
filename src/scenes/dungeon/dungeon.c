@@ -40,18 +40,20 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->dungeonScene->keyValue = 0;
 
+        data->dungeonScene->bossJustDefeated = 0;
+
         data->dungeonScene->pauseBg = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
         loadDungeonsMap(engine, data);
 
         playMusic(engine->soundCollector, "dungeon/main_theme");
 
-        //append_EntityNode(init_EntityNode(MOTH),&(data->entities));
+        // append_EntityNode(init_EntityNode(MOTH),&(data->entities));
         // append_EntityNode(init_EntityNode(MOTH),&(data->entities));
         // data->entities->data->movement->position->x=1000;
         // data->entities->data->movement->position->y=500;
         // append_EntityNode(init_EntityNode(MOTH),&(data->entities));
-        append_EntityNode(init_EntityNode(WORM),&(data->entities)); // TEMP
+        // append_EntityNode(init_EntityNode(WORM),&(data->entities)); // TEMP
     } else {
         // TODO: Improve that part
         stopMusic();
