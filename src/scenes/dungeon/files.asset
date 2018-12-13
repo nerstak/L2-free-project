@@ -21,6 +21,8 @@ src/resources/gfx/player/sprites_scythe.png dungeon/scythe
 src/resources/gfx/enemies/moth.png dungeon/moth
 src/resources/gfx/enemies/worm.png dungeon/worm
 src/resources/gfx/enemies/wormshot.png dungeon/wormshot
+src/resources/gfx/enemies/tree.png dungeon/tree
+src/resources/gfx/enemies/treeseed.png dungeon/treeseed
 src/resources/gfx/enemies/smoke.png dungeon/smoke
 src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox
 src/resources/sfx/player/woosh.wav player/woosh

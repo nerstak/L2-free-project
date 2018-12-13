@@ -34,8 +34,10 @@ extern void ai_EWorm(Entity* e, Data* data)
     if(timeChange > 300 || timeChange<-300) {
         timeChange = 0;
     }
+
     e->movement->hitBox->x = (Sint16) (e->movement->position->x);
-    e->movement->hitBox->y = (Sint16) (e->movement->position->y + 32);
+    e->movement->hitBox->y = (Sint16) (e->movement->position->y);
+
     if(e->attackTimer->started) {
         cap_Timer(e->attackTimer,500);
     }
@@ -45,8 +47,8 @@ extern void ai_EWorm(Entity* e, Data* data)
     else
     {
         Coordinate* source=malloc(sizeof(Coordinate));
-        source->x=e->movement->position->x+32;
-        source->y=e->movement->position->y;
+        source->x=e->movement->position->x+48;
+        source->y=e->movement->position->y+80 ;
 
         shoot_Projectile(data,source,5,e->damage,1300,e->type);
         lap_Timer(e->shootTimer);
