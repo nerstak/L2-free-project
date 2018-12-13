@@ -77,17 +77,18 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
                 BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/worm")->surface;
                 break;
             case PROJECTILE:
-                switch(current->data->movement->direction)
-                {
+                switch(current->data->movement->direction) {
                     case 1:
                         BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/wormshot")->surface;
                         break;
                     default:
                         break;
                 }
+
                 BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/wormshot")->surface;
+                break;
             default:
-                printf("Something is wrong here\n");
+                printf("Something is wrong here: %d\n", current->data->type);
                 break;
         }
         monsterpos.x = (Sint16) current->data->movement->position->x; // remove
