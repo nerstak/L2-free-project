@@ -37,6 +37,12 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
             newRoom->visited = true;
             data->dungeonScene->currentRoom = newRoom;
 
+
+            if(isBoss_Room(newRoom) && newRoom->cleaned == false) {
+                stopMusic();
+                playMusic(engine->soundCollector, "dungeon/boss_theme");
+            }
+
             // We place the entities
             if (newRoom->cleaned == false) {
                 for (int i = 0; i < newRoom->layout->lines; i += 1) {
@@ -152,7 +158,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
         process_Entity(&(data->entities), data);
         movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
-        playStep(engine, data->Isaac);
+        //playStep(engine, data->Isaac);
         playDamage(engine, data->Isaac);
 
 
@@ -160,7 +166,6 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
             if (getItem_Room(data->dungeonScene->currentRoom) != NULL && getItem_Room(data->dungeonScene->currentRoom)->value > -1) {
                 data->dungeonScene->keyValue = getItem_Room(data->dungeonScene->currentRoom)->value;
             }
-
             data->dungeonScene->currentRoom->cleaned = true;
         }
 
@@ -235,5 +240,13 @@ static void processDeath(Engine* engine, Data* data) {
         } else {
             display_SceneCollector(engine,data, "mainMenu");
         }
+    }
+}
+
+static void processMusic(Engine* engine, Data* data) {
+    Room* currentRoom = data->dungeonScene->currentRoom;
+    if(isBoss_Room(currentRoom) && currentRoom->cleaned == false) {
+        stopMusic();
+        playMusic(engine->soundCollector, "dungeon/boss_theme");
     }
 }
