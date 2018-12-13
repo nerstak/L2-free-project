@@ -47,8 +47,8 @@ extern void ai_EWorm(Entity* e, Data* data)
     else
     {
         Coordinate* source=malloc(sizeof(Coordinate));
-        source->x=e->movement->position->x+32;
-        source->y=e->movement->position->y;
+        source->x=e->movement->position->x+48;
+        source->y=e->movement->position->y+80 ;
 
         shoot_Projectile(data,source,5,e->damage,1300,e->type);
         lap_Timer(e->shootTimer);

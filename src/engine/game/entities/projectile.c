@@ -34,8 +34,8 @@ extern void shoot_Projectile(Data * data, Coordinate * source, float v, float da
     EntityList * bullet=init_EntityNode(PROJECTILE);
     bullet->data->movement->position=source;
 
-    double Xdistance= data->Isaac->movement->position->x + 16 - source->x;
-    double Ydistance= data->Isaac->movement->position->y + 48 - source->y;
+    double Xdistance= data->Isaac->movement->hitBox->x + 32 - source->x;
+    double Ydistance= data->Isaac->movement->hitBox->y + 32 - source->y;
 
     double angle;
     if(Xdistance != 0) {
@@ -74,12 +74,18 @@ extern void ai_EProjectile(Entity* e, Data* data)
     e->movement->hitBox->x = (Sint16) e->movement->position->x;
     e->movement->hitBox->y = (Sint16) e->movement->position->y;
 
-    if(BoxCollision(e->movement->hitBox,data->Isaac->movement->hitBox))
+    char destType='X';
+    int coordx=((int) e->movement->position->x+8)/64;
+    int coordy=((int) e->movement->position->y+8)/64;
+    Tiletype(data->dungeonScene->currentRoom->layout->map[coordy][coordx].type,&destType);
+    if(destType=='W' || destType=='B')
     {
-        start_Timer(data->Isaac->invulnerabilityTimer);
-        alterHealth_Player(data->Isaac, - e->damage, 'c');
         e->health=0;
     }
+
+    damage_Entity(e,data,0,0);
+
+
 
     animate_EProjectile(e, timeChange);
 }

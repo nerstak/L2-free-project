@@ -404,7 +404,15 @@ extern EntityList* cloudList_Entity(EntityList* list){
 
 extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
     if (BoxCollision(e->movement->hitBox, data->Isaac->movement->hitBox)) {
-        knockBack_Entity(e, data, -1, x, y,NULL);
+        if(e->type==PROJECTILE)
+        {
+            e->health=0;
+        }
+        else
+        {
+            knockBack_Entity(e, data, -1, x, y,NULL);
+        }
+
 
         if (data->Isaac->invulnerabilityTimer->started == false) {
             start_Timer(data->Isaac->invulnerabilityTimer);
@@ -412,7 +420,7 @@ extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
         }
     }
 
-    if (BoxCollision(e->movement->hitBox, data->Isaac->combat->weaponHitBox) && !e->attackTimer->started) {
+    if (BoxCollision(e->movement->hitBox, data->Isaac->combat->weaponHitBox) && !e->attackTimer->started && e->type!=PROJECTILE) {
         e->health -= 10;//data->Isaac->stats->current->damage * data->Isaac->weapons->damage;
         knockBack_Entity(e, data, data->Isaac->combat->direction, 0, 0,e->attackTimer);
         DamageIndicator* damageIndicator = init_DamageIndicator();
