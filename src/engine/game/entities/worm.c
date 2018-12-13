@@ -34,6 +34,10 @@ extern void ai_EWorm(Entity* e, Data* data)
     if(timeChange > 300 || timeChange<-300) {
         timeChange = 0;
     }
+
+    e->movement->hitBox->x = (Sint16) (e->movement->position->x);
+    e->movement->hitBox->y = (Sint16) (e->movement->position->y + 32);
+
     if(e->attackTimer->started) {
         cap_Timer(e->attackTimer,500);
     }

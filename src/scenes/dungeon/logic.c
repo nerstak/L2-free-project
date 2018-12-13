@@ -56,8 +56,6 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                                     e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
                                     e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
 
-                                    e->data->movement->hitBox->x = (Sint16) (e->data->movement->position->x);
-                                    e->data->movement->hitBox->y = (Sint16) (e->data->movement->position->y + 32);
 
                                     append_EntityNode(e, &(data->entities));
 
