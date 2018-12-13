@@ -43,19 +43,28 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                             switch(newRoom->layout->map[i][j].type) {
                                 case '0': {
                                     EntityList* e = init_EntityNode(MOTH);
-                                    e->data->movement->position->x = 64 * j;
-                                    e->data->movement->position->y = 6 + 64 * i;
+                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
 
                                     append_EntityNode(e, &(data->entities));
 
                                     break;
                                 }
 
-                                /*case '1': {
+                                case '1': {
+                                    EntityList* e = init_EntityNode(WORM);
+                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+                                    e->data->movement->hitBox->x = (Sint16) (e->data->movement->position->x);
+                                    e->data->movement->hitBox->y = (Sint16) (e->data->movement->position->y + 32);
+
+                                    append_EntityNode(e, &(data->entities));
+
                                     break;
                                 }
 
-                                case '2': {
+                                /*case '2': {
                                     break;
                                 }
 
@@ -64,13 +73,15 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                                 }*/
 
                                 default: {
-                                    EntityList* e = init_EntityNode(MOTH);
-                                    e->data->movement->position->x = 64 * j;
-                                    e->data->movement->position->y = 6 + 64 * i;
+                                    EntityList* e = init_EntityNode(WORM);
+                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
 
                                     append_EntityNode(e, &(data->entities));
 
                                     // TODO: Error
+
+                                    break;
                                 }
                             }
                         }
@@ -154,7 +165,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
 
         if (data->entities == NULL && data->dungeonScene->currentRoom->cleaned == false) {
-            if (getItem_Room(data->dungeonScene->currentRoom) != NULL && getItem_Room(data->dungeonScene->currentRoom)->value > -1) {
+            if (getItem_Room(data->dungeonScene->currentRoom) != NULL && getItem_Room(data->dungeonScene->currentRoom)->value > -1 && getItem_Room(data->dungeonScene->currentRoom)->value > data->dungeonScene->keyValue) {
                 data->dungeonScene->keyValue = getItem_Room(data->dungeonScene->currentRoom)->value;
             }
 

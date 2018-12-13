@@ -318,6 +318,8 @@ extern void process_Entity(EntityList** list, struct Data* data) {
             }
             case PROJECTILE: {
                 ai_EProjectile(temp->data,data);
+
+                break;
             }
 
             default: {
