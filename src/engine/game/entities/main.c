@@ -3,6 +3,7 @@
 #include "main.h"
 #include "moth.h"
 #include "worm.h"
+#include "tree.h"
 #include "projectile.h"
 
 #include "../movement.h"
@@ -45,6 +46,7 @@ extern EntityList* init_EntityNode(int type) {
             result->movement->spriteBox->x=0;
             result->movement->spriteBox->y=0;
             result->attackTimer=init_Timer();
+            start_Timer(result->attackTimer);
             result->shootTimer=init_Timer();
 
             break;
@@ -74,6 +76,34 @@ extern EntityList* init_EntityNode(int type) {
             result->attackTimer=init_Timer();
             start_Timer(result->attackTimer);
             result->shootTimer=init_Timer();
+
+            break;
+        }
+        case TREE: {
+            result->type = TREE;
+            result->entity = NULL;
+
+            result->health = 2;
+            result->damage = 1;
+            result->speed = 1;
+
+            result->movement = init_Movement();
+
+            result->movement->animationStep = 0;
+            result->movement->position->x = 0;
+            result->movement->position->y = 0;
+            result->movement->velocity->x = 0;
+            result->movement->velocity->y = 0;
+            result->movement->spriteBox->h = 96;
+            result->movement->spriteBox->w = 64;
+
+            result->movement->hitBox->h = 64;
+            result->movement->hitBox->w = 64;
+            result->movement->spriteBox->x = 0;
+            result->movement->spriteBox->y = 0;
+            result->attackTimer = init_Timer();
+            start_Timer(result->attackTimer);
+            result->shootTimer = init_Timer();
 
             break;
         }
@@ -107,7 +137,6 @@ extern EntityList* init_EntityNode(int type) {
             result->movement->hitBox->w=16;
 
             result->attackTimer=init_Timer();
-            start_Timer(result->attackTimer);
             result->shootTimer=init_Timer();
             break;
         }
@@ -316,6 +345,11 @@ extern void process_Entity(EntityList** list, struct Data* data) {
 
                 break;
             }
+            case TREE: {
+                ai_ETree(temp->data, data);
+
+                break;
+            }
             case PROJECTILE: {
                 ai_EProjectile(temp->data,data);
 
@@ -378,6 +412,7 @@ extern EntityList* killList_Entity(EntityList* list, EntityList** dying) {
         return NULL;
     } else if (list->data->health <= 0) {
         EntityList* temp = list->next;
+        //TODO free if its a projectile
         list->data->movement->animationStep=0;
         append_EntityNode(list,dying);
         return temp;
