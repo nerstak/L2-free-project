@@ -76,6 +76,16 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
             case WORM:
                 BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/worm")->surface;
                 break;
+            case PROJECTILE:
+                switch(current->data->movement->direction)
+                {
+                    case 1:
+                        BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/wormshot")->surface;
+                        break;
+                    default:
+                        break;
+                }
+                BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/wormshot")->surface;
             default:
                 printf("Something is wrong here\n");
                 break;

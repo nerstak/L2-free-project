@@ -26,7 +26,7 @@ extern EntityList* init_EntityNode(int type) {
             result->type = MOTH;
             result->entity = init_EMoth();
 
-            result->health = 5;
+            result->health = 3;
             result->damage = 1;
             result->speed = 1;
 
@@ -39,6 +39,7 @@ extern EntityList* init_EntityNode(int type) {
             result->movement->velocity->y=0;
             result->movement->spriteBox->h=96;
             result->movement->spriteBox->w=128;
+
             result->movement->hitBox->h=96;
             result->movement->hitBox->w=32;
             result->movement->spriteBox->x=0;
@@ -83,7 +84,7 @@ extern EntityList* init_EntityNode(int type) {
             result->entity = init_EProjectile();
 
             result->health = 1;
-            result->damage = 0;
+            result->damage = 1;
             result->speed = 0;
 
             result->movement = init_Movement();
@@ -108,6 +109,7 @@ extern EntityList* init_EntityNode(int type) {
 
             result->attackTimer=init_Timer();
             result->shootTimer=init_Timer();
+            break;
         }
         default: {
             free(node);
@@ -314,6 +316,9 @@ extern void process_Entity(EntityList** list, struct Data* data) {
 
                 break;
             }
+            case PROJECTILE: {
+                ai_EProjectile(temp->data,data);
+            }
 
             default: {
                 break;
@@ -384,9 +389,9 @@ extern EntityList* killList_Entity(EntityList* list, EntityList** dying) {
 extern EntityList* cloudList_Entity(EntityList* list){
     if (list == NULL) {
         return NULL;
-    } else if (list->data->movement->animationStep >= 1000) {
+    } else if (list->data->movement->animationStep >= 1000 || list->data->type==5) {
         EntityList* temp = list->next;
-        //free
+        //TODO free here
         return temp;
     }
 
@@ -406,7 +411,7 @@ extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
     }
 
     if (BoxCollision(e->movement->hitBox, data->Isaac->combat->weaponHitBox) && !e->attackTimer->started) {
-        e->health -= 1;
+        e->health -= 10;//data->Isaac->stats->current->damage * data->Isaac->weapons->damage;
         knockBack_Entity(e, data, data->Isaac->combat->direction, 0, 0,e->attackTimer);
         DamageIndicator* damageIndicator = init_DamageIndicator();
         damageIndicator->amount = 1;

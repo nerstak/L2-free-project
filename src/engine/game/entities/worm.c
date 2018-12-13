@@ -4,6 +4,7 @@
 #include "main.h"
 #include "../../../utils/math.h"
 #include "../movement.h"
+#include "projectile.h"
 
 extern E_Worm* init_EWorm() {
     E_Worm* result = NULL;
@@ -39,7 +40,15 @@ extern void ai_EWorm(Entity* e, Data* data)
     else if(e->shootTimer->started){
         cap_Timer(e->shootTimer,2000);
     }
-    //ELSE CREATE PROJECTILE
+    else
+    {
+        Coordinate* source=malloc(sizeof(Coordinate));
+        source->x=e->movement->position->x+32;
+        source->y=e->movement->position->y;
+
+        shoot_Projectile(data,source,5,e->damage,1300,e->type);
+        lap_Timer(e->shootTimer);
+    }
 
     animate_EWorm(e,timeChange);
     damage_Entity(e, data, 0, 0);
