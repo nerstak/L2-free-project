@@ -39,6 +39,7 @@ if (window) {
 angular.module('app', [
     'ui.router',
     'ui.router.state.events',
+    'ui.bootstrap',
     'app.core',
 ])
 
