@@ -65,6 +65,9 @@ extern void processSleep(Data* data) {
         }
         data->lobby->actionProcess = NONE;
         data->lobby->cursor = 0;
+    } else if(data->lobby->askAction == PAUSE) {
+        data->lobby->actionProcess = NONE;
+        data->lobby->cursor = 0;
     }
 }
 
@@ -133,6 +136,9 @@ extern void menuSelectionDungeon_Garden(Engine* engine, Data* data) {
             data->lobby->cursor = 0;
             display_SceneCollector(engine, data, "dungeon");
         }
+    }  else if(data->lobby->askAction == PAUSE) {
+        data->lobby->actionProcess = NONE;
+        data->lobby->cursor = 0;
     }
 }
 
@@ -156,6 +162,9 @@ extern void menuSelectionPlanting_Garden(Data* data) {
                 start_Timer(data->lobby->timerMessage);
             }
         }
+    } else if(data->lobby->askAction == PAUSE) {
+        data->lobby->actionProcess = NONE;
+        data->lobby->cursor = 0;
     }
 }
 

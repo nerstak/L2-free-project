@@ -63,13 +63,13 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                             BREAK
 
                             CASE(SDLK_ESCAPE)
-                                data->lobby->actionProcess = PAUSE;
+                                data->lobby->askAction = PAUSE;
                             BREAK
                         ENDSWITCH
                     }
                     
                     if (SDLK_ESCAPE == input) {
-                        data->lobby->actionProcess = PAUSE;
+                        data->lobby->askAction = PAUSE;
                     }
 
                     break;
