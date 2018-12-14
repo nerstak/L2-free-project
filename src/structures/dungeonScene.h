@@ -2,6 +2,7 @@
 #define FREE_PROJECT_STRUCTURES_DUNGEONSCENE_H
 
 #include "../engine/game/dungeon/dungeon.h"
+#include "../engine/game/notification.h"
 
 typedef struct dungeonScene_t {
     Dungeon* dungeon;
@@ -12,6 +13,8 @@ typedef struct dungeonScene_t {
     int askCombat;
     int actionProcess;
     int keyValue;
+
+    NotificationQueue* notificationQueue;
 
     SDL_Surface* pauseBg;
 } dungeonScene_t;

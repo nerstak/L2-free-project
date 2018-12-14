@@ -11,6 +11,7 @@ src/resources/gfx/scenes/dungeon/ui/dungeon_map-room-visited.png dungeon/mapRoom
 src/resources/gfx/scenes/dungeon/ui/dungeon_map-room-current.png dungeon/mapRoomCurrent
 src/resources/gfx/scenes/dungeon/ui/dungeon_map-doors.png dungeon/mapDoors
 src/resources/gfx/scenes/dungeon/ui/damageAmount.png dungeon/damageAmount
+src/resources/gfx/scenes/dungeon/ui/dungeon_notification.png dungeon/notification
 src/resources/gfx/dungeon/backgrounds/tomato.png dungeon/bgTomato
 src/resources/gfx/dungeon/elements/tomato/doors.png dungeon/tomatoDoors
 src/resources/gfx/dungeon/elements/tomato/hole.png dungeon/tomatoHole

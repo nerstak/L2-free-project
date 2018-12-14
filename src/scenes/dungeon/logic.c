@@ -162,12 +162,67 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         process_Entity(&(data->entities), data);
         movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
 
+        // Room clean ?
         if (data->entities == NULL && data->dungeonScene->currentRoom->cleaned == false) {
+            // Key to get ?
             if (getItem_Room(data->dungeonScene->currentRoom) != NULL && getItem_Room(data->dungeonScene->currentRoom)->value > -1 && getItem_Room(data->dungeonScene->currentRoom)->value > data->dungeonScene->keyValue) {
                 data->dungeonScene->keyValue = getItem_Room(data->dungeonScene->currentRoom)->value;
+
+                // Notification
+                Notification* notification = init_Notification();
+                notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/uiKeys")->surface;
+                notification->sprite.w = 46;
+                notification->sprite.h = 23;
+                notification->sprite.y = 0;
+
+                switch (data->dungeonScene->keyValue) {
+                    case 1: {
+                        notification->sprite.x = 0;
+
+                        strcpy(notification->text, "Green key");
+                        break;
+                    }
+
+                    case 2: {
+                        notification->sprite.x = 46;
+
+                        strcpy(notification->text, "Orange key");
+                        break;
+                    }
+
+                    case 3: {
+                        notification->sprite.x = 92;
+
+                        strcpy(notification->text, "Red key");
+                        break;
+                    }
+
+                    default: {
+                        // TODO: Shouldn't happens lmao
+
+                        break;
+                    }
+                }
+
+                start_Timer(notification->timer);
+                enQueue_Notification(data->dungeonScene->notificationQueue, notification);
             }
 
             data->dungeonScene->currentRoom->cleaned = true;
+        }
+
+        // Clear notification
+        NotificationQueueNode* tempNode = deQueue_Notification(data->dungeonScene->notificationQueue);
+        while (tempNode != NULL) {
+            NotificationQueueNode* next = tempNode->next;
+
+            if (getTime_Timer(tempNode->data->timer) > 2.5) {
+                popQueue_Notification(data->dungeonScene->notificationQueue);
+            } else {
+                break;
+            }
+
+            tempNode = next;
         }
 
         SDL_Rect door;

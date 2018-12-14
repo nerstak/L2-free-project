@@ -248,24 +248,27 @@ extern void clean_DamageIndicator(DamageIndicator** p) {
 }
 
 extern void cleanQueue_DamageIndicator(DamageIndicatorQueue** p) {
-    if ((*p)->rear == NULL) {
-        free(*p);
-        (*p) = NULL;
-    } else {
-        DamageIndicatorQueueNode* temp = NULL;
-        while ((*p)->rear != NULL) {
-            temp = (*p)->front;
-            (*p)->front = (*p)->front->next;
+    if ((*p) != NULL) {
+        if ((*p)->rear == NULL) {
+            free(*p);
+            (*p) = NULL;
+        } else {
+            DamageIndicatorQueueNode* temp = NULL;
+            while ((*p)->rear != NULL) {
+                temp = (*p)->front;
+                (*p)->front = (*p)->front->next;
 
-            free(temp);
+                clean_DamageIndicator(&(temp->data));
+                free(temp);
 
-            if ((*p)->front == NULL) {
-                (*p)->rear = NULL;
+                if ((*p)->front == NULL) {
+                    (*p)->rear = NULL;
+                }
             }
-        }
 
-        free((*p));
-        (*p) = NULL;
+            free((*p));
+            (*p) = NULL;
+        }
     }
 }
 
