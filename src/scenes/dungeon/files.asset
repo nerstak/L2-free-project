@@ -32,5 +32,10 @@ src/resources/musics/boss_Theme.wav dungeon/boss_theme
 src/resources/musics/death_Theme.wav dungeon/death_theme
 src/resources/sfx/player/step_dungeon_run.wav player/step_dungeon_run
 src/resources/sfx/player/pain.wav player/pain
-src/resources/sfx/player/death.wav player/death
+src/resources/sfx/player/death.wav player/death_player
 src/resources/gfx/scenes/dungeon/ui/dialog.png dungeon/dialog
+src/resources/sfx/mobs/death.wav dungeon/death_mobs
+src/resources/sfx/mobs/moth/pain.wav dungeon/pain_moth
+src/resources/sfx/mobs/worm/pain.wav dungeon/pain_worm
+src/resources/sfx/mobs/worm/attack.wav dungeon/attack_worm
+src/resources/sfx/mobs/moth/move.wav dungeon/move_moth

@@ -3,6 +3,20 @@
 
 #include "../engine/game/dungeon/dungeon.h"
 
+typedef struct entities_bool {
+    int moth;
+    int worm;
+    int boss;
+} entities_bool;
+
+typedef struct soundDungeon_t {
+    int deathMob;
+    int bossJustDefeated;
+    entities_bool* mobsDamaged;
+    entities_bool* mobsDisplacement;
+    entities_bool* mobsAttack;
+} soundDungeon_t;
+
 typedef struct dungeonScene_t {
     Dungeon* dungeon;
     Room* currentRoom;
@@ -12,7 +26,8 @@ typedef struct dungeonScene_t {
     int askCombat;
     int actionProcess;
     int keyValue;
-    int bossJustDefeated;
+
+    soundDungeon_t* sound;
 
     SDL_Surface* pauseBg;
 } dungeonScene_t;

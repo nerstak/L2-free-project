@@ -8,6 +8,11 @@ static void playStep(Engine* engine, Player* player);
 static void playDamage(Engine* engine, Player* player);
 static void enterDoor(Engine* engine, Data* data, SDL_Rect* door, SDL_Rect* player, dungeonScene_t* room, int direction);
 static void processDeath(Engine* engine, Data* data);
+static void processSoundEntities(Engine* engine, Data* data);
+static void playDamage_Entities(Engine* engine, Data* data);
+static void playAttack_Entities(Engine* engine, Data* data);
+static void playDisplacement_Entities(Engine* engine, Data* data);
+
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
     TreeMapNode* node = NULL;
@@ -166,6 +171,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
         playStep(engine, data->Isaac);
         playDamage(engine, data->Isaac);
+        processSoundEntities(engine, data);
 
 
         if (data->entities == NULL && data->dungeonScene->currentRoom->cleaned == false) {
@@ -173,8 +179,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 data->dungeonScene->keyValue = getItem_Room(data->dungeonScene->currentRoom)->value;
             }
             data->dungeonScene->currentRoom->cleaned = true;
-            if (isBoss_Room(data->dungeonScene->currentRoom) && data->dungeonScene->bossJustDefeated == 1) {
-                data->dungeonScene->bossJustDefeated = 0;
+            if (isBoss_Room(data->dungeonScene->currentRoom) && data->dungeonScene->sound->bossJustDefeated == 1) {
+                data->dungeonScene->sound->bossJustDefeated = 0;
                 stopMusic();
                 playEffect(engine->soundCollector, "dungeon/victory", 0);
                 playMusic(engine->soundCollector, "dungeon/main_theme");
@@ -239,11 +245,12 @@ static void playDamage(Engine* engine, Player* player) {
 static void processDeath(Engine* engine, Data* data) {
     if(isStarted_Timer(data->Isaac->invulnerabilityTimer)) {
         playMusic(engine->soundCollector, "dungeon/death_theme");
-        playEffect(engine->soundCollector, "player/death", 0);
+        playEffect(engine->soundCollector, "player/death_player", 0);
         stop_Timer(data->Isaac->invulnerabilityTimer);
     }
     data->dungeonScene->askCombat = -1;
     if(data->dungeonScene->actionProcess == PAUSE) {
+        playEffect(engine->soundCollector, "loading/leave_menu", 0);
         //We free Player and field
         if(data->Isaac) {
             free_Player(&(data->Isaac));
@@ -261,10 +268,36 @@ static void processDeath(Engine* engine, Data* data) {
     }
 }
 
-static void processMusic(Engine* engine, Data* data) {
-    Room* currentRoom = data->dungeonScene->currentRoom;
-    if(isBoss_Room(currentRoom) && currentRoom->cleaned == false) {
-        stopMusic();
-        playMusic(engine->soundCollector, "dungeon/boss_theme");
+static void processSoundEntities(Engine* engine, Data* data) {
+    if(data->dungeonScene->sound->deathMob) {
+        playEffect(engine->soundCollector, "dungeon/death_mobs",0);
+        data->dungeonScene->sound->deathMob = 0;
     }
+    playDamage_Entities(engine, data);
+    playAttack_Entities(engine, data);
+    playDisplacement_Entities(engine, data);
+}
+
+static void playDamage_Entities(Engine* engine, Data* data) {
+    if(data->dungeonScene->sound->mobsDamaged->moth != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_moth", 0);
+    }
+    if(data->dungeonScene->sound->mobsDamaged->worm != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_worm", 0);
+    }
+    resetEntitiesBool(data->dungeonScene->sound->mobsDamaged);
+}
+
+static void playAttack_Entities(Engine* engine, Data* data) {
+    if(data->dungeonScene->sound->mobsAttack->worm != 0) {
+        playEffect(engine->soundCollector, "dungeon/attack_worm", 0);
+    }
+    resetEntitiesBool(data->dungeonScene->sound->mobsAttack);
+}
+
+static void playDisplacement_Entities(Engine* engine, Data* data) {
+    if(data->dungeonScene->sound->mobsDisplacement->moth != 0) {
+        playEffect(engine->soundCollector, "dungeon/move_moth", 0);
+    }
+    resetEntitiesBool(data->dungeonScene->sound->mobsDisplacement);
 }

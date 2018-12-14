@@ -45,6 +45,9 @@ extern void ai_EMoth(Entity* e, Data* data) {
 
     double dist = fabs(Xdistance) / fabs(cos(angle));
     if(dist < 400 && !e->attackTimer->started) {
+        if(e->movement->velocity->x == 0 && e->movement->velocity->y == 0) {
+            data->dungeonScene->sound->mobsDisplacement->moth = 1;
+        }
         e->movement->velocity->x += fabs(cos(angle)) * sign(Xdistance) * timeChange * 0.06;
         e->movement->velocity->y += fabs(sin(angle)) * sign(Ydistance) * timeChange * 0.06;
 

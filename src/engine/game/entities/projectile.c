@@ -55,6 +55,7 @@ extern void shoot_Projectile(Data * data, Coordinate * source, float v, float da
     bullet->data->movement->direction=type;
 
     append_EntityNode(bullet,&(data->entities));
+    data->dungeonScene->sound->mobsAttack->worm = 1;
 }
 
 

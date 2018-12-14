@@ -60,11 +60,15 @@ extern void popQueue_DamageIndicator(DamageIndicatorQueue* q);
 extern bool isEmptyQueue_DamageIndicator(DamageIndicatorQueue* q);
 
 extern void process_Entity(EntityList** list, struct Data* data);
-extern EntityList* killList_Entity(EntityList* list, EntityList** Dying);
+extern EntityList* killList_Entity(struct Data* data, EntityList* list, EntityList** dying);
 extern void damage_Entity(Entity* e, struct Data* data, double x, double y);
 extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x, int y,Timer *timer);
 
 extern void process_Dying(EntityList** list, struct Data* data);
 extern EntityList* cloudList_Entity(EntityList* list);
+
+extern struct entities_bool* initEntitiesBool();
+extern void freeEntitiesBool(struct entities_bool** e);
+extern void resetEntitiesBool(struct entities_bool* e);
 
 #endif //FREE_PROJECT_ENGINE_GAME_ENTITIES_MAIN_H

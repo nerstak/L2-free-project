@@ -16,6 +16,18 @@ extern void assets_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) 
 extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
     if (loadOrUnload == true) {
         data->dungeonScene = malloc(1 * sizeof(dungeonScene_t));
+        if(data->dungeonScene == NULL) {
+            exit(EXIT_FAILURE);
+        }
+
+        data->dungeonScene->sound = malloc(sizeof(soundDungeon_t));
+        if(data->dungeonScene->sound == NULL) {
+            exit(EXIT_FAILURE);
+        }
+
+        data->dungeonScene->sound->mobsDamaged = initEntitiesBool();
+        data->dungeonScene->sound->mobsAttack = initEntitiesBool();
+        data->dungeonScene->sound->mobsDisplacement = initEntitiesBool();
 
         DungeonGenerator* dg = init_DungeonGenerator(time(NULL));
 
@@ -40,7 +52,8 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->dungeonScene->keyValue = 0;
 
-        data->dungeonScene->bossJustDefeated = 0;
+        data->dungeonScene->sound->bossJustDefeated = 0;
+        data->dungeonScene->sound->deathMob = 0;
 
         data->dungeonScene->pauseBg = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
@@ -63,6 +76,11 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
             free(data->dungeonScene->layoutsPath[i]);
         }
 
+        freeEntitiesBool(&data->dungeonScene->sound->mobsDamaged);
+        freeEntitiesBool(&data->dungeonScene->sound->mobsAttack);
+        freeEntitiesBool(&data->dungeonScene->sound->mobsDisplacement);
+        free(data->dungeonScene->sound);
+        data->dungeonScene->sound = NULL;
         free(data->dungeonScene);
         data->dungeonScene = NULL;
     }
