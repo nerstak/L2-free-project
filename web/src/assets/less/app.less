@@ -177,6 +177,7 @@ main {
     justify-content: center;
 
     video {
+        max-width: 100%;
         margin: 0 auto;
     }
 }
@@ -187,6 +188,16 @@ main {
 
         &:hover {
             text-decoration: none;
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    header {
+        div {
+            h1 {
+                font-size: 50px;
+            }
         }
     }
 }
