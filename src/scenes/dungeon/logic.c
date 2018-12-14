@@ -62,23 +62,21 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                                     break;
                                 }
 
-                                /*case '2': {
+                                case '2': {
+                                    EntityList* e = init_EntityNode(TREE);
+                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+
+                                    append_EntityNode(e, &(data->entities));
                                     break;
                                 }
 
-                                case '3': {
+                                /*case '3': {
                                     break;
                                 }*/
 
                                 default: {
-                                    EntityList* e = init_EntityNode(WORM);
-                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
-
-                                    append_EntityNode(e, &(data->entities));
-
-                                    // TODO: Error
-
                                     break;
                                 }
                             }
