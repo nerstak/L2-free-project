@@ -13,6 +13,7 @@ static SDL_Surface* renderLifebar(Engine* engine, Data* data);
 static void renderKeys(SDL_Surface* window, Engine* engine, Data* data);
 static void renderMap(SDL_Surface* window, Engine* engine, Data* data);
 static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_Rect origin, int direction);
+static void renderNotification(SDL_Surface* window, Engine* engine, Data* data);
 
 static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount);
 
@@ -770,6 +771,38 @@ static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_R
     }
 }
 
+static void renderNotification(SDL_Surface* window, Engine* engine, Data* data) {
+    SDL_Surface* bg = get_ImageCollector(engine->imageCollector, "dungeon/notification")->surface;
+    TTF_Font* font = get_FontCollector(engine->fontCollector, "menu/30")->font;
+    SDL_Color almostBlack = {255, 255, 255, 0};
+
+    int amount = 0;
+
+    NotificationQueueNode* notificationQueueNode = deQueue_Notification(data->dungeonScene->notificationQueue);
+    while (notificationQueueNode != NULL && amount < 3) {
+        SDL_Rect bgPos;
+        bgPos.x = (Sint16) (window->w - 277 - 16);
+        bgPos.y = (Sint16) (window->h - 99 - 16 - (amount * (99 + 16)));
+
+        SDL_Rect iconPos;
+        iconPos.y = (Sint16) (bgPos.y + (99 / 2 - notificationQueueNode->data->sprite.h / 2));
+        iconPos.x = (Sint16) (bgPos.x + (iconPos.y - bgPos.y));
+
+        SDL_Rect textPos;
+        textPos.y = (Sint16) (bgPos.y + (99 / 2 - getHeight_FontCollector(font, notificationQueueNode->data->text) / 2));
+        textPos.x = (Sint16) (iconPos.x + notificationQueueNode->data->sprite.w + 16);
+
+        SDL_Surface* text = TTF_RenderText_Solid(font, notificationQueueNode->data->text, almostBlack);
+
+        SDL_BlitSurface(bg, NULL, window, &bgPos);
+        SDL_BlitSurface(notificationQueueNode->data->icon, &(notificationQueueNode->data->sprite), window, &iconPos);
+        SDL_BlitSurface(text, NULL, window, &textPos);
+
+        amount += 1;
+        notificationQueueNode = notificationQueueNode->next;
+    }
+}
+
 static void displayDeathScreen(SDL_Surface* window, Engine* engine, Data* data) {
     if(!isPlayerAlive(data->Isaac)) {
         char line[80];
@@ -813,6 +846,7 @@ extern void renderScene_Scene_dungeon(SDL_Surface* window, Engine* engine, Data*
 
     renderUI(window, engine, data);
     renderMap(window, engine, data);
+    renderNotification(window, engine, data);
 
     displayDeathScreen(window, engine, data);
 

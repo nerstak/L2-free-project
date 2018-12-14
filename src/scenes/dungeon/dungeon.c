@@ -47,6 +47,8 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->dungeonScene->keyValue = 0;
 
+        data->dungeonScene->notificationQueue = initQueue_Notification();
+
         data->dungeonScene->pauseBg = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
         loadDungeonsMap(engine, data);
@@ -55,7 +57,7 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         // data->entities->data->movement->position->x=1000;
         // data->entities->data->movement->position->y=500;
         // append_EntityNode(init_EntityNode(MOTH),&(data->entities));
-         append_EntityNode(init_EntityNode(TREE),&(data->entities));
+        append_EntityNode(init_EntityNode(TREE),&(data->entities));
     } else {
         // TODO: Improve that part
         clean_Dungeon(&(data->dungeonScene->dungeon));
@@ -63,6 +65,8 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         for (int i = 0; i < (int) data->dungeonScene->layoutsLength; i += 1) {
             free(data->dungeonScene->layoutsPath[i]);
         }
+
+        cleanQueue_Notification(&(data->dungeonScene->notificationQueue));
 
         free(data->dungeonScene);
         data->dungeonScene = NULL;
