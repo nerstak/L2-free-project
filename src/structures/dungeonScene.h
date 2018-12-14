@@ -9,6 +9,8 @@ typedef struct dungeonScene_t {
     Room* currentRoom;
     char** layoutsPath;
     size_t layoutsLength;
+    float difficulty;
+
     int moveTo;
     int askCombat;
     int actionProcess;

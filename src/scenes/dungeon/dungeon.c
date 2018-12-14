@@ -53,6 +53,44 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         loadDungeonsMap(engine, data);
 
+        switch(data->field->currentPlant->idVegetable) {
+            case 0: {
+                data->dungeonScene->difficulty = 1.00;
+
+                break;
+            }
+
+            case 1: {
+                data->dungeonScene->difficulty = 1.25;
+
+                break;
+            }
+
+            case 2: {
+                data->dungeonScene->difficulty = 1.50;
+
+                break;
+            }
+
+            case 3: {
+                data->dungeonScene->difficulty = 1.75;
+
+                break;
+            }
+
+            case 4: {
+                data->dungeonScene->difficulty = 2.00;
+
+                break;
+            }
+
+            default: {
+                // TODO: Error here
+
+                break;
+            }
+        }
+
         // append_EntityNode(init_EntityNode(MOTH),&(data->entities));
         // data->entities->data->movement->position->x=1000;
         // data->entities->data->movement->position->y=500;
