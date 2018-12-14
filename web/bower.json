@@ -1,0 +1,12 @@
+{
+  "name": "free_project",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.7.5",
+    "angular-ui-router": "^1.0.20",
+    "normalize.css": "^8.0.1",
+    "angular-bootstrap": "^2.5.0",
+    "bootstrap": "3"
+  }
+}

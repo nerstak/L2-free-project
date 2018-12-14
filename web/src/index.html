@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="app" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <base href="/" />
+        <title ng-bind="pageTitle"></title>
+
+        <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+
+        <!-- build:cssLib assets/css/librairies.css -->
+        <link rel="stylesheet" type="text/css" href="libs/normalize.css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="libs/bootstrap/dist/css/bootstrap.min.css" />
+        <!-- endbuild -->
+
+        <!-- build:cssMain assets/css/main.css -->
+        <link rel="stylesheet" type="text/css" href="assets/css/app.css" />
+        <!-- endbuild -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    </head>
+    <body>
+        <div ui-view layout="row" style="min-height: 100%; height: 100%;"></div>
+
+        <!-- build:jsLib assets/js/librairies.js -->
+        <script src="/libs/angular/angular.min.js"></script>
+        <script src="/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="/libs/angular-ui-router/release/stateEvents.min.js"></script>
+        <script src="libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:jsMain assets/js/main.js -->
+        <script src="/app.js"></script>
+        <script src="/app_config.js"></script>
+        <script src="/app_run.js"></script>
+        <script src="/env.js"></script>
+
+        <script src="/modules/core/core.controllers.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>
