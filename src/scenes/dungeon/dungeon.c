@@ -144,7 +144,12 @@ static void loadDungeonsMap(Engine* engine, Data* data) {
         if (isStart_Room(tempRoom->data) || isBoss_Room(tempRoom->data) || isGoal_Room(tempRoom->data)) {
             tempRoom->data->layout = loadSingle_Layout("dungeons", data->dungeonScene->layoutsPath[0]);
         } else {
-            size_t layoutId = rand() % data->dungeonScene->layoutsLength;
+            size_t layoutId = 0;
+
+            while (layoutId == 0) {
+                layoutId = rand() % data->dungeonScene->layoutsLength;
+            }
+
             tempRoom->data->layout = loadSingle_Layout("dungeons", data->dungeonScene->layoutsPath[layoutId]);
         }
 
