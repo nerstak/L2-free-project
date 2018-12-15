@@ -533,6 +533,7 @@ extern void freeEntitiesBool(struct entities_bool** e) {
 }
 
 extern void resetEntitiesBool(struct entities_bool* e) {
+    e->tree = 0;
     e->moth = 0;
     e->worm = 0;
     e->boss = 0;
@@ -549,6 +550,12 @@ static void preprocesDamage_Entities(struct Data* data, int type) {
         case WORM: {
             if(data->dungeonScene->sound->mobsDamaged->worm == 0) {
                 data->dungeonScene->sound->mobsDamaged->worm = 1;
+            }
+            break;
+        }
+        case TREE: {
+            if(data->dungeonScene->sound->mobsDamaged->tree == 0) {
+                data->dungeonScene->sound->mobsDamaged->tree = 1;
             }
             break;
         }

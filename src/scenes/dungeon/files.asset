@@ -57,3 +57,5 @@ src/resources/sfx/mobs/moth/pain.wav dungeon/pain_moth
 src/resources/sfx/mobs/worm/pain.wav dungeon/pain_worm
 src/resources/sfx/mobs/worm/attack.wav dungeon/attack_worm
 src/resources/sfx/mobs/moth/move.wav dungeon/move_moth
+src/resources/sfx/mobs/tree/attack.wav dungeon/attack_tree
+src/resources/sfx/mobs/tree/pain.wav dungeon/pain_tree

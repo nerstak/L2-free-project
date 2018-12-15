@@ -405,12 +405,17 @@ static void playDamage_Entities(Engine* engine, Data* data) {
     if(data->dungeonScene->sound->mobsDamaged->worm != 0) {
         playEffect(engine->soundCollector, "dungeon/pain_worm", 0);
     }
+    if(data->dungeonScene->sound->mobsDamaged->tree != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_tree", 0);
+    }
     resetEntitiesBool(data->dungeonScene->sound->mobsDamaged);
 }
 
 static void playAttack_Entities(Engine* engine, Data* data) {
     if(data->dungeonScene->sound->mobsAttack->worm != 0) {
         playEffect(engine->soundCollector, "dungeon/attack_worm", 0);
+    }if(data->dungeonScene->sound->mobsAttack->tree != 0) {
+        playEffect(engine->soundCollector, "dungeon/attack_tree", 0);
     }
     resetEntitiesBool(data->dungeonScene->sound->mobsAttack);
 }

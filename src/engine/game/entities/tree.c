@@ -80,6 +80,7 @@ extern void ai_ETree(Entity* e, Data* data) {
         source->x=e->movement->position->x+(64*abs(e->movement->direction-1));
         source->y=e->movement->position->y+52;
 
+        data->dungeonScene->sound->mobsAttack->tree = 1;
         shoot_Projectile(data,source,3,e->damage,1200,e->type);
         lap_Timer(e->shootTimer);
 
