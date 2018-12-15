@@ -116,18 +116,21 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
 }
 
 //Add an existing item to the beginning of a list
-extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size) {
+extern int add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size) {
     if(list && item) {
         if(*list == NULL) {
             *list = item;
             (*size)++;
+            return 1;
         } else if (*size < 16) {
             item->next = *list;
             (*list)->prev = item;
             *list = item;
             (*size)++;
+            return 1;
         }
     }
+    return 0;
 }
 
 //Remove an item of a list and return its adress

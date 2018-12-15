@@ -167,63 +167,63 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
             if (isStart_Room(data->dungeonScene->currentRoom) == false && isBoss_Room(data->dungeonScene->currentRoom) == false && isGoal_Room(data->dungeonScene->currentRoom) == false) {
                 if (probability(0.05)) {
                     // Health Potion
-                    add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(10, 1, data->referenceItems), &(data->Isaac->sizeInventory));
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(10, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                        Notification* notification = init_Notification();
+                        notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                        strcpy(notification->text, data->referenceItems->table[10].name);
+                        notification->sprite.w = 64;
+                        notification->sprite.h = 64;
+                        notification->sprite.x = (10 % 5) * 64;
+                        notification->sprite.y = (10 / 5) * 64;
 
-                    Notification* notification = init_Notification();
-                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                    strcpy(notification->text, data->referenceItems->table[10].name);
-                    notification->sprite.w = 64;
-                    notification->sprite.h = 64;
-                    notification->sprite.x = (10 % 5) * 64;
-                    notification->sprite.y = (10 / 5) * 64;
-
-                    start_Timer(notification->timer);
-                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                        start_Timer(notification->timer);
+                        enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                    }
                 }
 
                 if (probability(0.20)) { // Common
-                    add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(18, 1, data->referenceItems), &(data->Isaac->sizeInventory));
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(18, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                        Notification* notification = init_Notification();
+                        notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                        strcpy(notification->text, data->referenceItems->table[18].name);
+                        notification->sprite.w = 64;
+                        notification->sprite.h = 64;
+                        notification->sprite.x = (18 % 5) * 64;
+                        notification->sprite.y = (18 / 5) * 64;
 
-                    Notification* notification = init_Notification();
-                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                    strcpy(notification->text, data->referenceItems->table[18].name);
-                    notification->sprite.w = 64;
-                    notification->sprite.h = 64;
-                    notification->sprite.x = (18 % 5) * 64;
-                    notification->sprite.y = (18 / 5) * 64;
-
-                    start_Timer(notification->timer);
-                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                        start_Timer(notification->timer);
+                        enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                    }
                 }
 
                 if (probability(0.05)) { // Rare
-                    add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(19, 1, data->referenceItems), &(data->Isaac->sizeInventory));
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(19, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                        Notification* notification = init_Notification();
+                        notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                        strcpy(notification->text, data->referenceItems->table[19].name);
+                        notification->sprite.w = 64;
+                        notification->sprite.h = 64;
+                        notification->sprite.x = (19 % 5) * 64;
+                        notification->sprite.y = (19 / 5) * 64;
 
-                    Notification* notification = init_Notification();
-                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                    strcpy(notification->text, data->referenceItems->table[19].name);
-                    notification->sprite.w = 64;
-                    notification->sprite.h = 64;
-                    notification->sprite.x = (19 % 5) * 64;
-                    notification->sprite.y = (19 / 5) * 64;
-
-                    start_Timer(notification->timer);
-                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                        start_Timer(notification->timer);
+                        enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                    }
                 }
 
                 if (probability(0.02)) { // Ultra rare
-                    add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(20, 1, data->referenceItems), &(data->Isaac->sizeInventory));
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(20, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                        Notification* notification = init_Notification();
+                        notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                        strcpy(notification->text, data->referenceItems->table[20].name);
+                        notification->sprite.w = 64;
+                        notification->sprite.h = 64;
+                        notification->sprite.x = (20 % 5) * 64;
+                        notification->sprite.y = (20 / 5) * 64;
 
-                    Notification* notification = init_Notification();
-                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                    strcpy(notification->text, data->referenceItems->table[20].name);
-                    notification->sprite.w = 64;
-                    notification->sprite.h = 64;
-                    notification->sprite.x = (20 % 5) * 64;
-                    notification->sprite.y = (20 / 5) * 64;
-
-                    start_Timer(notification->timer);
-                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                        start_Timer(notification->timer);
+                        enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                    }
                 }
             }
 

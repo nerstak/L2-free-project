@@ -81,8 +81,9 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
  * @param list double pointer of SlotInventory to the list we expand
  * @param item pointer of SlotInventory of the item to add
  * @param size pointer of integer referring to the size of the list
+ * @return int attesting the operation
  */
-extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size);
+extern int add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size);
 
 /**
  * Remove of SlotInventory from a list of SlotInventory
