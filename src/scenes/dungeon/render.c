@@ -340,7 +340,7 @@ static void renderNotification(SDL_Surface* window, Engine* engine, Data* data) 
 
 
 static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
-    SDL_Surface* background = get_ImageCollector(engine->imageCollector, "dungeon/bgTomato")->surface;
+    SDL_Surface* background = data->dungeonScene->dungeonAssets.bg;
 
     SDL_Rect background_Pos;
     background_Pos.x = BG_OFFSET_X;
@@ -359,17 +359,17 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
             switch(temp.type) {
                 case 'B': {
-                    toBlit = get_ImageCollector(engine->imageCollector, "dungeon/tomatoObstacle")->surface;
+                    toBlit = data->dungeonScene->dungeonAssets.obstacle;
                     break;
                 }
 
                 case 'J': {
-                    toBlit = get_ImageCollector(engine->imageCollector, "dungeon/tomatoSlow")->surface;
+                    toBlit = data->dungeonScene->dungeonAssets.slow;
                     break;
                 }
 
                 case 'H': {
-                    toBlit = get_ImageCollector(engine->imageCollector, "dungeon/tomatoHole")->surface;
+                    toBlit = data->dungeonScene->dungeonAssets.hole;
                     break;
                 }
 

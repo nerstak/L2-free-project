@@ -185,7 +185,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                     add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(18, 1, data->referenceItems), &(data->Isaac->sizeInventory));
 
                     Notification* notification = init_Notification();
-                    notification->icon = get_ImageCollector(engine->imageCollector, "inventory/items")->surface;
+                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
                     strcpy(notification->text, data->referenceItems->table[18].name);
                     notification->sprite.w = 64;
                     notification->sprite.h = 64;
@@ -200,7 +200,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                     add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(19, 1, data->referenceItems), &(data->Isaac->sizeInventory));
 
                     Notification* notification = init_Notification();
-                    notification->icon = get_ImageCollector(engine->imageCollector, "inventory/items")->surface;
+                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
                     strcpy(notification->text, data->referenceItems->table[19].name);
                     notification->sprite.w = 64;
                     notification->sprite.h = 64;
@@ -215,7 +215,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                     add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(20, 1, data->referenceItems), &(data->Isaac->sizeInventory));
 
                     Notification* notification = init_Notification();
-                    notification->icon = get_ImageCollector(engine->imageCollector, "inventory/items")->surface;
+                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
                     strcpy(notification->text, data->referenceItems->table[20].name);
                     notification->sprite.w = 64;
                     notification->sprite.h = 64;
