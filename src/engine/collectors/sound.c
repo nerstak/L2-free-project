@@ -31,7 +31,9 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
     AudioElement* previous = p->audioElements;
 
     // Is the element we want to remove the first one ?
-    if (e->music != NULL && temp->music != NULL && strcmp(temp->music->name, e->music->name) == 0) {
+    if (e->music != NULL
+        && temp->music != NULL
+        && strcmp(temp->music->name, e->music->name) == 0) {
         // We rewrite the head of our list
         p->audioElements = temp->next;
         p->size -= 1;
@@ -226,6 +228,7 @@ extern void unload_SoundCollector(SoundCollector* p, const char name[], int type
 
     if (type == SOUND) {
         e.sound = NULL;
+        e.music = NULL;
         e.sound = malloc(1 * sizeof(Sound));
 
         if (e.sound == NULL) {
@@ -235,6 +238,7 @@ extern void unload_SoundCollector(SoundCollector* p, const char name[], int type
 
         strcpy(e.sound->name, name);
     } else if (type == MUSIC) {
+        e.sound = NULL;
         e.music = NULL;
         e.music = malloc(1 * sizeof(Music));
 
