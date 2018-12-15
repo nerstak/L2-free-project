@@ -6,27 +6,6 @@
 #include "../movement.h"
 #include "projectile.h"
 
-extern E_Worm* init_EWorm() {
-    E_Worm* result = NULL;
-    result = malloc(1 * sizeof(E_Worm));
-
-    if (result == NULL) {
-        exit(EXIT_FAILURE);
-    }
-
-    // Default value
-
-
-
-    return result;
-}
-
-extern void clean_EWorm(E_Worm** p) {
-    if ((*p) != NULL) {
-        free((*p));
-        (*p) = NULL;
-    }
-}
 
 extern void ai_EWorm(Entity* e, Data* data)
 {

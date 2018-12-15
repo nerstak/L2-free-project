@@ -7,27 +7,6 @@
 #include "../movement.h"
 #include "../combat.h"
 
-extern E_Projectile* init_EProjectile()
-{
-    E_Projectile* result = NULL;
-    result = malloc(1 * sizeof(E_Projectile));
-
-    if (result == NULL) {
-        exit(EXIT_FAILURE);
-    }
-
-    // Default value
-
-    return result;
-}
-
-extern void clean_EProjectile(E_Projectile** p)
-{
-    if ((*p) != NULL) {
-        free((*p));
-        (*p) = NULL;
-    }
-}
 
 extern void shoot_Projectile(Data * data, Coordinate * source, float v, float damage, int life_time,int type)
 {

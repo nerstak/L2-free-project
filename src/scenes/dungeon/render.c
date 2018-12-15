@@ -2,6 +2,7 @@
 #include "render.h"
 #include "../../engine/game/dungeon/dungeon.h"
 #include "../../engine/game/dungeon/roomlist.h"
+#include "../../engine/game/entities/boss.h"
 #include "constants.h"
 
 static void renderBackground(SDL_Surface* window, Engine* engine, Data* data);
@@ -628,11 +629,81 @@ static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int dire
 }
 
 
-static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engine, Data* data) {
+
+static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data)
+{
+    EntityList* current=entity;
+    SDL_Surface* DeadGuy=NULL;
+    SDL_Rect cloudpos;
+    DeadGuy= get_ImageCollector(engine->imageCollector, "dungeon/smoke")->surface;
+
+    while(current)
+    {
+        if(current->data->type!=BOSSBOD) {
+            SDL_Rect cloudpos, cloudsprite;
+            cloudpos.x = (current->data->movement->hitBox->x + (current->data->movement->hitBox->w / 2)) - 96;
+            cloudpos.y = (current->data->movement->hitBox->y + (current->data->movement->hitBox->h / 2)) - 96;
+
+
+            int step = (current->data->movement->animationStep / 50);
+            if (step > 3 && step < 16) { step = 3; }
+            if (step > 15) { step = 19 - step; }
+            cloudsprite.x = step * 192;
+            cloudsprite.y = 0;
+            cloudsprite.h = 192;
+            cloudsprite.w = 192;
+            SDL_BlitSurface(DeadGuy, &cloudsprite, window, &cloudpos);
+
+            DamageIndicatorQueueNode *damageIndicator = deQueue_DamageIndicator(
+                    data->dyingEntities->data->damageIndicatorQueue);
+            while (damageIndicator != NULL) {
+                renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position,
+                                            damageIndicator->data->amount);
+                damageIndicator = damageIndicator->next;
+            }
+        }
+        else
+        {
+            SDL_Surface * Corpse=NULL;
+            int step = current->data->movement->animationStep;
+            if(step>2750) {
+                step=2;
+            }
+            else if(step>2500)
+            {
+                step=1;
+            }
+            else{
+                step=0;
+            }
+            Corpse = get_ImageCollector(engine->imageCollector, "dungeon/bossbod")->surface;
+            SDL_Rect corpsepos;
+            corpsepos.x= (Sint16) current->data->movement->position->x;
+            corpsepos.y= (Sint16) current->data->movement->position->y;
+
+            current->data->movement->spriteBox->x=1536;
+            current->data->movement->spriteBox->y=step*288;
+
+            SDL_BlitSurface(Corpse, current->data->movement->spriteBox, window, &corpsepos);
+
+
+        }
+
+
+        current=current->next;
+    }
+
+}
+
+
+static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engine,Data* data)
+{
     EntityList* current=entity;
     SDL_Surface* BadGuy=NULL;
+    SDL_Surface* Arm=NULL;
     SDL_Rect monsterpos;
 
+    E_Boss * arms=NULL;
 
 
     while(current)
@@ -647,6 +718,14 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
                 break;
             case TREE:
                 BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/tree")->surface;
+                break;
+            case BOSSBOD:
+                arms=(E_Boss*) current->data->entity;
+                BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/bossbod")->surface;
+                if(arms->leftarm!=NULL || arms->rightarm!=NULL)
+                {
+                    Arm = get_ImageCollector(engine->imageCollector, "dungeon/arm")->surface;
+                }
                 break;
             case PROJECTILE:
                 switch(current->data->movement->direction) {
@@ -665,9 +744,38 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
                 printf("Something is wrong here: %d\n", current->data->type);
                 break;
         }
-        monsterpos.x = (Sint16) current->data->movement->position->x; // remove
+        monsterpos.x = (Sint16) current->data->movement->position->x;
         monsterpos.y = (Sint16) current->data->movement->position->y;
-        SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
+
+
+        if(current->data->type==BOSSBOD)
+        {
+            if(arms->leftarm!=NULL || arms->rightarm!=NULL)
+            {
+                SDL_BlitSurface(BadGuy, arms->leftsprite, window, &monsterpos);
+                monsterpos.x += 192;
+                SDL_BlitSurface(BadGuy, arms->rightsprite, window, &monsterpos);
+
+                if (arms->leftarm != NULL) {
+                    monsterpos.x = (Sint16) arms->leftarm->movement->position->x; // remove
+                    monsterpos.y = (Sint16) arms->leftarm->movement->position->y;
+                    SDL_BlitSurface(Arm, arms->leftarm->movement->spriteBox, window, &monsterpos);
+                }
+                if (arms->rightarm != NULL) {
+                    monsterpos.x = (Sint16) arms->rightarm->movement->position->x; // remove
+                    monsterpos.y = (Sint16) arms->rightarm->movement->position->y;
+                    SDL_BlitSurface(Arm, arms->rightarm->movement->spriteBox, window, &monsterpos);
+                }
+            }
+            else
+            {
+                SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
+            }
+        }
+        else
+        {
+            SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
+        }
 
         DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(current->data->damageIndicatorQueue);
         while (damageIndicator != NULL) {
@@ -676,40 +784,6 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
         }
         current=current->next;
     }
-}
-
-static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine,Data* data) {
-    EntityList* current=entity;
-    SDL_Surface* DeadGuy=NULL;
-    SDL_Rect cloudpos;
-    DeadGuy= get_ImageCollector(engine->imageCollector, "dungeon/smoke")->surface;// remove
-
-    while(current)
-    {
-        SDL_Rect cloudpos,cloudsprite;
-        cloudpos.x= (current->data->movement->hitBox->x+(current->data->movement->hitBox->w/2))-96;
-        cloudpos.y= (current->data->movement->hitBox->y+(current->data->movement->hitBox->h/2))-96;
-
-
-        int step=(current->data->movement->animationStep/50);
-        if(step>3 && step<16){step=3;}
-        if(step>15){step=19-step;}
-        cloudsprite.x=step * 192;
-        cloudsprite.y=0;
-        cloudsprite.h=192;
-        cloudsprite.w=192;
-        SDL_BlitSurface(DeadGuy, &cloudsprite, window, &cloudpos);
-
-        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(data->dyingEntities->data->damageIndicatorQueue);
-        while (damageIndicator != NULL) {
-            renderDamageAmountIndicator(engine, data,window, *damageIndicator->data->position, damageIndicator->data->amount);
-            damageIndicator = damageIndicator->next;
-        }
-
-
-        current=current->next;
-    }
-
 }
 
 static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount) {
