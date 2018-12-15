@@ -13,7 +13,9 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
             doAction_Garden(data);
         }else if (data->lobby->askAction == INVENTORY) {
             data->lobby->actionProcess = INVENTORY;
-        }else {
+        } else if (data->lobby->askAction == PAUSE) {
+            data->lobby->actionProcess = PAUSE;
+        } else {
             if(data->lobby->askCombat!=-1)
             {
                 ProcessCombat(engine, data, &(data->lobby->askCombat));

@@ -1,6 +1,7 @@
 #include "logic.h"
 #include "../../engine/game/combat.h"
 #include "../../engine/save.h"
+#include "../../utils/math.h"
 
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord);
@@ -72,23 +73,21 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                                     break;
                                 }
 
-                                /*case '2': {
+                                case '2': {
+                                    EntityList* e = init_EntityNode(TREE);
+                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+
+                                    append_EntityNode(e, &(data->entities));
                                     break;
                                 }
 
-                                case '3': {
+                                /*case '3': {
                                     break;
                                 }*/
 
                                 default: {
-                                    EntityList* e = init_EntityNode(WORM);
-                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
-
-                                    append_EntityNode(e, &(data->entities));
-
-                                    // TODO: Error
-
                                     break;
                                 }
                             }
@@ -174,9 +173,116 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         processSoundEntities(engine, data);
 
 
+        // Room clean ?
         if (data->entities == NULL && data->dungeonScene->currentRoom->cleaned == false) {
+            // Loot
+            if (isStart_Room(data->dungeonScene->currentRoom) == false && isBoss_Room(data->dungeonScene->currentRoom) == false && isGoal_Room(data->dungeonScene->currentRoom) == false) {
+                if (probability(0.05)) {
+                    // Health Potion
+                    add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(10, 1, data->referenceItems), &(data->Isaac->sizeInventory));
+
+                    Notification* notification = init_Notification();
+                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                    strcpy(notification->text, data->referenceItems->table[10].name);
+                    notification->sprite.w = 64;
+                    notification->sprite.h = 64;
+                    notification->sprite.x = (10 % 5) * 64;
+                    notification->sprite.y = (10 / 5) * 64;
+
+                    start_Timer(notification->timer);
+                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                }
+
+                if (probability(0.20)) { // Common
+                    add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(18, 1, data->referenceItems), &(data->Isaac->sizeInventory));
+
+                    Notification* notification = init_Notification();
+                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                    strcpy(notification->text, data->referenceItems->table[18].name);
+                    notification->sprite.w = 64;
+                    notification->sprite.h = 64;
+                    notification->sprite.x = (18 % 5) * 64;
+                    notification->sprite.y = (18 / 5) * 64;
+
+                    start_Timer(notification->timer);
+                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                }
+
+                if (probability(0.05)) { // Rare
+                    add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(19, 1, data->referenceItems), &(data->Isaac->sizeInventory));
+
+                    Notification* notification = init_Notification();
+                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                    strcpy(notification->text, data->referenceItems->table[19].name);
+                    notification->sprite.w = 64;
+                    notification->sprite.h = 64;
+                    notification->sprite.x = (19 % 5) * 64;
+                    notification->sprite.y = (19 / 5) * 64;
+
+                    start_Timer(notification->timer);
+                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                }
+
+                if (probability(0.02)) { // Ultra rare
+                    add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(20, 1, data->referenceItems), &(data->Isaac->sizeInventory));
+
+                    Notification* notification = init_Notification();
+                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                    strcpy(notification->text, data->referenceItems->table[20].name);
+                    notification->sprite.w = 64;
+                    notification->sprite.h = 64;
+                    notification->sprite.x = (20 % 5) * 64;
+                    notification->sprite.y = (20 / 5) * 64;
+
+                    start_Timer(notification->timer);
+                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                }
+            }
+
+            // Key to get ?
             if (getItem_Room(data->dungeonScene->currentRoom) != NULL && getItem_Room(data->dungeonScene->currentRoom)->value > -1 && getItem_Room(data->dungeonScene->currentRoom)->value > data->dungeonScene->keyValue) {
                 data->dungeonScene->keyValue = getItem_Room(data->dungeonScene->currentRoom)->value;
+
+                // Notification
+                Notification* notification = init_Notification();
+                notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/uiKeys")->surface;
+                notification->sprite.w = 46;
+                notification->sprite.h = 23;
+                notification->sprite.y = 0;
+
+                switch (data->dungeonScene->keyValue) {
+                    case 1: {
+                        notification->sprite.x = 0;
+
+                        strcpy(notification->text, "Green key");
+                        break;
+                    }
+
+                    case 2: {
+                        notification->sprite.x = 46;
+
+                        strcpy(notification->text, "Orange key");
+                        break;
+                    }
+
+                    case 3: {
+                        notification->sprite.x = 92;
+
+                        strcpy(notification->text, "Red key");
+                        break;
+                    }
+
+                    default: {
+                        clean_Notification(&(notification));
+
+                        break;
+                    }
+                }
+
+                if (notification != NULL) {
+                    start_Timer(notification->timer);
+                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                }
             }
             data->dungeonScene->currentRoom->cleaned = true;
             if (isBoss_Room(data->dungeonScene->currentRoom) && data->dungeonScene->sound->bossJustDefeated == 1) {
@@ -185,6 +291,20 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 playEffect(engine->soundCollector, "dungeon/victory", 0);
                 playMusic(engine->soundCollector, "dungeon/main_theme");
             }
+        }
+
+        // Clear notification
+        NotificationQueueNode* tempNode = deQueue_Notification(data->dungeonScene->notificationQueue);
+        while (tempNode != NULL) {
+            NotificationQueueNode* next = tempNode->next;
+
+            if (getTime_Timer(tempNode->data->timer) > 2.5) {
+                popQueue_Notification(data->dungeonScene->notificationQueue);
+            } else {
+                break;
+            }
+
+            tempNode = next;
         }
 
         SDL_Rect door;

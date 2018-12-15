@@ -1,6 +1,8 @@
 #ifndef FREE_PROJECT_UTILS_MATH_H
 #define FREE_PROJECT_UTILS_MATH_H
 
+#include <stdbool.h>
+
 /**
  * Return the max value between 2 integers
  * @param x the first value
@@ -28,5 +30,11 @@ extern int min(int x, int y);
  * @return +1 or -1
  */
 extern int sign(double x);
+/**
+ * Return true if the probability is matched
+ * @param p the probability
+ * @return a boolean
+ */
+extern bool probability(double p);
 
 #endif //FREE_PROJECT_UTILS_MATH_H

@@ -270,7 +270,8 @@ extern void alterSpeed_Player(Player* Isaac, float alterSpeed, char type) {
             if (Isaac->stats->basic->speed <= 0) {
                 Isaac->stats->basic->speed = 0;
             }
-            Isaac->stats->current->speed = Isaac->stats->basic->speed;
+
+            alterSpeed_Player(Isaac,Isaac->stats->basic->speed - Isaac->stats->current->speed, 'c');
             break;
         }
         default: break;
@@ -300,7 +301,7 @@ extern void alterAgility_Player(Player* Isaac, float alterAgility, char type) {
             if (Isaac->stats->basic->agility <= 0) {
                 Isaac->stats->basic->agility = 0;
             }
-            Isaac->stats->current->agility = Isaac->stats->basic->agility;
+            alterAgility_Player(Isaac,Isaac->stats->basic->agility - Isaac->stats->current->agility, 'c');
             break;
         }
         default: break;
@@ -330,7 +331,7 @@ extern void alterDamage_Player(Player* Isaac, float alterDamage, char type) {
             if (Isaac->stats->basic->damage <= 0) {
                 Isaac->stats->basic->damage = 0;
             }
-            Isaac->stats->current->damage = Isaac->stats->basic->damage;
+            alterDamage_Player(Isaac,Isaac->stats->basic->damage - Isaac->stats->current->damage, 'c');
             break;
         }
         default: break;

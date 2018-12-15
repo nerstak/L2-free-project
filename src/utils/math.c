@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "math.h"
 
 extern int max(int x, int y) {
@@ -21,10 +22,13 @@ extern int min(int x, int y) {
     return (x <= y) ? x: y;
 }
 
-extern int sign(double x)
-{
+extern int sign(double x) {
     if(x<0)
         return -1;
     else
         return 1;
+}
+
+extern bool probability(double p) {
+    return (rand() / (RAND_MAX + 1.0)) < p;
 }

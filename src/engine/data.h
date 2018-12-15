@@ -13,7 +13,6 @@
 #include "game/plants.h"
 #include "game/entities/main.h"
 
-
 typedef struct Data {
     struct referenceTable* referenceItems;
     struct inventory_t* inventory;

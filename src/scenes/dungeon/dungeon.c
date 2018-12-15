@@ -55,18 +55,79 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         data->dungeonScene->sound->bossJustDefeated = 0;
         data->dungeonScene->sound->deathMob = 0;
 
+        data->dungeonScene->notificationQueue = initQueue_Notification();
+
         data->dungeonScene->pauseBg = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
         loadDungeonsMap(engine, data);
 
+
         playMusic(engine->soundCollector, "dungeon/main_theme");
 
-        // append_EntityNode(init_EntityNode(MOTH),&(data->entities));
-        // append_EntityNode(init_EntityNode(MOTH),&(data->entities));
-        // data->entities->data->movement->position->x=1000;
-        // data->entities->data->movement->position->y=500;
-        // append_EntityNode(init_EntityNode(MOTH),&(data->entities));
-        // append_EntityNode(init_EntityNode(WORM),&(data->entities)); // TEMP
+        switch(data->field->currentPlant->idVegetable) {
+            case 0: {
+                data->dungeonScene->dungeonAssets.bg = get_ImageCollector(engine->imageCollector, "dungeon/bgCarrot")->surface;
+                data->dungeonScene->dungeonAssets.obstacle = get_ImageCollector(engine->imageCollector, "dungeon/carrotObstacle")->surface;
+                data->dungeonScene->dungeonAssets.hole = get_ImageCollector(engine->imageCollector, "dungeon/carrotHole")->surface;
+                data->dungeonScene->dungeonAssets.slow = get_ImageCollector(engine->imageCollector, "dungeon/carrotSlow")->surface;
+
+                data->dungeonScene->difficulty = 1.00;
+
+                break;
+            }
+
+            case 1: {
+                data->dungeonScene->dungeonAssets.bg = get_ImageCollector(engine->imageCollector, "dungeon/bgTomato")->surface;
+                data->dungeonScene->dungeonAssets.obstacle = get_ImageCollector(engine->imageCollector, "dungeon/tomatoObstacle")->surface;
+                data->dungeonScene->dungeonAssets.hole = get_ImageCollector(engine->imageCollector, "dungeon/tomatoHole")->surface;
+                data->dungeonScene->dungeonAssets.slow = get_ImageCollector(engine->imageCollector, "dungeon/tomatoSlow")->surface;
+
+                data->dungeonScene->difficulty = 1.25;
+
+                break;
+            }
+
+            case 2: {
+                data->dungeonScene->dungeonAssets.bg = get_ImageCollector(engine->imageCollector, "dungeon/bgPotato")->surface;
+                data->dungeonScene->dungeonAssets.obstacle = get_ImageCollector(engine->imageCollector, "dungeon/potatoObstacle")->surface;
+                data->dungeonScene->dungeonAssets.hole = get_ImageCollector(engine->imageCollector, "dungeon/potatoHole")->surface;
+                data->dungeonScene->dungeonAssets.slow = get_ImageCollector(engine->imageCollector, "dungeon/potatoSlow")->surface;
+
+                data->dungeonScene->difficulty = 1.50;
+
+                break;
+            }
+
+            case 3: {
+                data->dungeonScene->dungeonAssets.bg = get_ImageCollector(engine->imageCollector, "dungeon/bgCorn")->surface;
+                data->dungeonScene->dungeonAssets.obstacle = get_ImageCollector(engine->imageCollector, "dungeon/cornObstacle")->surface;
+                data->dungeonScene->dungeonAssets.hole = get_ImageCollector(engine->imageCollector, "dungeon/cornHole")->surface;
+                data->dungeonScene->dungeonAssets.slow = get_ImageCollector(engine->imageCollector, "dungeon/cornSlow")->surface;
+
+                data->dungeonScene->difficulty = 1.75;
+
+                break;
+            }
+
+            case 4: {
+                data->dungeonScene->dungeonAssets.bg = get_ImageCollector(engine->imageCollector, "dungeon/bgEggplant")->surface;
+                data->dungeonScene->dungeonAssets.obstacle = get_ImageCollector(engine->imageCollector, "dungeon/eggplantObstacle")->surface;
+                data->dungeonScene->dungeonAssets.hole = get_ImageCollector(engine->imageCollector, "dungeon/eggplantHole")->surface;
+                data->dungeonScene->dungeonAssets.slow = get_ImageCollector(engine->imageCollector, "dungeon/eggplantSlow")->surface;
+
+                data->dungeonScene->difficulty = 2.00;
+
+                break;
+            }
+
+            default: {
+                // TODO: Error here
+
+                break;
+            }
+        }
+
+
     } else {
         // TODO: Improve that part
         stopMusic();
@@ -76,11 +137,15 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
             free(data->dungeonScene->layoutsPath[i]);
         }
 
+
         freeEntitiesBool(&data->dungeonScene->sound->mobsDamaged);
         freeEntitiesBool(&data->dungeonScene->sound->mobsAttack);
         freeEntitiesBool(&data->dungeonScene->sound->mobsDisplacement);
         free(data->dungeonScene->sound);
         data->dungeonScene->sound = NULL;
+
+        cleanQueue_Notification(&(data->dungeonScene->notificationQueue));
+
         free(data->dungeonScene);
         data->dungeonScene = NULL;
     }
@@ -161,7 +226,12 @@ static void loadDungeonsMap(Engine* engine, Data* data) {
         if (isStart_Room(tempRoom->data) || isBoss_Room(tempRoom->data) || isGoal_Room(tempRoom->data)) {
             tempRoom->data->layout = loadSingle_Layout("dungeons", data->dungeonScene->layoutsPath[0]);
         } else {
-            size_t layoutId = rand() % data->dungeonScene->layoutsLength;
+            size_t layoutId = 0;
+
+            while (layoutId == 0) {
+                layoutId = rand() % data->dungeonScene->layoutsLength;
+            }
+
             tempRoom->data->layout = loadSingle_Layout("dungeons", data->dungeonScene->layoutsPath[layoutId]);
         }
 

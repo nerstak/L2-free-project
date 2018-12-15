@@ -2,6 +2,14 @@
 #define FREE_PROJECT_STRUCTURES_DUNGEONSCENE_H
 
 #include "../engine/game/dungeon/dungeon.h"
+#include "../engine/game/notification.h"
+
+struct dungeonAssets_t {
+    SDL_Surface* bg;
+    SDL_Surface* obstacle;
+    SDL_Surface* slow;
+    SDL_Surface* hole;
+};
 
 typedef struct entities_bool {
     int moth;
@@ -22,12 +30,18 @@ typedef struct dungeonScene_t {
     Room* currentRoom;
     char** layoutsPath;
     size_t layoutsLength;
+    float difficulty;
+    struct dungeonAssets_t dungeonAssets;
+
     int moveTo;
     int askCombat;
     int actionProcess;
     int keyValue;
 
+
     soundDungeon_t* sound;
+
+    NotificationQueue* notificationQueue;
 
     SDL_Surface* pauseBg;
 } dungeonScene_t;
