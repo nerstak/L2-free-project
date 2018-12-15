@@ -7,6 +7,7 @@
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord);
 static void enterDoor(Engine* engine, Data* data, SDL_Rect* door, SDL_Rect* player, dungeonScene_t* room, int direction);
 static void processDeath(Engine* engine, Data* data);
+static void notificationInventoryFull(Data* data);
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
     TreeMapNode* node = NULL;
@@ -178,6 +179,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                    } else {
+                        notificationInventoryFull(data);
                     }
                 }
 
@@ -193,6 +196,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                    } else {
+                        notificationInventoryFull(data);
                     }
                 }
 
@@ -208,6 +213,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                    } else {
+                        notificationInventoryFull(data);
                     }
                 }
 
@@ -223,6 +230,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                    } else {
+                        notificationInventoryFull(data);
                     }
                 }
             }
@@ -342,4 +351,16 @@ static void processDeath(Engine* engine, Data* data) {
             display_SceneCollector(engine,data, "mainMenu");
         }
     }
+}
+
+static void notificationInventoryFull(Data* data) {
+    Notification* notification = init_Notification();
+    strcpy(notification->text, "Inventory full!");
+    notification->sprite.w = 0;
+    notification->sprite.h = 0;
+    notification->sprite.x = 0;
+    notification->sprite.y = 0;
+
+    start_Timer(notification->timer);
+    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
 }
