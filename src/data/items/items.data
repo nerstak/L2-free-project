@@ -1,6 +1,6 @@
 0: 'Carrot seed' 'Plant these to grow cursed carrot.' ' ' PRICE=0 TYPE=s H=1 D=0 S=0 A=0
 1: 'Tomato seed' 'Planting these will grow some nice pricey tomatoes.' ' ' PRICE=10 TYPE=s H=3 D=0 S=0 A=0
-2: 'Potatoes seed' 'Wait don t potatoes just grow from other potatoes?' ' ' PRICE=40 TYPE=s H=4 D=0 S=0 A=0
+2: 'Potatoes seed' 'Wait don t potatoes just grow from other potatoes?' ' ' PRICE=40 TYPE=s H=5 D=0 S=0 A=0
 3: 'Corn seed' 'Carrots normally take 3 months to grow, not these though.' ' ' PRICE=100 TYPE=s H=8 D=0 S=0 A=0
 4: 'Eggplant seed' 'You can feel chaotic energy radiate from these seeds.' ' ' PRICE=800 TYPE=s H=15 D=0 S=0 A=0
 5: 'Carrot' 'What s up doc.' 'You generally feel healthier.' PRICE=5 TYPE=v H=0.1 D=0 S=0 A=0
