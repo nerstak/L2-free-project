@@ -12,7 +12,7 @@ src/resources/gfx/scenes/lobby/hibox.png lobby/hibox
 src/resources/gfx/scenes/lobby/dialog.png lobby/dialog
 src/resources/gfx/scenes/lobby/plants_spritesheet.png lobby/plants
 src/resources/gfx/scenes/lobby/plants_spritesheet_blur.png lobby/plants_blur
-src/resources/musics/lobby_Theme.wav lobby/main_theme
+src/resources/musics/lobby_Theme.mp3 lobby/main_theme
 src/resources/sfx/UI/move_button.wav lobby/move_button
 src/resources/sfx/UI/confirm_button.wav lobby/confirm_button
 src/resources/sfx/UI/new_day.wav lobby/new_day
