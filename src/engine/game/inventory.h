@@ -77,11 +77,11 @@ extern void freeAll_SlotInventory(SlotInventory** item);
 extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable* referenceItems);
 
 /**
- * Expands the list of items
+ * Expands the list of sorted items
  * @param list double pointer of SlotInventory to the list we expand
  * @param item pointer of SlotInventory of the item to add
  * @param size pointer of integer referring to the size of the list
- * @return int attesting the operation
+ * @return int attesting the integrity of the operation
  */
 extern int add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size);
 

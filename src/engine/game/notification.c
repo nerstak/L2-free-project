@@ -27,6 +27,8 @@ extern NotificationQueue* initQueue_Notification() {
 
     q->front = NULL;
     q->rear = NULL;
+
+    return q;
 }
 
 extern void clean_Notification(Notification** p) {
