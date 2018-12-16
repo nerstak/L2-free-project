@@ -43,6 +43,7 @@ src/resources/gfx/enemies/tree.png dungeon/tree
 src/resources/gfx/enemies/treeseed.png dungeon/treeseed
 src/resources/gfx/enemies/bossbod.png dungeon/bossbod
 src/resources/gfx/enemies/arm.png dungeon/arm
+src/resources/gfx/enemies/lazer.png dungeon/lazer
 src/resources/gfx/enemies/smoke.png dungeon/smoke
 src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox
 src/resources/gfx/scenes/dungeon/ui/dialog.png dungeon/dialog

@@ -20,7 +20,7 @@ extern void shoot_Projectile(Data * data, Coordinate * source, float v, float da
     if(Xdistance != 0) {
         angle = atan(Ydistance / Xdistance);
     } else {
-        angle = 0;
+        angle = 1.57;
     }
 
     bullet->data->movement->velocity->x= fabs(cos(angle)) * sign(Xdistance);

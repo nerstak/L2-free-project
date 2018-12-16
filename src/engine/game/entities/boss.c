@@ -5,6 +5,7 @@
 #include "main.h"
 #include "../../../utils/math.h"
 #include "../movement.h"
+#include "projectile.h"
 
 
 extern E_Boss* init_EBoss(float maxhealth)
@@ -66,50 +67,75 @@ extern void ai_EBoss(Entity* e, Data* data) {
     E_Boss *arms = (E_Boss *) (e->entity);
 
 
-    if (arms->rightarm != NULL)
-    {
-        ai_EArm(arms->rightarm, data,e->health/2);
-        if (arms->rightarm->health <= 0)
-        {
+    if (arms->rightarm != NULL) {
+        ai_EArm(arms->rightarm, data, e->health / 2);
+        if (arms->rightarm->health <= 0) {
             arms->rightarm = NULL;
         }
     }
 
-    if (arms->leftarm != NULL)
-    {
-        ai_EArm(arms->leftarm, data,e->health/2);
-        if(arms->leftarm->health<=0)
-        {
-            arms->leftarm=NULL;
+    if (arms->leftarm != NULL) {
+        ai_EArm(arms->leftarm, data, e->health / 2);
+        if (arms->leftarm->health <= 0) {
+            arms->leftarm = NULL;
         }
     }
 
-    e->movement->hitBox->x= (Sint16) (e->movement->position->x + 100 );
-    e->movement->hitBox->y= (Sint16) (e->movement->position->y);
+    e->movement->hitBox->x = (Sint16) (e->movement->position->x + 100);
+    e->movement->hitBox->y = (Sint16) (e->movement->position->y);
 
-    if(e->attackTimer->started) {
-        cap_Timer(e->attackTimer,500);
+    if (e->attackTimer->started) {
+        cap_Timer(e->attackTimer, 500);
     }
-    /*
-    else if(e->shootTimer->started){
-        cap_Timer(e->shootTimer,2000);
+
+    if (arms->rightarm == NULL && arms->leftarm == NULL) {
+        if (e->shootTimer->started && getTicks_Timer(e->shootTimer)>400) {
+            cap_Timer(e->shootTimer, 1500);
+        } else if(getTicks_Timer(e->shootTimer)<400){
+            Coordinate *source = malloc(sizeof(Coordinate));
+            source->x = e->movement->position->x + 192;
+            source->y = e->movement->position->y + 225;
+
+            shoot_Projectile(data, source, 5, e->damage, 1100, e->type);
+            if(!e->shootTimer->started) {
+                lap_Timer(e->shootTimer);
+            }
+        }
     }
     else
     {
-        Coordinate* source=malloc(sizeof(Coordinate));
-        source->x=e->movement->position->x+48;
-        source->y=e->movement->position->y+80 ;
-
-        shoot_Projectile(data,source,5,e->damage,1300,e->type);
-        lap_Timer(e->shootTimer);
-    } */
+        if (e->shootTimer->started) {
+            cap_Timer(e->shootTimer, 1200);
+        }
+        else{
+            int choice=rand()%2;
+            if(choice==0 || (arms->leftarm!=NULL && arms->rightarm==NULL )) {
+                if (arms->leftarm!=NULL) {
+                    punch(arms->leftarm, data->Isaac->movement->position, e->health / 2,
+                          data->dungeonScene->currentRoom->layout->map);
+                }
+            }
+            else {
+                if (arms->rightarm!=NULL) {
+                    punch(arms->rightarm, data->Isaac->movement->position, e->health / 2,
+                          data->dungeonScene->currentRoom->layout->map);
+                }
+            }
+            lap_Timer(e->shootTimer);
+        }
+    }
 
     animate_EBoss(e,timeChange,arms);
 
-    if(arms->leftarm == NULL && arms->rightarm == NULL)
+    float saved=e->health;
+
+    damage_Entity(e, data, 0, 0);
+
+    if(arms->rightarm != NULL || arms->leftarm != NULL)
     {
-        damage_Entity(e, data, 0, 0);
+        e->health=saved;
     }
+
 
 }
 

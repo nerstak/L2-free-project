@@ -180,7 +180,7 @@ extern EntityList* init_EntityNode(int type) {
 
             result->health = 5;
             result->damage = 2;
-            result->speed = 1;
+            result->speed = 5;
 
             result->movement = init_Movement();
 

@@ -735,6 +735,9 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
                     case TREE:
                         BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/treeseed")->surface;
                         break;
+                    case BOSSBOD:
+                        BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/lazer")->surface;
+                        break;
                     default:
                         break;
                 }

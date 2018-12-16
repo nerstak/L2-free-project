@@ -20,6 +20,7 @@ extern void pause_Timer(Timer* myTimer);
 extern void unpause_Timer(Timer* myTimer);
 
 extern int getTicks_Timer(Timer* myTimer);
+extern int getTicksStart_Timer(Timer* myTimer);
 
 extern bool isStarted_Timer(Timer* myTimer);
 extern bool isPaused_Timer(Timer* myTimer);

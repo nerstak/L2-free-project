@@ -7,6 +7,7 @@
 
 extern void ai_EArm(Entity* e, Data* data,float maxhealth);
 extern void animate_EArm(Entity* e, int time,float maxhealth);
+extern void punch(Entity* e,Coordinate * target,float maxhealth,Tiles ** map);
 
 
 
