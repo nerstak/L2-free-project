@@ -17,13 +17,13 @@ extern E_Boss* init_EBoss(float maxhealth)
         exit(EXIT_FAILURE);
     }
 
-    EntityList * temp=init_EntityNode(ARM);
+    EntityList * temp= init_EntityNode(ARM, 0);
     result->leftarm=temp->data;
     free(temp);
 
 
 
-    temp=init_EntityNode(ARM);
+    temp= init_EntityNode(ARM, 0);
     result->rightarm=temp->data;
     free(temp);
 

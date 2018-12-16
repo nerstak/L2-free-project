@@ -15,7 +15,7 @@ extern void processTutorial(Data* data, float Vchange) {
                     stop_Timer(data->lobby->timerMessage);
                     data->lobby->tutorial = 2;
                 }
-                automaticAskMovement(data, Vchange, 50, 384);
+                automaticAskMovement(data, Vchange, 200, 384);
                 break;
             }
             case 2: {

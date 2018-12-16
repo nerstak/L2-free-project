@@ -8,6 +8,7 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord);
 static void enterDoor(Engine* engine, Data* data, SDL_Rect* door, SDL_Rect* player, dungeonScene_t* room, int direction);
 static void processDeath(Engine* engine, Data* data);
 static void notificationInventoryFull(Data* data);
+static void movePlayer_BossRoom(Data* data);
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
     TreeMapNode* node = NULL;
@@ -39,54 +40,64 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
 
             // We place the entities
             if (newRoom->cleaned == false) {
-                for (int i = 0; i < newRoom->layout->lines; i += 1) {
-                    for (int j = 0; j < newRoom->layout->columns; j += 1) {
-                        if (newRoom->layout->map[i][j].type == '0' || newRoom->layout->map[i][j].type == '1' || newRoom->layout->map[i][j].type == '2' || newRoom->layout->map[i][j].type == '3') {
-                            switch(newRoom->layout->map[i][j].type) {
-                                case '0': {
-                                    EntityList* e = init_EntityNode(MOTH);
-                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+                if(isBoss_Room(newRoom)) {
+                    append_EntityNode(init_EntityNode(BOSSBOD, data->dungeonScene->difficulty), &(data->entities));
+                } else {
+                    for (int i = 0; i < newRoom->layout->lines; i += 1) {
+                        for (int j = 0; j < newRoom->layout->columns; j += 1) {
+                            if (newRoom->layout->map[i][j].type == '0' || newRoom->layout->map[i][j].type == '1' ||
+                                newRoom->layout->map[i][j].type == '2' || newRoom->layout->map[i][j].type == '3') {
+                                switch (newRoom->layout->map[i][j].type) {
+                                    case '0': {
+                                        EntityList* e = init_EntityNode(MOTH, 0);
+                                        e->data->movement->position->x =
+                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                        e->data->movement->position->y =
+                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
 
-                                    append_EntityNode(e, &(data->entities));
+                                        append_EntityNode(e, &(data->entities));
 
-                                    break;
-                                }
+                                        break;
+                                    }
 
-                                case '1': {
-                                    EntityList* e = init_EntityNode(WORM);
-                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
-
-
-                                    append_EntityNode(e, &(data->entities));
-
-                                    break;
-                                }
-
-                                case '2': {
-                                    EntityList* e = init_EntityNode(TREE);
-                                    e->data->movement->position->x = (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                    e->data->movement->position->y = (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+                                    case '1': {
+                                        EntityList* e = init_EntityNode(WORM, 0);
+                                        e->data->movement->position->x =
+                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                        e->data->movement->position->y =
+                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
 
 
-                                    append_EntityNode(e, &(data->entities));
-                                    break;
-                                }
+                                        append_EntityNode(e, &(data->entities));
 
-                                /*case '3': {
-                                    break;
-                                }*/
+                                        break;
+                                    }
 
-                                default: {
-                                    break;
+                                    case '2': {
+                                        EntityList* e = init_EntityNode(TREE, 0);
+                                        e->data->movement->position->x =
+                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                        e->data->movement->position->y =
+                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+
+                                        append_EntityNode(e, &(data->entities));
+                                        break;
+                                    }
+
+                                        /*case '3': {
+                                            break;
+                                        }*/
+
+                                    default: {
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
             return true;
         }
     }
@@ -109,6 +120,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                     if(moveToNewRoom(engine, data, newCoord)) {
                         data->Isaac->movement->position->x=608;
                         data->Isaac->movement->position->y=505;
+                        movePlayer_BossRoom(data);
                     }
 
                     break;
@@ -120,6 +132,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                     if(moveToNewRoom(engine, data, newCoord)) {
                         data->Isaac->movement->position->x=64;
                         data->Isaac->movement->position->y=262;
+                        movePlayer_BossRoom(data);
                     }
 
                     break;
@@ -131,6 +144,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                     if(moveToNewRoom(engine, data, newCoord)) {
                         data->Isaac->movement->position->x=608;
                         data->Isaac->movement->position->y=6;
+                        movePlayer_BossRoom(data);
                     }
 
                     break;
@@ -142,6 +156,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                     if(moveToNewRoom(engine, data, newCoord)) {
                         data->Isaac->movement->position->x=1152;
                         data->Isaac->movement->position->y=262;
+                        movePlayer_BossRoom(data);
                     }
 
                     break;
@@ -363,4 +378,12 @@ static void notificationInventoryFull(Data* data) {
 
     start_Timer(notification->timer);
     enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+}
+
+static void movePlayer_BossRoom(Data* data) {
+    if(isBoss_Room(data->dungeonScene->currentRoom) && !data->dungeonScene->currentRoom->cleaned) {
+        // We move the player to avoid him to spawn on the boss
+        data->Isaac->movement->position->x = 608;
+        data->Isaac->movement->position->y = 505;
+    }
 }

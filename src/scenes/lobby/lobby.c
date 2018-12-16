@@ -35,7 +35,7 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         }
 
 
-        data->Isaac->movement->position->x = 50;
+        data->Isaac->movement->position->x = 200;
         data->Isaac->movement->position->y = 384;
 
     } else {

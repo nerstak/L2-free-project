@@ -11,7 +11,7 @@
 #include "../movement.h"
 #include "../combat.h"
 
-extern EntityList* init_EntityNode(int type) {
+extern EntityList* init_EntityNode(int type, float difficulty) {
     EntityList * node=NULL;
     node=malloc(sizeof(EntityList));
 
@@ -146,7 +146,7 @@ extern EntityList* init_EntityNode(int type) {
             result->type = BOSSBOD;
 
 
-            result->health = 10;
+            result->health = (int) (10 * difficulty);
             result->entity = init_EBoss(result->health/2);
 
             result->damage = 2;
@@ -156,7 +156,7 @@ extern EntityList* init_EntityNode(int type) {
 
             result->movement->animationStep=0;
             result->movement->position->x=448;
-            result->movement->position->y=0;
+            result->movement->position->y=30;
             result->movement->velocity->x=0;
             result->movement->velocity->y=0;
 

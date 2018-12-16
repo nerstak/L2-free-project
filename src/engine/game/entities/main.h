@@ -44,7 +44,7 @@ typedef struct DamageIndicatorQueue {
 
 struct Data;
 
-extern EntityList* init_EntityNode(int type);
+extern EntityList* init_EntityNode(int type, float difficulty);
 extern void append_EntityNode(EntityList * node , EntityList ** dest);
 //extern EntityList* initList_Entity();
 extern void clean_Entity(Entity** p);

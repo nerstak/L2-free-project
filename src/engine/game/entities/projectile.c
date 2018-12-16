@@ -10,7 +10,7 @@
 
 extern void shoot_Projectile(Data * data, Coordinate * source, float v, float damage, int life_time,int type)
 {
-    EntityList * bullet=init_EntityNode(PROJECTILE);
+    EntityList * bullet= init_EntityNode(PROJECTILE, 0);
     bullet->data->movement->position=source;
 
     double Xdistance= data->Isaac->movement->hitBox->x + 32 - source->x;
