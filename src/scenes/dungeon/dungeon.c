@@ -129,13 +129,8 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
     } else {
         // TODO: Improve that part
         stopMusic();
-        clean_Dungeon(&(data->dungeonScene->dungeon));
 
-        for (int i = 0; i < (int) data->dungeonScene->layoutsLength; i += 1) {
-            free(data->dungeonScene->layoutsPath[i]);
-        }
-
-        // Now we predefine all our layouts
+        // Now we clean all our layouts
         KeyLevelRoomMapping* keylevel = getRooms_Dungeon(data->dungeonScene->dungeon);
         RoomList* rooms = *getRooms_KeyLevelRoomMapping(keylevel, 0);
         RoomList* tempRoom = NULL;
@@ -149,7 +144,12 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         clean_KeyLevelRoomMapping(&(keylevel));
 
+        clean_Dungeon(&(data->dungeonScene->dungeon));
 
+        for (int i = 0; i < (int) data->dungeonScene->layoutsLength; i += 1) {
+            free(data->dungeonScene->layoutsPath[i]);
+        }
+        
         freeEntitiesBool(&data->dungeonScene->sound->mobsDamaged);
         freeEntitiesBool(&data->dungeonScene->sound->mobsAttack);
         freeEntitiesBool(&data->dungeonScene->sound->mobsDisplacement);
