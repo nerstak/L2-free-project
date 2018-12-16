@@ -14,6 +14,7 @@ static void processSoundEntities(Engine* engine, Data* data);
 static void playDamage_Entities(Engine* engine, Data* data);
 static void playAttack_Entities(Engine* engine, Data* data);
 static void playDisplacement_Entities(Engine* engine, Data* data);
+static void stopStep(Player* player);
 
 
 static void notificationInventoryFull(Data* data);
@@ -356,6 +357,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         door.x=1224;
         enterDoor(engine, data, &door, data->Isaac->movement->hitBox, data->dungeonScene, 1); //RIGHT
     } else if (isPlayerAlive(data->Isaac)) {
+        stopStep(data->Isaac);
         //TODO: We have to pause every timer of the dungeon
         if (data->dungeonScene->actionProcess == PAUSE) {
             data->dungeonScene->actionProcess = NONE;
@@ -365,6 +367,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
             display_SceneCollector(engine, data, "inventory");
         }
     } else {
+        stopStep(data->Isaac);
         processDeath(engine, data);
     }
 
@@ -376,11 +379,9 @@ static void playStep(Engine* engine, Player* player) {
         player->movement->stepChannel = playEffect(engine->soundCollector, "player/step_dungeon_run", -1);
     }
     if((!player->movement->velocity->x && !player->movement->velocity->y) || player->combat->animationStep != 0) {
-        if(player->movement->stepChannel >= 0) {
-            stopEffect(player->movement->stepChannel);
-        }
-        player->movement->stepChannel = -1;
+        stopStep(player);
     }
+    printf("Average volume is %d ",Mix_Volume(-1,-1));
     printf("Vx: %f Vy: %f StepChannel: %d\n",player->movement->velocity->x,player->movement->velocity->y,player->movement->stepChannel);
 }
 
@@ -474,4 +475,11 @@ static void movePlayer_BossRoom(Data* data) {
         data->Isaac->movement->position->x = 608;
         data->Isaac->movement->position->y = 505;
     }
+}
+
+static void stopStep(Player* player) {
+    if(player->movement->stepChannel >= 0) {
+        stopEffect(player->movement->stepChannel);
+    }
+    player->movement->stepChannel = -1;
 }
