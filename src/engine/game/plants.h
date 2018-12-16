@@ -38,6 +38,13 @@ extern void freeField(field_t** field);
  */
 extern Plant* assignPlant(int n, field_t* field);
 
+/**
+ * Blit the field
+ * @param lobbySurface a pointer to a SDL_Surface
+ * @param data a pointer to a Data Object
+ * @param myImageCollector a pointer to an ImageCollector Object
+ * @param type char indicating if the field has to be blurred or not ('b': blur; anything else: not)
+ */
 extern void plantsBlit(SDL_Surface* lobbySurface, struct Data* data, ImageCollector* myImageCollector, char type);
 
 /**

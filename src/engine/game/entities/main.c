@@ -4,6 +4,8 @@
 #include "moth.h"
 #include "worm.h"
 #include "tree.h"
+#include "boss.h"
+#include "arm.h"
 #include "projectile.h"
 
 #include "../movement.h"
@@ -11,7 +13,7 @@
 
 static void preprocesDamage_Entities(struct Data* data, int type);
 
-extern EntityList* init_EntityNode(int type) {
+extern EntityList* init_EntityNode(int type, float difficulty) {
     EntityList * node=NULL;
     node=malloc(sizeof(EntityList));
 
@@ -27,7 +29,7 @@ extern EntityList* init_EntityNode(int type) {
     switch(type) {
         case MOTH: {
             result->type = MOTH;
-            result->entity = init_EMoth();
+            result->entity = NULL;
 
             result->health = 3;
             result->damage = 1;
@@ -55,7 +57,7 @@ extern EntityList* init_EntityNode(int type) {
         }
         case WORM: {
             result->type = WORM;
-            result->entity = init_EWorm();
+            result->entity = NULL;
 
             result->health = 2;
             result->damage = 1;
@@ -112,7 +114,7 @@ extern EntityList* init_EntityNode(int type) {
         case PROJECTILE:
         {
             result->type = PROJECTILE;
-            result->entity = init_EProjectile();
+            result->entity = NULL;
 
             result->health = 1;
             result->damage = 1;
@@ -140,6 +142,68 @@ extern EntityList* init_EntityNode(int type) {
 
             result->attackTimer=init_Timer();
             result->shootTimer=init_Timer();
+            break;
+        }
+        case BOSSBOD: {
+            result->type = BOSSBOD;
+
+
+            result->health = (int) (10 * difficulty);
+            result->entity = init_EBoss(result->health/2);
+
+            result->damage = 2;
+            result->speed = 1;
+
+            result->movement = init_Movement();
+
+            result->movement->animationStep=0;
+            result->movement->position->x=448;
+            result->movement->position->y=30;
+            result->movement->velocity->x=0;
+            result->movement->velocity->y=0;
+
+            result->movement->spriteBox->x=0;
+            result->movement->spriteBox->y=0;
+            result->movement->spriteBox->h=288;
+            result->movement->spriteBox->w=384;
+
+            result->movement->hitBox->h=260;
+            result->movement->hitBox->w=192;
+
+            result->attackTimer=init_Timer();
+            start_Timer(result->attackTimer);
+            result->shootTimer=init_Timer();
+
+            break;
+        }
+        case ARM: {
+            result->type = ARM;
+            result->entity = NULL;
+
+            result->health = 5;
+            result->damage = 2;
+            result->speed = 5;
+
+            result->movement = init_Movement();
+
+            result->movement->animationStep=0;
+            result->movement->position->x=0;
+            result->movement->position->y=0;
+            result->movement->velocity->x=0;
+            result->movement->velocity->y=0;
+
+            result->movement->spriteBox->x=0;
+            result->movement->spriteBox->y=0;
+            result->movement->spriteBox->h=224;
+            result->movement->spriteBox->w=128;
+
+            result->movement->hitBox->h=130;
+            result->movement->hitBox->w=96;
+
+            result->attackTimer=init_Timer();
+            start_Timer(result->attackTimer);
+            result->shootTimer=init_Timer();
+
             break;
         }
         default: {
@@ -182,6 +246,10 @@ extern void clean_Entity(Entity** p) {
         clean_Timer(&((*p)->attackTimer));
         clean_Movement(&((*p)->movement));
         cleanQueue_DamageIndicator(&((*p)->damageIndicatorQueue));
+        if ((*p)->type == BOSSBOD)
+        {
+            clean_EBoss(&((*p)->entity));
+        }
 
         free((*p));
         (*p) = NULL;
@@ -355,6 +423,11 @@ extern void process_Entity(EntityList** list, struct Data* data) {
 
                 break;
             }
+            case BOSSBOD: {
+                ai_EBoss(temp->data, data);
+
+                break;
+            }
             case PROJECTILE: {
                 ai_EProjectile(temp->data,data);
 
@@ -417,7 +490,6 @@ extern EntityList* killList_Entity(Data* data, EntityList* list, EntityList** dy
         return NULL;
     } else if (list->data->health <= 0) {
         EntityList* temp = list->next;
-        //TODO free if its a projectile
         list->data->movement->animationStep=0;
         if(list->data->type != PROJECTILE) {
             data->dungeonScene->sound->deathMob = 1;
@@ -434,9 +506,18 @@ extern EntityList* killList_Entity(Data* data, EntityList* list, EntityList** dy
 extern EntityList* cloudList_Entity(EntityList* list){
     if (list == NULL) {
         return NULL;
-    } else if (list->data->movement->animationStep >= 1000 || list->data->type==5) {
+    }
+    else if (list->data->movement->animationStep >= 3000 && list->data->type==BOSSBOD) {
         EntityList* temp = list->next;
-        //TODO free here
+        clean_Entity(&(list->data));
+        list=NULL;
+        return temp;
+    }
+    else if ((list->data->movement->animationStep >= 1000 || list->data->type==PROJECTILE) && list->data->type!=BOSSBOD) {
+        EntityList* temp = list->next;
+        clean_Entity(&(list->data));
+        free(list);
+        list=NULL;
         return temp;
     }
 
@@ -464,11 +545,12 @@ extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
     }
 
     if (BoxCollision(e->movement->hitBox, data->Isaac->combat->weaponHitBox) && !e->attackTimer->started && e->type!=PROJECTILE) {
-        e->health -= 1;//data->Isaac->stats->current->damage * data->Isaac->weapons->damage;
+        float damage=data->Isaac->stats->current->damage * data->Isaac->weapons->damage;
+        e->health -= damage ;
         preprocesDamage_Entities(data, e->type);
         knockBack_Entity(e, data, data->Isaac->combat->direction, 0, 0,e->attackTimer);
         DamageIndicator* damageIndicator = init_DamageIndicator();
-        damageIndicator->amount = 1;
+        damageIndicator->amount = damage;
         damageIndicator->position->x = (Sint16) (e->movement->position->x + (e->movement->spriteBox->w / 2));
         damageIndicator->position->y = (Sint16) (e->movement->position->y - 10);
         start_Timer(damageIndicator->timer);

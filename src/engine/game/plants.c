@@ -5,8 +5,17 @@
 #include "../collectors/image.h"
 #include "../data.h"
 
-
+/**
+ * Initialise a Plant Object
+ * @param x int of the X-coordinate
+ * @param y int of the Y-coordinate
+ * @return a pointer to a Plant Object
+ */
 static Plant* init_Plants(int x,int y);
+/**
+ * Free a Plant Object
+ * @param Plant a double pointer to a Plant Object
+ */
 static void freePlant(Plant** Plant);
 
 extern field_t* initField(){

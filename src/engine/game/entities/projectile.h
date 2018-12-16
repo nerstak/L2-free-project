@@ -4,13 +4,6 @@
 #include "../../data.h"
 #include "main.h"
 
-typedef struct E_Projectile {
-} E_Projectile;
-
-extern E_Projectile* init_EProjectile();
-extern void clean_EProjectile(E_Projectile** p);
-
-
 
 extern void shoot_Projectile(Data * data, Coordinate * source, float v, float damage, int life_time,int type);
 

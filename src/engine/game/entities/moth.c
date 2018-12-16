@@ -6,25 +6,6 @@
 #include "../../../utils/math.h"
 #include "../movement.h"
 
-extern E_Moth* init_EMoth() {
-    E_Moth* result = NULL;
-    result = malloc(1 * sizeof(E_Moth));
-
-    if (result == NULL) {
-        exit(EXIT_FAILURE);
-    }
-
-    // Default value
-    return result;
-}
-
-extern void clean_EMoth(E_Moth** p) {
-    if ((*p) != NULL) {
-        free((*p));
-        (*p) = NULL;
-    }
-}
-
 
 extern void ai_EMoth(Entity* e, Data* data) {
     // Timer to get the time since the last frame of movement

@@ -44,7 +44,7 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         data->dungeonScene->moveTo = -1;
 
         data->Isaac->movement->position->x=608;
-        data->Isaac->movement->position->y=6;
+        data->Isaac->movement->position->y=340;
         data->Isaac->movement->direction=0;
         data->dungeonScene->askCombat=-2;
 
@@ -126,8 +126,6 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
                 break;
             }
         }
-
-
     } else {
         // TODO: Improve that part
         stopMusic();

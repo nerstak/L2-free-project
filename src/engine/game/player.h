@@ -20,7 +20,15 @@ typedef struct Weapon {
     float agility;
 } Weapon;
 
+/**
+ * Initialise a Weapon Object
+ * @return a pointer to a Weapon Object
+ */
 extern Weapon* init_Weapon();
+/**
+ * Free a Weapon Object
+ * @param p a double pointer to a Weapon Object
+ */
 extern void clean_Weapon(Weapon** p);
 
 typedef struct CombatValues {
@@ -32,7 +40,15 @@ typedef struct CombatValues {
     Timer* timeSince;
 } CombatValues;
 
+/**
+ * Init a CombatValues Object
+ * @return a pointer to a CombatValues Object
+ */
 extern CombatValues* init_Combat();
+/**
+ * Free a CombatValues Object
+ * @param p a double pointer to a CombatValues Object
+ */
 extern void clean_Combat(CombatValues** p);
 
 typedef struct Player {

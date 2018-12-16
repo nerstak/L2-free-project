@@ -7,31 +7,10 @@
 #include "../movement.h"
 #include "../combat.h"
 
-extern E_Projectile* init_EProjectile()
-{
-    E_Projectile* result = NULL;
-    result = malloc(1 * sizeof(E_Projectile));
-
-    if (result == NULL) {
-        exit(EXIT_FAILURE);
-    }
-
-    // Default value
-
-    return result;
-}
-
-extern void clean_EProjectile(E_Projectile** p)
-{
-    if ((*p) != NULL) {
-        free((*p));
-        (*p) = NULL;
-    }
-}
 
 extern void shoot_Projectile(Data * data, Coordinate * source, float v, float damage, int life_time,int type)
 {
-    EntityList * bullet=init_EntityNode(PROJECTILE);
+    EntityList * bullet= init_EntityNode(PROJECTILE, 0);
     bullet->data->movement->position=source;
 
     double Xdistance= data->Isaac->movement->hitBox->x + 32 - source->x;
@@ -41,7 +20,7 @@ extern void shoot_Projectile(Data * data, Coordinate * source, float v, float da
     if(Xdistance != 0) {
         angle = atan(Ydistance / Xdistance);
     } else {
-        angle = 0;
+        angle = 1.57;
     }
 
     bullet->data->movement->velocity->x= fabs(cos(angle)) * sign(Xdistance);

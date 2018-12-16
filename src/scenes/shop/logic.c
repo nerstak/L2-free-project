@@ -168,9 +168,11 @@ static void buy_item(Engine* engine, Data* data, SlotInventory* itemBuying, int 
                 (current_item->quantity)++;
             } else {
                 //If the player is buying a new item, we create it inside its inventory
-                add_SlotInventory(&(data->Isaac->inventory),
-                                  create_SlotInventory(itemBuying->id,1,data->referenceItems),
-                                  &(data->Isaac->sizeInventory));
+                if(!add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(itemBuying->id, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                    // If the inventory was full
+                    alterMoney_Player(data->Isaac, (itemBuying->price));
+                    --j;
+                }
             }
         }
     }
