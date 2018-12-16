@@ -197,7 +197,7 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
         if (parentRoom == NULL) {
             KeyLevelRoomMapping* rooms = getRooms_Dungeon(p->dungeon);
             parentRoom = chooseRoomWithFreeEdge(p, rooms, 0);
-            // FREE ROOMS FOR FUCK SAKE
+            clean_KeyLevelRoomMapping(&rooms);
             doLock = true;
         }
 
@@ -214,6 +214,8 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
         link_Dungeon(p->dungeon, parentRoom, room, doLock ? latestKey : NULL);
 
         addRoom_KeyLevelRoomMapping(levels, keylevel, room);
+
+        clean_Direction(&d);
     }
 }
 
@@ -256,6 +258,8 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
 
     setItem_Room(goalRoom, init_Symbol(GOAL));
     setItem_Room(bossRoom, init_Symbol(BOSS));
+
+    clean_KeyLevelRoomMapping(&(possibleGoalRooms));
 }
 
 static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
@@ -327,6 +331,8 @@ static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* 
                         }
                     }
                 }
+
+                clean_Direction(&(d));
             }
 
             temp = temp->next;

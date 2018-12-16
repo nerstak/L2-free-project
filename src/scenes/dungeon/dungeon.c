@@ -135,6 +135,20 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
             free(data->dungeonScene->layoutsPath[i]);
         }
 
+        // Now we predefine all our layouts
+        KeyLevelRoomMapping* keylevel = getRooms_Dungeon(data->dungeonScene->dungeon);
+        RoomList* rooms = *getRooms_KeyLevelRoomMapping(keylevel, 0);
+        RoomList* tempRoom = NULL;
+        tempRoom = rooms;
+
+        while (tempRoom != NULL) {
+            freeSingle_Layout(&(tempRoom->data->layout));
+
+            tempRoom = tempRoom->next;
+        }
+
+        clean_KeyLevelRoomMapping(&(keylevel));
+
 
         freeEntitiesBool(&data->dungeonScene->sound->mobsDamaged);
         freeEntitiesBool(&data->dungeonScene->sound->mobsAttack);
@@ -143,6 +157,8 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         data->dungeonScene->sound = NULL;
 
         cleanQueue_Notification(&(data->dungeonScene->notificationQueue));
+
+        SDL_FreeSurface(data->dungeonScene->pauseBg);
 
         free(data->dungeonScene);
         data->dungeonScene = NULL;

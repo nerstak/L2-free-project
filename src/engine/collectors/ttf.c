@@ -87,7 +87,7 @@ extern void clean_FontCollector(FontCollector** myFontCollector) {
     Font* temp = (*myFontCollector)->fonts;
     Font* next = NULL;
 
-    while (temp->next != NULL) {
+    while (temp != NULL) {
         next = temp->next;
 
         TTF_CloseFont(temp->font);

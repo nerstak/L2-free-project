@@ -197,8 +197,11 @@ static void renderMap(SDL_Surface* window, Engine* engine, Data* data) {
                     offsetX = (temp->data->children[i]->coord->x - x);
                     offsetY = (temp->data->children[i]->coord->y - y);
 
-                    int direction = getDirectionTo_Coord(temp->data->children[i]->coord, temp->data->coord)->code;
-                    renderMapDoor(window, engine, data, posRoom, direction);
+                    Direction* direction = getDirectionTo_Coord(temp->data->children[i]->coord, temp->data->coord);
+                    int directionCode = direction->code;
+                    renderMapDoor(window, engine, data, posRoom, directionCode);
+
+                    clean_Direction(&direction);
 
                     if (offsetX < 3 && offsetX > -3 && offsetY < 3 && offsetY > -3) {
                         pos.x = (Sint16) (1116 + 25 * 2 + offsetX * 25);
@@ -462,10 +465,13 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data) {
     for (int i = 0; i < (int) data->dungeonScene->currentRoom->childrenLength; i += 1) {
-        int direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->children[i]->coord, data->dungeonScene->currentRoom->coord)->code;
+        Direction* direction = getDirectionTo_Coord(data->dungeonScene->currentRoom->children[i]->coord, data->dungeonScene->currentRoom->coord);
+        int directionCode = direction->code;
         int symbol = getKeyLevel_Condition(getPrecondition_Room(data->dungeonScene->currentRoom->children[i])) - 1;
 
-        renderDoor(window, engine, data, direction, symbol);
+        renderDoor(window, engine, data, directionCode, symbol);
+
+        clean_Direction(&direction);
     }
 
     if (getParent_Room(data->dungeonScene->currentRoom) != NULL) {

@@ -112,6 +112,14 @@ extern void gameLoop(SDL_Surface* window) {
         limit_Fps(myFps);
     }
 
+    // Clean current view
+    if (mySceneCollector->currentOverlay != NULL) {
+        mySceneCollector->currentOverlay->init(myEngine, myData, false);
+        mySceneCollector->previousScene->init(myEngine, myData, false);
+    } else {
+        mySceneCollector->currentScene->init(myEngine, myData, false);
+    }
+
     clean_Fps(&myFps);
 
     clean_ImageCollector(&myImageCollector);

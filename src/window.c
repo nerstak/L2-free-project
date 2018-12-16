@@ -38,6 +38,7 @@ extern void init_Window() {
 
     // Cleaning our window
     clean_Window();
+    SDL_FreeSurface(icon);
 
     // Closing all modules launched
     Mix_CloseAudio();

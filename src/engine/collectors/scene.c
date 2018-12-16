@@ -112,7 +112,7 @@ extern void clean_SceneCollector(SceneCollector** mySceneCollector) {
     Scene* temp = (*mySceneCollector)->scenes;
     Scene* next = NULL;
 
-    while (temp->next != NULL) {
+    while (temp != NULL) {
         next = temp->next;
 
         // Clean all the properties of our scene

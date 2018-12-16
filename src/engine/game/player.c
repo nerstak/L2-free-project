@@ -47,6 +47,16 @@ extern CombatValues* init_Combat() {
         exit(EXIT_FAILURE);
     }
 
+    result->spriteBox->w = 0;
+    result->spriteBox->h = 0;
+    result->spriteBox->x = 0;
+    result->spriteBox->y = 0;
+
+    result->weaponHitBox->w = 0;
+    result->weaponHitBox->h = 0;
+    result->weaponHitBox->x = 0;
+    result->weaponHitBox->y = 0;
+
     result->timeSince = init_Timer();
 
     return result;

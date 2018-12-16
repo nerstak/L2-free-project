@@ -256,6 +256,12 @@ extern void unload_SoundCollector(SoundCollector* p, const char name[], int type
 
     // We remove one AudioElement from our SoundCollector
     remove_AudioElement(p, &e);
+
+    if (type == SOUND) {
+        free(e.sound);
+    } else if (type == MUSIC) {
+        free(e.music);
+    }
 }
 
 extern void unloadList_SoundCollector(SoundCollector* p, Asset* assetsList) {
