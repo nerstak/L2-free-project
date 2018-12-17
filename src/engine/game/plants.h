@@ -61,6 +61,6 @@ extern void removePlant(int n, field_t* field);
  * @param data pointer to Data Object
  * @return a pointer to a Plant Object, or NULL if not found
  */
-extern Plant* assignNumber_Plant(int coordX, int coordY, struct Data* data);
+extern Plant* assignNumberPlant_Coord(int coordX, int coordY, struct Data* data, int* number);
 
 #endif // FREE_PROJECT_ENGINE_GAME_PLANTS_H

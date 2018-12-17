@@ -158,19 +158,31 @@ extern void removePlant(int n, field_t* field) {
     }
 }
 
-extern Plant* assignNumber_Plant(int coordX, int coordY, struct Data* data) {
+extern Plant* assignNumberPlant_Coord(int coordX, int coordY, struct Data* data, int* number) {
     if (coordX == 15 ) {
         if (coordY == 5) {
+            if(number) {
+                *number = 2;
+            }
              return data->field->plantBotLeft;
         } else if (coordY == 2) {
+            if(number) {
+                *number = 0;
+            }
             return data->field->plantTopLeft;
         } else {
             return NULL;
         }
     } else if (coordX == 17) {
         if (coordY == 5) {
+            if(number) {
+                *number = 3;
+            }
             return data->field->plantBotRight;
         } else if (coordY == 2) {
+            if(number) {
+                *number = 1;
+            }
             return data->field->plantTopRight;
         } else {
             return NULL;
