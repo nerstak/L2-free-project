@@ -31,6 +31,9 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
             data->inventory->askAction = I_NONE;
         } else if(action == I_LEAVE) {
             data->inventory->askAction = I_NONE;
+            if(strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
+                unpauseTimer_entities(data->entities);
+            }
             display_SceneCollector(engine, data, engine->sceneCollector->previousScene->name);
         }
     }

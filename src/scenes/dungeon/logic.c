@@ -364,7 +364,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
             }
         }
     } else if (isPlayerAlive(data->Isaac)) {
-        //TODO: We have to pause every timer of the dungeon
+        pauseTimer_entities(data->entities);
         if (data->dungeonScene->actionProcess == PAUSE) {
             data->dungeonScene->actionProcess = NONE;
             display_SceneCollector(engine, data, "pauseMenu");

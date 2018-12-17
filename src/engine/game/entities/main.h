@@ -68,4 +68,15 @@ extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x,
 extern void process_Dying(EntityList** list, struct Data* data);
 extern EntityList* cloudList_Entity(EntityList* list);
 
+/**
+ * Pause timers of entities
+ * @param list a pointer to an EntityList Object
+ */
+extern void pauseTimer_entities(EntityList* list);
+/**
+ * Unpause timers of entities
+ * @param list a pointer to an EntityList Object
+ */
+extern void unpauseTimer_entities(EntityList* list);
+
 #endif //FREE_PROJECT_ENGINE_GAME_ENTITIES_MAIN_H

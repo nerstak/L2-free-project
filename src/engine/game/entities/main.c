@@ -590,3 +590,21 @@ extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x,
         }
     }
 }
+
+extern void pauseTimer_entities(EntityList* list) {
+    EntityList* temp = list;
+    while(temp) {
+        pause_Timer(temp->data->shootTimer);
+        pause_Timer(temp->data->attackTimer);
+        temp = temp->next;
+    }
+}
+
+extern void unpauseTimer_entities(EntityList* list) {
+    EntityList* temp = list;
+    while(temp) {
+        unpause_Timer(temp->data->attackTimer);
+        unpause_Timer(temp->data->shootTimer);
+        temp = temp->next;
+    }
+}
