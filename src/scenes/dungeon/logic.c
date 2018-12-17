@@ -374,7 +374,6 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 }
 
 static void playStep(Engine* engine, Player* player) {
-    printf("StepChannel before: %d ", player->movement->stepChannel);
     if((player->movement->velocity->x > 10 || player->movement->velocity->x < -10 || player->movement->velocity->y > 10 || player->movement->velocity->y < -10) && player->movement->stepChannel == -1 && player->combat->animationStep == 0) {
         player->movement->stepChannel = playEffect(engine->soundCollector, "player/step_dungeon_run", -1);
     }
@@ -438,6 +437,12 @@ static void playDamage_Entities(Engine* engine, Data* data) {
     if(data->dungeonScene->sound->mobsDamaged->tree != 0) {
         playEffect(engine->soundCollector, "dungeon/pain_tree", 0);
     }
+    if(data->dungeonScene->sound->mobsDamaged->arm != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_arm", 0);
+    }
+    if(data->dungeonScene->sound->mobsDamaged->bossBod != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_bossBod", 0);
+    }
     resetEntitiesBool(data->dungeonScene->sound->mobsDamaged);
 }
 
@@ -446,6 +451,11 @@ static void playAttack_Entities(Engine* engine, Data* data) {
         playEffect(engine->soundCollector, "dungeon/attack_worm", 0);
     }if(data->dungeonScene->sound->mobsAttack->tree != 0) {
         playEffect(engine->soundCollector, "dungeon/attack_tree", 0);
+    }
+    if(data->dungeonScene->sound->mobsAttack->arm != 0) {
+        playEffect(engine->soundCollector, "dungeon/attack_arm", 0);
+    }if(data->dungeonScene->sound->mobsAttack->bossBod != 0) {
+        playEffect(engine->soundCollector, "dungeon/attack_bossBod", 0);
     }
     resetEntitiesBool(data->dungeonScene->sound->mobsAttack);
 }

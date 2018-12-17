@@ -98,6 +98,7 @@ extern void ai_EBoss(Entity* e, Data* data) {
 
             shoot_Projectile(data, source, 5, e->damage, 1100, e->type);
             if(!e->shootTimer->started) {
+                data->dungeonScene->sound->mobsAttack->bossBod = 1;
                 lap_Timer(e->shootTimer);
             }
         }
@@ -111,13 +112,13 @@ extern void ai_EBoss(Entity* e, Data* data) {
             int choice=rand()%2;
             if(choice==0 || (arms->leftarm!=NULL && arms->rightarm==NULL )) {
                 if (arms->leftarm!=NULL) {
-                    punch(arms->leftarm, data->Isaac->movement->position, e->health / 2,
+                    punch(data, arms->leftarm, data->Isaac->movement->position, e->health / 2,
                           data->dungeonScene->currentRoom->layout->map);
                 }
             }
             else {
                 if (arms->rightarm!=NULL) {
-                    punch(arms->rightarm, data->Isaac->movement->position, e->health / 2,
+                    punch(data, arms->rightarm, data->Isaac->movement->position, e->health / 2,
                           data->dungeonScene->currentRoom->layout->map);
                 }
             }

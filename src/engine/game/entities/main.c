@@ -173,6 +173,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->attackTimer=init_Timer();
             start_Timer(result->attackTimer);
             result->shootTimer=init_Timer();
+            start_Timer(result->shootTimer);
 
             break;
         }
@@ -489,10 +490,13 @@ extern EntityList* killList_Entity(Data* data, EntityList* list, EntityList** dy
     if (list == NULL) {
         return NULL;
     } else if (list->data->health <= 0) {
+        printf("%d\n",list->data->type);
         EntityList* temp = list->next;
         list->data->movement->animationStep=0;
-        if(list->data->type != PROJECTILE) {
+        if(list->data->type != PROJECTILE && list->data->type != BOSSBOD) {
             data->dungeonScene->sound->deathMob = 1;
+        } else if (list->data->type == BOSSBOD) {
+            data->dungeonScene->sound->bossJustDefeated = 1;
         }
         append_EntityNode(list,dying);
         return temp;
@@ -618,7 +622,8 @@ extern void resetEntitiesBool(struct entities_bool* e) {
     e->tree = 0;
     e->moth = 0;
     e->worm = 0;
-    e->boss = 0;
+    e->bossBod = 0;
+    e->arm = 0;
 }
 
 static void preprocesDamage_Entities(struct Data* data, int type) {
@@ -638,6 +643,18 @@ static void preprocesDamage_Entities(struct Data* data, int type) {
         case TREE: {
             if(data->dungeonScene->sound->mobsDamaged->tree == 0) {
                 data->dungeonScene->sound->mobsDamaged->tree = 1;
+            }
+            break;
+        }
+        case ARM: {
+            if(data->dungeonScene->sound->mobsDamaged->arm == 0) {
+                data->dungeonScene->sound->mobsDamaged->arm = 1;
+            }
+            break;
+        }
+        case BOSSBOD: {
+            if(data->dungeonScene->sound->mobsDamaged->bossBod == 0) {
+                data->dungeonScene->sound->mobsDamaged->bossBod = 1;
             }
             break;
         }

@@ -12,7 +12,8 @@ struct dungeonAssets_t {
 };
 
 typedef struct entities_bool {
-    int boss;
+    int arm;
+    int bossBod;
     int moth;
     int tree;
     int worm;
