@@ -147,6 +147,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
 
 
             result->health = (int) (10 * difficulty);
+            result->maxHealth = result->health * 2;
             result->entity = init_EBoss(result->health/2);
 
             result->damage = 2;

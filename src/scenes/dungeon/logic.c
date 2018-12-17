@@ -333,6 +333,36 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
         door.x=1224;
         enterDoor(engine, data, &door, data->Isaac->movement->hitBox, data->dungeonScene, 1); //RIGHT
+
+        if (isGoal_Room(data->dungeonScene->currentRoom)) {
+            SDL_Rect socle;
+            socle.x = (1280 / 2) - (64 / 2);
+            socle.y = (720 / 2) - (64 / 2) - 15;
+            socle.w = 64;
+            socle.h = 64;
+
+            if (BoxCollision(data->Isaac->movement->hitBox, &socle)) {
+                if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(5 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                    Notification* notification = init_Notification();
+                    notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+                    strcpy(notification->text, data->referenceItems->table[5 + data->field->currentPlant->idVegetable].name);
+                    notification->sprite.w = 64;
+                    notification->sprite.h = 64;
+                    notification->sprite.x = ((5 + data->field->currentPlant->idVegetable) % 5) * 64;
+                    notification->sprite.y = ((5 + data->field->currentPlant->idVegetable) / 5) * 64;
+
+                    start_Timer(notification->timer);
+                    enQueue_Notification(data->dungeonScene->notificationQueue, notification);
+                } else {
+                    notificationInventoryFull(data);
+                }
+
+                int plantId = -1;
+                assignNumberPlant_Coord(data->field->currentPlant->x, data->field->currentPlant->y, data, &plantId);
+                removePlant(plantId, data->field);
+                display_SceneCollector(engine, data, "lobby");
+            }
+        }
     } else if (isPlayerAlive(data->Isaac)) {
         //TODO: We have to pause every timer of the dungeon
         if (data->dungeonScene->actionProcess == PAUSE) {

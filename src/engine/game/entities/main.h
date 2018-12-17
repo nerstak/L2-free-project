@@ -10,6 +10,7 @@ typedef struct Entity {
     void* entity;
 
     float health;
+    float maxHealth;
     float damage;
     float speed;
 
