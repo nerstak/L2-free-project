@@ -26,7 +26,7 @@ src/resources/gfx/dungeon/backgrounds/carrot.png dungeon/bgPotato
 src/resources/gfx/dungeon/elements/potato/hole.png dungeon/potatoHole
 src/resources/gfx/dungeon/elements/potato/obstacle.png dungeon/potatoObstacle
 src/resources/gfx/dungeon/elements/potato/slow.png dungeon/potatoSlow
-src/resources/gfx/dungeon/backgrounds/carrot.png dungeon/bgCorn
+src/resources/gfx/dungeon/backgrounds/corn.png dungeon/bgCorn
 src/resources/gfx/dungeon/elements/corn/hole.png dungeon/cornHole
 src/resources/gfx/dungeon/elements/corn/obstacle.png dungeon/cornObstacle
 src/resources/gfx/dungeon/elements/corn/slow.png dungeon/cornSlow
