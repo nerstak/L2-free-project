@@ -204,8 +204,6 @@ extern void free_Player(Player** Isaac) {
         free((*Isaac)->stats);
         (*Isaac)->stats = NULL;        
     }
-    
-    
 
     if((*Isaac)->gameStats) {
         free((*Isaac)->gameStats);
@@ -213,6 +211,10 @@ extern void free_Player(Player** Isaac) {
     }
 
     freeAll_SlotInventory(&((*Isaac)->inventory));
+
+    if ((*Isaac)->invulnerabilityTimer) {
+        clean_Timer(&((*Isaac)->invulnerabilityTimer));
+    }
 
     free(*Isaac);
     *Isaac = NULL;

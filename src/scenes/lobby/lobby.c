@@ -43,6 +43,7 @@ extern void init_Scene_lobby(Engine* engine, Data* data, bool loadOrUnload) {
         stopMusic();
         freeSingle_Layout(&(data->lobby->layout));
         cleanList_Entity(&(data->entities));
+        clean_Timer(&(data->lobby->timerMessage));
         free(data->lobby);
         data->lobby = NULL;
     }

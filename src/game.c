@@ -126,6 +126,7 @@ extern void gameLoop(SDL_Surface* window) {
     clean_SceneCollector(&mySceneCollector);
     clean_FontCollector(&myFontCollector);
     clean_SoundCollector(&mySoundCollector);
+    cleanKeys(&(myEngine->keys));
     clean_Data(&myData);
     clean_Engine(&myEngine);
 }

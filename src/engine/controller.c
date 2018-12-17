@@ -12,3 +12,10 @@ extern referenceKey* initKeys() {
     }
     return newKeys;
 }
+
+extern void cleanKeys(referenceKey** p) {
+    if ((*p) != NULL) {
+        free((*p));
+        (*p) = NULL;
+    }
+}

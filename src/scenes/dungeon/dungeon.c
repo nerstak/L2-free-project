@@ -220,7 +220,7 @@ static void loadDungeonsMap(Engine* engine, Data* data) {
     }
 
     char** temp = NULL;
-    temp = realloc(data->dungeonScene->layoutsPath, i * sizeof(Layout*));
+    temp = realloc(data->dungeonScene->layoutsPath, i * sizeof(char *));
 
     if (temp == NULL) {
         printf("An error occurred while reallocating a String array");
@@ -253,4 +253,5 @@ static void loadDungeonsMap(Engine* engine, Data* data) {
     }
 
     closedir(dr);
+    clean_KeyLevelRoomMapping(&(keylevel));
 }

@@ -102,7 +102,8 @@ static double applyIntensity(Room* room, double intensity) {
 
 static void normalizeIntensity(DungeonGenerator* p) {
     double maxIntensity = 0.0;
-    RoomList* rooms = getRooms_Dungeon(p->dungeon)->map[0];
+    KeyLevelRoomMapping* keylevel = getRooms_Dungeon(p->dungeon);
+    RoomList* rooms = keylevel->map[0];
     RoomList* temp = rooms;
 
     while (temp != NULL) {
@@ -117,6 +118,8 @@ static void normalizeIntensity(DungeonGenerator* p) {
 
         temp = temp->next;
     }
+
+    clean_KeyLevelRoomMapping(&(keylevel));
 }
 
 extern void generate_DungeonGenerator(DungeonGenerator* p) {
@@ -150,10 +153,15 @@ extern void generate_DungeonGenerator(DungeonGenerator* p) {
             // Place keys
             placeKeys_DungeonGenerator(p, levels);
 
+            clean_KeyLevelRoomMapping(&levels);
+
             return;
         } CATCH {
             if (++attempt > MAX_RETRIES) {
                 // Dungeon generation failed.
+
+                clean_KeyLevelRoomMapping(&levelsCatch);
+                clean_Dungeon(&(p->dungeon));
 
                 return;
             }
@@ -338,6 +346,8 @@ static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* 
             temp = temp->next;
         }
     }
+
+    clean_KeyLevelRoomMapping(&(rooms));
 }
 
 static void computeIntensity_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {

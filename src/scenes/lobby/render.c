@@ -292,6 +292,8 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
             }
             dialog = TTF_RenderText_Solid(font1, line, black);
             SDL_BlitSurface(dialog, NULL, lobbySurface, &dialogPos);
+
+            SDL_FreeSurface(dialog);
         }
     }
 

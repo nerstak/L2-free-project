@@ -78,6 +78,7 @@ extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* si
 //Free an item
 extern void freeOne_SlotInventory(SlotInventory** item) {
     if(item) {
+        free((*item)->characteristics);
         free(*item);
         *item = NULL;
     }
