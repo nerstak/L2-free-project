@@ -21,7 +21,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     SDL_Surface* FightSprite=NULL;
 
-    SDL_Surface* Hibox=NULL;
 
     char line[150];
 
@@ -31,9 +30,11 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
     SDL_Rect dialogPos;
 
     bg = get_ImageCollector(engine->imageCollector, "lobby/bg")->surface;
-    FightSprite = get_ImageCollector(engine->imageCollector, "lobby/scythe")->surface;
+    if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='S')
+        {FightSprite = get_ImageCollector(engine->imageCollector, "lobby/scythe")->surface;}
+    if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='H')
+        {FightSprite = get_ImageCollector(engine->imageCollector, "lobby/hoe")->surface;}
 
-    Hibox= get_ImageCollector(engine->imageCollector, "lobby/hibox")->surface;
 
     bgPos.x = 0;
     bgPos.y = 0;

@@ -37,6 +37,7 @@ src/resources/gfx/dungeon/elements/eggplant/slow.png dungeon/eggplantSlow
 src/resources/gfx/dungeon/elements/socle.png dungeon/socle
 src/resources/gfx/player/sprites_hero.png dungeon/player
 src/resources/gfx/player/sprites_scythe.png dungeon/scythe
+src/resources/gfx/player/sprites_hoe.png dungeon/hoe
 src/resources/gfx/enemies/moth.png dungeon/moth
 src/resources/gfx/enemies/worm.png dungeon/worm
 src/resources/gfx/enemies/wormshot.png dungeon/wormshot

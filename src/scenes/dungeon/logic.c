@@ -376,8 +376,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         enterDoor(engine, data, &door, data->Isaac->movement->hitBox, data->dungeonScene, 2); //DOWN
 
         door.x=45;
-        door.y=342;
-        door.h=20;
+        door.y=332;
+        door.h=40;
         door.w=10;
         enterDoor(engine, data, &door, data->Isaac->movement->hitBox, data->dungeonScene, 3); //LEFT
 

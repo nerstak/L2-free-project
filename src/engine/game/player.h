@@ -32,7 +32,7 @@ extern Weapon* init_Weapon();
 extern void clean_Weapon(Weapon** p);
 
 typedef struct CombatValues {
-    int animationStep;
+    float animationStep;
     int direction;
     SDL_Rect* spriteBox;
     SDL_Rect* weaponHitBox;
@@ -57,6 +57,7 @@ typedef struct Player {
     SlotInventory* inventory;
     int sizeInventory;
     Weapon* weapons;
+    int equipped;
     struct GameStats* gameStats;
     Timer* invulnerabilityTimer;
     generalStats* stats;

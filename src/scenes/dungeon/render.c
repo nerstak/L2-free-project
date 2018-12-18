@@ -454,7 +454,12 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Rect monsterpos;
 
     PlayerSprite = get_ImageCollector(engine->imageCollector, "dungeon/player")->surface;
-    FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;
+
+    if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='S')
+        {FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;}
+    if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='H')
+        {FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/hoe")->surface;}
+
 
     playerPos.x=data->Isaac->movement->position->x;
     playerPos.y=data->Isaac->movement->position->y;

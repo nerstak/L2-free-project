@@ -575,7 +575,7 @@ extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
     }
 
     if (BoxCollision(e->movement->hitBox, data->Isaac->combat->weaponHitBox) && !e->attackTimer->started && e->type!=PROJECTILE) {
-        float damage=data->Isaac->stats->current->damage * data->Isaac->weapons->damage;
+        float damage=data->Isaac->stats->current->damage * data->Isaac->weapons[data->Isaac->equipped].damage;
         e->health -= damage ;
         knockBack_Entity(e, data, data->Isaac->combat->direction, 0, 0,e->attackTimer);
         DamageIndicator* damageIndicator = init_DamageIndicator();
