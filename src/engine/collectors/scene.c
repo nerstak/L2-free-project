@@ -192,7 +192,7 @@ extern void display_SceneCollector(struct Engine* engine, Data* data, const char
     }
 
     if (temp == NULL) {
-        // TODO: Fail err, scene not found
+        printf("An error occured while finding a Scene to display it\n");
         exit(EXIT_FAILURE);
     }
 
@@ -268,7 +268,7 @@ extern void display_SceneCollector(struct Engine* engine, Data* data, const char
 
             engine->sceneCollector->currentScene = temp;
         } else if (temp->type == OVERLAY) {
-            // TODO: Error can't start with a OVERLAY
+            printf("Your first scene can't be an Overlay\n");
         }
     }
 }

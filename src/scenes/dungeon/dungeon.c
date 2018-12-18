@@ -121,13 +121,13 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
             }
 
             default: {
-                // TODO: Error here
+                printf("This is an unknown vegetable. Something must be corrupted in your game datas\n");
+                exit(EXIT_FAILURE);
 
                 break;
             }
         }
     } else {
-        // TODO: Improve that part
         stopMusic();
 
         // Now we clean all our layouts

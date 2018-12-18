@@ -20,7 +20,15 @@ typedef struct Engine {
     SoundCollector* soundCollector;
 } Engine;
 
+/**
+ * Create a Engine object
+ * @return a Engine object
+ */
 extern Engine* init_Engine();
+/**
+ * Clean a Engine object
+ * @param p a double pointer to a Engine object
+ */
 extern void clean_Engine(Engine** p);
 
 #endif //FREE_PROJECT_ENGINE_MAIN_H

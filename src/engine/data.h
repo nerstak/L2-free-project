@@ -30,7 +30,15 @@ typedef struct Data {
     EntityList* dyingEntities;
 } Data;
 
+/**
+ * Create a Data object
+ * @return a Data object
+ */
 extern Data* init_Data();
+/**
+ * Clean a Data object
+ * @param p a double pointer to a Data object
+ */
 extern void clean_Data(Data** myData);
 
 #endif //FREE_PROJECT_ENGINE_DATA_H

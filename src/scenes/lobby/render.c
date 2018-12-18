@@ -167,7 +167,7 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
             interface = get_ImageCollector(engine->imageCollector, "lobby/menu12")->surface;
         }
 
-        menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", brown); // Fucking relative layout @nerstak
+        menu1x1 = TTF_RenderText_Solid(font1, "Dare you enter?", brown); // I hate relative layout @nerstak
         menu1x2 = TTF_RenderText_Solid(font2, "YES", brown);
         menu1x3 = TTF_RenderText_Solid(font2, "NO", brown);
 
