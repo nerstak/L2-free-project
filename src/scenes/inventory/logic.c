@@ -32,6 +32,9 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
         } else if(action == I_LEAVE) {
             data->inventory->askAction = I_NONE;
             playEffect(engine->soundCollector, "loading/leave_menu", 0);
+            if(strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
+                unpauseTimer_entities(data->entities);
+            }
             display_SceneCollector(engine, data, engine->sceneCollector->previousScene->name);
         }
     }

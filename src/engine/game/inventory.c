@@ -119,31 +119,39 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
 extern int add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size) {
     if(list && item) {
         if(*list == NULL) {
+            // If the list is empty
             *list = item;
             (*size)++;
             return 1;
-        } else if (*size < 16) {
-            if((*list)->id > item->id) {
-                item->next = *list;
-                (*list)->prev = item;
-                *list = item;
-            } else {
-                SlotInventory* current = *list;
+        } else {
+            SlotInventory* current_item = search_SlotInventory((*list), item->id);
+            if(current_item) {
+                // If the item is already in the list
+                current_item->quantity ++;
+                return 1;
+            } else if (*size < 16) {
+                if((*list)->id > item->id) {
+                    item->next = *list;
+                    (*list)->prev = item;
+                    *list = item;
+                } else {
+                    SlotInventory* current = *list;
 
-                while(current->next && current->next->id < item->id) {
-                    current = current->next;
-                }
+                    while(current->next && current->next->id < item->id) {
+                        current = current->next;
+                    }
 
-                // Linking everything
-                item->next = current->next;
-                if(current->next != NULL) {
-                    item->next->prev = item;
+                    // Linking everything
+                    item->next = current->next;
+                    if(current->next != NULL) {
+                        item->next->prev = item;
+                    }
+                    item->prev = current;
+                    current->next = item;
                 }
-                item->prev = current;
-                current->next = item;
+                (*size)++;
+                return 1;
             }
-            (*size)++;
-            return 1;
         }
     }
     return 0;

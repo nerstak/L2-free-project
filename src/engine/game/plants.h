@@ -54,4 +54,13 @@ extern void plantsBlit(SDL_Surface* lobbySurface, struct Data* data, ImageCollec
  */
 extern void removePlant(int n, field_t* field);
 
+/**
+ * Assign a number to a set of coordinates
+ * @param coordX int of X-axis
+ * @param coordY int of Y-axis
+ * @param data pointer to Data Object
+ * @return a pointer to a Plant Object, or NULL if not found
+ */
+extern Plant* assignNumberPlant_Coord(int coordX, int coordY, struct Data* data, int* number);
+
 #endif // FREE_PROJECT_ENGINE_GAME_PLANTS_H

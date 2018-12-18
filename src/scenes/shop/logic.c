@@ -153,8 +153,7 @@ static void moveShopSelector(Engine* engine,Data* data) {
     }
 }
 
-static void buy_item(Engine* engine, Data* data, SlotInventory* itemBuying, int number) {
-    SlotInventory * current_item;
+static void buy_item(Engine* engine, Data * data, SlotInventory * itemBuying, int number) {
     int j = 0;
     char nameItem[25];
     for(int i = 0; i < number; i++) {
@@ -162,17 +161,10 @@ static void buy_item(Engine* engine, Data* data, SlotInventory* itemBuying, int 
         if(alterMoney_Player(data->Isaac, -(itemBuying->price)) == 1) {
             ++j;
             strcpy(nameItem, itemBuying->name);
-            current_item = search_SlotInventory(data->Isaac->inventory, itemBuying->id);
-            if(current_item != NULL) {
-                //If the player already has an exemplar of the item in its inventory
-                (current_item->quantity)++;
-            } else {
-                //If the player is buying a new item, we create it inside its inventory
-                if(!add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(itemBuying->id, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
-                    // If the inventory was full
-                    alterMoney_Player(data->Isaac, (itemBuying->price));
-                    --j;
-                }
+            if(!add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(itemBuying->id, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                // If the inventory was full
+                alterMoney_Player(data->Isaac, (itemBuying->price));
+                --j;
             }
         }
     }

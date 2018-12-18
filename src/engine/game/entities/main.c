@@ -149,6 +149,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
 
 
             result->health = (int) (10 * difficulty);
+            result->maxHealth = result->health * 2;
             result->entity = init_EBoss(result->health/2);
 
             result->damage = 2;
@@ -626,37 +627,56 @@ extern void resetEntitiesBool(struct entities_bool* e) {
 }
 
 static void preprocesDamage_Entities(struct Data* data, int type) {
-    switch(type) {
+    switch (type) {
         case MOTH: {
-            if(data->dungeonScene->sound->mobsDamaged->moth == 0) {
+            if (data->dungeonScene->sound->mobsDamaged->moth == 0) {
                 data->dungeonScene->sound->mobsDamaged->moth = 1;
             }
             break;
         }
         case WORM: {
-            if(data->dungeonScene->sound->mobsDamaged->worm == 0) {
+            if (data->dungeonScene->sound->mobsDamaged->worm == 0) {
                 data->dungeonScene->sound->mobsDamaged->worm = 1;
             }
             break;
         }
         case TREE: {
-            if(data->dungeonScene->sound->mobsDamaged->tree == 0) {
+            if (data->dungeonScene->sound->mobsDamaged->tree == 0) {
                 data->dungeonScene->sound->mobsDamaged->tree = 1;
             }
             break;
         }
         case ARM: {
-            if(data->dungeonScene->sound->mobsDamaged->arm == 0) {
+            if (data->dungeonScene->sound->mobsDamaged->arm == 0) {
                 data->dungeonScene->sound->mobsDamaged->arm = 1;
             }
             break;
         }
         case BOSSBOD: {
-            if(data->dungeonScene->sound->mobsDamaged->bossBod == 0) {
+            if (data->dungeonScene->sound->mobsDamaged->bossBod == 0) {
                 data->dungeonScene->sound->mobsDamaged->bossBod = 1;
             }
             break;
         }
-        default: break;
+        default:
+            break;
+    }
+}
+
+extern void pauseTimer_entities(EntityList* list) {
+    EntityList* temp = list;
+    while(temp) {
+        pause_Timer(temp->data->shootTimer);
+        pause_Timer(temp->data->attackTimer);
+        temp = temp->next;
+    }
+}
+
+extern void unpauseTimer_entities(EntityList* list) {
+    EntityList* temp = list;
+    while(temp) {
+        unpause_Timer(temp->data->attackTimer);
+        unpause_Timer(temp->data->shootTimer);
+        temp = temp->next;
     }
 }

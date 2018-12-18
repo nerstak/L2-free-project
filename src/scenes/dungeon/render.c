@@ -9,9 +9,8 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data);
 static void renderDoors(SDL_Surface* window, Engine* engine, Data* data);
 static void renderDoor(SDL_Surface* window, Engine* engine, Data* data, int direction, int symbol);
 
-
 static void renderUI(SDL_Surface* window, Engine* engine, Data* data);
-static SDL_Surface* renderLifebar(Engine* engine, Data* data);
+static SDL_Surface* renderLifebar(Engine* engine, Data* data, int type);
 static void renderKeys(SDL_Surface* window, Engine* engine, Data* data);
 static void renderMap(SDL_Surface* window, Engine* engine, Data* data);
 static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_Rect origin, int direction);
@@ -20,6 +19,7 @@ static void renderNotification(SDL_Surface* window, Engine* engine, Data* data);
 static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engine, Data* data);
 static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine, Data* data);
 static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount);
+static void renderBossHealthBar(SDL_Surface* window, Engine* engine, Data* data);
 
 static void displayDeathScreen(SDL_Surface* window, Engine* engine, Data* data);
 
@@ -34,7 +34,7 @@ static void renderUI(SDL_Surface* window, Engine* engine, Data* data) {
     }
 
     SDL_Surface* uiLifebarBg = get_ImageCollector(engine->imageCollector, "dungeon/uiLifebarBg")->surface;
-    SDL_Surface* uiLifebar = renderLifebar(engine, data);
+    SDL_Surface* uiLifebar = renderLifebar(engine, data, 0);
     SDL_Surface* mapBG = get_ImageCollector(engine->imageCollector, "dungeon/mapBg")->surface;
 
     SDL_Rect uiPlayer_Pos;
@@ -60,10 +60,49 @@ static void renderUI(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_FreeSurface(uiLifebar);
 }
 
-static SDL_Surface* renderLifebar(Engine* engine, Data* data) {
+static SDL_Surface* renderLifebar(Engine* engine, Data* data, int type) {
     SDL_Surface* result = SDL_CreateRGBSurface(SDL_HWSURFACE, UI_LIFEBAR_W, UI_LIFEBAR_H, 32, 0, 0, 0, 0);
 
-    float percentLife = (data->Isaac->stats->current->health / data->Isaac->stats->basic->health) * 100;
+    float percentLife;
+    if (type == 0) {
+        percentLife = (data->Isaac->stats->current->health / data->Isaac->stats->basic->health) * 100;
+    } else if (type == 1) {
+        float totalLife = 0;
+
+        EntityList* temp = data->entities;
+
+        while (temp != NULL) {
+            if (temp->data->type == BOSSBOD) {
+                break;
+            }
+
+            temp = temp->next;
+        }
+
+        if (temp == NULL) {
+            SDL_FreeSurface(result);
+
+            return NULL;
+        }
+
+        Entity* entity = temp->data;
+        E_Boss* eBoss = (E_Boss*) entity->entity;
+
+        totalLife += entity->health;
+
+        if (eBoss != NULL) {
+            if (eBoss->leftarm != NULL) {
+                totalLife += eBoss->leftarm->health;
+            }
+
+            if (eBoss->rightarm != NULL) {
+                totalLife += eBoss->rightarm->health;
+            }
+        }
+
+        percentLife = (totalLife / entity->maxHealth) * 100;
+    }
+
     float divPerPercent = (float) UI_LIFEBAR_W / 100;
 
     SDL_Rect upperBg = {0, 0, (Uint16) (percentLife * divPerPercent), 7};
@@ -384,6 +423,27 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
             SDL_BlitSurface(toBlit, NULL, window, &toBlit_Pos);
         }
+    }
+
+    if (isGoal_Room(data->dungeonScene->currentRoom)) {
+        SDL_Surface* socle = get_ImageCollector(engine->imageCollector, "dungeon/socle")->surface;
+        SDL_Surface* items = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
+
+        SDL_Rect soclePos;
+        soclePos.x = (window->w / 2) - (socle->w / 2);
+        soclePos.y = (window->h / 2) - (socle->h / 2);
+        SDL_Rect itemOffset;
+        itemOffset.x = 0;
+        itemOffset.y = 64;
+        itemOffset.w = 64;
+        itemOffset.h = 64;
+
+        SDL_Rect itemPos;
+        itemPos.x = (window->w / 2) - (itemOffset.w / 2);
+        itemPos.y = (window->h / 2) - (itemOffset.h / 2) - 15;
+
+        SDL_BlitSurface(socle, NULL, window, &soclePos);
+        SDL_BlitSurface(items, &itemOffset, window, &itemPos);
     }
 
     renderDoors(window, engine, data);
@@ -884,6 +944,25 @@ static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface*
     }
 }
 
+static void renderBossHealthBar(SDL_Surface* window, Engine* engine, Data* data) {
+    SDL_Surface* uiLifebarBg = get_ImageCollector(engine->imageCollector, "dungeon/uiLifebarBg")->surface;
+    SDL_Surface* uiLifebar = renderLifebar(engine, data, 1);
+
+    if (uiLifebar != NULL) {
+        SDL_Rect uiLifebarBg_Pos;
+        uiLifebarBg_Pos.x = window->w / 2 - (223 / 2);
+        uiLifebarBg_Pos.y = window->h - (50);
+        SDL_Rect uiLifebar_Pos;
+        uiLifebar_Pos.x = uiLifebarBg_Pos.x + 3;
+        uiLifebar_Pos.y = uiLifebarBg_Pos.y + 3;
+
+        SDL_BlitSurface(uiLifebarBg, NULL, window, &uiLifebarBg_Pos);
+        SDL_BlitSurface(uiLifebar, NULL, window, &uiLifebar_Pos);
+
+        SDL_FreeSurface(uiLifebar);
+    }
+}
+
 
 static void displayDeathScreen(SDL_Surface* window, Engine* engine, Data* data) {
     if(!isPlayerAlive(data->Isaac)) {
@@ -929,6 +1008,10 @@ extern void renderScene_Scene_dungeon(SDL_Surface* window, Engine* engine, Data*
     renderUI(window, engine, data);
     renderMap(window, engine, data);
     renderNotification(window, engine, data);
+
+    if (isBoss_Room(data->dungeonScene->currentRoom)) {
+        renderBossHealthBar(window, engine, data);
+    }
 
     displayDeathScreen(window, engine, data);
 

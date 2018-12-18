@@ -10,6 +10,7 @@ typedef struct Entity {
     void* entity;
 
     float health;
+    float maxHealth;
     float damage;
     float speed;
 
@@ -70,5 +71,15 @@ extern EntityList* cloudList_Entity(EntityList* list);
 extern struct entities_bool* initEntitiesBool();
 extern void freeEntitiesBool(struct entities_bool** e);
 extern void resetEntitiesBool(struct entities_bool* e);
+/**
+ * Pause timers of entities
+ * @param list a pointer to an EntityList Object
+ */
+extern void pauseTimer_entities(EntityList* list);
+/**
+ * Unpause timers of entities
+ * @param list a pointer to an EntityList Object
+ */
+extern void unpauseTimer_entities(EntityList* list);
 
 #endif //FREE_PROJECT_ENGINE_GAME_ENTITIES_MAIN_H

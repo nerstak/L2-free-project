@@ -85,25 +85,7 @@ extern void processGarden(Data* data) {
 static void findPlant(Data* data) {
     int coordX, coordY;
     if (checkTilesPlayer_Layout(data->Isaac, data->lobby->layout, 'P', 30, 0, 0, &coordX, &coordY)) {
-        if (coordX == 15 ) {
-            if (coordY == 5) {
-                data->lobby->actualPlant = data->field->plantBotLeft;
-            } else if (coordY == 2) {
-                data->lobby->actualPlant = data->field->plantTopLeft;
-            } else {
-                data->lobby->actualPlant = NULL;
-            }
-        } else if (coordX == 17) {
-            if (coordY == 5) {
-                data->lobby->actualPlant = data->field->plantBotRight;
-            } else if (coordY == 2) {
-                data->lobby->actualPlant = data->field->plantTopRight;
-            } else {
-                data->lobby->actualPlant = NULL;
-            }
-        } else {
-            data->lobby->actualPlant = NULL;
-        }
+        data->lobby->actualPlant = assignNumberPlant_Coord(coordX, coordY, data, NULL);
     } else {
         data->lobby->actualPlant = NULL;
     }
