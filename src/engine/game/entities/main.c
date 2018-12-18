@@ -490,7 +490,6 @@ extern EntityList* killList_Entity(Data* data, EntityList* list, EntityList** dy
     if (list == NULL) {
         return NULL;
     } else if (list->data->health <= 0) {
-        printf("%d\n",list->data->type);
         EntityList* temp = list->next;
         list->data->movement->animationStep=0;
         if(list->data->type != PROJECTILE && list->data->type != BOSSBOD) {

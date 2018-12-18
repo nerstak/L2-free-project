@@ -14,7 +14,7 @@ typedef struct MovementValues {
     SDL_Rect* spriteBox;
     SDL_Rect* hitBox;
     Timer* timeSince;
-    int stepChannel;
+    Timer* lastStep;
 } MovementValues;
 
 struct Data;

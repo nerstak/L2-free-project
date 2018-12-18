@@ -157,7 +157,6 @@ extern Player* init_Player() {
 
     Isaac->movement->animationStep = 0;
     Isaac->movement->direction = 0;
-    Isaac->movement->stepChannel = -1;
 
     Isaac->combat = init_Combat();
     Isaac->combat->direction=-1;

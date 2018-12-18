@@ -5,7 +5,6 @@
 
 static void processTimer(Engine* engine, Data* data);
 static void playStep(Engine* engine, Player* player);
-static void stopStep(Player* player);
 
 extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
     if(data->lobby->actionProcess == NONE){
@@ -33,7 +32,6 @@ extern void logicProcess_Scene_lobby(Engine* engine, Data* data) {
         }
     } else {
         stopVelocity_Movement(data->Isaac->movement);
-        stopStep(data->Isaac);
 
         if(data->lobby->actionProcess == SLEEP){
             processSleep(engine, data);
@@ -84,16 +82,22 @@ static void processTimer(Engine* engine, Data* data) {
 }
 
 static void playStep(Engine* engine, Player* player) {
-    if((player->movement->velocity->x > 10 || player->movement->velocity->x < -10 || player->movement->velocity->y > 10 || player->movement->velocity->y < -10) && player->movement->stepChannel == -1 && player->combat->animationStep == 0) {
-        player->movement->stepChannel = playEffect(engine->soundCollector, "player/step_grass_run", -1);
+    if((player->movement->velocity->x > 10 || player->movement->velocity->x < -10 || player->movement->velocity->y > 10 || player->movement->velocity->y < -10)) {
+        if (isStarted_Timer(player->movement->lastStep)) {
+            if (getTime_Timer(player->movement->lastStep) > 0.6) {
+                start_Timer(player->movement->lastStep);
+                playEffect(engine->soundCollector, "player/step_grass_run", 0);
+            }
+        } else if (isPaused_Timer(player->movement->lastStep)) {
+            start_Timer(player->movement->lastStep);
+            playEffect(engine->soundCollector, "player/step_grass_run", 0);
+        } else {
+            start_Timer(player->movement->lastStep);
+            playEffect(engine->soundCollector, "player/step_grass_run", 0);
+        }
     }
-    if((!player->movement->velocity->x && !player->movement->velocity->y && player->movement->stepChannel != -1) || player->combat->animationStep != 0) {
-        stopStep(player);
+
+    if((!player->movement->velocity->x && !player->movement->velocity->y)) {
+        stop_Timer(player->movement->lastStep);
     }
-}
-static void stopStep(Player* player) {
-    if(player->movement->stepChannel >= 0) {
-        stopEffect(player->movement->stepChannel);
-    }
-    player->movement->stepChannel = -1;
 }

@@ -178,7 +178,6 @@ extern void load_SoundCollector(SoundCollector* p, const char path[], const char
         temp->sound->src = Mix_LoadWAV(path);
 
         if (temp->sound->src == NULL) {
-            printf("%s", SDL_GetError());
             printf("An error occurred while loading a WAV file\n");
             exit(EXIT_FAILURE);
         }
@@ -195,7 +194,6 @@ extern void load_SoundCollector(SoundCollector* p, const char path[], const char
         temp->music->src = Mix_LoadMUS(path);
 
         if (temp->music->src == NULL) {
-            printf("%s", SDL_GetError());
             printf("An error occurred while loading a WAV file\n");
             exit(EXIT_FAILURE);
         }
