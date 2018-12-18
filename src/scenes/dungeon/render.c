@@ -876,11 +876,11 @@ static void renderprojectiles(EntityList* entity, SDL_Surface* window, Engine* e
                 default:
                     break;
             }
-        }
-        monsterpos.x = (Sint16) current->data->movement->position->x;
-        monsterpos.y = (Sint16) current->data->movement->position->y;
+            monsterpos.x = (Sint16) current->data->movement->position->x;
+            monsterpos.y = (Sint16) current->data->movement->position->y;
 
-        SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
+            SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
+        }
         current=current->next;
     }
 }
