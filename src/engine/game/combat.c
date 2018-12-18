@@ -13,7 +13,11 @@ extern void ProcessCombat(Engine* engine, Data* data, int* direction)
         data->Isaac->combat->direction = *direction;
         if (data->Isaac->combat->animationStep == 0) {
             start_Timer(data->Isaac->combat->timeSince);     // Timer to get the time since the last frame of movement
-            playEffect(engine->soundCollector, "player/woosh", 0);
+            if(data->Isaac->equipped == 0) {
+                playEffect(engine->soundCollector, "player/hoe", 0);
+            }else if (data->Isaac->equipped == 1){
+                playEffect(engine->soundCollector, "player/scythe", 0);
+            }
         }
 
         CombatAnimation(data->Isaac->combat, getTicks_Timer(data->Isaac->combat->timeSince) + 1,

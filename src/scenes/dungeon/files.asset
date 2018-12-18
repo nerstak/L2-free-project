@@ -48,7 +48,8 @@ src/resources/gfx/enemies/arm.png dungeon/arm
 src/resources/gfx/enemies/lazer.png dungeon/lazer
 src/resources/gfx/enemies/smoke.png dungeon/smoke
 src/resources/gfx/scenes/lobby/hibox.png dungeon/hibox
-src/resources/sfx/player/woosh.wav player/woosh
+src/resources/sfx/player/scythe.wav player/scythe
+src/resources/sfx/player/hoe.wav player/hoe
 src/resources/sfx/UI/victory.wav dungeon/victory
 src/resources/musics/dungeon_Theme.mp3 dungeon/main_theme
 src/resources/musics/boss_Theme.mp3 dungeon/boss_theme
