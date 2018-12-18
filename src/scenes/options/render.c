@@ -77,6 +77,8 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
         textPos.y = (Sint16) (377 + (i / 2) * 40 + ((27 / 2) - (getHeight_FontCollector(font1, line) / 2)));
 
         SDL_BlitSurface(text, NULL, options, &textPos);
+
+        SDL_FreeSurface(text);
     }
 
     //Selection blit

@@ -255,6 +255,7 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
 
     if (amountRooms_KeyLevelRoomMapping(possibleGoalRooms, 0) == 0) {
         clean_KeyLevelRoomMapping(&possibleGoalRooms);
+        clean_KeyLevelRoomMapping(&rooms);
 
         THROW;
     }
@@ -268,6 +269,7 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
     setItem_Room(bossRoom, init_Symbol(BOSS));
 
     clean_KeyLevelRoomMapping(&(possibleGoalRooms));
+    clean_KeyLevelRoomMapping(&rooms);
 }
 
 static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
