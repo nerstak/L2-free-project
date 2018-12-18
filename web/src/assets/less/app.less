@@ -177,6 +177,7 @@ main {
     justify-content: center;
 
     video {
+        display: none;
         max-width: 100%;
         margin: 0 auto;
     }
@@ -199,6 +200,12 @@ main {
                 font-size: 50px;
             }
         }
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    video {
+        display: block !important;
     }
 }
 
