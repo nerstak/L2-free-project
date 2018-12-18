@@ -3,18 +3,20 @@
 
 #include "../player.h"
 
-typedef enum EntityType { MOTH = 0 } EntityType;
+typedef enum EntityType { MOTH = 0 , WORM = 1 , PROJECTILE = 5 , TREE = 2 ,BOSSBOD=10, ARM=11} EntityType;
 
 typedef struct Entity {
     int type;
     void* entity;
 
     float health;
+    float maxHealth;
     float damage;
     float speed;
 
     MovementValues* movement;
     Timer* attackTimer;
+    Timer* shootTimer;
 
     struct DamageIndicatorQueue* damageIndicatorQueue;
 } Entity;
@@ -43,7 +45,7 @@ typedef struct DamageIndicatorQueue {
 
 struct Data;
 
-extern EntityList* init_EntityNode(int type);
+extern EntityList* init_EntityNode(int type, float difficulty);
 extern void append_EntityNode(EntityList * node , EntityList ** dest);
 //extern EntityList* initList_Entity();
 extern void clean_Entity(Entity** p);
@@ -59,11 +61,25 @@ extern void popQueue_DamageIndicator(DamageIndicatorQueue* q);
 extern bool isEmptyQueue_DamageIndicator(DamageIndicatorQueue* q);
 
 extern void process_Entity(EntityList** list, struct Data* data);
-extern EntityList* killList_Entity(EntityList* list, EntityList** Dying);
+extern EntityList* killList_Entity(struct Data* data, EntityList* list, EntityList** dying);
 extern void damage_Entity(Entity* e, struct Data* data, double x, double y);
 extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x, int y,Timer *timer);
 
 extern void process_Dying(EntityList** list, struct Data* data);
 extern EntityList* cloudList_Entity(EntityList* list);
+
+extern struct entities_bool* initEntitiesBool();
+extern void freeEntitiesBool(struct entities_bool** e);
+extern void resetEntitiesBool(struct entities_bool* e);
+/**
+ * Pause timers of entities
+ * @param list a pointer to an EntityList Object
+ */
+extern void pauseTimer_entities(EntityList* list);
+/**
+ * Unpause timers of entities
+ * @param list a pointer to an EntityList Object
+ */
+extern void unpauseTimer_entities(EntityList* list);
 
 #endif //FREE_PROJECT_ENGINE_GAME_ENTITIES_MAIN_H

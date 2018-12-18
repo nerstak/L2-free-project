@@ -1,1 +1,4 @@
 src/resources/gfx/scenes/loadingScreen/loadingSprite.png loadingScreen_loadingSprite
+src/resources/sfx/UI/load_game.wav loading/load_game
+src/resources/sfx/UI/leave_menu.wav loading/leave_menu
+src/resources/sfx/player/entering_dungeon.wav loading/entering_dungeon

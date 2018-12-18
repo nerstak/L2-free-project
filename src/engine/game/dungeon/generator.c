@@ -19,8 +19,8 @@ static int MAX_RETRIES = 20;
 static double INTENSITY_GROWTH_JITTER = 0.1;
 static double INTENSITY_EASE_OFF = 0.2;
 
-static int maxSpaces = 15;
-static int maxKeys = 3;
+static int maxSpaces = 20;
+static int maxKeys = 5; // Whatever no time to redo the algo again it works.
 
 static Direction* chooseFreeEdge(DungeonGenerator* g, Room* room);
 
@@ -102,7 +102,8 @@ static double applyIntensity(Room* room, double intensity) {
 
 static void normalizeIntensity(DungeonGenerator* p) {
     double maxIntensity = 0.0;
-    RoomList* rooms = getRooms_Dungeon(p->dungeon)->map[0];
+    KeyLevelRoomMapping* keylevel = getRooms_Dungeon(p->dungeon);
+    RoomList* rooms = keylevel->map[0];
     RoomList* temp = rooms;
 
     while (temp != NULL) {
@@ -117,6 +118,8 @@ static void normalizeIntensity(DungeonGenerator* p) {
 
         temp = temp->next;
     }
+
+    clean_KeyLevelRoomMapping(&(keylevel));
 }
 
 extern void generate_DungeonGenerator(DungeonGenerator* p) {
@@ -150,10 +153,15 @@ extern void generate_DungeonGenerator(DungeonGenerator* p) {
             // Place keys
             placeKeys_DungeonGenerator(p, levels);
 
+            clean_KeyLevelRoomMapping(&levels);
+
             return;
         } CATCH {
             if (++attempt > MAX_RETRIES) {
                 // Dungeon generation failed.
+
+                clean_KeyLevelRoomMapping(&levelsCatch);
+                clean_Dungeon(&(p->dungeon));
 
                 return;
             }
@@ -185,7 +193,7 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
 
         if (amountRooms_KeyLevelRoomMapping(levels, keylevel) >= roomsPerLock
             && keylevel < maxKeys) {
-            latestKey = init_Symbol(keylevel += 1);
+            latestKey = init_Symbol(keylevel++); // https://stackoverflow.com/questions/12988140/what-is-the-difference-between-and-1-operators
             condition = initAndSymbol_Condition(condition, latestKey);
             doLock = true;
         }
@@ -197,14 +205,13 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
         if (parentRoom == NULL) {
             KeyLevelRoomMapping* rooms = getRooms_Dungeon(p->dungeon);
             parentRoom = chooseRoomWithFreeEdge(p, rooms, 0);
-            // FREE ROOMS FOR FUCK SAKE
+            clean_KeyLevelRoomMapping(&rooms);
             doLock = true;
         }
 
         Direction* d = chooseFreeEdge(p, parentRoom);
         Coord* coords = nextInDirection_Coord(parentRoom->coord, d);
-        Room* room = init_Room(coords, parentRoom, NULL, condition);
-
+        Room* room = init_Room(coords, parentRoom, NULL, initCopy_Condition(condition));
 
         if (get_TreeMap(p->dungeon->rooms, room->coord) != NULL) {
             THROW;
@@ -215,6 +222,8 @@ static void placeRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping
         link_Dungeon(p->dungeon, parentRoom, room, doLock ? latestKey : NULL);
 
         addRoom_KeyLevelRoomMapping(levels, keylevel, room);
+
+        clean_Direction(&d);
     }
 }
 
@@ -246,6 +255,7 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
 
     if (amountRooms_KeyLevelRoomMapping(possibleGoalRooms, 0) == 0) {
         clean_KeyLevelRoomMapping(&possibleGoalRooms);
+        clean_KeyLevelRoomMapping(&rooms);
 
         THROW;
     }
@@ -257,6 +267,9 @@ static void placeBossGoalRooms_DungeonGenerator(DungeonGenerator* p, KeyLevelRoo
 
     setItem_Room(goalRoom, init_Symbol(GOAL));
     setItem_Room(bossRoom, init_Symbol(BOSS));
+
+    clean_KeyLevelRoomMapping(&(possibleGoalRooms));
+    clean_KeyLevelRoomMapping(&rooms);
 }
 
 static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {
@@ -328,11 +341,15 @@ static void graphify_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* 
                         }
                     }
                 }
+
+                clean_Direction(&(d));
             }
 
             temp = temp->next;
         }
     }
+
+    clean_KeyLevelRoomMapping(&(rooms));
 }
 
 static void computeIntensity_DungeonGenerator(DungeonGenerator* p, KeyLevelRoomMapping* levels) {

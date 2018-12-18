@@ -4,6 +4,12 @@
 
 #include "save.h"
 
+/**
+ * Check if a save exist
+ * @param saveName a string refering to the save to look for
+ * @param data a pointer to a Data Object
+ * @return an int attesting the presence or not of the save
+ */
 static int isSavePresent(char* saveName, Data* data);
 
 /**
@@ -12,18 +18,79 @@ static int isSavePresent(char* saveName, Data* data);
  */
 static void loadPlayer(Data* data);
 
+/**
+ * Write inside the save file the save name, the day and money
+ * @param saveFile a pointer to a FILE
+ * @param Isaac a pointer to a Player Object
+ */
 static void writePlayer(FILE* saveFile,Player* Isaac);
+/**
+ * Write the statistics of the game
+ * @param saveFile a pointer to a FILE
+ * @param Isaac a pointer to a Player Object
+ */
 static void writeGameStats(FILE* saveFile, Player* Isaac);
+/**
+ * Write the characteristics fo the player
+ * @param saveFile a pointer to a FILE
+ * @param Isaac a pointer to a Player Object
+ */
 static void writeStats(FILE* saveFile,Player* Isaac);
+/**
+ * Write the list of weapon of the Player
+ * @param saveFile a pointer to a FILE
+ * @param Isaac a pointer to a Player Object
+ */
 static void writeWeapons(FILE* saveFile, Player* Isaac);
+/**
+ * Write the content of the garden
+ * @param saveFile a pointer to a FILE
+ * @param field a pointer to a field_t Object
+ */
 static void writeGarden(FILE* saveFile,field_t* field);
+/**
+ * Write the inventory
+ * @param saveFile a pointer to a FILE
+ * @param Isaac a pointer to a Player Object
+ */
 static void writeInventory(FILE* saveFile, Player* Isaac);
 
+/**
+ * Read the save for money and day
+ * @param saveFile a pointer to a FILE
+ * @param data a pointer to a Data Object
+ * @param fileName a string for the saveName
+ */
 static void readPlayer(FILE* saveFile, Data* data, char* fileName);
+/**
+ * Read the statistics of the game
+ * @param saveFile a pointer to a FILE
+ * @param data a pointer to a Data Object
+ */
 static void readGameStats(FILE* saveFile, Data* data);
+/**
+ * Read the characteristics of the Player
+ * @param saveFile a pointer to a FILE
+ * @param data a pointer to a Data Object
+ */
 static void readStats(FILE* saveFile, Data* data);
+/**
+ * Read the weapons of the Player
+ * @param saveFile a pointer to a FILE
+ * @param data a pointer to a Data Object
+ */
 static void readWeapons(FILE* saveFile, Data* data);
+/**
+ * Read the content of the Garden
+ * @param saveFile a pointer to a FILE
+ * @param data a pointer to a Data Object
+ */
 static void readGarden(FILE* saveFile, Data* data);
+/**
+ * Read the content of the inventory
+ * @param saveFile a pointer to a FILE
+ * @param data a pointer to a Data Object
+ */
 static void readInventory(FILE* saveFile, Data* data);
 
 //Init of the game and the save
@@ -87,6 +154,7 @@ extern void writeSave(Data* data) {
     writeInventory(saveFile, data->Isaac);
 
     data->Isaac->gameStats->dungeonDay = 0;
+    resetStats(data->Isaac);
 
     fclose(saveFile);
 }
@@ -212,6 +280,4 @@ static void readInventory(FILE* saveFile, Data* data) {
         add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(id,quantity,data->referenceItems), &i);
     }
     data->Isaac->sizeInventory = i;
-
-    reverseInventory(&(data->Isaac->inventory));
 }

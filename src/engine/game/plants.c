@@ -5,8 +5,17 @@
 #include "../collectors/image.h"
 #include "../data.h"
 
-
+/**
+ * Initialise a Plant Object
+ * @param x int of the X-coordinate
+ * @param y int of the Y-coordinate
+ * @return a pointer to a Plant Object
+ */
 static Plant* init_Plants(int x,int y);
+/**
+ * Free a Plant Object
+ * @param Plant a double pointer to a Plant Object
+ */
 static void freePlant(Plant** Plant);
 
 extern field_t* initField(){
@@ -146,5 +155,39 @@ extern void removePlant(int n, field_t* field) {
             }
             default: break;
         }
+    }
+}
+
+extern Plant* assignNumberPlant_Coord(int coordX, int coordY, struct Data* data, int* number) {
+    if (coordX == 15 ) {
+        if (coordY == 5) {
+            if(number) {
+                *number = 2;
+            }
+             return data->field->plantBotLeft;
+        } else if (coordY == 2) {
+            if(number) {
+                *number = 0;
+            }
+            return data->field->plantTopLeft;
+        } else {
+            return NULL;
+        }
+    } else if (coordX == 17) {
+        if (coordY == 5) {
+            if(number) {
+                *number = 3;
+            }
+            return data->field->plantBotRight;
+        } else if (coordY == 2) {
+            if(number) {
+                *number = 1;
+            }
+            return data->field->plantTopRight;
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
     }
 }

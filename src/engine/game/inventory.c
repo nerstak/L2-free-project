@@ -72,13 +72,13 @@ extern SlotInventory* init_ShopInventory(referenceTable *referenceItems, int* si
         }
     }
     fclose(file);
-    reverseInventory(&shop_inv);
     return shop_inv;
 }
 
 //Free an item
 extern void freeOne_SlotInventory(SlotInventory** item) {
     if(item) {
+        free((*item)->characteristics);
         free(*item);
         *item = NULL;
     }
@@ -115,19 +115,46 @@ extern SlotInventory* create_SlotInventory(int id, int quantity, referenceTable*
     return new_item;
 }
 
-//Add an existing item to the beginning of a list
-extern void add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size) {
+//Add an existing item into a sorted DLL
+extern int add_SlotInventory(SlotInventory** list, SlotInventory* item, int* size) {
     if(list && item) {
         if(*list == NULL) {
+            // If the list is empty
             *list = item;
             (*size)++;
-        } else if (*size < 16) {
-            item->next = *list;
-            (*list)->prev = item;
-            *list = item;
-            (*size)++;
+            return 1;
+        } else {
+            SlotInventory* current_item = search_SlotInventory((*list), item->id);
+            if(current_item) {
+                // If the item is already in the list
+                current_item->quantity ++;
+                return 1;
+            } else if (*size < 16) {
+                if((*list)->id > item->id) {
+                    item->next = *list;
+                    (*list)->prev = item;
+                    *list = item;
+                } else {
+                    SlotInventory* current = *list;
+
+                    while(current->next && current->next->id < item->id) {
+                        current = current->next;
+                    }
+
+                    // Linking everything
+                    item->next = current->next;
+                    if(current->next != NULL) {
+                        item->next->prev = item;
+                    }
+                    item->prev = current;
+                    current->next = item;
+                }
+                (*size)++;
+                return 1;
+            }
         }
     }
+    return 0;
 }
 
 //Remove an item of a list and return its adress
@@ -211,4 +238,5 @@ extern void resetUsedPotions(generalStats* stats) {
     for(int i = 0; i < 6; i++) {
         stats->potionsUsed[i] = 0;
     }
+
 }

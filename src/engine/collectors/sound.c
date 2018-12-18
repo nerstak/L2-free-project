@@ -31,68 +31,59 @@ static void remove_AudioElement(SoundCollector* p, AudioElement* e) {
     AudioElement* previous = p->audioElements;
 
     // Is the element we want to remove the first one ?
-    if (e->music != NULL) {
-        if (strcmp(temp->music->name, e->music->name) == 0) {
-            // We rewrite the head of our list
-            p->audioElements = temp->next;
-            p->size -= 1;
+    if (e->music != NULL
+        && temp->music != NULL
+        && strcmp(temp->music->name, e->music->name) == 0) {
+        // We rewrite the head of our list
+        p->audioElements = temp->next;
+        p->size -= 1;
 
-            // Don't forget to free the music and the memory :D
-            Mix_FreeMusic(temp->music->src);
-            free(temp->music);
-            free(temp);
-        } else {
-            // We find the position of the element we want to remove
-            while (temp != NULL && strcmp(temp->music->name, e->music->name) != 0) {
-                previous = temp;
-                temp = temp->next;
+        // Don't forget to free the music and the memory :D
+        Mix_FreeMusic(temp->music->src);
+        free(temp->music);
+        free(temp);
+    } else if (e->sound != NULL && temp->sound != NULL && strcmp(temp->sound->name, e->sound->name) == 0) {
+        // We rewrite the head of our list
+        p->audioElements = temp->next;
+        p->size -= 1;
+
+        // Don't forget to free the sound and the memory :D
+        Mix_FreeChunk(temp->sound->src);
+        free(temp->sound);
+        free(temp);
+    } else {
+        // We find the position of the element we want to remove
+        while (temp != NULL) {
+            if (temp->music != NULL && e->music != NULL && strcmp(temp->music->name, e->music->name) == 0) {
+                break;
+            } else if (temp->sound != NULL && e->sound != NULL && strcmp(temp->sound->name, e->sound->name) == 0) {
+                break;
             }
 
-            if (temp == NULL) {
-                return;
-            }
-
-            // Relink our list
-            previous->next = temp->next;
-
-            // Don't forget to free the surface and the memory :D
-            Mix_FreeMusic(temp->music->src);
-            free(temp->music);
-            free(temp);
-
-            p->size -= 1;
+            previous = temp;
+            temp = temp->next;
         }
-    } else if (e->sound != NULL) {
-        if (strcmp(temp->sound->name, e->sound->name) == 0) {
-            // We rewrite the head of our list
-            p->audioElements = temp->next;
-            p->size -= 1;
 
-            // Don't forget to free the sound and the memory :D
-            Mix_FreeChunk(temp->sound->src);
-            free(temp->sound);
-            free(temp);
-        } else {
-            // We find the position of the element we want to remove
-            while (temp != NULL && strcmp(temp->sound->name, e->sound->name) != 0) {
-                previous = temp;
-                temp = temp->next;
-            }
+        if (temp == NULL) {
+            return;
+        }
 
-            if (temp == NULL) {
-                return;
-            }
+        // Relink our list
+        previous->next = temp->next;
 
-            // Relink our list
-            previous->next = temp->next;
-
+        if (temp->sound != NULL) {
             // Don't forget to free the surface and the memory :D
             Mix_FreeChunk(temp->sound->src);
             free(temp->sound);
-            free(temp);
-
-            p->size -= 1;
+        } else if (temp->music != NULL) {
+            // Don't forget to free the surface and the memory :D
+            Mix_FreeMusic(temp->music->src);
+            free(temp->music);
         }
+
+        free(temp);
+
+        p->size -= 1;
     }
 }
 
@@ -187,7 +178,6 @@ extern void load_SoundCollector(SoundCollector* p, const char path[], const char
         temp->sound->src = Mix_LoadWAV(path);
 
         if (temp->sound->src == NULL) {
-            printf("%s", SDL_GetError());
             printf("An error occurred while loading a WAV file\n");
             exit(EXIT_FAILURE);
         }
@@ -204,7 +194,6 @@ extern void load_SoundCollector(SoundCollector* p, const char path[], const char
         temp->music->src = Mix_LoadMUS(path);
 
         if (temp->music->src == NULL) {
-            printf("%s", SDL_GetError());
             printf("An error occurred while loading a WAV file\n");
             exit(EXIT_FAILURE);
         }
@@ -237,6 +226,7 @@ extern void unload_SoundCollector(SoundCollector* p, const char name[], int type
 
     if (type == SOUND) {
         e.sound = NULL;
+        e.music = NULL;
         e.sound = malloc(1 * sizeof(Sound));
 
         if (e.sound == NULL) {
@@ -246,6 +236,7 @@ extern void unload_SoundCollector(SoundCollector* p, const char name[], int type
 
         strcpy(e.sound->name, name);
     } else if (type == MUSIC) {
+        e.sound = NULL;
         e.music = NULL;
         e.music = malloc(1 * sizeof(Music));
 
@@ -263,6 +254,12 @@ extern void unload_SoundCollector(SoundCollector* p, const char name[], int type
 
     // We remove one AudioElement from our SoundCollector
     remove_AudioElement(p, &e);
+
+    if (type == SOUND) {
+        free(e.sound);
+    } else if (type == MUSIC) {
+        free(e.music);
+    }
 }
 
 extern void unloadList_SoundCollector(SoundCollector* p, Asset* assetsList) {
@@ -298,4 +295,29 @@ extern AudioElement* get_SoundCollector(SoundCollector* p, const char name[]) {
     exit(EXIT_FAILURE);
 
     return NULL;
+}
+
+extern int playMusic(SoundCollector* p, const char name[]) {
+    AudioElement* current = get_SoundCollector(p, name);
+    if(Mix_PlayingMusic() == 0) {
+        stopMusic();
+    }
+    if(Mix_FadeInMusic(current->music->src, -1, 2000) != -1) {
+        return 1;
+    }
+    return 0;
+}
+
+extern int playEffect(SoundCollector* p, const char name[], int nbTimes) {
+    AudioElement* current = get_SoundCollector(p, name);
+
+    return Mix_PlayChannel(-1, current->sound->src, nbTimes);
+}
+
+extern int stopMusic() {
+    return Mix_FadeOutMusic(0);
+}
+
+extern int stopEffect(int channel) {
+    return Mix_FadeOutChannel(channel, 0);
 }

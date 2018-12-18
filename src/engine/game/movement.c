@@ -50,6 +50,7 @@ extern MovementValues* init_Movement() {
     }
 
     result->timeSince = init_Timer();
+    result->lastStep = init_Timer();
 
     return result;
 }
@@ -62,6 +63,7 @@ extern void clean_Movement(MovementValues** p) {
         free((*p)->spriteBox);
         free((*p)->hitBox);
         clean_Timer(&((*p)->timeSince));
+        clean_Timer(&((*p)->lastStep));
 
         free((*p));
         (*p) = NULL;
@@ -87,7 +89,7 @@ extern void movePlayer_Movement(Data* data, Tiles** map) {
 
 
     if(data->Isaac->combat->animationStep != 0) {
-        dampen*=0.3;
+        dampen*=0.3*data->Isaac->weapons[0].agility;
     }
 
     //actually changes the character's movement according to the velocity we done got
@@ -162,10 +164,10 @@ extern void checkObstacle_Movement(Data* data, int t, float speedStat, Tiles** m
     int right = (int) ((xPos + 54) / 64);
 
     // these are the layout-relative-coordinates of each side of the hitBox after they have moved from velocity
-    int rightHit = (Vx + xPos + 54) / 64;
-    int leftHit = (Vx + xPos + 10) / 64;
-    int topHit = (Vy + yPos + 85) / 64;
-    int botHit = (Vy + yPos + 120) / 64;
+    int rightHit = (int)(((Vx + xPos + 54) / 64)>=0?((Vx + xPos + 54) / 64):0);
+    int leftHit = (int) (((Vx + xPos + 10) / 64)>=0?((Vx + xPos + 10) / 64):0);
+    int topHit = (int) (((Vy + yPos + 85) / 64)>=0?((Vy + yPos + 85) / 64):0);
+    int botHit = (int) (((Vy + yPos + 120) / 64)>=0?((Vy + yPos + 120) / 64):0);
 
     checkBound_Movement(data, 1280, 704, 0, 0);
 
@@ -310,3 +312,4 @@ extern void setPlayerHitBox_Movement(MovementValues* move)
     move->hitBox->x = (Sint16) (move->position->x);
     move->hitBox->y = (Sint16) (move->position->y + 32);
 }
+

@@ -21,8 +21,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     SDL_Surface* FightSprite=NULL;
 
-    SDL_Surface* Hibox=NULL;
-
     char line[150];
 
     SDL_Rect bgPos;
@@ -31,9 +29,10 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
     SDL_Rect dialogPos;
 
     bg = get_ImageCollector(engine->imageCollector, "lobby/bg")->surface;
-    FightSprite = get_ImageCollector(engine->imageCollector, "lobby/scythe")->surface;
-
-    Hibox= get_ImageCollector(engine->imageCollector, "lobby/hibox")->surface;
+    if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='S')
+        {FightSprite = get_ImageCollector(engine->imageCollector, "lobby/scythe")->surface;}
+    if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='H')
+        {FightSprite = get_ImageCollector(engine->imageCollector, "lobby/hoe")->surface;}
 
     bgPos.x = 0;
     bgPos.y = 0;
@@ -49,17 +48,13 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
         plantsBlit(lobbySurface, data, engine->imageCollector, 'c');
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
     }else{
         bg = get_ImageCollector(engine->imageCollector, "lobby/bg_flou")->surface;
         PlayerSprite = get_ImageCollector(engine->imageCollector, "lobby/player_flou")->surface;
 
         SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
         plantsBlit(lobbySurface, data, engine->imageCollector, 'b');
-        SDL_BlitSurface(PlayerSprite, data->Isaac->movement->spriteBox, lobbySurface, &playerPos);
     }
-
-    SDL_BlitSurface(bg, NULL, lobbySurface, &bgPos);
 
     bool invisible=false;
 
@@ -176,7 +171,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         menu1x2 = TTF_RenderText_Solid(font2, "YES", brown);
         menu1x3 = TTF_RenderText_Solid(font2, "NO", brown);
 
-
         posMenu1xInterface.x = 0;
         posMenu1xInterface.y = 0;
 
@@ -193,11 +187,15 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
         SDL_BlitSurface(menu1x2, NULL, lobbySurface, &posMenu1x2);
         SDL_BlitSurface(menu1x3, NULL, lobbySurface, &posMenu1x3);
+
+        SDL_FreeSurface(menu1x1);
+        SDL_FreeSurface(menu1x2);
+        SDL_FreeSurface(menu1x3);
     }
 
     if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH ){
         SDL_Surface* wait = NULL;
-        SDL_Surface* menu1x1;
+        SDL_Surface* menu1x1 = NULL;
 
         SDL_Rect posMenu1xInterface;
         SDL_Rect posMenu1x1;
@@ -226,6 +224,8 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
         SDL_BlitSurface(wait, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
+
+        SDL_FreeSurface(menu1x1);
     }
 
 
@@ -235,7 +235,7 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         char name1[10], name2[10], name3[10], name4[10];
         SDL_Color black = {0, 0, 0, 0};
         TTF_Font* font1 = get_FontCollector(engine->fontCollector, "menu/25")->font;
-        dialogBox = get_ImageCollector(engine->fontCollector, "lobby/dialog")->surface;
+        dialogBox = get_ImageCollector(engine->imageCollector, "lobby/dialog")->surface;
 
         dialogBoxPos.x = 135;
         dialogBoxPos.y = 541;
@@ -291,6 +291,8 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
             }
             dialog = TTF_RenderText_Solid(font1, line, black);
             SDL_BlitSurface(dialog, NULL, lobbySurface, &dialogPos);
+
+            SDL_FreeSurface(dialog);
         }
     }
 

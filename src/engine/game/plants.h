@@ -38,6 +38,13 @@ extern void freeField(field_t** field);
  */
 extern Plant* assignPlant(int n, field_t* field);
 
+/**
+ * Blit the field
+ * @param lobbySurface a pointer to a SDL_Surface
+ * @param data a pointer to a Data Object
+ * @param myImageCollector a pointer to an ImageCollector Object
+ * @param type char indicating if the field has to be blurred or not ('b': blur; anything else: not)
+ */
 extern void plantsBlit(SDL_Surface* lobbySurface, struct Data* data, ImageCollector* myImageCollector, char type);
 
 /**
@@ -46,5 +53,14 @@ extern void plantsBlit(SDL_Surface* lobbySurface, struct Data* data, ImageCollec
  * @param field Pointer to field
  */
 extern void removePlant(int n, field_t* field);
+
+/**
+ * Assign a number to a set of coordinates
+ * @param coordX int of X-axis
+ * @param coordY int of Y-axis
+ * @param data pointer to Data Object
+ * @return a pointer to a Plant Object, or NULL if not found
+ */
+extern Plant* assignNumberPlant_Coord(int coordX, int coordY, struct Data* data, int* number);
 
 #endif // FREE_PROJECT_ENGINE_GAME_PLANTS_H

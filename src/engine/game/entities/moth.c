@@ -6,26 +6,6 @@
 #include "../../../utils/math.h"
 #include "../movement.h"
 
-extern E_Moth* init_EMoth() {
-    E_Moth* result = NULL;
-    result = malloc(1 * sizeof(E_Moth));
-
-    if (result == NULL) {
-        exit(EXIT_FAILURE);
-    }
-
-    // Default value
-
-    return result;
-}
-
-extern void clean_EMoth(E_Moth** p) {
-    if ((*p) != NULL) {
-        free((*p));
-        (*p) = NULL;
-    }
-}
-
 
 extern void ai_EMoth(Entity* e, Data* data) {
     // Timer to get the time since the last frame of movement
@@ -46,6 +26,9 @@ extern void ai_EMoth(Entity* e, Data* data) {
 
     double dist = fabs(Xdistance) / fabs(cos(angle));
     if(dist < 400 && !e->attackTimer->started) {
+        if(e->movement->velocity->x == 0 && e->movement->velocity->y == 0) {
+            data->dungeonScene->sound->mobsDisplacement->moth = 1;
+        }
         e->movement->velocity->x += fabs(cos(angle)) * sign(Xdistance) * timeChange * 0.06;
         e->movement->velocity->y += fabs(sin(angle)) * sign(Ydistance) * timeChange * 0.06;
 

@@ -47,6 +47,16 @@ extern CombatValues* init_Combat() {
         exit(EXIT_FAILURE);
     }
 
+    result->spriteBox->w = 0;
+    result->spriteBox->h = 0;
+    result->spriteBox->x = 0;
+    result->spriteBox->y = 0;
+
+    result->weaponHitBox->w = 0;
+    result->weaponHitBox->h = 0;
+    result->weaponHitBox->x = 0;
+    result->weaponHitBox->y = 0;
+
     result->timeSince = init_Timer();
 
     return result;
@@ -152,6 +162,9 @@ extern Player* init_Player() {
     Isaac->combat->direction=-1;
     Isaac->combat->animationStep=0;
 
+    Isaac->combat->damageJustTaken = 0;
+    Isaac->equipped=0;
+
     return Isaac;
 }
 
@@ -192,8 +205,6 @@ extern void free_Player(Player** Isaac) {
         free((*Isaac)->stats);
         (*Isaac)->stats = NULL;        
     }
-    
-    
 
     if((*Isaac)->gameStats) {
         free((*Isaac)->gameStats);
@@ -201,6 +212,10 @@ extern void free_Player(Player** Isaac) {
     }
 
     freeAll_SlotInventory(&((*Isaac)->inventory));
+
+    if ((*Isaac)->invulnerabilityTimer) {
+        clean_Timer(&((*Isaac)->invulnerabilityTimer));
+    }
 
     free(*Isaac);
     *Isaac = NULL;
@@ -238,6 +253,7 @@ extern void alterHealth_Player(Player* Isaac, float alterHealth, char type) {
             if (Isaac->stats->basic->health <= 0) {
                 Isaac->stats->basic->health = 0;
             }
+            Isaac->stats->current->health = Isaac->stats->basic->health;
             break;
         }
         default: break;
@@ -267,6 +283,8 @@ extern void alterSpeed_Player(Player* Isaac, float alterSpeed, char type) {
             if (Isaac->stats->basic->speed <= 0) {
                 Isaac->stats->basic->speed = 0;
             }
+
+            alterSpeed_Player(Isaac,Isaac->stats->basic->speed - Isaac->stats->current->speed, 'c');
             break;
         }
         default: break;
@@ -296,6 +314,8 @@ extern void alterAgility_Player(Player* Isaac, float alterAgility, char type) {
             if (Isaac->stats->basic->agility <= 0) {
                 Isaac->stats->basic->agility = 0;
             }
+            alterAgility_Player(Isaac,Isaac->stats->basic->agility - Isaac->stats->current->agility, 'c');
+            break;
         }
         default: break;
     }
@@ -324,7 +344,25 @@ extern void alterDamage_Player(Player* Isaac, float alterDamage, char type) {
             if (Isaac->stats->basic->damage <= 0) {
                 Isaac->stats->basic->damage = 0;
             }
+            alterDamage_Player(Isaac,Isaac->stats->basic->damage - Isaac->stats->current->damage, 'c');
+            break;
         }
         default: break;
     }
+}
+
+extern int isPlayerAlive(Player* Isaac) {
+    if(Isaac->stats->current->health <= 0) {
+        return 0;
+    }
+    return 1;
+}
+
+extern void resetStats(Player* Isaac) {
+    resetUsedPotions(Isaac->stats);
+
+    Isaac->stats->current->agility = Isaac->stats->basic->agility;
+    Isaac->stats->current->damage = Isaac->stats->basic->damage;
+    Isaac->stats->current->health = Isaac->stats->basic->health;
+    Isaac->stats->current->speed = Isaac->stats->basic->speed;
 }

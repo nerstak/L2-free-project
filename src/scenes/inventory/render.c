@@ -72,6 +72,8 @@ static void backgroundBlit(Data* data, Engine* engine, ImageCollector* myImageCo
     if (strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
         bgBlur = get_ImageCollector(myImageCollector, "inventory/lobby_blur")->surface;
         player = get_ImageCollector(myImageCollector, "inventory/player_blur")->surface;
+    } else if (strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
+        bgBlur = data->dungeonScene->pauseBg;
     }
 
     SDL_BlitSurface(bgBlur, NULL, inventory, &layoutPos);
@@ -81,6 +83,10 @@ static void backgroundBlit(Data* data, Engine* engine, ImageCollector* myImageCo
         playerPos.y = data->Isaac->movement->position->y;
         plantsBlit(inventory, data, myImageCollector, 'b');
         SDL_BlitSurface(player, data->Isaac->movement->spriteBox, inventory, &playerPos);
+    } else if (strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
+        SDL_Surface* overlay = get_ImageCollector(engine->imageCollector, "inventory/overlay")->surface;
+
+        SDL_BlitSurface(overlay, NULL, inventory, &layoutPos);
     }
 
     SDL_BlitSurface(layout, NULL, inventory, &layoutPos);

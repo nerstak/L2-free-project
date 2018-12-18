@@ -50,6 +50,13 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                                 data->lobby->askAction = RIGHT;
                             BREAK
 
+                            CASE(engine->keys->SWITCH)
+                                if(data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE)
+                                {
+                                    data->Isaac->equipped= (data->Isaac->equipped+1)%2;
+                                }
+                            BREAK
+
                             CASE(engine->keys->UP_ATTACK)
                                 if (data->lobby->askCombat == -1 && data->lobby->actionProcess == NONE) {
                                     data->lobby->askCombat = 1;
@@ -63,13 +70,13 @@ extern void eventProcess_Scene_lobby(SDL_Event event, Engine* engine, Data* data
                             BREAK
 
                             CASE(SDLK_ESCAPE)
-                                data->lobby->actionProcess = PAUSE;
+                                data->lobby->askAction = PAUSE;
                             BREAK
                         ENDSWITCH
                     }
                     
                     if (SDLK_ESCAPE == input) {
-                        data->lobby->actionProcess = PAUSE;
+                        data->lobby->askAction = PAUSE;
                     }
 
                     break;

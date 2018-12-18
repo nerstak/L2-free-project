@@ -83,6 +83,15 @@ extern int getTicks_Timer(Timer* myTimer) {
     return 0;
 }
 
+extern int getTicksStart_Timer(Timer* myTimer) {
+    // Is our Timer running ?
+    if (myTimer->started == true) {
+        return SDL_GetTicks() - myTimer->startTicks;
+    }
+
+    return 0;
+}
+
 extern bool isStarted_Timer(Timer* myTimer) {
     // Return the status of our Timer
     return myTimer->started;

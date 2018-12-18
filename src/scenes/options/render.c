@@ -36,6 +36,8 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
     } else if (strcmp(engine->sceneCollector->previousScene->name,"lobby") == 0) {
         bgBlur = get_ImageCollector(myImageCollector, "options/lobby_blur")->surface;
         player = get_ImageCollector(myImageCollector, "options/player_blur")->surface;
+    } else if (strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
+        bgBlur = data->dungeonScene->pauseBg;
     }
 
     TTF_Font* font1 = NULL;
@@ -53,6 +55,10 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
         playerPos.y = data->Isaac->movement->position->y;
         plantsBlit(options, data, myImageCollector, 'b');
         SDL_BlitSurface(player, data->Isaac->movement->spriteBox, options, &playerPos);
+    } else if (strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
+        SDL_Surface* overlay = get_ImageCollector(engine->imageCollector, "pause/overlay")->surface;
+
+        SDL_BlitSurface(overlay, NULL, options, &bgPos);
     }
 
     SDL_BlitSurface(bg, NULL, options, &bgPos);
@@ -71,6 +77,8 @@ static SDL_Surface* getOptions(ImageCollector* myImageCollector, FontCollector* 
         textPos.y = (Sint16) (377 + (i / 2) * 40 + ((27 / 2) - (getHeight_FontCollector(font1, line) / 2)));
 
         SDL_BlitSurface(text, NULL, options, &textPos);
+
+        SDL_FreeSurface(text);
     }
 
     //Selection blit

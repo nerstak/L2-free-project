@@ -23,4 +23,10 @@ typedef struct referenceKey {
  */
 extern referenceKey* initKeys();
 
+/**
+ * Clean a referenceKey object
+ * @param referenceKey a double pointer to a referenceKey Object
+ */
+extern void cleanKeys(referenceKey** p);
+
 #endif

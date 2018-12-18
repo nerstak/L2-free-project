@@ -20,18 +20,35 @@ typedef struct Weapon {
     float agility;
 } Weapon;
 
+/**
+ * Initialise a Weapon Object
+ * @return a pointer to a Weapon Object
+ */
 extern Weapon* init_Weapon();
+/**
+ * Free a Weapon Object
+ * @param p a double pointer to a Weapon Object
+ */
 extern void clean_Weapon(Weapon** p);
 
 typedef struct CombatValues {
-    int animationStep;
+    float animationStep;
     int direction;
+    int damageJustTaken;
     SDL_Rect* spriteBox;
     SDL_Rect* weaponHitBox;
     Timer* timeSince;
 } CombatValues;
 
+/**
+ * Init a CombatValues Object
+ * @return a pointer to a CombatValues Object
+ */
 extern CombatValues* init_Combat();
+/**
+ * Free a CombatValues Object
+ * @param p a double pointer to a CombatValues Object
+ */
 extern void clean_Combat(CombatValues** p);
 
 typedef struct Player {
@@ -41,6 +58,7 @@ typedef struct Player {
     SlotInventory* inventory;
     int sizeInventory;
     Weapon* weapons;
+    int equipped;
     struct GameStats* gameStats;
     Timer* invulnerabilityTimer;
     generalStats* stats;
@@ -99,4 +117,16 @@ extern void alterAgility_Player(Player* Isaac, float alterAgility, char type);
  */
 extern void alterDamage_Player(Player* Isaac, float alterDamage, char type);
 
+/**
+ * Check if the player has more than 0 Health Point
+ * @param Isaac a pointer to a Player Object
+ * @return an int (0: dead; 1: alive)
+ */
+extern int isPlayerAlive(Player* Isaac);
+
+/**
+ * Set the current stats to the basic stats
+ * @param Isaac a pointer to a Player Object
+ */
+extern void resetStats(Player* Isaac);
 #endif // FREE_PROJECT_ENGINE_GAME_PLAYER_H

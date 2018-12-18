@@ -291,10 +291,13 @@ extern Room* chooseRoomWithFreeEdge(DungeonGenerator* g, KeyLevelRoomMapping* p,
 
             if (getByCoord_Dungeon(g->dungeon, coord) == NULL
                 && (coord->y <= 0)) { // Verify this coord->y
+                clean_Direction(&(d));
+                clean_Coord(&(coord));
                 return room;
             }
 
-            clean_Direction(&d);
+            clean_Direction(&(d));
+            clean_Coord(&(coord));
         }
 
         temp = temp->next;
