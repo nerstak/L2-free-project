@@ -452,6 +452,40 @@ extern void process_Entity(EntityList** list, struct Data* data) {
             tempNode = next;
         }
 
+        if (temp->data->type == BOSSBOD) {
+            E_Boss* eBoss = (E_Boss*) temp->data->entity;
+
+            if (eBoss->leftarm != NULL) {
+                DamageIndicatorQueueNode* tempNode2 = deQueue_DamageIndicator(eBoss->leftarm->damageIndicatorQueue);
+                while (tempNode2 != NULL) {
+                    DamageIndicatorQueueNode* next = tempNode2->next;
+
+                    if (getTime_Timer(tempNode2->data->timer) > 0.25) {
+                        popQueue_DamageIndicator(eBoss->leftarm->damageIndicatorQueue);
+                    } else {
+                        break;
+                    }
+
+                    tempNode2 = next;
+                }
+            }
+
+            if (eBoss->rightarm != NULL) {
+                DamageIndicatorQueueNode* tempNode2 = deQueue_DamageIndicator(eBoss->rightarm->damageIndicatorQueue);
+                while (tempNode2 != NULL) {
+                    DamageIndicatorQueueNode* next = tempNode2->next;
+
+                    if (getTime_Timer(tempNode2->data->timer) > 0.25) {
+                        popQueue_DamageIndicator(eBoss->rightarm->damageIndicatorQueue);
+                    } else {
+                        break;
+                    }
+
+                    tempNode2 = next;
+                }
+            }
+        }
+
         temp = temp->next;
     }
 }

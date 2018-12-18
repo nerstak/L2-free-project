@@ -823,11 +823,23 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
                     monsterpos.x = (Sint16) arms->leftarm->movement->position->x; // remove
                     monsterpos.y = (Sint16) arms->leftarm->movement->position->y;
                     SDL_BlitSurface(Arm, arms->leftarm->movement->spriteBox, window, &monsterpos);
+
+                    DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(arms->leftarm->damageIndicatorQueue);
+                    while (damageIndicator != NULL) {
+                        renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
+                        damageIndicator = damageIndicator->next;
+                    }
                 }
                 if (arms->rightarm != NULL) {
                     monsterpos.x = (Sint16) arms->rightarm->movement->position->x; // remove
                     monsterpos.y = (Sint16) arms->rightarm->movement->position->y;
                     SDL_BlitSurface(Arm, arms->rightarm->movement->spriteBox, window, &monsterpos);
+
+                    DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(arms->rightarm->damageIndicatorQueue);
+                    while (damageIndicator != NULL) {
+                        renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
+                        damageIndicator = damageIndicator->next;
+                    }
                 }
             }
             else
