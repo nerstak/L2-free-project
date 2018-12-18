@@ -50,6 +50,7 @@ extern MovementValues* init_Movement() {
     }
 
     result->timeSince = init_Timer();
+    result->lastStep = init_Timer();
 
     return result;
 }
@@ -62,6 +63,7 @@ extern void clean_Movement(MovementValues** p) {
         free((*p)->spriteBox);
         free((*p)->hitBox);
         clean_Timer(&((*p)->timeSince));
+        clean_Timer(&((*p)->lastStep));
 
         free((*p));
         (*p) = NULL;
@@ -310,3 +312,4 @@ extern void setPlayerHitBox_Movement(MovementValues* move)
     move->hitBox->x = (Sint16) (move->position->x);
     move->hitBox->y = (Sint16) (move->position->y + 32);
 }
+

@@ -11,6 +11,22 @@ struct dungeonAssets_t {
     SDL_Surface* hole;
 };
 
+typedef struct entities_bool {
+    int arm;
+    int bossBod;
+    int moth;
+    int tree;
+    int worm;
+} entities_bool;
+
+typedef struct soundDungeon_t {
+    int deathMob;
+    int bossJustDefeated;
+    entities_bool* mobsDamaged;
+    entities_bool* mobsDisplacement;
+    entities_bool* mobsAttack;
+} soundDungeon_t;
+
 typedef struct dungeonScene_t {
     Dungeon* dungeon;
     Room* currentRoom;
@@ -23,6 +39,9 @@ typedef struct dungeonScene_t {
     int askCombat;
     int actionProcess;
     int keyValue;
+
+
+    soundDungeon_t* sound;
 
     NotificationQueue* notificationQueue;
 

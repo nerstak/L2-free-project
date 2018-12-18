@@ -11,6 +11,8 @@
 #include "../movement.h"
 #include "../combat.h"
 
+static void preprocesDamage_Entities(struct Data* data, int type);
+
 extern EntityList* init_EntityNode(int type, float difficulty) {
     EntityList * node=NULL;
     node=malloc(sizeof(EntityList));
@@ -172,6 +174,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->attackTimer=init_Timer();
             start_Timer(result->attackTimer);
             result->shootTimer=init_Timer();
+            start_Timer(result->shootTimer);
 
             break;
         }
@@ -247,7 +250,7 @@ extern void clean_Entity(Entity** p) {
         cleanQueue_DamageIndicator(&((*p)->damageIndicatorQueue));
         if ((*p)->type == BOSSBOD)
         {
-            clean_EBoss(&((*p)->entity));
+            clean_EBoss((E_Boss**) &((*p)->entity));
         }
 
         free((*p));
@@ -399,7 +402,7 @@ extern bool isEmptyQueue_DamageIndicator(DamageIndicatorQueue* q) {
 
 extern void process_Entity(EntityList** list, struct Data* data) {
     // We kill (aka free) all dead monsters
-    (*list) = killList_Entity((*list),&(data->dyingEntities));
+    (*list) = killList_Entity(data, (*list), &(data->dyingEntities));
     process_Dying(&(data->dyingEntities),data);
 
     // We go through the whole list of monsters and apply actions depending of the type of monsters
@@ -518,17 +521,22 @@ extern void process_Dying(EntityList** list, struct Data* data)
     }
 }
 
-extern EntityList* killList_Entity(EntityList* list, EntityList** dying) {
+extern EntityList* killList_Entity(Data* data, EntityList* list, EntityList** dying) {
     if (list == NULL) {
         return NULL;
     } else if (list->data->health <= 0) {
         EntityList* temp = list->next;
         list->data->movement->animationStep=0;
+        if(list->data->type != PROJECTILE && list->data->type != BOSSBOD) {
+            data->dungeonScene->sound->deathMob = 1;
+        } else if (list->data->type == BOSSBOD) {
+            data->dungeonScene->sound->bossJustDefeated = 1;
+        }
         append_EntityNode(list,dying);
         return temp;
     }
 
-    list->next = killList_Entity(list->next,dying);
+    list->next = killList_Entity(data, list->next, dying);
 
     return list;
 }
@@ -567,16 +575,17 @@ extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
             knockBack_Entity(e, data, -1, x, y,NULL);
         }
 
-
         if (data->Isaac->invulnerabilityTimer->started == false) {
             start_Timer(data->Isaac->invulnerabilityTimer);
             alterHealth_Player(data->Isaac, - e->damage, 'c');
+            data->Isaac->combat->damageJustTaken = 1;
         }
     }
 
     if (BoxCollision(e->movement->hitBox, data->Isaac->combat->weaponHitBox) && !e->attackTimer->started && e->type!=PROJECTILE) {
         float damage=data->Isaac->stats->current->damage * data->Isaac->weapons[data->Isaac->equipped].damage;
         e->health -= damage ;
+        preprocesDamage_Entities(data, e->type);
         knockBack_Entity(e, data, data->Isaac->combat->direction, 0, 0,e->attackTimer);
         DamageIndicator* damageIndicator = init_DamageIndicator();
         damageIndicator->amount = damage;
@@ -622,6 +631,69 @@ extern void knockBack_Entity(Entity* e, struct Data* data, int direction, int x,
                 break;
             }
         }
+    }
+}
+
+extern struct entities_bool* initEntitiesBool() {
+    entities_bool* temp = malloc(sizeof(entities_bool));
+    if(!temp) {
+        exit(EXIT_FAILURE);
+    }
+
+    resetEntitiesBool(temp);
+
+    return temp;
+}
+
+extern void freeEntitiesBool(struct entities_bool** e) {
+    if(e && *e) {
+        free(*e);
+        *e = NULL;
+    }
+}
+
+extern void resetEntitiesBool(struct entities_bool* e) {
+    e->tree = 0;
+    e->moth = 0;
+    e->worm = 0;
+    e->bossBod = 0;
+    e->arm = 0;
+}
+
+static void preprocesDamage_Entities(struct Data* data, int type) {
+    switch (type) {
+        case MOTH: {
+            if (data->dungeonScene->sound->mobsDamaged->moth == 0) {
+                data->dungeonScene->sound->mobsDamaged->moth = 1;
+            }
+            break;
+        }
+        case WORM: {
+            if (data->dungeonScene->sound->mobsDamaged->worm == 0) {
+                data->dungeonScene->sound->mobsDamaged->worm = 1;
+            }
+            break;
+        }
+        case TREE: {
+            if (data->dungeonScene->sound->mobsDamaged->tree == 0) {
+                data->dungeonScene->sound->mobsDamaged->tree = 1;
+            }
+            break;
+        }
+        case ARM: {
+            if (data->dungeonScene->sound->mobsDamaged->arm == 0) {
+                data->dungeonScene->sound->mobsDamaged->arm = 1;
+            }
+            break;
+        }
+        case BOSSBOD: {
+            if (data->dungeonScene->sound->mobsDamaged->bossBod == 0) {
+                data->dungeonScene->sound->mobsDamaged->bossBod = 1;
+            }
+            break;
+        }
+        default:
+            break;
     }
 }
 

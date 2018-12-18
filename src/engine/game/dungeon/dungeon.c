@@ -135,10 +135,14 @@ extern void link_Dungeon(Dungeon* p, Room* r1, Room* r2, Symbol* c) {
     }
 
     Direction* d = getDirectionTo_Coord(r1->coord, r2->coord);
+    clean_Edge(&(getEdges_Room(r1)[d->code]));
     getEdges_Room(r1)[d->code] = init_Edge(c);
-    getEdges_Room(r2)[opposite_Direction(d)->code] = init_Edge(c);
+    Direction* oppositeD = opposite_Direction(d);
+    clean_Edge(&(getEdges_Room(r2)[oppositeD->code]));
+    getEdges_Room(r2)[oppositeD->code] = init_Edge(c);
 
     clean_Direction(&d);
+    clean_Direction(&oppositeD);
 }
 
 
@@ -167,6 +171,8 @@ extern Room* findStart_Dungeon(Dungeon* p) {
         temp = temp->next;
     }
 
+    clean_KeyLevelRoomMapping(&(rooms));
+
     return NULL;
 }
 
@@ -184,6 +190,8 @@ extern Room* findBoss_Dungeon(Dungeon* p) {
         temp = temp->next;
     }
 
+    clean_KeyLevelRoomMapping(&(rooms));
+
     return NULL;
 }
 
@@ -200,6 +208,8 @@ extern Room* findGoal_Dungeon(Dungeon* p) {
 
         temp = temp->next;
     }
+
+    clean_KeyLevelRoomMapping(&(rooms));
 
     return NULL;
 }

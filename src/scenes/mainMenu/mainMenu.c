@@ -1,6 +1,7 @@
 #include "mainMenu.h"
 
 extern void assets_Scene_mainMenu(Engine* engine, Data* data, bool loadOrUnload) {
+    stopMusic();
     char path[] = "src/scenes/mainMenu/files.asset";
     load_Asset(path, loadOrUnload, engine, data);
 }
@@ -28,8 +29,7 @@ extern void init_Scene_mainMenu(Engine* engine, Data* data, bool loadOrUnload) {
             freeReference(&(data->referenceItems));
         }
 
-
-
+        playMusic(engine->soundCollector, "menu/main_theme");
     } else {
         free(data->mainMenu);
         data->mainMenu = NULL;

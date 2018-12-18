@@ -21,7 +21,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     SDL_Surface* FightSprite=NULL;
 
-
     char line[150];
 
     SDL_Rect bgPos;
@@ -34,7 +33,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         {FightSprite = get_ImageCollector(engine->imageCollector, "lobby/scythe")->surface;}
     if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='H')
         {FightSprite = get_ImageCollector(engine->imageCollector, "lobby/hoe")->surface;}
-
 
     bgPos.x = 0;
     bgPos.y = 0;
@@ -173,7 +171,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         menu1x2 = TTF_RenderText_Solid(font2, "YES", brown);
         menu1x3 = TTF_RenderText_Solid(font2, "NO", brown);
 
-
         posMenu1xInterface.x = 0;
         posMenu1xInterface.y = 0;
 
@@ -190,11 +187,15 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
         SDL_BlitSurface(menu1x2, NULL, lobbySurface, &posMenu1x2);
         SDL_BlitSurface(menu1x3, NULL, lobbySurface, &posMenu1x3);
+
+        SDL_FreeSurface(menu1x1);
+        SDL_FreeSurface(menu1x2);
+        SDL_FreeSurface(menu1x3);
     }
 
     if(data->lobby->actionProcess == WAIT || data->lobby->actionProcess == NOT_ENOUGH ){
         SDL_Surface* wait = NULL;
-        SDL_Surface* menu1x1;
+        SDL_Surface* menu1x1 = NULL;
 
         SDL_Rect posMenu1xInterface;
         SDL_Rect posMenu1x1;
@@ -223,6 +224,8 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
         SDL_BlitSurface(wait, NULL, lobbySurface, &posMenu1xInterface);
         SDL_BlitSurface(menu1x1, NULL, lobbySurface, &posMenu1x1);
+
+        SDL_FreeSurface(menu1x1);
     }
 
 
@@ -288,6 +291,8 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
             }
             dialog = TTF_RenderText_Solid(font1, line, black);
             SDL_BlitSurface(dialog, NULL, lobbySurface, &dialogPos);
+
+            SDL_FreeSurface(dialog);
         }
     }
 

@@ -25,7 +25,7 @@ extern void ai_EArm(Entity* e, Data* data,float maxhealth)
 
     if(isStarted_Timer(e->shootTimer))
     {
-        punch(e,data->Isaac->movement->position,maxhealth,data->dungeonScene->currentRoom->layout->map);
+        punch(data, e, data->Isaac->movement->position, maxhealth, data->dungeonScene->currentRoom->layout->map);
     }
 
     e->movement->position->x+=e->movement->velocity->x * timeChange *0.06 * e->speed;
@@ -81,12 +81,13 @@ extern void animate_EArm(Entity* e, int time,float maxhealth)
     }
 }
 
-extern void punch(Entity* e,Coordinate * target,float maxhealth,Tiles ** map) {
+extern void punch(Data* data, Entity* e, Coordinate* target, float maxhealth, Tiles** map) {
     int panick=1;
     if(e->health>maxhealth/2)
     {
 
-        if (e->movement->animationStep < 0) {
+        if (e->movement->animationStep < 0 && (e->movement->velocity->x || e->movement->velocity->y)) {
+            data->dungeonScene->sound->mobsAttack->arm = 1;
             e->movement->velocity->x = 0;
             e->movement->velocity->y = 0;
         }
@@ -94,8 +95,12 @@ extern void punch(Entity* e,Coordinate * target,float maxhealth,Tiles ** map) {
     else {
         panick=2;
         if (getTicksStart_Timer(e->shootTimer) > 3000 && e->movement->animationStep < 0) {
-            e->movement->velocity->x = 0;
-            e->movement->velocity->y = 0;
+            if(e->movement->velocity->x || e->movement->velocity->y) {
+                data->dungeonScene->sound->mobsAttack->arm = 1;
+                e->movement->velocity->x = 0;
+                e->movement->velocity->y = 0;
+            }
+
         }
         else if(getTicksStart_Timer(e->shootTimer) < 3000)
         {
@@ -105,8 +110,11 @@ extern void punch(Entity* e,Coordinate * target,float maxhealth,Tiles ** map) {
             Tiletype(map[coordy][coordx].type,&destType);
             if(destType=='W' || destType=='B')
             {
-                e->movement->velocity->x = 0;
-                e->movement->velocity->y = 0;
+                if(e->movement->velocity->x || e->movement->velocity->y) {
+                    data->dungeonScene->sound->mobsAttack->arm = 1;
+                    e->movement->velocity->x = 0;
+                    e->movement->velocity->y = 0;
+                }
             }
         }
     }

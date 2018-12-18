@@ -14,3 +14,11 @@ src/resources/gfx/player/sprites_hoe_flou.png lobby/hoe_blur
 src/resources/gfx/scenes/lobby/dialog.png lobby/dialog
 src/resources/gfx/scenes/lobby/plants_spritesheet.png lobby/plants
 src/resources/gfx/scenes/lobby/plants_spritesheet_blur.png lobby/plants_blur
+src/resources/musics/lobby_Theme.mp3 lobby/main_theme
+src/resources/sfx/UI/move_button.wav lobby/move_button
+src/resources/sfx/UI/confirm_button.wav lobby/confirm_button
+src/resources/sfx/UI/new_day.wav lobby/new_day
+src/resources/sfx/player/plant.wav player/plant
+src/resources/sfx/player/scythe.wav player/scythe
+src/resources/sfx/player/hoe.wav player/hoe
+src/resources/sfx/player/step_grass_run.wav player/step_grass_run

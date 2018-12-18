@@ -5,8 +5,17 @@
 
 
 static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord);
+
+static void playStep(Engine* engine, Player* player);
+static void playDamage(Engine* engine, Player* player);
 static void enterDoor(Engine* engine, Data* data, SDL_Rect* door, SDL_Rect* player, dungeonScene_t* room, int direction);
 static void processDeath(Engine* engine, Data* data);
+static void processSoundEntities(Engine* engine, Data* data);
+static void playDamage_Entities(Engine* engine, Data* data);
+static void playAttack_Entities(Engine* engine, Data* data);
+static void playDisplacement_Entities(Engine* engine, Data* data);
+
+
 static void notificationInventoryFull(Data* data);
 static void movePlayer_BossRoom(Data* data);
 
@@ -38,6 +47,10 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
             newRoom->visited = true;
             data->dungeonScene->currentRoom = newRoom;
 
+            if(isBoss_Room(newRoom) && newRoom->cleaned == false) {
+                stopMusic();
+                playMusic(engine->soundCollector, "dungeon/boss_theme");
+            }
             // We clean previous kill list
             cleanList_Entity(&(data->dyingEntities));
 
@@ -196,7 +209,6 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                         data->Isaac->movement->position->y=6;
                         movePlayer_BossRoom(data);
                     }
-
                     break;
                 }
 
@@ -208,7 +220,6 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                         data->Isaac->movement->position->y=262;
                         movePlayer_BossRoom(data);
                     }
-
                     break;
                 }
             }
@@ -216,7 +227,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
             data->dungeonScene->moveTo = -1;
         }
         if (data->dungeonScene->askCombat != -1) {
-            ProcessCombat(data,&(data->dungeonScene->askCombat));
+            ProcessCombat(engine, data,&(data->dungeonScene->askCombat));
         } else {
             data->Isaac->combat->weaponHitBox->x=10000; // clean fix
             data->Isaac->combat->weaponHitBox->y=10000;
@@ -226,6 +237,10 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
 
         process_Entity(&(data->entities), data);
         movePlayer_Movement(data, data->dungeonScene->currentRoom->layout->map);
+        playStep(engine, data->Isaac);
+        playDamage(engine, data->Isaac);
+        processSoundEntities(engine, data);
+
 
         // Room clean ?
         if (data->entities == NULL && data->dungeonScene->currentRoom->cleaned == false) {
@@ -346,8 +361,13 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                     enQueue_Notification(data->dungeonScene->notificationQueue, notification);
                 }
             }
-
             data->dungeonScene->currentRoom->cleaned = true;
+            if (isBoss_Room(data->dungeonScene->currentRoom) && data->dungeonScene->sound->bossJustDefeated == 1) {
+                data->dungeonScene->sound->bossJustDefeated = 0;
+                stopMusic();
+                playEffect(engine->soundCollector, "dungeon/victory", 0);
+                playMusic(engine->soundCollector, "dungeon/main_theme");
+            }
         }
 
         // Clear notification
@@ -410,7 +430,12 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 int plantId = -1;
                 assignNumberPlant_Coord(data->field->currentPlant->x, data->field->currentPlant->y, data, &plantId);
                 removePlant(plantId, data->field);
+
+                stopVelocity_Movement(data->Isaac->movement);
+                playEffect(engine->soundCollector, "loading/entering_dungeon", 0);
+
                 data->Isaac->gameStats->dungeons++;
+
                 display_SceneCollector(engine, data, "lobby");
             }
         }
@@ -426,12 +451,46 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
     } else {
         processDeath(engine, data);
     }
+
+}
+
+static void playStep(Engine* engine, Player* player) {
+    if((player->movement->velocity->x > 10 || player->movement->velocity->x < -10 || player->movement->velocity->y > 10 || player->movement->velocity->y < -10)) {
+        if (isStarted_Timer(player->movement->lastStep)) {
+            if (getTime_Timer(player->movement->lastStep) > 0.6) {
+                start_Timer(player->movement->lastStep);
+                playEffect(engine->soundCollector, "player/step_dungeon_run", 0);
+            }
+        } else if (isPaused_Timer(player->movement->lastStep)) {
+            start_Timer(player->movement->lastStep);
+            playEffect(engine->soundCollector, "player/step_dungeon_run", 0);
+        } else {
+            start_Timer(player->movement->lastStep);
+            playEffect(engine->soundCollector, "player/step_dungeon_run", 0);
+        }
+    }
+
+    if((!player->movement->velocity->x && !player->movement->velocity->y)) {
+        stop_Timer(player->movement->lastStep);
+    }
+}
+
+static void playDamage(Engine* engine, Player* player) {
+    if(player->combat->damageJustTaken == 1) {
+        playEffect(engine->soundCollector, "player/pain", 0);
+        player->combat->damageJustTaken = 0;
+    }
 }
 
 static void processDeath(Engine* engine, Data* data) {
-    stop_Timer(data->Isaac->invulnerabilityTimer);
+    if(isStarted_Timer(data->Isaac->invulnerabilityTimer)) {
+        playMusic(engine->soundCollector, "dungeon/death_theme");
+        playEffect(engine->soundCollector, "player/death_player", 0);
+        stop_Timer(data->Isaac->invulnerabilityTimer);
+    }
     data->dungeonScene->askCombat = -1;
     if(data->dungeonScene->actionProcess == PAUSE) {
+        playEffect(engine->soundCollector, "loading/leave_menu", 0);
         //We free Player and field
         if(data->Isaac) {
             free_Player(&(data->Isaac));
@@ -448,6 +507,57 @@ static void processDeath(Engine* engine, Data* data) {
             display_SceneCollector(engine,data, "mainMenu");
         }
     }
+}
+
+static void processSoundEntities(Engine* engine, Data* data) {
+    if(data->dungeonScene->sound->deathMob) {
+        playEffect(engine->soundCollector, "dungeon/death_mobs",0);
+        data->dungeonScene->sound->deathMob = 0;
+    }
+    playDamage_Entities(engine, data);
+    playAttack_Entities(engine, data);
+    playDisplacement_Entities(engine, data);
+}
+
+static void playDamage_Entities(Engine* engine, Data* data) {
+    if(data->dungeonScene->sound->mobsDamaged->moth != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_moth", 0);
+    }
+    if(data->dungeonScene->sound->mobsDamaged->worm != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_worm", 0);
+    }
+    if(data->dungeonScene->sound->mobsDamaged->tree != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_tree", 0);
+    }
+    if(data->dungeonScene->sound->mobsDamaged->arm != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_arm", 0);
+    }
+    if(data->dungeonScene->sound->mobsDamaged->bossBod != 0) {
+        playEffect(engine->soundCollector, "dungeon/pain_bossBod", 0);
+    }
+    resetEntitiesBool(data->dungeonScene->sound->mobsDamaged);
+}
+
+static void playAttack_Entities(Engine* engine, Data* data) {
+    if(data->dungeonScene->sound->mobsAttack->worm != 0) {
+        playEffect(engine->soundCollector, "dungeon/attack_worm", 0);
+    }if(data->dungeonScene->sound->mobsAttack->tree != 0) {
+        playEffect(engine->soundCollector, "dungeon/attack_tree", 0);
+    }
+    if(data->dungeonScene->sound->mobsAttack->arm != 0) {
+        printf("oh\n");
+        playEffect(engine->soundCollector, "dungeon/attack_arm", 0);
+    }if(data->dungeonScene->sound->mobsAttack->bossBod != 0) {
+        playEffect(engine->soundCollector, "dungeon/attack_bossBod", 0);
+    }
+    resetEntitiesBool(data->dungeonScene->sound->mobsAttack);
+}
+
+static void playDisplacement_Entities(Engine* engine, Data* data) {
+    if (data->dungeonScene->sound->mobsDisplacement->moth != 0) {
+        playEffect(engine->soundCollector, "dungeon/move_moth", 0);
+    }
+    resetEntitiesBool(data->dungeonScene->sound->mobsDisplacement);
 }
 
 static void notificationInventoryFull(Data* data) {

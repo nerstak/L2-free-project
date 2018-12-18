@@ -29,6 +29,7 @@ extern void ai_EWorm(Entity* e, Data* data)
         source->x=e->movement->position->x+48;
         source->y=e->movement->position->y+80 ;
 
+        data->dungeonScene->sound->mobsAttack->worm = 1;
         shoot_Projectile(data,source,5,e->damage,1300,e->type);
         lap_Timer(e->shootTimer);
     }

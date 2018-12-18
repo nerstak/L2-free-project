@@ -4,6 +4,7 @@
 #include "garden.h"
 
 #include "inventory.h"
+#include "../main.h"
 #include "../timer.h"
 #include "../save.h"
 #include "plants.h"
@@ -53,15 +54,20 @@ extern int checkAction_Garden(Data* data) {
     return 0;
 }
 
-extern void processSleep(Data* data) {
+extern void processSleep(Engine* engine, Data* data) {
     if(data->lobby->askAction == LEFT && data->lobby->cursor == 1) {
         data->lobby->cursor = 0;
+        playEffect(engine->soundCollector, "lobby/move_button", 0);
     } else if(data->lobby->askAction == RIGHT && data->lobby->cursor == 0) {
         data->lobby->cursor = 1;
+        playEffect(engine->soundCollector, "lobby/move_button", 0);
     } else if(data->lobby->askAction == SELECT) {
         if(data->lobby->cursor == 0) {
             writeSave(data);
             DayPass(data);
+            playEffect(engine->soundCollector, "lobby/new_day", 0);
+        } else {
+            playEffect(engine->soundCollector, "lobby/confirm_button", 0);
         }
         data->lobby->actionProcess = NONE;
         data->lobby->cursor = 0;
@@ -104,15 +110,19 @@ static void processField_Garden(Data* data) {
 extern void menuSelectionDungeon_Garden(Engine* engine, Data* data) {
     if (data->lobby->askAction == LEFT && data->lobby->cursor == 1) {
         data->lobby->cursor = 0;
+        playEffect(engine->soundCollector, "lobby/move_button",0 );
     } else if (data->lobby->askAction == RIGHT && data->lobby->cursor == 0) {
         data->lobby->cursor = 1;
+        playEffect(engine->soundCollector, "lobby/move_button", 0);
     }
     else if (data->lobby->askAction == SELECT) {
         data->lobby->actionProcess = NONE;
         if(data->lobby->cursor == 1 || data->Isaac->gameStats->dungeonDay == 1) {
+            playEffect(engine->soundCollector, "lobby/confirm_button", 0);
             data->lobby->cursor = 0;
             data->lobby->actualPlant = NULL;
         } else if (data->lobby->cursor == 0) {
+            playEffect(engine->soundCollector, "loading/entering_dungeon", 0);
             data->field->currentPlant = data->lobby->actualPlant;
             data->Isaac->gameStats->dungeonDay = 1;
             data->lobby->cursor = 0;
@@ -124,24 +134,29 @@ extern void menuSelectionDungeon_Garden(Engine* engine, Data* data) {
     }
 }
 
-extern void menuSelectionPlanting_Garden(Data* data) {
+extern void menuSelectionPlanting_Garden(Engine* engine, Data* data) {
     if(data->lobby->askAction == LEFT && data->lobby->cursor > 0) {
         data->lobby->cursor--;
+        playEffect(engine->soundCollector, "lobby/move_button", 0);
     }else if(data->lobby->askAction == RIGHT && data->lobby->cursor < 5) {
         data->lobby->cursor++;
+        playEffect(engine->soundCollector, "lobby/move_button", 0);
     }else if(data->lobby->askAction == SELECT) {
         if(data->lobby->cursor == 5) {
             data->lobby->cursor = 0;
             data->lobby->actualPlant = NULL;
             data->lobby->actionProcess = NONE;
+            playEffect(engine->soundCollector, "loading/leave_menu", 0);
         } else {
             if(processPlanting(data) == 1) {
                 data->lobby->cursor = 0;
                 data->lobby->actualPlant = NULL;
                 data->lobby->actionProcess = NONE;
+                playEffect(engine->soundCollector, "player/plant", 0);
             } else {
                 data->lobby->actionProcess = NOT_ENOUGH;
                 start_Timer(data->lobby->timerMessage);
+                playEffect(engine->soundCollector, "lobby/confirm_button", 0);
             }
         }
     } else if(data->lobby->askAction == PAUSE) {

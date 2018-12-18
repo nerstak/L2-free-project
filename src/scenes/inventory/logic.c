@@ -1,10 +1,10 @@
 #include "logic.h"
 
-static void moveInventorySelector(Data* data);
+static void moveInventorySelector(Engine* engine, Data* data);
 static void deleteItemInventory(Data* data);
-static void useItem(Data* data);
-static void applyEffect(Data* data);
-static void moveDeleteCursor(Data* data);
+static void useItem(Engine* engine, Data* data);
+static void applyEffect(Engine* engine, Data* data);
+static void moveDeleteCursor(Engine* engine, Data* data);
 
 extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
     int action = data->inventory->askAction;
@@ -20,17 +20,18 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
         if(action == I_DELETE) {
             data->inventory->askDeletion = -1;
         }
-        moveDeleteCursor(data);
+        moveDeleteCursor(engine, data);
         data->inventory->askAction = I_NONE;
     } else if(action != I_NONE) {
-        if(action != I_ENTER && action != I_DELETE && action != I_LEAVE) {
-            moveInventorySelector(data);
+        if(action != I_ENTER && action != I_LEAVE) {
+            moveInventorySelector(engine, data);
             data->inventory->askAction = I_NONE;
         } else if(action == I_ENTER) {
-            useItem(data);
+            useItem(engine, data);
             data->inventory->askAction = I_NONE;
         } else if(action == I_LEAVE) {
             data->inventory->askAction = I_NONE;
+            playEffect(engine->soundCollector, "loading/leave_menu", 0);
             if(strcmp(engine->sceneCollector->previousScene->name, "dungeon") == 0) {
                 unpauseTimer_entities(data->entities);
             }
@@ -40,8 +41,8 @@ extern void logicProcess_Scene_inventory(Engine* engine, Data* data) {
 }
 
 //Cursor displacement (right: 1; left: -1; down: 10; up: 10)
-static void moveInventorySelector(Data* data) {
-    int pos_to_go;
+static void moveInventorySelector(Engine* engine, Data* data) {
+    int pos_to_go, moved = 0;
     if(data->inventory->selected) {
         switch(data->inventory->askAction) {
             case I_RIGHT: {
@@ -50,6 +51,7 @@ static void moveInventorySelector(Data* data) {
                 if (data->inventory->selected->next != NULL) {
                     data->inventory->selected = data->inventory->selected->next;
                     (data->inventory->nSelected)++;
+                    moved = 1;
                 }
                 break;
             }
@@ -59,6 +61,7 @@ static void moveInventorySelector(Data* data) {
                 if (data->inventory->selected->prev != NULL) {
                     data->inventory->selected = data->inventory->selected->prev;
                     (data->inventory->nSelected)--;
+                    moved = 1;
                 }
                 break;
             }
@@ -68,6 +71,7 @@ static void moveInventorySelector(Data* data) {
                 while (data->inventory->selected->next != NULL && data->inventory->nSelected != pos_to_go) {
                     data->inventory->selected = data->inventory->selected->next;
                     (data->inventory->nSelected)++;
+                    moved = 1;
                 }
                 break;
             }
@@ -78,16 +82,21 @@ static void moveInventorySelector(Data* data) {
                     while (data->inventory->selected->prev != NULL && data->inventory->nSelected != pos_to_go) {
                         data->inventory->selected = data->inventory->selected->prev;
                         (data->inventory->nSelected)--;
+                        moved = 1;
                     }
-                } else {
+                } else if(data->inventory->nSelected != 0) {
                     data->inventory->selected = data->Isaac->inventory;
                     data->inventory->nSelected = 0;
+                    moved = 1;
                 }
                 break;
             }
             default:
                 break;
         }
+    }
+    if(moved == 1) {
+        playEffect(engine->soundCollector, "inventory/move_button", 0);
     }
 }
 
@@ -112,12 +121,12 @@ static void deleteItemInventory(Data* data) {
     }
 }
 
-static void useItem(Data* data) {
+static void useItem(Engine* engine, Data* data) {
     //First we should check if the item is usable
     if(data->inventory->selected) {
         if(data->inventory->selected->type != 'n' && data->inventory->selected->type != 's') {
             strcpy(data->inventory->messageUsed, data->inventory->selected->useMessage);
-            applyEffect(data);
+            applyEffect(engine, data);
             (data->inventory->selected->quantity)--;
             if(data->inventory->selected->quantity <= 0) {
                 deleteItemInventory(data);
@@ -127,11 +136,12 @@ static void useItem(Data* data) {
     }
 }
 
-static void applyEffect(Data* data) {
+static void applyEffect(Engine* engine, Data* data) {
     SlotInventory* current = data->inventory->selected;
     int use = 0;
     switch(current->type) {
         case 'p': {
+            playEffect(engine->soundCollector, "player/drink", 0);
             if(current->id - 12 >= 0 && current->id - 12 < 6) {
                 if(data->Isaac->stats->potionsUsed[current->id - 12] == 0) {
                     use = 1;
@@ -150,6 +160,7 @@ static void applyEffect(Data* data) {
             break;
         }
         case 'v': {
+            playEffect(engine->soundCollector, "player/eat", 0);
             alterHealth_Player(data->Isaac, current->characteristics->health * data->Isaac->stats->basic->health, 'b');
             alterAgility_Player(data->Isaac, current->characteristics->agility * data->Isaac->stats->basic->agility,'b');
             alterSpeed_Player(data->Isaac, current->characteristics->speed * data->Isaac->stats->basic->speed, 'b');
@@ -162,7 +173,8 @@ static void applyEffect(Data* data) {
     }
 }
 
-static void moveDeleteCursor(Data* data) {
+static void moveDeleteCursor(Engine* engine, Data* data) {
+    int moved = 0;
     if(data->inventory->selected) {
         switch(data->inventory->askDeletion) {
             case -1: {
@@ -174,7 +186,9 @@ static void moveDeleteCursor(Data* data) {
                 //Button 'CANCEL'
                 if(data->inventory->askAction == I_LEFT) {
                     data->inventory->askDeletion = 1;
+                    moved = 1;
                 } else if(data->inventory->askAction == I_ENTER) {
+                    playEffect(engine->soundCollector, "inventory/confirm_button", 0);
                     data->inventory->askDeletion = -1;
                 }
                 break;
@@ -183,7 +197,9 @@ static void moveDeleteCursor(Data* data) {
                 //Button 'CONFIRM'
                 if(data->inventory->askAction == I_RIGHT) {
                     data->inventory->askDeletion = 0;
+                    moved = 1;
                 } else if(data->inventory->askAction == I_ENTER) {
+                    playEffect(engine->soundCollector, "inventory/confirm2_button", 0);
                     data->inventory->askDeletion = 2;
                 }
                 break;
@@ -195,5 +211,8 @@ static void moveDeleteCursor(Data* data) {
                 break;
             }
         }
+    }
+    if(moved == 1) {
+        playEffect(engine->soundCollector, "inventory/move_button", 0);
     }
 }

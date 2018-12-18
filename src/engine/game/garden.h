@@ -21,9 +21,9 @@ extern void doAction_Garden(Data* data);
  * Process the interface of sleeping (+ passing day and saving)
  * @param data a pointer to a Data Object
  */
-extern void processSleep(Data* data);
+extern void processSleep(Engine* engine, Data* data);
 /**
- * Process actions in the garden (Planting / Entering into dungeon / Wainting)
+ * Process actions in the garden (Planting / Entering into dungeon / Waiting)
  * @param data a pointer to a Data Object
  */
 extern void processGarden(Data* data);
@@ -37,7 +37,7 @@ extern void menuSelectionDungeon_Garden(Engine* engine, Data* data);
  * Process interface for planting
  * @param data a pointer to a Data Object
  */
-extern void menuSelectionPlanting_Garden(Data* data);
+extern void menuSelectionPlanting_Garden(Engine* engine, Data* data);
 /**
  * Move to next day for plants
  * @param data a pointer to a Data Object

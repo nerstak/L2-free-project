@@ -57,6 +57,8 @@ extern void clean_TreeMap(TreeMap** tree) {
 }
 
 extern void printf_TreeMap(TreeMap* tree) {
+    printf("Is our tree correct ? %d\n", assert(tree->root));
+
     Queue* queue = init_Queue();
     TreeMapNode* temp = tree->root;
 

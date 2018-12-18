@@ -9,20 +9,25 @@
 static void loadDungeonsMap(Engine* engine, Data* data);
 
 extern void assets_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
-    Asset* assetsList = getList_Asset("src/scenes/dungeon/files.asset");
-
-    if (loadOrUnload == true) {
-        loadList_ImageCollector(engine->imageCollector, assetsList);
-    } else {
-        unloadList_ImageCollector(engine->imageCollector, assetsList);
-    }
-
-    clean_Asset(&assetsList);
+    char path[] = "src/scenes/dungeon/files.asset";
+    load_Asset(path, loadOrUnload, engine, data);
 }
 
 extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
     if (loadOrUnload == true) {
         data->dungeonScene = malloc(1 * sizeof(dungeonScene_t));
+        if(data->dungeonScene == NULL) {
+            exit(EXIT_FAILURE);
+        }
+
+        data->dungeonScene->sound = malloc(sizeof(soundDungeon_t));
+        if(data->dungeonScene->sound == NULL) {
+            exit(EXIT_FAILURE);
+        }
+
+        data->dungeonScene->sound->mobsDamaged = initEntitiesBool();
+        data->dungeonScene->sound->mobsAttack = initEntitiesBool();
+        data->dungeonScene->sound->mobsDisplacement = initEntitiesBool();
 
         DungeonGenerator* dg = init_DungeonGenerator(time(NULL));
 
@@ -47,11 +52,17 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
 
         data->dungeonScene->keyValue = 0;
 
+        data->dungeonScene->sound->bossJustDefeated = 0;
+        data->dungeonScene->sound->deathMob = 0;
+
         data->dungeonScene->notificationQueue = initQueue_Notification();
 
         data->dungeonScene->pauseBg = SDL_CreateRGBSurface(SDL_HWSURFACE, 1280, 720, 32, 0, 0, 0, 0);
 
         loadDungeonsMap(engine, data);
+
+
+        playMusic(engine->soundCollector, "dungeon/main_theme");
 
         switch(data->field->currentPlant->idVegetable) {
             case 0: {
@@ -117,13 +128,37 @@ extern void init_Scene_dungeon(Engine* engine, Data* data, bool loadOrUnload) {
         }
     } else {
         // TODO: Improve that part
+        stopMusic();
+
+        // Now we clean all our layouts
+        KeyLevelRoomMapping* keylevel = getRooms_Dungeon(data->dungeonScene->dungeon);
+        RoomList* rooms = *getRooms_KeyLevelRoomMapping(keylevel, 0);
+        RoomList* tempRoom = NULL;
+        tempRoom = rooms;
+
+        while (tempRoom != NULL) {
+            freeSingle_Layout(&(tempRoom->data->layout));
+
+            tempRoom = tempRoom->next;
+        }
+
+        clean_KeyLevelRoomMapping(&(keylevel));
+
         clean_Dungeon(&(data->dungeonScene->dungeon));
 
         for (int i = 0; i < (int) data->dungeonScene->layoutsLength; i += 1) {
             free(data->dungeonScene->layoutsPath[i]);
         }
+        
+        freeEntitiesBool(&data->dungeonScene->sound->mobsDamaged);
+        freeEntitiesBool(&data->dungeonScene->sound->mobsAttack);
+        freeEntitiesBool(&data->dungeonScene->sound->mobsDisplacement);
+        free(data->dungeonScene->sound);
+        data->dungeonScene->sound = NULL;
 
         cleanQueue_Notification(&(data->dungeonScene->notificationQueue));
+
+        SDL_FreeSurface(data->dungeonScene->pauseBg);
 
         free(data->dungeonScene);
         data->dungeonScene = NULL;
@@ -185,7 +220,7 @@ static void loadDungeonsMap(Engine* engine, Data* data) {
     }
 
     char** temp = NULL;
-    temp = realloc(data->dungeonScene->layoutsPath, i * sizeof(Layout*));
+    temp = realloc(data->dungeonScene->layoutsPath, i * sizeof(char *));
 
     if (temp == NULL) {
         printf("An error occurred while reallocating a String array");
@@ -218,4 +253,5 @@ static void loadDungeonsMap(Engine* engine, Data* data) {
     }
 
     closedir(dr);
+    clean_KeyLevelRoomMapping(&(keylevel));
 }

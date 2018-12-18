@@ -3,3 +3,5 @@ src/resources/gfx/scenes/pauseMenu/cursor.png pause/cursor
 src/resources/gfx/scenes/pauseMenu/overlay.png pause/overlay
 src/resources/gfx/scenes/lobby/lobby_bg_flou.png pause/lobby_blur
 src/resources/gfx/player/sprites_hero_flou.png pause/player_blur
+src/resources/sfx/UI/move_button.wav pause/move_button
+src/resources/sfx/UI/confirm_button.wav pause/confirm_button

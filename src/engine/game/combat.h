@@ -3,12 +3,14 @@
 
 #include <stdbool.h>
 #include "../data.h"
+#include "../main.h"
+
 /**
  * Process the combat for the Player
  * @param data a pointer to a Data Object
  * @param direction a pointer to an int of the direction where the player is looking
  */
-extern void ProcessCombat(Data * data, int * direction);
+extern void ProcessCombat(Engine* engine, Data * data, int * direction);
 /**
  * Process the animation of fight for the Player
  * @param combat a pointer to a CombatValues Object
@@ -19,8 +21,10 @@ extern void CombatAnimation(CombatValues * combat,int time,float agility,float a
 /**
  * Select the correct sprite for the player in fight
  * @param combat a pointer to a CombatValues Object
+ * @param type a char of the type of the cell
+ * @param engine a pointer an Engine Object
  */
-extern void CombatSprite(CombatValues * combat,char type);
+extern void CombatSprite(CombatValues * combat,char type, Engine* engine);
 /**
  * Set the hitbox of the Weapon
  * @param Isaac a pointer to a Player Object

@@ -39,4 +39,9 @@ extern void unloadList_SoundCollector(SoundCollector* p, Asset* assetsList);
 
 extern AudioElement* get_SoundCollector(SoundCollector* p, const char name[]);
 
+extern int playMusic(SoundCollector* p, const char name[]);
+extern int playEffect(SoundCollector* p, const char name[], int nbTimes);
+extern int stopMusic();
+extern int stopEffect(int channel);
+
 #endif //FREE_PROJECT_ENGINE_COLLECTORS_SOUND_H

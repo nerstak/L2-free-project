@@ -36,6 +36,7 @@ extern void clean_Fps(Fps** p) {
     if ((*p) != NULL) {
         clean_Timer(&((*p)->limiter));
         clean_Timer(&((*p)->counter));
+        clean_Timer(&((*p)->display));
 
         free((*p));
         (*p) = NULL;
