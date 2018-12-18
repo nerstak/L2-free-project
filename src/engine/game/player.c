@@ -161,7 +161,9 @@ extern Player* init_Player() {
     Isaac->combat = init_Combat();
     Isaac->combat->direction=-1;
     Isaac->combat->animationStep=0;
+
     Isaac->combat->damageJustTaken = 0;
+    Isaac->equipped=0;
 
     return Isaac;
 }

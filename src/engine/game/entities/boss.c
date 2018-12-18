@@ -8,7 +8,7 @@
 #include "projectile.h"
 
 
-extern E_Boss* init_EBoss(float maxhealth)
+extern E_Boss* init_EBoss(float maxhealth, float difficulty)
 {
     E_Boss* result = NULL;
     result = malloc(1 * sizeof(E_Boss));
@@ -17,13 +17,13 @@ extern E_Boss* init_EBoss(float maxhealth)
         exit(EXIT_FAILURE);
     }
 
-    EntityList * temp= init_EntityNode(ARM, 0);
+    EntityList * temp= init_EntityNode(ARM, difficulty);
     result->leftarm=temp->data;
     free(temp);
 
 
 
-    temp= init_EntityNode(ARM, 0);
+    temp= init_EntityNode(ARM, difficulty);
     result->rightarm=temp->data;
     free(temp);
 

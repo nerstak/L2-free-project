@@ -47,11 +47,12 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
             newRoom->visited = true;
             data->dungeonScene->currentRoom = newRoom;
 
-
             if(isBoss_Room(newRoom) && newRoom->cleaned == false) {
                 stopMusic();
                 playMusic(engine->soundCollector, "dungeon/boss_theme");
             }
+            // We clean previous kill list
+            cleanList_Entity(&(data->dyingEntities));
 
             // We place the entities
             if (newRoom->cleaned == false) {
@@ -62,50 +63,97 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                         for (int j = 0; j < newRoom->layout->columns; j += 1) {
                             if (newRoom->layout->map[i][j].type == '0' || newRoom->layout->map[i][j].type == '1' ||
                                 newRoom->layout->map[i][j].type == '2' || newRoom->layout->map[i][j].type == '3') {
-                                switch (newRoom->layout->map[i][j].type) {
-                                    case '0': {
-                                        EntityList* e = init_EntityNode(MOTH, 0);
-                                        e->data->movement->position->x =
-                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                        e->data->movement->position->y =
-                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
 
-                                        append_EntityNode(e, &(data->entities));
+                                bool spawn = false;
 
-                                        break;
-                                    }
-
-                                    case '1': {
-                                        EntityList* e = init_EntityNode(WORM, 0);
-                                        e->data->movement->position->x =
-                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                        e->data->movement->position->y =
-                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
-
-
-                                        append_EntityNode(e, &(data->entities));
+                                switch(data->field->currentPlant->idVegetable) {
+                                    case 0: {
+                                        if (probability(0.5)) {
+                                            spawn = true;
+                                        }
 
                                         break;
                                     }
 
-                                    case '2': {
-                                        EntityList* e = init_EntityNode(TREE, 0);
-                                        e->data->movement->position->x =
-                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                        e->data->movement->position->y =
-                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+                                    case 1: {
+                                        if (probability(0.6)) {
+                                            spawn = true;
+                                        }
 
-
-                                        append_EntityNode(e, &(data->entities));
                                         break;
                                     }
 
-                                        /*case '3': {
+                                    case 2: {
+                                        if (probability(0.7)) {
+                                            spawn = true;
+                                        }
+
+                                        break;
+                                    }
+
+                                    case 3: {
+                                        if (probability(0.8)) {
+                                            spawn = true;
+                                        }
+
+                                        break;
+                                    }
+
+                                    case 4: {
+                                        if (probability(1)) {
+                                            spawn = true;
+                                        }
+
+                                        break;
+                                    }
+                                }
+
+                                if (spawn) {
+                                    switch (newRoom->layout->map[i][j].type) {
+                                        case '0': {
+                                            EntityList* e = init_EntityNode(MOTH, data->dungeonScene->difficulty);
+                                            e->data->movement->position->x =
+                                                    (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                            e->data->movement->position->y =
+                                                    (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+                                            append_EntityNode(e, &(data->entities));
+
                                             break;
-                                        }*/
+                                        }
 
-                                    default: {
-                                        break;
+                                        case '1': {
+                                            EntityList* e = init_EntityNode(WORM, data->dungeonScene->difficulty);
+                                            e->data->movement->position->x =
+                                                    (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                            e->data->movement->position->y =
+                                                    (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+
+                                            append_EntityNode(e, &(data->entities));
+
+                                            break;
+                                        }
+
+                                        case '2': {
+                                            EntityList* e = init_EntityNode(TREE, data->dungeonScene->difficulty);
+                                            e->data->movement->position->x =
+                                                    (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                            e->data->movement->position->y =
+                                                    (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+
+                                            append_EntityNode(e, &(data->entities));
+                                            break;
+                                        }
+
+                                            /*case '3': {
+                                                break;
+                                            }*/
+
+                                        default: {
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -217,14 +265,14 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 }
 
                 if (probability(0.20)) { // Common
-                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(18, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(18 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
                         Notification* notification = init_Notification();
                         notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                        strcpy(notification->text, data->referenceItems->table[18].name);
+                        strcpy(notification->text, data->referenceItems->table[18 + data->field->currentPlant->idVegetable].name);
                         notification->sprite.w = 64;
                         notification->sprite.h = 64;
-                        notification->sprite.x = (18 % 5) * 64;
-                        notification->sprite.y = (18 / 5) * 64;
+                        notification->sprite.x = ((18 + data->field->currentPlant->idVegetable) % 5) * 64;
+                        notification->sprite.y = ((18 + data->field->currentPlant->idVegetable) / 5) * 64;
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
@@ -234,14 +282,14 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 }
 
                 if (probability(0.05)) { // Rare
-                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(19, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(19 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
                         Notification* notification = init_Notification();
                         notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                        strcpy(notification->text, data->referenceItems->table[19].name);
+                        strcpy(notification->text, data->referenceItems->table[19 + data->field->currentPlant->idVegetable].name);
                         notification->sprite.w = 64;
                         notification->sprite.h = 64;
-                        notification->sprite.x = (19 % 5) * 64;
-                        notification->sprite.y = (19 / 5) * 64;
+                        notification->sprite.x = ((19 + data->field->currentPlant->idVegetable) % 5) * 64;
+                        notification->sprite.y = ((19 + data->field->currentPlant->idVegetable) / 5) * 64;
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
@@ -251,14 +299,14 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 }
 
                 if (probability(0.02)) { // Ultra rare
-                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(20, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(20 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
                         Notification* notification = init_Notification();
                         notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                        strcpy(notification->text, data->referenceItems->table[20].name);
+                        strcpy(notification->text, data->referenceItems->table[20 + data->field->currentPlant->idVegetable].name);
                         notification->sprite.w = 64;
                         notification->sprite.h = 64;
-                        notification->sprite.x = (20 % 5) * 64;
-                        notification->sprite.y = (20 / 5) * 64;
+                        notification->sprite.x = ((20 + data->field->currentPlant->idVegetable) % 5) * 64;
+                        notification->sprite.y = ((20 + data->field->currentPlant->idVegetable) / 5) * 64;
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
@@ -348,8 +396,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
         enterDoor(engine, data, &door, data->Isaac->movement->hitBox, data->dungeonScene, 2); //DOWN
 
         door.x=45;
-        door.y=342;
-        door.h=20;
+        door.y=332;
+        door.h=40;
         door.w=10;
         enterDoor(engine, data, &door, data->Isaac->movement->hitBox, data->dungeonScene, 3); //LEFT
 

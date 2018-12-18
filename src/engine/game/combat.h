@@ -17,17 +17,19 @@ extern void ProcessCombat(Engine* engine, Data * data, int * direction);
  * @param time int of the time spent
  * @param agility int of the Agility Stat of the Player
  */
-extern void CombatAnimation(CombatValues * combat,int time,int agility);
+extern void CombatAnimation(CombatValues * combat,int time,float agility,float agilitywep);
 /**
  * Select the correct sprite for the player in fight
  * @param combat a pointer to a CombatValues Object
+ * @param type a char of the type of the cell
+ * @param engine a pointer an Engine Object
  */
-extern void CombatSprite(CombatValues * combat, Engine* engine);
+extern void CombatSprite(CombatValues * combat,char type, Engine* engine);
 /**
  * Set the hitbox of the Weapon
  * @param Isaac a pointer to a Player Object
  */
-extern void SetCombatHitbox(Player * Isaac);
+extern void SetCombatHitbox(Player * Isaac,char type);
 /**
  * Check if any collision append
  * @param box1 a pointer to a SDL_Rect Object of the first hitbox

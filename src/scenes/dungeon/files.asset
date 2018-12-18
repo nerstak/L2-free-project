@@ -22,7 +22,7 @@ src/resources/gfx/dungeon/elements/tomato/doors.png dungeon/tomatoDoors
 src/resources/gfx/dungeon/elements/tomato/hole.png dungeon/tomatoHole
 src/resources/gfx/dungeon/elements/tomato/obstacle.png dungeon/tomatoObstacle
 src/resources/gfx/dungeon/elements/tomato/slow.png dungeon/tomatoSlow
-src/resources/gfx/dungeon/backgrounds/carrot.png dungeon/bgPotato
+src/resources/gfx/dungeon/backgrounds/potato.png dungeon/bgPotato
 src/resources/gfx/dungeon/elements/potato/hole.png dungeon/potatoHole
 src/resources/gfx/dungeon/elements/potato/obstacle.png dungeon/potatoObstacle
 src/resources/gfx/dungeon/elements/potato/slow.png dungeon/potatoSlow
@@ -30,13 +30,14 @@ src/resources/gfx/dungeon/backgrounds/corn.png dungeon/bgCorn
 src/resources/gfx/dungeon/elements/corn/hole.png dungeon/cornHole
 src/resources/gfx/dungeon/elements/corn/obstacle.png dungeon/cornObstacle
 src/resources/gfx/dungeon/elements/corn/slow.png dungeon/cornSlow
-src/resources/gfx/dungeon/backgrounds/carrot.png dungeon/bgEggplant
+src/resources/gfx/dungeon/backgrounds/eggplant.png dungeon/bgEggplant
 src/resources/gfx/dungeon/elements/eggplant/hole.png dungeon/eggplantHole
 src/resources/gfx/dungeon/elements/eggplant/obstacle.png dungeon/eggplantObstacle
 src/resources/gfx/dungeon/elements/eggplant/slow.png dungeon/eggplantSlow
 src/resources/gfx/dungeon/elements/socle.png dungeon/socle
 src/resources/gfx/player/sprites_hero.png dungeon/player
 src/resources/gfx/player/sprites_scythe.png dungeon/scythe
+src/resources/gfx/player/sprites_hoe.png dungeon/hoe
 src/resources/gfx/enemies/moth.png dungeon/moth
 src/resources/gfx/enemies/worm.png dungeon/worm
 src/resources/gfx/enemies/wormshot.png dungeon/wormshot

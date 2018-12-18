@@ -31,8 +31,8 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->type = MOTH;
             result->entity = NULL;
 
-            result->health = 3;
-            result->damage = 1;
+            result->health = 3 * difficulty;
+            result->damage = 1 * difficulty;
             result->speed = 1;
 
             result->movement = init_Movement();
@@ -59,8 +59,8 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->type = WORM;
             result->entity = NULL;
 
-            result->health = 2;
-            result->damage = 1;
+            result->health = 2 * difficulty;
+            result->damage = 1 * difficulty;
             result->speed = 0;
 
             result->movement = init_Movement();
@@ -87,8 +87,8 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->type = TREE;
             result->entity = NULL;
 
-            result->health = 2;
-            result->damage = 1;
+            result->health = 2 * difficulty;
+            result->damage = 1 * difficulty;
             result->speed = 1;
 
             result->movement = init_Movement();
@@ -116,7 +116,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->type = PROJECTILE;
             result->entity = NULL;
 
-            result->health = 1;
+            result->health = 1 * difficulty;
             result->damage = 1;
             result->speed = 0;
 
@@ -150,9 +150,9 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
 
             result->health = (int) (10 * difficulty);
             result->maxHealth = result->health * 2;
-            result->entity = init_EBoss(result->health/2);
+            result->entity = init_EBoss(result->health / 2, difficulty);
 
-            result->damage = 2;
+            result->damage = 2 * difficulty;
             result->speed = 1;
 
             result->movement = init_Movement();
@@ -183,7 +183,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->entity = NULL;
 
             result->health = 5;
-            result->damage = 2;
+            result->damage = 2 * difficulty;
             result->speed = 5;
 
             result->movement = init_Movement();
@@ -455,6 +455,40 @@ extern void process_Entity(EntityList** list, struct Data* data) {
             tempNode = next;
         }
 
+        if (temp->data->type == BOSSBOD) {
+            E_Boss* eBoss = (E_Boss*) temp->data->entity;
+
+            if (eBoss->leftarm != NULL) {
+                DamageIndicatorQueueNode* tempNode2 = deQueue_DamageIndicator(eBoss->leftarm->damageIndicatorQueue);
+                while (tempNode2 != NULL) {
+                    DamageIndicatorQueueNode* next = tempNode2->next;
+
+                    if (getTime_Timer(tempNode2->data->timer) > 0.25) {
+                        popQueue_DamageIndicator(eBoss->leftarm->damageIndicatorQueue);
+                    } else {
+                        break;
+                    }
+
+                    tempNode2 = next;
+                }
+            }
+
+            if (eBoss->rightarm != NULL) {
+                DamageIndicatorQueueNode* tempNode2 = deQueue_DamageIndicator(eBoss->rightarm->damageIndicatorQueue);
+                while (tempNode2 != NULL) {
+                    DamageIndicatorQueueNode* next = tempNode2->next;
+
+                    if (getTime_Timer(tempNode2->data->timer) > 0.25) {
+                        popQueue_DamageIndicator(eBoss->rightarm->damageIndicatorQueue);
+                    } else {
+                        break;
+                    }
+
+                    tempNode2 = next;
+                }
+            }
+        }
+
         temp = temp->next;
     }
 }
@@ -549,7 +583,7 @@ extern void damage_Entity(Entity* e, struct Data* data, double x, double y) {
     }
 
     if (BoxCollision(e->movement->hitBox, data->Isaac->combat->weaponHitBox) && !e->attackTimer->started && e->type!=PROJECTILE) {
-        float damage=data->Isaac->stats->current->damage * data->Isaac->weapons->damage;
+        float damage=data->Isaac->stats->current->damage * data->Isaac->weapons[data->Isaac->equipped].damage;
         e->health -= damage ;
         preprocesDamage_Entities(data, e->type);
         knockBack_Entity(e, data, data->Isaac->combat->direction, 0, 0,e->attackTimer);

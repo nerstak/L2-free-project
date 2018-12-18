@@ -433,7 +433,7 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
         soclePos.x = (window->w / 2) - (socle->w / 2);
         soclePos.y = (window->h / 2) - (socle->h / 2);
         SDL_Rect itemOffset;
-        itemOffset.x = 0;
+        itemOffset.x = 0 + 64 * data->field->currentPlant->idVegetable;
         itemOffset.y = 64;
         itemOffset.w = 64;
         itemOffset.h = 64;
@@ -454,7 +454,12 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
     SDL_Rect playerPos;
 
     PlayerSprite = get_ImageCollector(engine->imageCollector, "dungeon/player")->surface;
-    FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;
+
+    if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='S')
+        {FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;}
+    if(data->Isaac->weapons[data->Isaac->equipped].name[0]=='H')
+        {FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/hoe")->surface;}
+
 
     playerPos.x=data->Isaac->movement->position->x;
     playerPos.y=data->Isaac->movement->position->y;
@@ -825,11 +830,23 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
                     monsterpos.x = (Sint16) arms->leftarm->movement->position->x; // remove
                     monsterpos.y = (Sint16) arms->leftarm->movement->position->y;
                     SDL_BlitSurface(Arm, arms->leftarm->movement->spriteBox, window, &monsterpos);
+
+                    DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(arms->leftarm->damageIndicatorQueue);
+                    while (damageIndicator != NULL) {
+                        renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
+                        damageIndicator = damageIndicator->next;
+                    }
                 }
                 if (arms->rightarm != NULL) {
                     monsterpos.x = (Sint16) arms->rightarm->movement->position->x; // remove
                     monsterpos.y = (Sint16) arms->rightarm->movement->position->y;
                     SDL_BlitSurface(Arm, arms->rightarm->movement->spriteBox, window, &monsterpos);
+
+                    DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(arms->rightarm->damageIndicatorQueue);
+                    while (damageIndicator != NULL) {
+                        renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
+                        damageIndicator = damageIndicator->next;
+                    }
                 }
             }
             else

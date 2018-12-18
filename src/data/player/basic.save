@@ -3,8 +3,8 @@ DAY=0
 MONEY=0
 0 0 0
 STATS: H=25 D=1 S=1 A=1
-WEAPON: 'name_wep' 'desc_wep' D=1 A=1
-WEAPON: 'name_wep' 'desc_wep' D=1 A=0
+WEAPON: 'Hoe' 'desc_wep' D=2 A=0.5
+WEAPON: 'Scythe' 'desc_wep' D=1 A=1
 WEAPON: 'name_wep' 'desc_wep' D=2 A=0
 WEAPON: 'name_wep' 'desc_wep' D=3 A=0
 ID=0 QUANT=1
