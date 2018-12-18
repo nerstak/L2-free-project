@@ -45,4 +45,5 @@ extern bool BoxCollision(SDL_Rect * box1, SDL_Rect * box2);
  * @return a bool attesting the presence or not of the point inside the hitbox
  */
 extern bool CheckBox(int xPoint, int yPoint, SDL_Rect * boxtarget);
+
 #endif // FREE_PROJECT_ENGINE_GAME_COMBAT_H

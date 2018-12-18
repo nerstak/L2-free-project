@@ -66,7 +66,6 @@ extern void freeOne_SlotInventory(SlotInventory** item);
  */
 extern void freeAll_SlotInventory(SlotInventory** item);
 
-
 /**
  * Initialise and fill a SlotInventory
  * @param id the int corresponding to the item to create
