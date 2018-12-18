@@ -9,6 +9,8 @@ src/resources/gfx/scenes/lobby/Menu2Selector.png lobby/menu22
 src/resources/gfx/scenes/lobby/Wait.png lobby/wait
 src/resources/gfx/player/sprites_scythe.png lobby/scythe
 src/resources/gfx/player/sprites_hoe.png lobby/hoe
+src/resources/gfx/player/sprites_scythe_flou.png lobby/scythe_blur
+src/resources/gfx/player/sprites_hoe_flou.png lobby/hoe_blur
 src/resources/gfx/scenes/lobby/dialog.png lobby/dialog
 src/resources/gfx/scenes/lobby/plants_spritesheet.png lobby/plants
 src/resources/gfx/scenes/lobby/plants_spritesheet_blur.png lobby/plants_blur
