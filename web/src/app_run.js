@@ -6,6 +6,10 @@ angular.module('app')
         $rootScope.currentState = $state;
         $rootScope.previousState = null;
 
+        if (navigator.userAgent.toLowerCase().match(/chrome/)) {
+            angular.element(document).find('body').toggleClass('dab-enabled');
+        }
+
         $rootScope.$on('$stateChangeSuccess', function stateChangeSuccessFn(event, toState, toParams, from) {
             $rootScope.previousState = from;
             $rootScope.currentState = toState;
