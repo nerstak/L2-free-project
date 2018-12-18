@@ -93,8 +93,8 @@ extern void ai_EBoss(Entity* e, Data* data) {
             cap_Timer(e->shootTimer, 1500);
         } else if(getTicks_Timer(e->shootTimer)<400){
             Coordinate *source = malloc(sizeof(Coordinate));
-            source->x = e->movement->position->x + 192;
-            source->y = e->movement->position->y + 225;
+            source->x = e->movement->position->x + 181;
+            source->y = e->movement->position->y + 220;
 
             shoot_Projectile(data, source, 5, e->damage, 1100, e->type);
             if(!e->shootTimer->started) {
