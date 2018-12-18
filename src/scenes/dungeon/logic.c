@@ -410,6 +410,7 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 int plantId = -1;
                 assignNumberPlant_Coord(data->field->currentPlant->x, data->field->currentPlant->y, data, &plantId);
                 removePlant(plantId, data->field);
+                data->Isaac->gameStats->dungeons++;
                 display_SceneCollector(engine, data, "lobby");
             }
         }
@@ -441,6 +442,7 @@ static void processDeath(Engine* engine, Data* data) {
 
         //We reload the save
         if(initGame("save1.save", data)) {
+            data->Isaac->gameStats->death++;
             display_SceneCollector(engine,data,"lobby");
         } else {
             display_SceneCollector(engine,data, "mainMenu");
