@@ -430,7 +430,7 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
         soclePos.x = (window->w / 2) - (socle->w / 2);
         soclePos.y = (window->h / 2) - (socle->h / 2);
         SDL_Rect itemOffset;
-        itemOffset.x = 0;
+        itemOffset.x = 0 + 64 * data->field->currentPlant->idVegetable;
         itemOffset.y = 64;
         itemOffset.w = 64;
         itemOffset.h = 64;
