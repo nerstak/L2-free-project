@@ -29,8 +29,8 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->type = MOTH;
             result->entity = NULL;
 
-            result->health = 3;
-            result->damage = 1;
+            result->health = 3 * difficulty;
+            result->damage = 1 * difficulty;
             result->speed = 1;
 
             result->movement = init_Movement();
@@ -57,8 +57,8 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->type = WORM;
             result->entity = NULL;
 
-            result->health = 2;
-            result->damage = 1;
+            result->health = 2 * difficulty;
+            result->damage = 1 * difficulty;
             result->speed = 0;
 
             result->movement = init_Movement();
@@ -85,8 +85,8 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->type = TREE;
             result->entity = NULL;
 
-            result->health = 2;
-            result->damage = 1;
+            result->health = 2 * difficulty;
+            result->damage = 1 * difficulty;
             result->speed = 1;
 
             result->movement = init_Movement();
@@ -114,7 +114,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->type = PROJECTILE;
             result->entity = NULL;
 
-            result->health = 1;
+            result->health = 1 * difficulty;
             result->damage = 1;
             result->speed = 0;
 
@@ -150,7 +150,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->maxHealth = result->health * 2;
             result->entity = init_EBoss(result->health/2);
 
-            result->damage = 2;
+            result->damage = 2 * difficulty;
             result->speed = 1;
 
             result->movement = init_Movement();
@@ -180,7 +180,7 @@ extern EntityList* init_EntityNode(int type, float difficulty) {
             result->entity = NULL;
 
             result->health = 5;
-            result->damage = 2;
+            result->damage = 2 * difficulty;
             result->speed = 5;
 
             result->movement = init_Movement();
