@@ -10,7 +10,7 @@ typedef struct E_Boss {
     SDL_Rect * rightsprite;
 } E_Boss;
 
-extern E_Boss* init_EBoss(float maxhealth);
+extern E_Boss* init_EBoss(float maxhealth, float difficulty);
 extern void clean_EBoss(E_Boss** p);
 
 extern void ai_EBoss(Entity* e, Data* data);

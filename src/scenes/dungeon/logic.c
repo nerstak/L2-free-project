@@ -38,6 +38,9 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
             newRoom->visited = true;
             data->dungeonScene->currentRoom = newRoom;
 
+            // We clean previous kill list
+            cleanList_Entity(&(data->dyingEntities));
+
             // We place the entities
             if (newRoom->cleaned == false) {
                 if(isBoss_Room(newRoom)) {
@@ -95,7 +98,7 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                                 if (spawn) {
                                     switch (newRoom->layout->map[i][j].type) {
                                         case '0': {
-                                            EntityList* e = init_EntityNode(MOTH, 0);
+                                            EntityList* e = init_EntityNode(MOTH, data->dungeonScene->difficulty);
                                             e->data->movement->position->x =
                                                     (64 * j) - (e->data->movement->spriteBox->w / 4);
                                             e->data->movement->position->y =
@@ -107,7 +110,7 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                                         }
 
                                         case '1': {
-                                            EntityList* e = init_EntityNode(WORM, 0);
+                                            EntityList* e = init_EntityNode(WORM, data->dungeonScene->difficulty);
                                             e->data->movement->position->x =
                                                     (64 * j) - (e->data->movement->spriteBox->w / 4);
                                             e->data->movement->position->y =
@@ -120,7 +123,7 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                                         }
 
                                         case '2': {
-                                            EntityList* e = init_EntityNode(TREE, 0);
+                                            EntityList* e = init_EntityNode(TREE, data->dungeonScene->difficulty);
                                             e->data->movement->position->x =
                                                     (64 * j) - (e->data->movement->spriteBox->w / 4);
                                             e->data->movement->position->y =
