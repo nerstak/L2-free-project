@@ -21,8 +21,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     SDL_Surface* FightSprite=NULL;
 
-    SDL_Surface* Hibox=NULL;
-
     char line[150];
 
     SDL_Rect bgPos;
@@ -32,8 +30,6 @@ static SDL_Surface* getLobby(Engine* engine, Data* data) {
 
     bg = get_ImageCollector(engine->imageCollector, "lobby/bg")->surface;
     FightSprite = get_ImageCollector(engine->imageCollector, "lobby/scythe")->surface;
-
-    Hibox= get_ImageCollector(engine->imageCollector, "lobby/hibox")->surface;
 
     bgPos.x = 0;
     bgPos.y = 0;

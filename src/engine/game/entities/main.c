@@ -250,7 +250,7 @@ extern void clean_Entity(Entity** p) {
         cleanQueue_DamageIndicator(&((*p)->damageIndicatorQueue));
         if ((*p)->type == BOSSBOD)
         {
-            clean_EBoss(&((*p)->entity));
+            clean_EBoss((E_Boss**) &((*p)->entity));
         }
 
         free((*p));

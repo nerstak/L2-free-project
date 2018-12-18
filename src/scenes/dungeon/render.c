@@ -450,11 +450,8 @@ static void renderBackground(SDL_Surface* window, Engine* engine, Data* data) {
 
     SDL_Surface* PlayerSprite=NULL;
     SDL_Surface* FightSprite=NULL;
-    SDL_Surface* BadGuy=NULL; // remove
-    SDL_Surface* DeadGuy=NULL;
 
     SDL_Rect playerPos;
-    SDL_Rect monsterpos;
 
     PlayerSprite = get_ImageCollector(engine->imageCollector, "dungeon/player")->surface;
     FightSprite = get_ImageCollector(engine->imageCollector, "dungeon/scythe")->surface;
@@ -700,7 +697,6 @@ static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* 
 {
     EntityList* current=entity;
     SDL_Surface* DeadGuy=NULL;
-    SDL_Rect cloudpos;
     DeadGuy= get_ImageCollector(engine->imageCollector, "dungeon/smoke")->surface;
 
     while(current)
