@@ -388,8 +388,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
             SDL_Rect socle;
             socle.x = (1280 / 2) - (64 / 2);
             socle.y = (720 / 2) - (64 / 2) - 15;
-            socle.w = 64;
-            socle.h = 64;
+            socle.w = 63;
+            socle.h = 63;
 
             if (BoxCollision(data->Isaac->movement->hitBox, &socle)) {
                 if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(5 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
