@@ -47,50 +47,97 @@ static bool moveToNewRoom(Engine* engine, Data* data, Coord newCoord) {
                         for (int j = 0; j < newRoom->layout->columns; j += 1) {
                             if (newRoom->layout->map[i][j].type == '0' || newRoom->layout->map[i][j].type == '1' ||
                                 newRoom->layout->map[i][j].type == '2' || newRoom->layout->map[i][j].type == '3') {
-                                switch (newRoom->layout->map[i][j].type) {
-                                    case '0': {
-                                        EntityList* e = init_EntityNode(MOTH, 0);
-                                        e->data->movement->position->x =
-                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                        e->data->movement->position->y =
-                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
 
-                                        append_EntityNode(e, &(data->entities));
+                                bool spawn = false;
 
-                                        break;
-                                    }
-
-                                    case '1': {
-                                        EntityList* e = init_EntityNode(WORM, 0);
-                                        e->data->movement->position->x =
-                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                        e->data->movement->position->y =
-                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
-
-
-                                        append_EntityNode(e, &(data->entities));
+                                switch(data->field->currentPlant->idVegetable) {
+                                    case 0: {
+                                        if (probability(0.5)) {
+                                            spawn = true;
+                                        }
 
                                         break;
                                     }
 
-                                    case '2': {
-                                        EntityList* e = init_EntityNode(TREE, 0);
-                                        e->data->movement->position->x =
-                                                (64 * j) - (e->data->movement->spriteBox->w / 4);
-                                        e->data->movement->position->y =
-                                                (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+                                    case 1: {
+                                        if (probability(0.6)) {
+                                            spawn = true;
+                                        }
 
-
-                                        append_EntityNode(e, &(data->entities));
                                         break;
                                     }
 
-                                        /*case '3': {
+                                    case 2: {
+                                        if (probability(0.7)) {
+                                            spawn = true;
+                                        }
+
+                                        break;
+                                    }
+
+                                    case 3: {
+                                        if (probability(0.8)) {
+                                            spawn = true;
+                                        }
+
+                                        break;
+                                    }
+
+                                    case 4: {
+                                        if (probability(1)) {
+                                            spawn = true;
+                                        }
+
+                                        break;
+                                    }
+                                }
+
+                                if (spawn) {
+                                    switch (newRoom->layout->map[i][j].type) {
+                                        case '0': {
+                                            EntityList* e = init_EntityNode(MOTH, 0);
+                                            e->data->movement->position->x =
+                                                    (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                            e->data->movement->position->y =
+                                                    (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+                                            append_EntityNode(e, &(data->entities));
+
                                             break;
-                                        }*/
+                                        }
 
-                                    default: {
-                                        break;
+                                        case '1': {
+                                            EntityList* e = init_EntityNode(WORM, 0);
+                                            e->data->movement->position->x =
+                                                    (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                            e->data->movement->position->y =
+                                                    (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+
+                                            append_EntityNode(e, &(data->entities));
+
+                                            break;
+                                        }
+
+                                        case '2': {
+                                            EntityList* e = init_EntityNode(TREE, 0);
+                                            e->data->movement->position->x =
+                                                    (64 * j) - (e->data->movement->spriteBox->w / 4);
+                                            e->data->movement->position->y =
+                                                    (6 + 64 * i) - (e->data->movement->spriteBox->h / 2);
+
+
+                                            append_EntityNode(e, &(data->entities));
+                                            break;
+                                        }
+
+                                            /*case '3': {
+                                                break;
+                                            }*/
+
+                                        default: {
+                                            break;
+                                        }
                                     }
                                 }
                             }
