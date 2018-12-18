@@ -57,7 +57,6 @@ extern void ai_EMoth(Entity* e, Data* data) {
         processVelocity_Movement(&(e->movement->velocity->y), timeChange, (4 * fabs(sin(angle))), 1);
     }
 
-    //TODO: make a PosChange function
     e->movement->position->x+=e->movement->velocity->x * timeChange * 0.06 * e->speed;
     e->movement->position->y+=e->movement->velocity->y * timeChange * 0.06 * e->speed;
 

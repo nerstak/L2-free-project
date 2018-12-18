@@ -276,7 +276,7 @@ extern DamageIndicator* init_DamageIndicator() {
     result = malloc(1 * sizeof(DamageIndicator));
 
     if (result == NULL) {
-        // TODO: printf error
+        printf("An error occured while initializing a DamageIndicator object\n");
         exit(EXIT_FAILURE);
     }
 
@@ -287,7 +287,7 @@ extern DamageIndicator* init_DamageIndicator() {
     result->position = malloc(1 * sizeof(SDL_Rect));
 
     if (result->position == NULL) {
-        // TODO: printf error
+        printf("An error occured while initializing a SDL_Rect for a DamageIndicator object\n");
         exit(EXIT_FAILURE);
     }
 
@@ -299,7 +299,7 @@ extern DamageIndicatorQueue* initQueue_DamageIndicator() {
     result = malloc(1 * sizeof(DamageIndicatorQueue));
 
     if (result == NULL) {
-        // TODO: printf error
+        printf("An error occured while initializing a DamageIndicatorQueue object\n");
         exit(EXIT_FAILURE);
     }
 
@@ -349,7 +349,7 @@ extern void enQueue_DamageIndictator(DamageIndicatorQueue* q, DamageIndicator* p
     temp = malloc(1 * sizeof(DamageIndicatorQueueNode));
 
     if (temp == NULL) {
-        // TODO: Printf error
+        printf("An error occured while initializing a DamaheIndicatorQueueNode object\n");
         exit(EXIT_FAILURE);
     }
 

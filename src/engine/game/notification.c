@@ -5,7 +5,7 @@ extern Notification* init_Notification() {
     p = malloc(1 * sizeof(Notification));
 
     if (p == NULL) {
-        // TODO: printf error
+        printf("An error occured while initializing a Notification object\n");
         exit(EXIT_FAILURE);
     }
 
@@ -21,7 +21,7 @@ extern NotificationQueue* initQueue_Notification() {
     q = malloc(1 * sizeof(NotificationQueue));
 
     if (q == NULL) {
-        // TODO: printf error
+        printf("An error occured while initializing a NotificationQueue object\n");
         exit(EXIT_FAILURE);
     }
 
@@ -70,7 +70,7 @@ extern void enQueue_Notification(NotificationQueue* q, Notification* p) {
     temp = malloc(1 * sizeof(NotificationQueueNode));
 
     if (temp == NULL) {
-        // TODO: Printf error
+        printf("An error occured while initializing a NotificationQueueNode object\n");
         exit(EXIT_FAILURE);
     }
 
