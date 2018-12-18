@@ -200,14 +200,14 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 }
 
                 if (probability(0.20)) { // Common
-                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(18, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(18 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
                         Notification* notification = init_Notification();
                         notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                        strcpy(notification->text, data->referenceItems->table[18].name);
+                        strcpy(notification->text, data->referenceItems->table[18 + data->field->currentPlant->idVegetable].name);
                         notification->sprite.w = 64;
                         notification->sprite.h = 64;
-                        notification->sprite.x = (18 % 5) * 64;
-                        notification->sprite.y = (18 / 5) * 64;
+                        notification->sprite.x = ((18 + data->field->currentPlant->idVegetable) % 5) * 64;
+                        notification->sprite.y = ((18 + data->field->currentPlant->idVegetable) / 5) * 64;
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
@@ -217,14 +217,14 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 }
 
                 if (probability(0.05)) { // Rare
-                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(19, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(19 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
                         Notification* notification = init_Notification();
                         notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                        strcpy(notification->text, data->referenceItems->table[19].name);
+                        strcpy(notification->text, data->referenceItems->table[19 + data->field->currentPlant->idVegetable].name);
                         notification->sprite.w = 64;
                         notification->sprite.h = 64;
-                        notification->sprite.x = (19 % 5) * 64;
-                        notification->sprite.y = (19 / 5) * 64;
+                        notification->sprite.x = ((19 + data->field->currentPlant->idVegetable) % 5) * 64;
+                        notification->sprite.y = ((19 + data->field->currentPlant->idVegetable) / 5) * 64;
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
@@ -234,14 +234,14 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 }
 
                 if (probability(0.02)) { // Ultra rare
-                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(20, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
+                    if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(20 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
                         Notification* notification = init_Notification();
                         notification->icon = get_ImageCollector(engine->imageCollector, "dungeon/items")->surface;
-                        strcpy(notification->text, data->referenceItems->table[20].name);
+                        strcpy(notification->text, data->referenceItems->table[20 + data->field->currentPlant->idVegetable].name);
                         notification->sprite.w = 64;
                         notification->sprite.h = 64;
-                        notification->sprite.x = (20 % 5) * 64;
-                        notification->sprite.y = (20 / 5) * 64;
+                        notification->sprite.x = ((20 + data->field->currentPlant->idVegetable) % 5) * 64;
+                        notification->sprite.y = ((20 + data->field->currentPlant->idVegetable) / 5) * 64;
 
                         start_Timer(notification->timer);
                         enQueue_Notification(data->dungeonScene->notificationQueue, notification);
