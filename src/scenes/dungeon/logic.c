@@ -382,6 +382,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 int plantId = -1;
                 assignNumberPlant_Coord(data->field->currentPlant->x, data->field->currentPlant->y, data, &plantId);
                 removePlant(plantId, data->field);
+                stopVelocity_Movement(data->Isaac->movement);
+                playEffect(engine->soundCollector, "loading/entering_dungeon", 0);
                 display_SceneCollector(engine, data, "lobby");
             }
         }
@@ -490,6 +492,7 @@ static void playAttack_Entities(Engine* engine, Data* data) {
         playEffect(engine->soundCollector, "dungeon/attack_tree", 0);
     }
     if(data->dungeonScene->sound->mobsAttack->arm != 0) {
+        printf("oh\n");
         playEffect(engine->soundCollector, "dungeon/attack_arm", 0);
     }if(data->dungeonScene->sound->mobsAttack->bossBod != 0) {
         playEffect(engine->soundCollector, "dungeon/attack_bossBod", 0);

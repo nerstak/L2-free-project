@@ -86,7 +86,7 @@ extern void punch(Data* data, Entity* e, Coordinate* target, float maxhealth, Ti
     if(e->health>maxhealth/2)
     {
 
-        if (e->movement->animationStep < 0) {
+        if (e->movement->animationStep < 0 && (e->movement->velocity->x || e->movement->velocity->y)) {
             data->dungeonScene->sound->mobsAttack->arm = 1;
             e->movement->velocity->x = 0;
             e->movement->velocity->y = 0;
@@ -95,9 +95,12 @@ extern void punch(Data* data, Entity* e, Coordinate* target, float maxhealth, Ti
     else {
         panick=2;
         if (getTicksStart_Timer(e->shootTimer) > 3000 && e->movement->animationStep < 0) {
-            data->dungeonScene->sound->mobsAttack->arm = 1;
-            e->movement->velocity->x = 0;
-            e->movement->velocity->y = 0;
+            if(e->movement->velocity->x || e->movement->velocity->y) {
+                data->dungeonScene->sound->mobsAttack->arm = 1;
+                e->movement->velocity->x = 0;
+                e->movement->velocity->y = 0;
+            }
+
         }
         else if(getTicksStart_Timer(e->shootTimer) < 3000)
         {
@@ -107,9 +110,11 @@ extern void punch(Data* data, Entity* e, Coordinate* target, float maxhealth, Ti
             Tiletype(map[coordy][coordx].type,&destType);
             if(destType=='W' || destType=='B')
             {
-                data->dungeonScene->sound->mobsAttack->arm = 1;
-                e->movement->velocity->x = 0;
-                e->movement->velocity->y = 0;
+                if(e->movement->velocity->x || e->movement->velocity->y) {
+                    data->dungeonScene->sound->mobsAttack->arm = 1;
+                    e->movement->velocity->x = 0;
+                    e->movement->velocity->y = 0;
+                }
             }
         }
     }
