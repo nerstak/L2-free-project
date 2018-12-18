@@ -56,10 +56,14 @@ extern void ai_EProjectile(Entity* e, Data* data)
     char destType='X';
     int coordx=((int) e->movement->position->x+8)/64;
     int coordy=((int) e->movement->position->y+8)/64;
-    Tiletype(data->dungeonScene->currentRoom->layout->map[coordy][coordx].type,&destType);
-    if(destType=='W' || destType=='B')
-    {
-        e->health=0;
+    if(e->movement->position->y>655 || e->movement->position->x>1233 ) {
+        e->health = 0;
+    }
+    else{
+        Tiletype(data->dungeonScene->currentRoom->layout->map[coordy][coordx].type, &destType);
+        if (destType == 'W' || destType == 'B') {
+            e->health = 0;
+        }
     }
 
     damage_Entity(e,data,0,0);

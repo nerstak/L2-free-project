@@ -17,6 +17,7 @@ static void renderMapDoor(SDL_Surface* window, Engine* engine, Data* data, SDL_R
 static void renderNotification(SDL_Surface* window, Engine* engine, Data* data);
 
 static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engine, Data* data);
+static void renderprojectiles(EntityList* entity, SDL_Surface* window, Engine* engine,Data* data);
 static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* engine, Data* data);
 static void renderDamageAmountIndicator(Engine* engine, Data* data, SDL_Surface* window, SDL_Rect offset, float amount);
 static void renderBossHealthBar(SDL_Surface* window, Engine* engine, Data* data);
@@ -763,6 +764,7 @@ static void renderCloudEntities(EntityList* entity,SDL_Surface* window, Engine* 
 }
 
 
+
 static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engine,Data* data)
 {
     EntityList* current=entity;
@@ -771,7 +773,6 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
     SDL_Rect monsterpos;
 
     E_Boss * arms=NULL;
-
 
     while(current)
     {
@@ -794,75 +795,93 @@ static void renderEntities(EntityList* entity, SDL_Surface* window, Engine* engi
                     Arm = get_ImageCollector(engine->imageCollector, "dungeon/arm")->surface;
                 }
                 break;
-            case PROJECTILE:
-                switch(current->data->movement->direction) {
-                    case WORM:
-                        BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/wormshot")->surface;
-                        break;
-                    case TREE:
-                        BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/treeseed")->surface;
-                        break;
-                    case BOSSBOD:
-                        BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/lazer")->surface;
-                        break;
-                    default:
-                        break;
-                }
-
-                break;
             default:
-                printf("Something is wrong here: %d\n", current->data->type);
                 break;
         }
-        monsterpos.x = (Sint16) current->data->movement->position->x;
-        monsterpos.y = (Sint16) current->data->movement->position->y;
+        if(current->data->type!=PROJECTILE) {
+            monsterpos.x = (Sint16) current->data->movement->position->x;
+            monsterpos.y = (Sint16) current->data->movement->position->y;
 
 
-        if(current->data->type==BOSSBOD)
-        {
-            if(arms->leftarm!=NULL || arms->rightarm!=NULL)
-            {
-                SDL_BlitSurface(BadGuy, arms->leftsprite, window, &monsterpos);
-                monsterpos.x += 192;
-                SDL_BlitSurface(BadGuy, arms->rightsprite, window, &monsterpos);
+            if (current->data->type == BOSSBOD) {
+                if (arms->leftarm != NULL || arms->rightarm != NULL) {
+                    SDL_BlitSurface(BadGuy, arms->leftsprite, window, &monsterpos);
+                    monsterpos.x += 192;
+                    SDL_BlitSurface(BadGuy, arms->rightsprite, window, &monsterpos);
 
-                if (arms->leftarm != NULL) {
-                    monsterpos.x = (Sint16) arms->leftarm->movement->position->x; // remove
-                    monsterpos.y = (Sint16) arms->leftarm->movement->position->y;
-                    SDL_BlitSurface(Arm, arms->leftarm->movement->spriteBox, window, &monsterpos);
+                    if (arms->leftarm != NULL) {
+                        monsterpos.x = (Sint16) arms->leftarm->movement->position->x; // remove
+                        monsterpos.y = (Sint16) arms->leftarm->movement->position->y;
+                        SDL_BlitSurface(Arm, arms->leftarm->movement->spriteBox, window, &monsterpos);
 
-                    DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(arms->leftarm->damageIndicatorQueue);
-                    while (damageIndicator != NULL) {
-                        renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
-                        damageIndicator = damageIndicator->next;
+                        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(
+                                arms->leftarm->damageIndicatorQueue);
+                        while (damageIndicator != NULL) {
+                            renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position,
+                                                        damageIndicator->data->amount);
+                            damageIndicator = damageIndicator->next;
+                        }
                     }
-                }
-                if (arms->rightarm != NULL) {
-                    monsterpos.x = (Sint16) arms->rightarm->movement->position->x; // remove
-                    monsterpos.y = (Sint16) arms->rightarm->movement->position->y;
-                    SDL_BlitSurface(Arm, arms->rightarm->movement->spriteBox, window, &monsterpos);
+                    if (arms->rightarm != NULL) {
+                        monsterpos.x = (Sint16) arms->rightarm->movement->position->x; // remove
+                        monsterpos.y = (Sint16) arms->rightarm->movement->position->y;
+                        SDL_BlitSurface(Arm, arms->rightarm->movement->spriteBox, window, &monsterpos);
 
-                    DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(arms->rightarm->damageIndicatorQueue);
-                    while (damageIndicator != NULL) {
-                        renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
-                        damageIndicator = damageIndicator->next;
+                        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(
+                                arms->rightarm->damageIndicatorQueue);
+                        while (damageIndicator != NULL) {
+                            renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position,
+                                                        damageIndicator->data->amount);
+                            damageIndicator = damageIndicator->next;
+                        }
                     }
+                } else {
+                    SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
                 }
-            }
-            else
-            {
+            } else {
                 SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
             }
-        }
-        else
-        {
-            SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
-        }
 
-        DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(current->data->damageIndicatorQueue);
-        while (damageIndicator != NULL) {
-            renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position, damageIndicator->data->amount);
-            damageIndicator = damageIndicator->next;
+            DamageIndicatorQueueNode* damageIndicator = deQueue_DamageIndicator(current->data->damageIndicatorQueue);
+            while (damageIndicator != NULL) {
+                renderDamageAmountIndicator(engine, data, window, *damageIndicator->data->position,
+                                            damageIndicator->data->amount);
+                damageIndicator = damageIndicator->next;
+            }
+        }
+        current=current->next;
+    }
+    renderprojectiles(entity,window, engine,data);
+
+}
+
+static void renderprojectiles(EntityList* entity, SDL_Surface* window, Engine* engine,Data* data)
+{
+    EntityList* current=entity;
+    SDL_Surface* BadGuy=NULL;
+    SDL_Rect monsterpos;
+
+    while(current)
+    {
+        if(current->data->type==PROJECTILE)
+        {
+            switch(current->data->movement->direction) {
+                case WORM:
+                    BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/wormshot")->surface;
+                    break;
+                case TREE:
+                    BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/treeseed")->surface;
+                    break;
+                case BOSSBOD:
+                    BadGuy = get_ImageCollector(engine->imageCollector, "dungeon/lazer")->surface;
+                    break;
+                default:
+                    break;
+            }
+            monsterpos.x = (Sint16) current->data->movement->position->x;
+            monsterpos.y = (Sint16) current->data->movement->position->y;
+
+            SDL_BlitSurface(BadGuy, current->data->movement->spriteBox, window, &monsterpos);
         }
         current=current->next;
     }

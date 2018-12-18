@@ -408,8 +408,8 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
             SDL_Rect socle;
             socle.x = (1280 / 2) - (64 / 2);
             socle.y = (720 / 2) - (64 / 2) - 15;
-            socle.w = 64;
-            socle.h = 64;
+            socle.w = 63;
+            socle.h = 63;
 
             if (BoxCollision(data->Isaac->movement->hitBox, &socle)) {
                 if(add_SlotInventory(&(data->Isaac->inventory), create_SlotInventory(5 + data->field->currentPlant->idVegetable, 1, data->referenceItems), &(data->Isaac->sizeInventory))) {
@@ -430,8 +430,12 @@ extern void logicProcess_Scene_dungeon(Engine* engine, Data* data) {
                 int plantId = -1;
                 assignNumberPlant_Coord(data->field->currentPlant->x, data->field->currentPlant->y, data, &plantId);
                 removePlant(plantId, data->field);
+
                 stopVelocity_Movement(data->Isaac->movement);
                 playEffect(engine->soundCollector, "loading/entering_dungeon", 0);
+
+                data->Isaac->gameStats->dungeons++;
+
                 display_SceneCollector(engine, data, "lobby");
             }
         }
@@ -497,6 +501,7 @@ static void processDeath(Engine* engine, Data* data) {
 
         //We reload the save
         if(initGame("save1.save", data)) {
+            data->Isaac->gameStats->death++;
             display_SceneCollector(engine,data,"lobby");
         } else {
             display_SceneCollector(engine,data, "mainMenu");

@@ -41,7 +41,6 @@ extern void ProcessCombat(Engine* engine, Data* data, int* direction)
 
 extern void CombatAnimation(CombatValues * combat,int time,float agility,float agilitywep)
 {
-    printf("%d time,%d step,%f agi \n",time,combat->animationStep,agilitywep);
     combat->animationStep= (time * agility * agilitywep);
 }
 
